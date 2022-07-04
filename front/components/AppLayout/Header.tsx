@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { Menu, ChevronLeft } from '@styled-icons/material'
 import { Button } from 'antd'
+import { CgGym } from 'react-icons/cg'
 
 type HeaderProps = {
   isOpened: boolean,
@@ -15,7 +16,7 @@ const HeaderContainer = styled.header`
   height: 50px;
   align-items: center;
   justify-content: space-between;
-  color: #fc86aa;
+  color: #4c5aa0;
   right: 0; 
 `;
 
@@ -33,9 +34,23 @@ const UserButtonContainer = styled.div`
 `
 
 const ButtonStyle = styled(Button)`
-    margin: 5px;
+  font-size: 12px;
+  margin: 5px;
 `
 
+const GymIcon = styled(CgGym)`
+  font-size: 2rem;
+`
+
+const HomeButtonContainer = styled.div`
+  margin: auto;
+  display: flex;
+  color: white;
+`
+const HomeHeader = styled.h2`
+  color: white;
+  margin: 0 0 0 1rem; 
+`
 const _Header = (props: HeaderProps) => {
   const { isOpened, toggleDrawer } = props
   let isLogin = true
@@ -47,9 +62,25 @@ const _Header = (props: HeaderProps) => {
         <IconContainer onClick={toggleDrawer}>
         {isOpened ? <ChevronLeft /> : <Menu />}
         </IconContainer>
+        <HomeButtonContainer>
+          <GymIcon/>
+          <HomeHeader>Health Dairy</HomeHeader>
+        </HomeButtonContainer>
         <UserButtonContainer>
-          <ButtonStyle type="primary">{isLogin ? '로그아웃' : '로그인'}</ButtonStyle>
-          <ButtonStyle type="primary">{isLogin ? '내정보' : '회원가입'}</ButtonStyle>
+          {
+            isLogin 
+            ?
+              <ButtonStyle type="primary">로그아웃</ButtonStyle>
+            :
+              <ButtonStyle type="primary">로그인</ButtonStyle>
+          }
+          {
+            isLogin 
+            ?
+              <ButtonStyle type="primary">내정보</ButtonStyle>
+            :
+              <ButtonStyle type="primary">회원가입</ButtonStyle>
+          }
         </UserButtonContainer>
     </HeaderContainer>
   )

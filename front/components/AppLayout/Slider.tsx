@@ -1,8 +1,12 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
-import { Breadcrumb, Layout, Menu } from 'antd'
+import { Menu } from 'antd'
 import type { MenuProps } from 'antd'
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  BarChartOutlined,
+  CalendarOutlined,
+} from '@ant-design/icons'
 
 type SidebarProps = {
   isOpened: boolean;
@@ -10,45 +14,40 @@ type SidebarProps = {
 
 const SidebarContainer = styled.aside<{ isOpened: boolean }>`
   background: #2e6299;
-  width: ${(props) => (props.isOpened ? "20vw" : "0vw")};
+  width: ${(props) => (props.isOpened ? "10rem" : "0")};
   transition: width 0.5s;
-  height: 100%;
   overflow: hidden;
   position: absolute;
 `;
 
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem('내 정보', '1', <UserOutlined />),
+  getItem('기록 보기', '2', <BarChartOutlined />),
+  getItem('이번달 운동은?', '3', <CalendarOutlined />)
+]
+
 const _Slider = (props: SidebarProps) => {
   const { isOpened } = props
 
-  const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-    (icon, index) => {
-      const key = String(index + 1);
-  
-      return {
-        key: `sub${key}`,
-        icon: React.createElement(icon),
-        label: `subnav ${key}`,
-  
-        children: new Array(4).fill(null).map((_, j) => {
-          const subKey = index * 4 + j + 1;
-          return {
-            key: subKey,
-            label: `option${subKey}`,
-          };
-        }),
-      };
-    },
-  );
-
   return (
     <SidebarContainer isOpened={isOpened}>
-      <Menu
-        mode="inline"
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
-        style={{ height: '100%' }}
-        items={items2}
-      />
+      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
     </SidebarContainer>
   )
 }
