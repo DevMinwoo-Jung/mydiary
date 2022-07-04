@@ -11,6 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@next/bundle-analyzer": "^12.2.0",
+    "@styled-icons/material": "^10.34.0",
     "antd": "^4.3.5",
     "axios": "^0.27.2",
     "cookie-parser": "^1.4.5",
