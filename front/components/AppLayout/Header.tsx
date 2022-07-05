@@ -47,6 +47,7 @@ const HomeButtonContainer = styled.div`
   margin: auto;
   display: flex;
   color: white;
+  cursor: pointer;
 `
 const HomeHeader = styled.h2`
   color: white;
@@ -89,6 +90,13 @@ const _Header = (props: HeaderProps) => {
     setIsLogin((prev) => !prev)
     router.push('/')
   }, [isLogin])
+
+  const onHome = useCallback(() => {
+    router.push('/')
+    setIsLogin((prev) => prev === true ? !prev : prev)
+    setShowLogin((prev) => prev === true ? !prev : prev)
+    setShowSignUp((prev) => prev === true ? !prev : prev)
+  }, [])
   
   return (
     <>
@@ -96,7 +104,7 @@ const _Header = (props: HeaderProps) => {
         <IconContainer onClick={toggleDrawer}>
           {isOpened ? <ChevronLeft /> : <Menu />}
         </IconContainer>
-        <HomeButtonContainer>
+        <HomeButtonContainer onClick={onHome}>
           <GymIcon/>
           <HomeHeader>Health Dairy</HomeHeader>
         </HomeButtonContainer>
@@ -120,9 +128,7 @@ const _Header = (props: HeaderProps) => {
       {
         showSignUp 
           ?
-          <SignUpLoginDiv>
             <SignupForm/>
-          </SignUpLoginDiv>
           :
           null
         }

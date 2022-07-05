@@ -1,8 +1,139 @@
-import React from 'react'
+import { Button, Input, Form } from 'antd'
+import React, { useCallback, useEffect, useState } from 'react'
+import styled from 'styled-components'
+import useInput from 'libs/hook/useInput'
+
+const LoginFormContainer = styled.div`
+  position: absolute;
+  width: 320px;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  top: 20%;
+  vertical-align: middle;
+  margin: auto;
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 9px 1px #a8a8a8; 
+  box-shadow: 0px 0px 9px 1px #a8a8a8;
+  border-radius: 12px;
+`
+
+const FormHeader = styled.h1`
+  margin-top: 1rem;
+  font-weight: bolder;
+`
+
+const FormContainer = styled.div`
+  margin: auto;
+  width: 80%;
+  position: relative;
+`
+const ButtonStyle = styled(Button)`
+  width: 100%;
+  height: 50px;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+`
+
+const InputStyle = styled(Input)`
+  height: 50px;
+  border-radius: 12px;
+`
+
+const InputPasswordStyle = styled(Input.Password)`
+  height: 50px;
+  border-radius: 12px;
+`
+
+const PasswordWarning = styled.span`
+  color: red;
+`
 
 const SignupForm = () => {
+  const onFinish = (values: any) => {
+    console.log('Success:', values);
+  }
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  }
+
+  const [userId, onChangeUserId] = useInput('')
+  const [email, onChangeEmail] = useInput('')
+  const [password, onChangePassword] = useInput('')
+  const [passwordCheck, setPasswordCheck] = useState('')
+  const [passwordError, setPasswordError] = useState(false)
+
+  const onChangePasswordCheck = useCallback(
+    (e) => {
+      setPasswordCheck(e.target.value)
+      setPasswordError(e.target.value !== password)
+      // console.log(e.target.value)
+      // console.log(password)
+      console.log(e.target.value !== password)
+    },
+    [password, passwordCheck]
+  );
+
+  const onSubmit = useCallback(() => {
+    if (password !== passwordCheck) {
+      return setPasswordError(true);
+    }
+    // dispatch({
+    //   type: SIGN_UP_REQUEST,
+    //   data: { email, password, userId }
+    // });
+  }, [email, password, passwordCheck]);
+
+  useEffect(() => {
+    if (password !== passwordCheck) {
+      setPasswordError(true)
+    }
+  }, [passwordCheck])
+
   return (
-    <div>SignupForm</div>
+    <LoginFormContainer>
+      <FormHeader>회원가입</FormHeader>
+      <FormContainer>
+        <Form
+          name="basic"
+          initialValues={{ remember: true }}
+          onFinish={onSubmit}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item
+            name="userId"
+            rules={[{ required: true, message: '아이디를 입력해주세요!' }]}
+            >
+            <InputStyle value={userId} onChange={onChangeUserId} placeholder='아이디'/>
+          </Form.Item>
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: '올바른 이메일 형식이 아닙니다.' }]}
+            >
+            <InputStyle value={email} onChange={onChangeEmail} type='email' placeholder='이메일'/>
+          </Form.Item> 
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: '비밀번호를 입력해주세요!' }]}
+            >
+            <InputPasswordStyle value={password} onChange={onChangePassword} placeholder='비밀번호'/>
+          </Form.Item>
+          <Form.Item
+            name="passwordCheck"
+            required
+            rules={[
+              { required: passwordError, message: '비밀번호가 일지하지 않습니다'}]}
+            >
+            <InputPasswordStyle value={passwordCheck} onChange={onChangePasswordCheck} placeholder='비밀번호 확인'/>
+          </Form.Item>
+          <ButtonStyle type="primary" htmlType="submit">
+              회원가입
+          </ButtonStyle> 
+        </Form>
+      </FormContainer>
+    </LoginFormContainer>
   )
 }
 

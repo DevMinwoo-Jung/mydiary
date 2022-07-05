@@ -3,6 +3,7 @@ import { Button, Checkbox, Form, Input } from 'antd'
 import styled from 'styled-components'
 import Image from 'next/image'
 import { IoLogoGoogle } from 'react-icons/io'
+import useInput from 'libs/hook/useInput'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -16,6 +17,7 @@ const LoginFormContainer = styled.div`
   background-color: white;
   -webkit-box-shadow: 0px 0px 9px 1px #a8a8a8; 
   box-shadow: 0px 0px 9px 1px #a8a8a8;
+  border-radius: 12px;
 `
 
 const FormHeader = styled.h1`
@@ -93,6 +95,9 @@ const CheckboxStyle = styled(Checkbox)`
 `
 
 export const LoginForm = () => {
+  const [userId, onChangeUserId] = useInput('')
+  const [password, onChangePassword] = useInput('')
+
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
@@ -120,13 +125,13 @@ export const LoginForm = () => {
             name="userId"
             rules={[{ required: true, message: '아이디를 입력해주세요!' }]}
           >
-            <InputStyle placeholder='아이디'/>
+            <InputStyle value={userId} onChange={onChangeUserId} placeholder='아이디'/>
           </Form.Item>
           <Form.Item
             name="password"
             rules={[{ required: true, message: '패스워드를 입력해주세요!' }]}
           >
-            <InputPasswordStyle placeholder='비밀번호'/>
+            <InputPasswordStyle value={password} onChange={onChangePassword} placeholder='비밀번호'/>
             <ButtonStyle type="primary" htmlType="submit">
               로그인하기
             </ButtonStyle> 
