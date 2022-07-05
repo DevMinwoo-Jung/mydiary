@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Header from './Header'
 import Slider from './Slider'
-import { DEVICE_LAYOUT, size } from 'libs/css/layout'
+import { size } from 'libs/css/layout'
 
 export type LayoutProps = {
   children: React.ReactNode,
