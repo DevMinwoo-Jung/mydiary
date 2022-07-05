@@ -1,9 +1,11 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { Menu, ChevronLeft } from '@styled-icons/material'
 import { Button } from 'antd'
 import { CgGym } from 'react-icons/cg'
+import SignupForm from 'components/SignupForm'
+import { LoginForm } from 'components/LoginForm'
 
 type HeaderProps = {
   isOpened: boolean,
@@ -23,7 +25,6 @@ const HeaderContainer = styled.header`
 const IconContainer = styled.div`
   padding: 10px;
   cursor: pointer;
-
   & svg {
     height: 30px;
   }
@@ -51,16 +52,49 @@ const HomeHeader = styled.h2`
   color: white;
   margin: 0 0 0 1rem; 
 `
+
+const SignUpLoginDiv = styled.div`
+  position: absolute;
+  width: 400px;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  top: 20%;
+  vertical-align: middle;
+  margin: auto;
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 9px 1px #000000; 
+  box-shadow: 0px 0px 9px 1px #000000;
+  background-color: #d5d5d5;
+`
+
 const _Header = (props: HeaderProps) => {
   const { isOpened, toggleDrawer } = props
-  let isLogin = true
+
+  const [isLogin, setIsLogin] = useState(true)
+  const [showSignUp, setShowSignUp] = useState(false)
+  const [showLogin, setShowLogin] = useState(false)  
 
   const router = useRouter()
+
+  const onSignup = useCallback(() => {
+    setShowSignUp((prev) => !prev)
+  }, [showSignUp])
+
+  const onLogin = useCallback(() => {
+    setShowLogin((prev) => !prev)
+  }, [showLogin])
+
+  const onLogout = useCallback(() => {
+    setIsLogin((prev) => !prev)
+    router.push('/')
+  }, [isLogin])
   
   return (
+    <>
     <HeaderContainer>
         <IconContainer onClick={toggleDrawer}>
-        {isOpened ? <ChevronLeft /> : <Menu />}
+          {isOpened ? <ChevronLeft /> : <Menu />}
         </IconContainer>
         <HomeButtonContainer>
           <GymIcon/>
@@ -70,19 +104,36 @@ const _Header = (props: HeaderProps) => {
           {
             isLogin 
             ?
-              <ButtonStyle type="primary">로그아웃</ButtonStyle>
+              <ButtonStyle type="primary" onClick={onLogout}>로그아웃</ButtonStyle>
             :
-              <ButtonStyle type="primary">로그인</ButtonStyle>
+              <ButtonStyle type="primary" onClick={onLogin}>로그인</ButtonStyle>
           }
           {
             isLogin 
             ?
-              <ButtonStyle type="primary">내정보</ButtonStyle>
+              <ButtonStyle type="primary" onClick={() => router.push('/profile')}>내정보</ButtonStyle>
             :
-              <ButtonStyle type="primary">회원가입</ButtonStyle>
+              <ButtonStyle type="primary" onClick={onSignup}>회원가입</ButtonStyle>
           }
         </UserButtonContainer>
     </HeaderContainer>
+      {
+        showSignUp 
+          ?
+          <SignUpLoginDiv>
+            <SignupForm/>
+          </SignUpLoginDiv>
+          :
+          null
+        }
+        {
+        showLogin
+          ?
+            <LoginForm/>
+          :
+          null
+      }  
+    </>
   )
 }
 
