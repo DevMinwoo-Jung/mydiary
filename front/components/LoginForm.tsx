@@ -1,9 +1,11 @@
-import React, { useCallback } from 'react'
+import React, { FC, memo, useCallback } from 'react'
 import { Button, Checkbox, Form, Input } from 'antd'
 import styled from 'styled-components'
 import Image from 'next/image'
 import { IoLogoGoogle } from 'react-icons/io'
 import useInput from 'libs/hook/useInput'
+import { MdOutlineClose } from 'react-icons/md'
+
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -94,7 +96,26 @@ const CheckboxStyle = styled(Checkbox)`
   top: 0;
 `
 
-export const LoginForm = () => {
+const CloseButton = styled(MdOutlineClose)`
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+`
+
+export type LoginFormProps = {
+  onLogin: () => void
+}
+
+const _LoginForm: FC<LoginFormProps> = (props) => {
+  const { onLogin } = props
+
+  const goLogin = () => {
+    onLogin()
+  }
+
   const [userId, onChangeUserId] = useInput('')
   const [password, onChangePassword] = useInput('')
 
@@ -113,6 +134,7 @@ export const LoginForm = () => {
   return (
     <LoginFormContainer>
       <FormHeader>로그인</FormHeader>
+      <CloseButton onClick={onLogin}/>
       <FormContainer>
         <Form
           name="basic"
@@ -158,3 +180,7 @@ export const LoginForm = () => {
     </LoginFormContainer>
   )
 }
+
+const LoginForm = memo(_LoginForm)
+
+export default LoginForm

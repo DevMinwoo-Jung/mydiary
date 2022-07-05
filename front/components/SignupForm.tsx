@@ -1,7 +1,9 @@
 import { Button, Input, Form } from 'antd'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
+import { IoIosCloseCircleOutline } from 'react-icons/io'
+import { MdOutlineClose } from 'react-icons/md'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -45,11 +47,26 @@ const InputPasswordStyle = styled(Input.Password)`
   border-radius: 12px;
 `
 
-const PasswordWarning = styled.span`
-  color: red;
+const CloseButton = styled(MdOutlineClose)`
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
 `
 
-const SignupForm = () => {
+export type SignupFormProps = {
+  onSignup: () => void
+}
+
+const _SignupForm: FC<SignupFormProps> = (props) => {
+  const { onSignup } = props
+
+  const goSignup = () => {
+    onSignup()
+  }
+
   const onFinish = (values: any) => {
     console.log('Success:', values);
   }
@@ -94,6 +111,7 @@ const SignupForm = () => {
   return (
     <LoginFormContainer>
       <FormHeader>회원가입</FormHeader>
+      <CloseButton onClick={goSignup}/>
       <FormContainer>
         <Form
           name="basic"
@@ -124,7 +142,7 @@ const SignupForm = () => {
             name="passwordCheck"
             required
             rules={[
-              { required: passwordError, message: '비밀번호가 일지하지 않습니다'}]}
+              { required: passwordError, message: '비밀번호가 일지하지 않습니다' }]}
             >
             <InputPasswordStyle value={passwordCheck} onChange={onChangePasswordCheck} placeholder='비밀번호 확인'/>
           </Form.Item>
@@ -136,5 +154,7 @@ const SignupForm = () => {
     </LoginFormContainer>
   )
 }
+
+const SignupForm = memo(_SignupForm)
 
 export default SignupForm

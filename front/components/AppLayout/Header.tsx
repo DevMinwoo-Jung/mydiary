@@ -1,11 +1,11 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { Menu, ChevronLeft } from '@styled-icons/material'
 import { Button } from 'antd'
 import { CgGym } from 'react-icons/cg'
 import SignupForm from 'components/SignupForm'
-import { LoginForm } from 'components/LoginForm'
+import LoginForm from 'components/LoginForm'
 
 type HeaderProps = {
   isOpened: boolean,
@@ -53,22 +53,6 @@ const HomeHeader = styled.h2`
   color: white;
   margin: 0 0 0 1rem; 
 `
-
-const SignUpLoginDiv = styled.div`
-  position: absolute;
-  width: 400px;
-  z-index: 10;
-  left: 0;
-  right: 0;
-  top: 20%;
-  vertical-align: middle;
-  margin: auto;
-  background-color: white;
-  -webkit-box-shadow: 0px 0px 9px 1px #000000; 
-  box-shadow: 0px 0px 9px 1px #000000;
-  background-color: #d5d5d5;
-`
-
 const _Header = (props: HeaderProps) => {
   const { isOpened, toggleDrawer } = props
 
@@ -96,6 +80,10 @@ const _Header = (props: HeaderProps) => {
     setIsLogin((prev) => prev === true ? !prev : prev)
     setShowLogin((prev) => prev === true ? !prev : prev)
     setShowSignUp((prev) => prev === true ? !prev : prev)
+  }, [])
+
+  useEffect(() => {
+    
   }, [])
   
   return (
@@ -128,14 +116,14 @@ const _Header = (props: HeaderProps) => {
       {
         showSignUp 
           ?
-            <SignupForm/>
+            <SignupForm onSignup={onSignup}/>
           :
           null
         }
         {
         showLogin
           ?
-            <LoginForm/>
+            <LoginForm onLogin={onLogin}/>
           :
           null
       }  
