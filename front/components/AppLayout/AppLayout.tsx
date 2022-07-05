@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Header from './Header'
 import Slider from './Slider'
-import { DEVICE_LAYOUT } from 'libs/css/layout'
+import { DEVICE_LAYOUT, size } from 'libs/css/layout'
 
 export type LayoutProps = {
   children: React.ReactNode,
@@ -19,16 +19,16 @@ const PageContainer = styled.div`
   padding: 20px;
   margin: auto;
   border: 1px solid pink;
-  @media ${DEVICE_LAYOUT.mobileL} { 
-    max-width: 300px;
+  @media screen and (min-width: ${size.mobileS}) { 
+    width: ${size.mobileS};
   }
 
-  @media ${DEVICE_LAYOUT.laptop} { 
-    max-width: 800px;
+  @media screen and (min-width: ${size.laptop}) {
+    width: ${size.laptop};
   }
 
-  @media ${DEVICE_LAYOUT.desktop} {
-    max-width: 1400px;
+  @media screen and (min-width: ${size.laptop}) {
+    width: 1600px;
   }
 `
 
