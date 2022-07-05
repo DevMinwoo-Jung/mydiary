@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { DEVICE_LAYOUT } from 'libs/css/layout'
 import type { NextPage } from 'next'
 import { memo } from 'react'
 import Head from 'next/head'
@@ -8,7 +7,6 @@ import InputForm from 'components/InputForm'
 const ContentsContainer = styled.div`
   margin: auto;
 `
-console.log(DEVICE_LAYOUT.laptop)
 const _index: NextPage = () => {
   return (
     <>
