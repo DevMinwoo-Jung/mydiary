@@ -6,6 +6,7 @@ import { Button } from 'antd'
 import { CgGym } from 'react-icons/cg'
 import SignupForm from 'components/SignupForm'
 import LoginForm from 'components/LoginForm'
+import { useSelector } from 'react-redux'
 
 type HeaderProps = {
   isOpened: boolean,
@@ -53,6 +54,18 @@ const HomeHeader = styled.h2`
   color: white;
   margin: 0 0 0 1rem; 
 `
+
+const SignupLoginFormContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+`
+
 const _Header = (props: HeaderProps) => {
   const { isOpened, toggleDrawer } = props
 
@@ -61,6 +74,8 @@ const _Header = (props: HeaderProps) => {
   const [showLogin, setShowLogin] = useState(false)  
 
   const router = useRouter()
+
+  const { logInDone } = useSelector((state) => state.user)
 
   const onSignup = useCallback(() => {
     setShowSignUp((prev) => !prev)
@@ -83,8 +98,8 @@ const _Header = (props: HeaderProps) => {
   }, [])
 
   useEffect(() => {
-    
-  }, [])
+    logInDone && setShowLogin(false)
+  }, [logInDone])
   
   return (
     <>
@@ -98,14 +113,14 @@ const _Header = (props: HeaderProps) => {
         </HomeButtonContainer>
         <UserButtonContainer>
           {
-            isLogin 
+            logInDone 
             ?
               <ButtonStyle type="primary" onClick={onLogout}>로그아웃</ButtonStyle>
             :
               <ButtonStyle type="primary" onClick={onLogin}>로그인</ButtonStyle>
           }
           {
-            isLogin 
+            logInDone 
             ?
               <ButtonStyle type="primary" onClick={() => router.push('/profile')}>내정보</ButtonStyle>
             :
@@ -116,14 +131,18 @@ const _Header = (props: HeaderProps) => {
       {
         showSignUp 
           ?
+          <SignupLoginFormContainer>
             <SignupForm onSignup={onSignup}/>
+          </SignupLoginFormContainer>
           :
           null
         }
         {
         showLogin
           ?
+          <SignupLoginFormContainer>
             <LoginForm onLogin={onLogin}/>
+          </SignupLoginFormContainer>
           :
           null
       }  

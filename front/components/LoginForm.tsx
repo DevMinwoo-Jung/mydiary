@@ -1,11 +1,12 @@
-import React, { FC, memo, useCallback } from 'react'
+import React, { FC, memo, useCallback, useEffect } from 'react'
 import { Button, Checkbox, Form, Input } from 'antd'
 import styled from 'styled-components'
 import Image from 'next/image'
 import { IoLogoGoogle } from 'react-icons/io'
 import useInput from 'libs/hook/useInput'
 import { MdOutlineClose } from 'react-icons/md'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { loginRequestAction, LOG_IN_SUCCESS } from 'reducers/user'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -109,23 +110,25 @@ export type LoginFormProps = {
   onLogin: () => void
 }
 
+type user = {
+
+}
+
 const _LoginForm: FC<LoginFormProps> = (props) => {
   const { onLogin } = props
+  const { logInLoading, logInError, logInDone } = useSelector((state) => state.user)
+  const dispatch = useDispatch();
 
-  const goLogin = () => {
-    onLogin()
-  }
+  console.log(logInError, logInLoading, logInDone)
 
   const [userId, onChangeUserId] = useInput('')
   const [password, onChangePassword] = useInput('')
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onSubmitForm = useCallback(() => {
+    dispatch({
+      type:LOG_IN_SUCCESS
+    })
+  }, []);
 
   const onSocialLogin = useCallback((e) => {
     console.log(e.target)
@@ -139,8 +142,7 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
         <Form
           name="basic"
           initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
+          onFinish={onSubmitForm}
           autoComplete="off"
         >
           <Form.Item
@@ -151,13 +153,13 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: '패스워드를 입력해주세요!' }]}
+            rules={[{ required: true, message: '비밀번호를 입력해주세요!' }]}
           >
             <InputPasswordStyle value={password} onChange={onChangePassword} placeholder='비밀번호'/>
-            <ButtonStyle type="primary" htmlType="submit">
+          </Form.Item>
+          <ButtonStyle type="primary" htmlType="submit">
               로그인하기
             </ButtonStyle> 
-          </Form.Item>
           <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 0, span: 16 }}>
             <CheckboxStyle>로그인 상태 유지</CheckboxStyle>
           </Form.Item>
