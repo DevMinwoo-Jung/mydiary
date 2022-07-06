@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import type { NextPage } from 'next'
 import { memo } from 'react'
 import Head from 'next/head'
-import InputForm from 'components/InputForm'
+import PostForm from 'components/PostForm'
 
 const ContentsContainer = styled.div`
   margin: auto;
@@ -15,7 +15,7 @@ const _index: NextPage = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
     <ContentsContainer>
-      <InputForm/>
+      <PostForm/>
     </ContentsContainer>
     </>
   )

@@ -13,6 +13,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   color: #000133;
+
 `
 
 const PageContainer = styled.div`

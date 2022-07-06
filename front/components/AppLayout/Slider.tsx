@@ -18,6 +18,7 @@ const SidebarContainer = styled.aside<{ isOpened: boolean }>`
   transition: width 0.5s;
   overflow: hidden;
   position: absolute;
+
 `;
 
 type MenuItem = Required<MenuProps>['items'][number];
