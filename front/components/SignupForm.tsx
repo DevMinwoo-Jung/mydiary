@@ -2,7 +2,6 @@ import { Button, Input, Form } from 'antd'
 import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
-import { IoIosCloseCircleOutline } from 'react-icons/io'
 import { MdOutlineClose } from 'react-icons/md'
 
 const LoginFormContainer = styled.div`

@@ -95,6 +95,7 @@ const CheckboxStyle = styled(Checkbox)`
   position: absolute;
   left: 0;
   top: 0;
+  margin-top: 1rem;
 `
 
 const CloseButton = styled(MdOutlineClose)`

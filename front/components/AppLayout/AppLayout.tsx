@@ -21,15 +21,15 @@ const PageContainer = styled.div`
   margin: auto;
   border: 1px solid pink;
   @media screen and (min-width: ${size.mobileS}) { 
-    width: ${size.mobileS};
+    width: 375px;
+  }
+
+  @media screen and (min-width: ${size.tablet}) {
+    width: 500px;
   }
 
   @media screen and (min-width: ${size.laptop}) {
-    width: ${size.laptop};
-  }
-
-  @media screen and (min-width: ${size.laptop}) {
-    width: 1600px;
+    width: 800px;
   }
 `
 

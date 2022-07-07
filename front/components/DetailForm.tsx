@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 const DetailFormContainer = styled.div`
   display: flex;
-
+  justify-content: center;
   & Input {
     height: 50px;
     border-radius: 12px;
@@ -48,13 +48,13 @@ const _DetailForm: FC<DetailFormProps> = (props) => {
   const { index, onAddRemoveItems, hideRemoveButton } = props 
   const [reps, onChangeReps] = useInput('')
   const [weight, onChangeWeight] = useInput('')
-
+  console.log(index)
   const onSubmit = useCallback(() => {
     alert('눌렸다능')
   }, [])
 
   const goRemoveItems = useCallback((e) => {
-    onAddRemoveItems(e.target.value)
+    onAddRemoveItems(index)
   }, [])
 
   return (
@@ -69,7 +69,7 @@ const _DetailForm: FC<DetailFormProps> = (props) => {
             <FormContainer>
               {
                 hideRemoveButton &&
-                <Checkbox value={index} onChange={goRemoveItems}></Checkbox>
+                <Checkbox onChange={goRemoveItems}></Checkbox>
               }
               <h2>{index + 1}.</h2>
               <Input value={reps} onChange={onChangeReps} placeholder='10'/>
