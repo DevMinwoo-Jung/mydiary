@@ -6,13 +6,26 @@ import DetailForm from './DetailForm'
 import { GiConfirmed } from 'react-icons/gi'
 import { useDispatch } from 'react-redux'
 import { LOG_IN_SUCCESS } from 'reducers/user'
+import moment from 'moment'
+import 'moment/locale/ko'
+
+moment.locale('ko');
 
 const PostFormContainer = styled.div`
+  display: block;
   & h1 {
     text-align: center;
     font-weight: bolder;
   }
-  `
+`
+const DateDiv = styled.div`
+  font-size: 1.5rem;
+  font-weight: bolder;
+  text-align: left;
+  line-height: 45px;
+  margin-right: 1rem;
+`
+
 const AddButtonStyle = styled(Button)`
   border-radius: 12px;
   width: 300px;
@@ -41,29 +54,31 @@ const CancelButtonStyle = styled(Button)`
 `
 
 const PostFormHeader = styled.div`
-  display: flex;
+  display: block;
   justify-content: center;
   margin-bottom: 1rem;
   & Input {
     width: 120px;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 2rem;
     font-style: italic;
-    border-radius: 12px;
-    height: 50px;
+    border: none;
     margin-right: 1rem;
   }
   & h1 {
     margin: 0 1rem 0 0;
+  }
+  & span {
+    font-size: 2rem;
     cursor: pointer;
   }
 `
-const EditIconDiv = styled.div`
-  justify-content: center;
-  font-size: 2rem;
-  cursor: pointer;
-`
 
+const ConfirmIcon = styled(GiConfirmed)`
+  font-size: 3rem;
+  cursor: pointer;
+  padding-top: 1.5rem;
+`
 
 export const _PostForm = () => {
   const dispatch = useDispatch()
@@ -115,10 +130,11 @@ export const _PostForm = () => {
   return (
     <PostFormContainer>
       <PostFormHeader>
+        <h1>{moment().format("dddd, MMMM Do YYYY")}</h1>
         {
           hideEdit 
           ?
-          <h1 onClick={onEditable}>{exerciseName}</h1>
+          <span onClick={onEditable}>{exerciseName}</span>
           :
           <Input value={exerciseName} onChange={onChangeExerciseName} placeholder={exerciseName}/>
         }
@@ -127,9 +143,7 @@ export const _PostForm = () => {
           ?
           null
           :
-          <EditIconDiv>
-            <GiConfirmed onClick={onConfirmExerciseName}/>
-          </EditIconDiv>
+          <ConfirmIcon onClick={onConfirmExerciseName}/>
         }
       </PostFormHeader>
       <Row>

@@ -18,7 +18,8 @@ const SidebarContainer = styled.aside<{ isOpened: boolean }>`
   transition: width 0.5s;
   overflow: hidden;
   position: absolute;
-
+  height: calc(100% - 50px);
+  z-index: 10;
 `;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -47,9 +48,9 @@ const _Slider = (props: SidebarProps) => {
   const { isOpened } = props
 
   return (
-    <SidebarContainer isOpened={isOpened}>
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
-    </SidebarContainer>
+      <SidebarContainer isOpened={isOpened}>
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+      </SidebarContainer>
   )
 }
 

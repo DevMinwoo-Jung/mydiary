@@ -1,25 +1,27 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Header from './Header'
-import Slider from './Slider'
 import { size } from 'libs/css/layout'
+import CustomFooter from './Footer'
+import CustomSider from './Slider'
 
-export type LayoutProps = {
+export type AppLayoutProps = {
   children: React.ReactNode,
 };
 
 const Container = styled.div`
   text-align: center;
-  display: flex;
+  display: block;
   flex-direction: column;
   color: #000133;
-
+  height: 100vh;
 `
 
 const PageContainer = styled.div`
   padding: 20px;
-  margin: auto;
+  margin: 0 auto;
   border: 1px solid pink;
+  width: 100%;
   @media screen and (min-width: ${size.mobileS}) { 
     width: 375px;
   }
@@ -35,11 +37,14 @@ const PageContainer = styled.div`
 
 const ContentContainer = styled.div`
   display: flex;
+  height: calc(100vh - 100px);
+  overflow: auto;
+  margin: auto;
 `
 
 
 
-export default function Layout({ children }: LayoutProps) {
+export default function AppLayout({ children }: AppLayoutProps) {
   const [isOpened, setOpened] = useState(false);
 
   const toggleDrawer = () => {
@@ -49,10 +54,11 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <Container>
       <Header isOpened={isOpened} toggleDrawer={toggleDrawer}/>
-        <ContentContainer>
-          <Slider isOpened={isOpened} />
-          <PageContainer>{children}</PageContainer>
-        </ContentContainer>
+          <CustomSider isOpened={isOpened} />
+            <ContentContainer>
+              <PageContainer>{children}</PageContainer>
+            </ContentContainer>
+            <CustomFooter/>
     </Container>
   );
 }

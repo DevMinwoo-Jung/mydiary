@@ -6,7 +6,8 @@ import { Button } from 'antd'
 import { CgGym } from 'react-icons/cg'
 import SignupForm from 'components/SignupForm'
 import LoginForm from 'components/LoginForm'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { LOG_OUT_REQUEST, LOG_OUT_SUCCESS } from 'reducers/user'
 
 type HeaderProps = {
   isOpened: boolean,
@@ -74,6 +75,7 @@ const _Header = (props: HeaderProps) => {
   const [showLogin, setShowLogin] = useState(false)  
 
   const router = useRouter()
+  const dispatch = useDispatch()
 
   const { logInDone } = useSelector((state) => state.user)
 
@@ -86,7 +88,10 @@ const _Header = (props: HeaderProps) => {
   }, [showLogin])
 
   const onLogout = useCallback(() => {
-    setIsLogin((prev) => !prev)
+    dispatch({
+      type: LOG_OUT_SUCCESS
+    })
+    setIsLogin((prev) => prev === true ? !prev : prev)
     router.push('/')
   }, [isLogin])
 
