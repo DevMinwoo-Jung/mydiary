@@ -7,7 +7,7 @@ const DetailFormContainer = styled.div`
   display: flex;
   justify-content: center;
   & Input {
-    height: 50px;
+    height: 45px;
     border-radius: 12px;
   }
 `
@@ -15,7 +15,7 @@ const DetailFormContainer = styled.div`
 const FormContainer = styled.div`
   display: flex;
   align-items: center;
-
+  
   & h2 {
     margin: 0 1rem 0 0;
     font-size: 2rem;
@@ -25,7 +25,7 @@ const FormContainer = styled.div`
   }
 
   & Input {
-    width: 80px;
+    width: 70px;
     text-align: center;
   }
 

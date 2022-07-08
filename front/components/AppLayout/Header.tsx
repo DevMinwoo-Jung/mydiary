@@ -71,6 +71,7 @@ const _Header = (props: HeaderProps) => {
   const [isLogin, setIsLogin] = useState(true)
   const [showSignUp, setShowSignUp] = useState(false)
   const [showLogin, setShowLogin] = useState(false)  
+  const { isOpened, toggleDrawer } = props
 
   const router = useRouter()
   const dispatch = useDispatch()
@@ -107,6 +108,9 @@ const _Header = (props: HeaderProps) => {
   return (
     <>
     <HeaderContainer>
+        <IconContainer onClick={toggleDrawer}>
+          {isOpened ? <ChevronLeft /> : <Menu />}
+        </IconContainer>
         <HomeButtonContainer onClick={onHome}>
           <GymIcon/>
           <HomeHeader>Health Dairy</HomeHeader>

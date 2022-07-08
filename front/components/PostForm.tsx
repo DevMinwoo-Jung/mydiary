@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { LOG_IN_SUCCESS } from 'reducers/user'
 import moment from 'moment'
 import 'moment/locale/ko'
+import { size } from 'libs/css/layout'
 
 moment.locale('ko');
 
@@ -80,6 +81,30 @@ const ConfirmIcon = styled(GiConfirmed)`
   padding-top: 1.5rem;
 `
 
+const ButtonsDiv = styled.div`
+  bottom: 60px;
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+`
+
+const DetailFormOuter = styled.div`
+  width: 100%;
+  height: 60vh;
+  margin: auto;
+  overflow-y: auto;
+  @media screen and (min-width: ${size.mobileS}) { 
+    height: 350px;
+  }
+  @media screen and (min-width: ${size.tablet}) {
+    height: 650px;
+  }
+  @media screen and (min-width: ${size.laptop}) {
+    width: 800px;
+  }
+`
+
 export const _PostForm = () => {
   const dispatch = useDispatch()
   const [hideRemoveButton, setHideRemoveButton] = useState(false)
@@ -146,35 +171,39 @@ export const _PostForm = () => {
           <ConfirmIcon onClick={onConfirmExerciseName}/>
         }
       </PostFormHeader>
-      <Row>
-      {
-        formLength.map((element, i) => {
-          return (
-            <Col xs={24} sm={24} md={24} lg={12}>
-              <DetailForm key={i} index={i} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton}/>
-            </Col>
-          )
-        })
-      }
-      </Row>
-      <ButtonStyle type="primary" onClick={onAddReps}>추가</ButtonStyle>
-      {
-        hideRemoveButton 
-        ?
-        <ButtonStyle type="primary" onClick={onRemoveReps}>제거하기</ButtonStyle>
-        :
-        <ButtonStyle type="primary" onClick={onShowRemoveButton}>제거</ButtonStyle>
-      }
-      {
-        hideRemoveButton 
-        ?
-        <CancelButtonStyle type="primary" onClick={onRemoveCancel}>취소</CancelButtonStyle>
-        :
-        null
-      }
-      <div>
-        <AddButtonStyle type="primary" onClick={onAdd}>운동일지에 추가</AddButtonStyle>
-      </div>
+      <DetailFormOuter>
+        <Row>
+          {
+            formLength.map((element, i) => {
+              return (
+                <Col xs={24} sm={24} md={24} lg={12}>
+                  <DetailForm key={i} index={i} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton}/>
+                </Col>
+              )
+            })
+          }
+        </Row>
+      </DetailFormOuter>
+      <ButtonsDiv>
+        <ButtonStyle type="primary" onClick={onAddReps}>추가</ButtonStyle>
+        {
+          hideRemoveButton 
+          ?
+          <ButtonStyle type="primary" onClick={onRemoveReps}>제거하기</ButtonStyle>
+          :
+          <ButtonStyle type="primary" onClick={onShowRemoveButton}>제거</ButtonStyle>
+        }
+        {
+          hideRemoveButton 
+          ?
+          <CancelButtonStyle type="primary" onClick={onRemoveCancel}>취소</CancelButtonStyle>
+          :
+          null
+        }
+        <div>
+          <AddButtonStyle type="primary" onClick={onAdd}>운동일지에 추가</AddButtonStyle>
+        </div>
+      </ButtonsDiv>
     </PostFormContainer>
   )
 }

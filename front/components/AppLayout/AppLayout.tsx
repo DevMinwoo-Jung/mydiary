@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Header from './Header'
 import { size } from 'libs/css/layout'
 import CustomFooter from './Footer'
+import Slider from './Slider'
 
 export type AppLayoutProps = {
   children: React.ReactNode,
@@ -26,18 +27,17 @@ const PageContainer = styled.div`
   }
 
   @media screen and (min-width: ${size.tablet}) {
-    width: 500px;
+    width: 850px;
   }
 
-  @media screen and (min-width: ${size.laptop}) {
-    width: 800px;
+  @media screen and (min-width: ${size.laptopL}) {
+    width: 1000px;
   }
 `
 
 const ContentContainer = styled.div`
   display: flex;
   height: calc(100vh - 100px);
-  overflow: auto;
   margin: auto;
 `
 
@@ -53,6 +53,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   return (
     <Container>
       <Header isOpened={isOpened} toggleDrawer={toggleDrawer}/>
+            <Slider isOpened={isOpened}/>
             <ContentContainer>
               <PageContainer>{children}</PageContainer>
             </ContentContainer>
