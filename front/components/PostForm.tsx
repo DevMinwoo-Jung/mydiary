@@ -83,7 +83,7 @@ const ConfirmIcon = styled(GiConfirmed)`
 export const _PostForm = () => {
   const dispatch = useDispatch()
   const [hideRemoveButton, setHideRemoveButton] = useState(false)
-  const [hideEdit, setHideEdit] = useState(false);
+  const [hideEdit, setHideEdit] = useState(true);
   const [formLength, setFormLength] = useState([0,1,2,3,4]) 
   const [removeItems, setRemoveItems] = useState([])
   const [exerciseName, onChangeExerciseName] = useInput('스쿼트')

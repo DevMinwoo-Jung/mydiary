@@ -68,8 +68,6 @@ const SignupLoginFormContainer = styled.div`
 `
 
 const _Header = (props: HeaderProps) => {
-  const { isOpened, toggleDrawer } = props
-
   const [isLogin, setIsLogin] = useState(true)
   const [showSignUp, setShowSignUp] = useState(false)
   const [showLogin, setShowLogin] = useState(false)  
@@ -109,9 +107,6 @@ const _Header = (props: HeaderProps) => {
   return (
     <>
     <HeaderContainer>
-        <IconContainer onClick={toggleDrawer}>
-          {isOpened ? <ChevronLeft /> : <Menu />}
-        </IconContainer>
         <HomeButtonContainer onClick={onHome}>
           <GymIcon/>
           <HomeHeader>Health Dairy</HomeHeader>

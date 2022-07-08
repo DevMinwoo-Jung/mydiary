@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Header from './Header'
 import { size } from 'libs/css/layout'
 import CustomFooter from './Footer'
-import CustomSider from './Slider'
 
 export type AppLayoutProps = {
   children: React.ReactNode,
@@ -54,7 +53,6 @@ export default function AppLayout({ children }: AppLayoutProps) {
   return (
     <Container>
       <Header isOpened={isOpened} toggleDrawer={toggleDrawer}/>
-          <CustomSider isOpened={isOpened} />
             <ContentContainer>
               <PageContainer>{children}</PageContainer>
             </ContentContainer>
