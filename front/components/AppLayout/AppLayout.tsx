@@ -14,11 +14,10 @@ const Container = styled.div`
   display: block;
   flex-direction: column;
   color: #000133;
-  height: 100vh;
+
 `
 
 const PageContainer = styled.div`
-  padding: 20px;
   margin: 0 auto;
   border: 1px solid pink;
   width: 100%;
@@ -27,18 +26,30 @@ const PageContainer = styled.div`
   }
 
   @media screen and (min-width: ${size.tablet}) {
-    width: 850px;
+    width: 1000px;
   }
 
   @media screen and (min-width: ${size.laptopL}) {
-    width: 1000px;
+    width: 1400px;
   }
 `
 
 const ContentContainer = styled.div`
   display: flex;
-  height: calc(100vh - 100px);
   margin: auto;
+  @media screen and (min-width: ${size.mobileS}) { 
+    width: 375px;
+  }
+
+  @media screen and (min-width: ${size.tablet}) {
+    width: 1000px;
+    height: calc(100vh - 100px);
+  }
+
+  @media screen and (min-width: ${size.laptopL}) {
+    width: 1400px;
+    height: calc(100vh - 100px);
+  }
 `
 
 

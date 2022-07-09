@@ -7,3 +7,7 @@ export const size = {
   laptopL: '1440px',
   desktop: '2560px'
 }
+
+export const INDEX_LAYOUT_MOBILE = 350 
+export const INDEX_LAYOUT_TABLE = 500 
+export const INDEX_LAYOUT_DESKTOP = 700 

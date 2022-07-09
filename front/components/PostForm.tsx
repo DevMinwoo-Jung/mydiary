@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 import { LOG_IN_SUCCESS } from 'reducers/user'
 import moment from 'moment'
 import 'moment/locale/ko'
-import { size } from 'libs/css/layout'
+import { size, INDEX_LAYOUT_MOBILE, INDEX_LAYOUT_TABLET, INDEX_LAYOUT_DESKTOP } from 'libs/css/layout'
 
 moment.locale('ko');
 
@@ -55,6 +55,7 @@ const CancelButtonStyle = styled(Button)`
 `
 
 const PostFormHeader = styled.div`
+  margin-top: 1rem;
   display: block;
   justify-content: center;
   margin-bottom: 1rem;
@@ -95,13 +96,16 @@ const DetailFormOuter = styled.div`
   margin: auto;
   overflow-y: auto;
   @media screen and (min-width: ${size.mobileS}) { 
-    height: 350px;
+    width: ${INDEX_LAYOUT_MOBILE}px;
+    height: 300px;
   }
   @media screen and (min-width: ${size.tablet}) {
-    height: 650px;
+    width: ${INDEX_LAYOUT_TABLET}px;
+    height: 500px;
   }
   @media screen and (min-width: ${size.laptop}) {
-    width: 800px;
+    width: ${INDEX_LAYOUT_DESKTOP}px;
+    height: 600px;
   }
 `
 
