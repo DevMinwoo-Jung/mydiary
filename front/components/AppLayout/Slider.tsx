@@ -5,8 +5,9 @@ import type { MenuProps } from 'antd'
 import {
   UserOutlined,
   BarChartOutlined,
-  CalendarOutlined,
+  HomeOutlined,
 } from '@ant-design/icons'
+import { useRouter } from 'next/router'
 
 type SidebarProps = {
   isOpened: boolean;
@@ -38,18 +39,26 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
-  getItem('내 정보', '1', <UserOutlined />),
-  getItem('기록 보기', '2', <BarChartOutlined />),
-  getItem('이번달 운동은?', '3', <CalendarOutlined />)
-]
-
 const _Slider = (props: SidebarProps) => {
   const { isOpened } = props
-
+  const router = useRouter()
+  const items: MenuItem[] = [
+    getItem('메인화면', '1', <HomeOutlined />),
+    getItem('내 정보', '2', <UserOutlined />),
+    getItem('기록 보기', '3', <BarChartOutlined />)]
+    
+  const onMoveRecord = (e) => {
+    if (e.keyPath[0] === '1') {
+      router.push('/')
+    } else if (e.keyPath[0] === '2') {
+      router.push('/profile')
+    } else if (e.keyPath[0] === '3') {
+      router.push('/record')
+    }
+  } 
   return (
       <SidebarContainer isOpened={isOpened}>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu onClick={onMoveRecord} theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
       </SidebarContainer>
   )
 }

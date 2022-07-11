@@ -90,7 +90,6 @@ const _Header = (props: HeaderProps) => {
     dispatch({
       type: LOG_OUT_SUCCESS
     })
-    setIsLogin((prev) => prev === true ? !prev : prev)
     router.push('/')
   }, [isLogin])
 
@@ -124,7 +123,7 @@ const _Header = (props: HeaderProps) => {
               <ButtonStyle type="primary" onClick={onLogin}>로그인</ButtonStyle>
           }
           {
-            logInDone 
+            logInDone
             ?
               <ButtonStyle type="primary" onClick={() => router.push('/profile')}>내정보</ButtonStyle>
             :

@@ -1,4 +1,4 @@
-import { Collapse, Tag } from "antd";
+import { Col, Collapse, Row, Tag } from "antd";
 import {
   INDEX_LAYOUT_DESKTOP,
   INDEX_LAYOUT_MOBILE,
@@ -50,10 +50,13 @@ const RepsInfo = styled.div`
     padding: 0;
     border: none;
   }
-  & :first-child {
-    margin-left: 2rem;
-  }
+
   `;
+
+const DivStyle2 = styled.div`
+  margin-left: 1rem;
+  display: flex;
+`
 
 const _Posts = () => {
   const { Panel } = Collapse;
@@ -82,13 +85,19 @@ const _Posts = () => {
               <>
                 <RepsTitle>{element}</RepsTitle>
                 <InnerDiv>
-                  {Object.values(dummy[element]).map((element, index) => (
-                    <RepsInfo>
-                      <Tag color="#108ee9">
-                        {Object.keys(element)}/{Object.values(element)}
-                      </Tag>
-                    </RepsInfo>
-                  ))}
+                  <Row>
+                  <DivStyle2>
+                    {Object.values(dummy[element]).map((element, index) => (
+                      <RepsInfo>
+                          <Col xs={24} sm={24} md={24} lg={12}>
+                          <Tag color="#108ee9">
+                            {Object.keys(element)} / {Object.values(element)}
+                          </Tag>
+                          </Col>
+                      </RepsInfo>
+                      ))}
+                  </DivStyle2>
+                  </Row>
                 </InnerDiv>
               </>
             ))}
