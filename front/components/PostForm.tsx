@@ -9,6 +9,7 @@ import { LOG_IN_SUCCESS } from 'reducers/user'
 import moment from 'moment'
 import 'moment/locale/ko'
 import { size, INDEX_LAYOUT_MOBILE, INDEX_LAYOUT_TABLET, INDEX_LAYOUT_DESKTOP } from 'libs/css/layout'
+import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 
 moment.locale('ko');
 
@@ -34,6 +35,13 @@ const AddButtonStyle = styled(Button)`
   font-size: 1rem;
   -webkit-box-shadow: 0px 3px 10px 2px #ABABAB; 
   box-shadow: 0px 3px 10px 2px #ABABAB;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  & :hover {
+    background-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
 `
 
 const ButtonStyle = styled(Button)`
@@ -43,6 +51,13 @@ const ButtonStyle = styled(Button)`
   border-radius: 9px;
   -webkit-box-shadow: 0px 3px 10px 2px #ABABAB; 
   box-shadow: 0px 3px 10px 2px #ABABAB;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  & :hover {
+    background-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
 `
 
 const CancelButtonStyle = styled(Button)`
@@ -52,6 +67,19 @@ const CancelButtonStyle = styled(Button)`
   border-radius: 9px;
   -webkit-box-shadow: 0px 3px 10px 2px #ABABAB; 
   box-shadow: 0px 3px 10px 2px #ABABAB;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  & ::hover {
+    background-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+  &.ant-btn:before, .ant-btn {
+    background-color: black;
+    background: black;
+    border-color: ${BUTTON_COLOR};
+    width: 1000px;
+  }
 `
 
 const PostFormHeader = styled.div`
@@ -84,7 +112,7 @@ const ConfirmIcon = styled(GiConfirmed)`
 
 const ButtonsDiv = styled.div`
   bottom: 60px;
-  position: absolute;
+  position: inherit;
   margin: 0 auto;
   left: 0;
   right: 0;
@@ -189,23 +217,23 @@ export const _PostForm = () => {
         </Row>
       </DetailFormOuter>
       <ButtonsDiv>
-        <ButtonStyle type="primary" onClick={onAddReps}>추가</ButtonStyle>
+        <ButtonStyle onClick={onAddReps}>추가</ButtonStyle>
         {
           hideRemoveButton 
           ?
-          <ButtonStyle type="primary" onClick={onRemoveReps}>제거하기</ButtonStyle>
+          <ButtonStyle onClick={onRemoveReps}>제거하기</ButtonStyle>
           :
-          <ButtonStyle type="primary" onClick={onShowRemoveButton}>제거</ButtonStyle>
+          <ButtonStyle onClick={onShowRemoveButton}>제거</ButtonStyle>
         }
         {
           hideRemoveButton 
           ?
-          <CancelButtonStyle type="primary" onClick={onRemoveCancel}>취소</CancelButtonStyle>
+          <CancelButtonStyle onClick={onRemoveCancel}>취소</CancelButtonStyle>
           :
           null
         }
         <div>
-          <AddButtonStyle type="primary" onClick={onAdd}>운동일지에 추가</AddButtonStyle>
+          <AddButtonStyle onClick={onAdd}>운동일지에 추가</AddButtonStyle>
         </div>
       </ButtonsDiv>
     </PostFormContainer>

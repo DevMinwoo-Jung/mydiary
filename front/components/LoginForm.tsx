@@ -6,7 +6,8 @@ import { IoLogoGoogle } from 'react-icons/io'
 import useInput from 'libs/hook/useInput'
 import { MdOutlineClose } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginRequestAction, LOG_IN_SUCCESS } from 'reducers/user'
+import { LOG_IN_SUCCESS } from 'reducers/user'
+import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -38,6 +39,15 @@ const ButtonStyle = styled(Button)`
   width: 100%;
   height: 50px;
   border-radius: 12px;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  border-color: ${BUTTON_COLOR};
+  & .ant-btn:hover, .ant-btn:focus, ::after {
+    background-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+    font-size: 100rre;
+  }
 `
 const ButtonPara = styled.p`
   position: absolute;
@@ -111,10 +121,6 @@ export type LoginFormProps = {
   onLogin: () => void
 }
 
-type user = {
-
-}
-
 const _LoginForm: FC<LoginFormProps> = (props) => {
   const { onLogin } = props
   const { logInLoading, logInError, logInDone } = useSelector((state) => state.user)
@@ -158,7 +164,7 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
           >
             <InputPasswordStyle value={password} onChange={onChangePassword} placeholder='비밀번호'/>
           </Form.Item>
-          <ButtonStyle type="primary" htmlType="submit">
+          <ButtonStyle htmlType="submit">
               로그인하기
             </ButtonStyle> 
           <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 0, span: 16 }}>

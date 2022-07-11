@@ -3,6 +3,7 @@ import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
 import { MdOutlineClose } from 'react-icons/md'
+import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -34,6 +35,13 @@ const ButtonStyle = styled(Button)`
   height: 50px;
   border-radius: 12px;
   margin-bottom: 2rem;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  & :hover {
+    background-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
 `
 
 const InputStyle = styled(Input)`
@@ -145,7 +153,7 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
             >
             <InputPasswordStyle value={passwordCheck} onChange={onChangePasswordCheck} placeholder='비밀번호 확인'/>
           </Form.Item>
-          <ButtonStyle type="primary" htmlType="submit">
+          <ButtonStyle htmlType="submit">
               회원가입
           </ButtonStyle> 
         </Form>

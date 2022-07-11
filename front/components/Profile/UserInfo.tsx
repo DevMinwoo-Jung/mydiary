@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
 import { MODIFY_CANCEL, MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
+import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 
 const { Title, Paragraph } = Typography
 
@@ -65,6 +66,13 @@ const ButtonStyle = styled(Button)`
   border-radius: 9px;
   -webkit-box-shadow: 0px 3px 10px 2px #ABABAB; 
   box-shadow: 0px 3px 10px 2px #ABABAB;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  & :hover {
+    background-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
 `
 
 
@@ -160,11 +168,11 @@ const disaptch = useDispatch()
           modifyLoading 
           ?
           <>
-            <ButtonStyle type="primary" onClick={onModify}>수정하기</ButtonStyle>
-            <ButtonStyle type="primary" onClick={onCancel}>취소</ButtonStyle>
+            <ButtonStyle onClick={onModify}>수정하기</ButtonStyle>
+            <ButtonStyle onClick={onCancel}>취소</ButtonStyle>
           </>
           :
-            <ButtonStyle type="primary" onClick={onRemoveUser}>탈퇴하기</ButtonStyle>
+            <ButtonStyle onClick={onRemoveUser}>탈퇴하기</ButtonStyle>
         }
       </ButtonDiv>
   </UserInfoContainer>

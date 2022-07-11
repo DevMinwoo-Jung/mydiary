@@ -12,20 +12,19 @@ import styled from "styled-components";
 const PostsContainer = styled.div`
   margin-top: 1rem;
   margin: auto;
-  border: 1px solid black;
-  height: 70vh;
+  height: 88vh;
   overflow-y: auto;
   @media screen and (min-width: ${size.mobileS}) {
     width: ${INDEX_LAYOUT_MOBILE}px;
-    margin-top: 150px;
+    margin-top: 50px;
   }
   @media screen and (min-width: ${size.tablet}) {
     width: ${INDEX_LAYOUT_TABLET}px;
-    margin-top: 100px;
+    margin-top: 1rem;
   }
   @media screen and (min-width: ${size.laptop}) {
     width: ${INDEX_LAYOUT_DESKTOP}px;
-    margin-top: 100px;
+    margin-top: 1rem;
   }
 `;
 const DivStyle = styled.div`
@@ -48,7 +47,8 @@ const RepsInfo = styled.div`
     width: 55px;
     margin: 0;
     padding: 0;
-    border: none;
+    border: 2px solid #108ee9;
+    border-radius: 0%;
   }
 
   `;
@@ -56,6 +56,13 @@ const RepsInfo = styled.div`
 const DivStyle2 = styled.div`
   margin-left: 1rem;
   display: flex;
+`
+
+const HeaderStyle = styled.div`
+  font-size: 1rem;
+  & h1 {
+    font-weight: bolder;
+  }
 `
 
 const _Posts = () => {
@@ -67,8 +74,6 @@ const _Posts = () => {
       Object.values(dummy[element]).map((element) => element)
     )
   );
-  console.log(title.map((element, index) => element));
-  console.log(title.map((element, index) => Object.values(dummy[element])));
 
   const onChange = (key: string | string[]) => {
     console.log(key);
@@ -78,6 +83,9 @@ const _Posts = () => {
 
   return (
     <PostsContainer>
+      <HeaderStyle>
+        <h1>운동일지</h1>
+      </HeaderStyle>
       <Collapse defaultActiveKey={["1"]} onChange={onChange}>
         <Panel header="This is panel header 1" key="1">
           <DivStyle>
@@ -85,9 +93,11 @@ const _Posts = () => {
               <>
                 <RepsTitle>{element}</RepsTitle>
                 <InnerDiv>
-                  <Row>
                   <DivStyle2>
-                    {Object.values(dummy[element]).map((element, index) => (
+                  <Row>
+                    {
+                    Object.values(dummy[element])
+                    .map((element, index) => (
                       <RepsInfo>
                           <Col xs={24} sm={24} md={24} lg={12}>
                           <Tag color="#108ee9">
@@ -95,9 +105,10 @@ const _Posts = () => {
                           </Tag>
                           </Col>
                       </RepsInfo>
-                      ))}
-                  </DivStyle2>
+                      ))
+                    }
                   </Row>
+                  </DivStyle2>
                 </InnerDiv>
               </>
             ))}

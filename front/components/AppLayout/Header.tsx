@@ -8,19 +8,26 @@ import SignupForm from 'components/SignupForm'
 import LoginForm from 'components/LoginForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { LOG_OUT_REQUEST, LOG_OUT_SUCCESS } from 'reducers/user'
+import { BUTTON_COLOR, HEADER_AND_SLIDER_MAIN, WHITE } from 'libs/css/color'
 
 type HeaderProps = {
   isOpened: boolean,
   toggleDrawer: () => void,
 };
 
+const ChevronLeftStyle = styled(ChevronLeft)`
+  color: ${WHITE};
+`
+const MenuStyle = styled(Menu)`
+  color: ${WHITE};
+`
+
 const HeaderContainer = styled.header`
   display: flex;
-  background: #00022e;
+  background: ${HEADER_AND_SLIDER_MAIN};
   height: 50px;
   align-items: center;
   justify-content: space-between;
-  color: #4c5aa0;
   right: 0; 
 `;
 
@@ -39,6 +46,17 @@ const UserButtonContainer = styled.div`
 const ButtonStyle = styled(Button)`
   font-size: 12px;
   margin: 5px;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  border-color: ${BUTTON_COLOR};
+  & :hover {
+    background-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+  & ::selection {
+    background-color: ${BUTTON_COLOR};
+  }
 `
 
 const GymIcon = styled(CgGym)`
@@ -108,7 +126,7 @@ const _Header = (props: HeaderProps) => {
     <>
     <HeaderContainer>
         <IconContainer onClick={toggleDrawer}>
-          {isOpened ? <ChevronLeft /> : <Menu />}
+          {isOpened ? <ChevronLeftStyle /> : <MenuStyle />}
         </IconContainer>
         <HomeButtonContainer onClick={onHome}>
           <GymIcon/>
@@ -118,16 +136,16 @@ const _Header = (props: HeaderProps) => {
           {
             logInDone 
             ?
-              <ButtonStyle type="primary" onClick={onLogout}>로그아웃</ButtonStyle>
+              <ButtonStyle onClick={onLogout}>로그아웃</ButtonStyle>
             :
-              <ButtonStyle type="primary" onClick={onLogin}>로그인</ButtonStyle>
+              <ButtonStyle onClick={onLogin}>로그인</ButtonStyle>
           }
           {
             logInDone
             ?
-              <ButtonStyle type="primary" onClick={() => router.push('/profile')}>내정보</ButtonStyle>
+              <ButtonStyle onClick={() => router.push('/profile')}>내정보</ButtonStyle>
             :
-              <ButtonStyle type="primary" onClick={onSignup}>회원가입</ButtonStyle>
+              <ButtonStyle onClick={onSignup}>회원가입</ButtonStyle>
           }
         </UserButtonContainer>
     </HeaderContainer>

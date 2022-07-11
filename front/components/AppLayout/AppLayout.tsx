@@ -4,6 +4,7 @@ import Header from './Header'
 import { size } from 'libs/css/layout'
 import CustomFooter from './Footer'
 import Slider from './Slider'
+import { COLOR_BACKGROUND_DEFAULT } from 'libs/css/color'
 
 export type AppLayoutProps = {
   children: React.ReactNode,
@@ -13,13 +14,13 @@ const Container = styled.div`
   text-align: center;
   display: block;
   flex-direction: column;
-  color: #000133;
+  width: 100%;
+  background-color: ${COLOR_BACKGROUND_DEFAULT};
 
 `
 
 const PageContainer = styled.div`
   margin: 0 auto;
-  border: 1px solid pink;
   width: 100%;
   @media screen and (min-width: ${size.mobileS}) { 
     width: 375px;
