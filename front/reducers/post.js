@@ -16,7 +16,8 @@ export const dummyPosts = {
       4: { 10: 80 },
       5: { 8: 90 },
       6: { 8: 90 },
-      7: { 5: 100 }
+      7: { 5: 100 },
+      8: { 5: 100 }
     },
     benchPress: {
       1: { 15: 70 },
@@ -33,8 +34,13 @@ export const dummyPosts = {
       3: { 10: 20 },
       4: { 10: 80 },
       5: { 8: 90 },
-      6: { 8: 90 },
-      7: { 5: 500 }
+    },
+    런지: {
+      1: { 15: 30 },
+      2: { 15: 30 },
+      3: { 10: 40 },
+      4: { 10: 40 },
+      5: { 8: 50 },
     }
   }
 }
@@ -136,14 +142,6 @@ const dummyPost = (data) => ({
   Comments: [],
 });
 
-const dummyComment = (data) => ({
-  id: shortid.generate(),
-  content: data,
-  User: {
-    id: 1,
-    nickname: '제로초',
-  },
-})
 // reducer 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성을 지키면서)
 // 근데 immer를 사용하면 알아서 불변성을 지키면서 만들어준다. state는 건들면 안되고 draft를 건들어야한다.
 export default (state = initialState, action) => {

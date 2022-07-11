@@ -18,7 +18,7 @@ const ContentsContainer = styled.div`
   @media screen and (min-width: ${size.laptop}) {
     display: flex;
   }
-
+  
 `
 const _index: NextPage = () => {
   return (

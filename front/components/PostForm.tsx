@@ -118,12 +118,12 @@ export const _PostForm = () => {
   const [exerciseName, onChangeExerciseName] = useInput('스쿼트')
 
   const onAddReps = useCallback(() => {
-    if (formLength.length > 20) {
+    if (formLength.length > 19) {
       alert('20세트 초과를 할 수 없습니다.')
     } else {
       setFormLength((prev) => [...prev, prev.push()])
     }
-  }, [])
+  }, [formLength])
   
   const onRemoveReps = useCallback(() => {
     setFormLength(formLength.filter((v) => !removeItems.includes(v)))
