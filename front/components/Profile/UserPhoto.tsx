@@ -6,12 +6,16 @@ import styled from 'styled-components'
 import { Typography } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { MODIFY_REQUEST } from 'reducers/user'
+import { COLOR_MAIN, WHITE } from 'libs/css/color'
 
 const { Paragraph } = Typography
 
 const UserPhotoDiv = styled.div`
-  border: 1px solid black;
   width: 350px;
+  height: 100%;
+  background: ${COLOR_MAIN};
+  padding-top: 10vh;
+  color: ${WHITE};
 `
 
 const AvatarStyle = styled(Avatar)`
@@ -29,6 +33,7 @@ const ParagraphStyle = styled(Paragraph)`
   font-size: 1.5rem;
   font-weight: bolder;
   margin-top: 1.5rem;
+  color: ${WHITE};
 `
 
 const EditOutlinedStyle = styled(EditOutlined)`
@@ -52,7 +57,7 @@ const _UserPhoto = () => {
       <UserPhotoDiv>
         <AvatarStyle size={200} icon={<UserOutlined />}/>
         <ParagraphStyle>
-          반갑습니다.<br/>
+          안녕하세요<br/>
           {id} 님
         </ParagraphStyle>
         <EditOutlinedStyle onClick={onUserModify}/> 

@@ -2,36 +2,23 @@ import UserInfo from 'components/Profile/UserInfo'
 import UserPhoto from 'components/Profile/UserPhoto'
 import { size } from 'libs/css/layout'
 import Head from 'next/head'
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 const ProfileContainer = styled.div`
-  border: 1px solid black;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 90.1vh;
+  margin: auto;
+  position: relative;
   display: flex;
   @media screen and (max-width: ${size.tablet}) { 
     display: block;
     width: 350px;
-    height: 500px;
-  }
-
-  @media screen and (min-width: ${size.tablet}) {
-    width: 850px;
-    height: 600px;
-  }
-
-  @media screen and (min-width: ${size.laptopL}) {
-    width: 1000px;
-    height: 600px;
+    overflow-y: auto;
   }
 `
 
-const profile = () => {
+const _profile = () => {
   return (
     <>
       <Head>
@@ -45,5 +32,7 @@ const profile = () => {
     </>
   )
 }
+
+const profile = memo(_profile)
 
 export default profile

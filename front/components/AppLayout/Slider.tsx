@@ -8,31 +8,31 @@ import {
   HomeOutlined,
 } from '@ant-design/icons'
 import { useRouter } from 'next/router'
-import { FONT_WHITE, HEADER_AND_SLIDER_MAIN } from '../../libs/css/color'
+import { FONT_WHITE, COLOR_MAIN } from '../../libs/css/color'
 
 type SidebarProps = {
   isOpened: boolean;
 };
 
 const SidebarContainer = styled.aside<{ isOpened: boolean }>`
-  background: ${HEADER_AND_SLIDER_MAIN};
+  background: ${COLOR_MAIN};
   width: ${(props) => (props.isOpened ? "10rem" : "0")};
   transition: width 0.5s;
   overflow: hidden;
   position: absolute;
   height: calc(100% - 50px);
   z-index: 10;
-  border: 1px solid ${HEADER_AND_SLIDER_MAIN};
+  border: 1px solid ${COLOR_MAIN};
   & .ant-menu-item::after {
-    border-right: ${HEADER_AND_SLIDER_MAIN};
+    border-right: ${COLOR_MAIN};
   }
 `;
 
 const MenuStyle = styled(Menu)`
-  background: ${HEADER_AND_SLIDER_MAIN};
+  background: ${COLOR_MAIN};
   color: ${FONT_WHITE};
   width: 10rem;
-  border-color: ${HEADER_AND_SLIDER_MAIN};
+  border-color: ${COLOR_MAIN};
 `
 
 type MenuItem = Required<MenuProps>['items'][number];

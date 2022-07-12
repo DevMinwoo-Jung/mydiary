@@ -1,17 +1,17 @@
 import React, { memo } from 'react'
 import { Layout } from 'antd'
 import styled from 'styled-components';
-const { Header, Footer, Sider, Content } = Layout;
+const { Footer } = Layout;
 
 const FooterContainer = styled(Footer)`
-  bottom: 0;
   width: 100%;
+  padding: 12px;
 `
 
 const _Footer = () => {
   return (
     <FooterContainer>
-
+      all rigth reserved 2022 @Minwoo
     </FooterContainer>
   )
 }

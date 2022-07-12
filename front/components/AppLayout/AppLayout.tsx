@@ -4,7 +4,7 @@ import Header from './Header'
 import { size } from 'libs/css/layout'
 import CustomFooter from './Footer'
 import Slider from './Slider'
-import { COLOR_BACKGROUND_DEFAULT } from 'libs/css/color'
+import { COLOR_BACKGROUND_DEFAULT, WHITE } from 'libs/css/color'
 
 export type AppLayoutProps = {
   children: React.ReactNode,
@@ -15,6 +15,7 @@ const Container = styled.div`
   display: block;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   background-color: ${COLOR_BACKGROUND_DEFAULT};
 
 `
@@ -22,6 +23,7 @@ const Container = styled.div`
 const PageContainer = styled.div`
   margin: 0 auto;
   width: 100%;
+  background-color: ${WHITE};
   @media screen and (min-width: ${size.mobileS}) { 
     width: 375px;
   }
@@ -44,12 +46,10 @@ const ContentContainer = styled.div`
 
   @media screen and (min-width: ${size.tablet}) {
     width: 1000px;
-    height: calc(100vh - 100px);
   }
 
   @media screen and (min-width: ${size.laptopL}) {
     width: 1400px;
-    height: calc(100vh - 100px);
   }
 `
 

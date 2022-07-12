@@ -11,7 +11,9 @@ export const initialState = {
         id: 'devminwooJung',
         nickname: '짱멋진 개발자 정민우',
         password: '123123123',
-        createdAt: '2022/07/08'
+        createdAt: '2022/07/08',
+        weight: '83',
+        height: '182',
     },
     modifyLoading: false, // 유저 정보 수정 시도중
     modifyDone: false,

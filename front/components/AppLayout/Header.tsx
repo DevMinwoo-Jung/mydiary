@@ -8,7 +8,7 @@ import SignupForm from 'components/SignupForm'
 import LoginForm from 'components/LoginForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { LOG_OUT_REQUEST, LOG_OUT_SUCCESS } from 'reducers/user'
-import { BUTTON_COLOR, HEADER_AND_SLIDER_MAIN, WHITE } from 'libs/css/color'
+import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
 
 type HeaderProps = {
   isOpened: boolean,
@@ -24,7 +24,7 @@ const MenuStyle = styled(Menu)`
 
 const HeaderContainer = styled.header`
   display: flex;
-  background: ${HEADER_AND_SLIDER_MAIN};
+  background: ${COLOR_MAIN};
   height: 50px;
   align-items: center;
   justify-content: space-between;
