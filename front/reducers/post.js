@@ -2,7 +2,116 @@ import shortid from 'shortid'
 import produce from 'immer'
 
 export const initialState = {
-  mainPosts: [],
+  mainPosts: [{
+    20220709: {
+      id: 1,
+      squat: {
+        1: { 15: 70 },
+        2: { 15: 70 },
+        3: { 10: 80 },
+        4: { 10: 80 },
+        5: { 8: 90 },
+        6: { 8: 90 },
+        7: { 5: 100 },
+        8: { 5: 100 }
+      },
+      benchPress: {
+        1: { 15: 70 },
+        2: { 15: 70 },
+        3: { 10: 80 },
+        4: { 10: 80 },
+        5: { 8: 90 },
+        6: { 8: 90 },
+        7: { 5: 110 }
+      },
+      deadLift: {
+        1: { 15: 70 },
+        2: { 15: 70 },
+        3: { 10: 20 },
+        4: { 10: 80 },
+        5: { 8: 90 },
+      },
+      런지: {
+        1: { 15: 30 },
+        2: { 15: 30 },
+        3: { 10: 40 },
+        4: { 10: 40 },
+        5: { 8: 50 },
+      }
+    },
+    20220713: {
+      id: 1,
+      squat: {
+        1: { 15: 70 },
+        2: { 15: 70 },
+        3: { 10: 80 },
+        4: { 10: 80 },
+        5: { 8: 90 },
+        6: { 8: 90 },
+        7: { 5: 100 },
+        8: { 5: 100 }
+      },
+      benchPress: {
+        1: { 15: 70 },
+        2: { 15: 70 },
+        3: { 10: 80 },
+        4: { 10: 80 },
+        5: { 8: 90 },
+        6: { 8: 90 },
+        7: { 5: 110 }
+      },
+      deadLift: {
+        1: { 15: 70 },
+        2: { 15: 70 },
+        3: { 10: 20 },
+        4: { 10: 80 },
+        5: { 8: 90 },
+      },
+      런지: {
+        1: { 15: 30 },
+        2: { 15: 30 },
+        3: { 10: 40 },
+        4: { 10: 40 },
+        5: { 8: 50 },
+      }
+    },
+    20220711: {
+      id: 1,
+      squat: {
+        1: { 15: 70 },
+        2: { 15: 70 },
+        3: { 10: 80 },
+        4: { 10: 80 },
+        5: { 8: 90 },
+        6: { 8: 90 },
+        7: { 5: 100 },
+        8: { 5: 100 }
+      },
+      benchPress: {
+        1: { 15: 70 },
+        2: { 15: 70 },
+        3: { 10: 80 },
+        4: { 10: 80 },
+        5: { 8: 90 },
+        6: { 8: 90 },
+        7: { 5: 110 }
+      },
+      deadLift: {
+        1: { 15: 70 },
+        2: { 15: 70 },
+        3: { 10: 20 },
+        4: { 10: 80 },
+        5: { 8: 90 },
+      },
+      런지: {
+        1: { 15: 30 },
+        2: { 15: 30 },
+        3: { 10: 40 },
+        4: { 10: 40 },
+        5: { 8: 50 },
+      }
+    },
+  }],
 };
 
 export const dummyPosts = {
@@ -120,9 +229,10 @@ const dummy = {
 // )
 
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 
 export const addPost = (data) => ({
-  type: ADD_POST_REQUEST,
+  type: ADD_POST,
   data: data
 });
 
@@ -147,6 +257,13 @@ const dummyPost = (data) => ({
 export default (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case ADD_POST_SUCCESS: {
+        return {
+          ...state,
+          mainPosts: [action.data, ...state.mainPosts],
+          postAdded: true,
+        };
+      }
       case REMOVE_IMAGE: 
         draft.imagePaths = draft.imagePaths.filter((y, i) => i !== action.data)
         break;

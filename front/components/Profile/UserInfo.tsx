@@ -103,7 +103,7 @@ const disaptch = useDispatch()
   const [ passwordAlert, setPasswordAlert ] = useState(false)
 
   const onModify = (data) => {
-    console.log(data)
+    // console.log(data)
     disaptch({
       type: MODIFY_REQUEST,
       data,

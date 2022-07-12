@@ -1,6 +1,6 @@
 import { Button, Col, Input, Row } from 'antd'
 import useInput from 'libs/hook/useInput'
-import React, { memo, useCallback, useState } from 'react' 
+import React, { memo, useCallback, useEffect, useState } from 'react' 
 import styled from 'styled-components'
 import DetailForm from './DetailForm'
 import { GiConfirmed } from 'react-icons/gi'
@@ -10,6 +10,7 @@ import moment from 'moment'
 import 'moment/locale/ko'
 import { size, INDEX_LAYOUT_MOBILE, INDEX_LAYOUT_TABLET, INDEX_LAYOUT_DESKTOP } from 'libs/css/layout'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
+import { ADD_POST_SUCCESS } from 'reducers/post'
 
 moment.locale('ko');
 
@@ -144,6 +145,8 @@ export const _PostForm = () => {
   const [formLength, setFormLength] = useState([0,1,2,3,4]) 
   const [removeItems, setRemoveItems] = useState([])
   const [exerciseName, onChangeExerciseName] = useInput('스쿼트')
+  const [exercise, setExercise] = useState([])
+  const [date, onChangeDate] = useInput(moment().format("dddd, MMMM Do YYYY"))
 
   const onAddReps = useCallback(() => {
     if (formLength.length > 19) {
@@ -161,6 +164,10 @@ export const _PostForm = () => {
     setHideRemoveButton((prev) => !prev)
   }, [])
 
+  const onAddExercise = useCallback(() => {
+    setExercise((prev) => [exercise])
+  }, [exercise])
+
   const onAddRemoveItems = useCallback((e) => {
     setRemoveItems((prev) => [...prev, e])
   }, [])
@@ -177,17 +184,34 @@ export const _PostForm = () => {
     setHideEdit((prev) => !prev)
   }
 
+  useEffect(() => {
+    // console.log(exercise)
+  }, [exercise])
+
+  const data = {
+    [date]: {
+      [exerciseName]: {}
+    }
+  }
+
   const onAdd = () => {
-    alert('야호')
     dispatch({
-      type: LOG_IN_SUCCESS
-    })
+      type: ADD_POST_SUCCESS,
+      data: data
+    }),
+    console.log(data)
   }
   
   return (
     <PostFormContainer>
       <PostFormHeader>
-        <h1>{moment().format("dddd, MMMM Do YYYY")}</h1>
+        {
+          hideEdit 
+          ?
+          <span onClick={onEditable}>{date}</span>
+          :
+          <Input value={date} onChange={onChangeDate} placeholder={date}/>
+        }
         {
           hideEdit 
           ?
@@ -209,7 +233,7 @@ export const _PostForm = () => {
             formLength.map((element, i) => {
               return (
                 <Col xs={24} sm={24} md={24} lg={12}>
-                  <DetailForm key={i} index={i} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton}/>
+                  <DetailForm key={i} index={i} onAddExercise={onAddExercise} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton}/>
                 </Col>
               )
             })

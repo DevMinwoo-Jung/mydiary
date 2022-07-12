@@ -1,6 +1,6 @@
 import { Form, Input, Checkbox } from 'antd'
 import useInput from 'libs/hook/useInput'
-import React, { FC, memo, useCallback } from 'react'
+import React, { FC, memo, useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 
 const DetailFormContainer = styled.div`
@@ -42,20 +42,32 @@ type DetailFormProps = {
   index: number
   onAddRemoveItems: (target:number) => void
   hideRemoveButton: boolean
+  onAddExercise: ({}) => void
 }
 
 const _DetailForm: FC<DetailFormProps> = (props) => {
-  const { index, onAddRemoveItems, hideRemoveButton } = props 
+  const { index, onAddRemoveItems, hideRemoveButton, onAddExercise } = props 
   const [reps, onChangeReps] = useInput('')
   const [weight, onChangeWeight] = useInput('')
-  console.log(index)
+
   const onSubmit = useCallback(() => {
     alert('눌렸다능')
-  }, [])
+  }, [reps])
 
   const goRemoveItems = useCallback((e) => {
     onAddRemoveItems(index)
   }, [])
+
+  useEffect(() => {
+    // console.log('???')
+    goAddExercise()
+  }, [reps, weight])
+
+  const goAddExercise = () => {
+    // console.log(index, reps, weight)
+    onAddExercise({index: {[reps]:[weight]}})
+  }
+
 
   return (
     <DetailFormContainer>

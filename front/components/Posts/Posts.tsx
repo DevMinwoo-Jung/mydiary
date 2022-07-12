@@ -6,6 +6,7 @@ import {
   size,
 } from "libs/css/layout";
 import React, { memo } from "react";
+import { useSelector } from "react-redux";
 import { dummyPosts } from "reducers/post";
 import styled from "styled-components";
 
@@ -66,14 +67,18 @@ const HeaderStyle = styled.div`
 `
 
 const _Posts = () => {
+  const { mainPosts } = useSelector((state) => state.post)
   const { Panel } = Collapse;
   const dummy = dummyPosts.exercises;
   const title = Object.keys(dummy);
-  console.log(
-    title.map((element, index) =>
-      Object.values(dummy[element]).map((element) => element)
-    )
-  );
+  const realTitle = Object.values(mainPosts)
+  // console.log(
+  //   title.map((element, index) =>
+  //     Object.values(dummy[element]).map((element) => element)
+  //   )
+  // );
+  console.log(Object.values([mainPosts[0]]))
+  // console.log(realTitle)
 
   const onChange = (key: string | string[]) => {
     console.log(key);
