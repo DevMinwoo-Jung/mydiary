@@ -232,7 +232,7 @@ export const _PostForm = () => {
           {
             formLength.map((element, i) => {
               return (
-                <Col xs={24} sm={24} md={24} lg={12}>
+                <Col key={i} xs={24} sm={24} md={24} lg={12}>
                   <DetailForm key={i} index={i} onAddExercise={onAddExercise} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton}/>
                 </Col>
               )

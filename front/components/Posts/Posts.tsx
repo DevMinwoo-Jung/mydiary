@@ -1,4 +1,4 @@
-import { Col, Collapse, Row, Tag } from "antd";
+import { Col, Collapse, Row, Tag } from "antd"
 import {
   INDEX_LAYOUT_DESKTOP,
   INDEX_LAYOUT_MOBILE,
@@ -9,6 +9,8 @@ import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import { dummyPosts } from "reducers/post";
 import styled from "styled-components";
+import PostContent from "./PostContent"
+import shortid from 'shortid'
 
 const PostsContainer = styled.div`
   margin-top: 1rem;
@@ -71,61 +73,35 @@ const _Posts = () => {
   const { Panel } = Collapse;
   const dummy = dummyPosts.exercises;
   const title = Object.keys(dummy);
-  const realTitle = Object.values(mainPosts)
+  const realTitle = mainPosts.map(element => element)
   // console.log(
   //   title.map((element, index) =>
   //     Object.values(dummy[element]).map((element) => element)
   //   )
   // );
-  console.log(Object.values([mainPosts[0]]))
-  // console.log(realTitle)
+  // console.log(mainPosts.map((element) => element))
 
   const onChange = (key: string | string[]) => {
     console.log(key);
   };
 
   const text = '취업하고싶다..'
+  console.log(mainPosts)
 
   return (
     <PostsContainer>
       <HeaderStyle>
         <h1>운동일지</h1>
       </HeaderStyle>
-      <Collapse defaultActiveKey={["1"]} onChange={onChange}>
-        <Panel header="This is panel header 1" key="1">
-          <DivStyle>
-            {title.map((element, index) => (
-              <>
-                <RepsTitle>{element}</RepsTitle>
-                <InnerDiv>
-                  <DivStyle2>
-                  <Row>
-                    {
-                    Object.values(dummy[element])
-                    .map((element, index) => (
-                      <RepsInfo>
-                          <Col xs={24} sm={24} md={24} lg={12}>
-                          <Tag color="#108ee9">
-                            {Object.keys(element)} / {Object.values(element)}
-                          </Tag>
-                          </Col>
-                      </RepsInfo>
-                      ))
-                    }
-                  </Row>
-                  </DivStyle2>
-                </InnerDiv>
-              </>
-            ))}
-          </DivStyle>
-        </Panel>
-        <Panel header="This is panel header 2" key="2">
-          <p>{text}</p>
-        </Panel>
-        <Panel header="This is panel header 3" key="3">
-          <p>{text}</p>
-        </Panel>
-      </Collapse>
+      <div>
+      {
+        mainPosts.map((element: object, index: number) => {
+          return (
+            <PostContent key={shortid.generate()} post={element} index={index}/>
+          )
+        })
+      }
+      </div>
     </PostsContainer>
   );
 };

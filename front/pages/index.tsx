@@ -6,6 +6,7 @@ import PostForm from 'components/PostForm'
 import Posts from 'components/Posts/Posts'
 import { size } from 'libs/css/layout'
 import { WHITE } from 'libs/css/color'
+import shortid from 'shortid'
 
 const ContentsContainer = styled.div`
   margin: auto;
@@ -30,8 +31,8 @@ const _index: NextPage = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ContentsContainer>
-        <PostForm/>
-        <Posts/>
+        <PostForm key={shortid.generate()}/>
+        <Posts key={shortid.generate()}/>
       </ContentsContainer>
     </>
   )
