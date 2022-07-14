@@ -1,50 +1,13 @@
-import React, { FC } from "react";
-import styled from "styled-components";
-import { Col, Collapse, Row, Tag } from "antd";
-import Reps from "./Reps";
+import React, { FC, useEffect, useState } from 'react'
+import styled from 'styled-components'
+import Reps from './Reps'
 import shortid from 'shortid'
+import { COLOR_DBE2EF } from 'libs/css/color'
 
 type PostContentProps = {
   post: Object;
   index: number;
 };
-
-const DivStyle = styled.div`
-  display: block;
-`;
-
-const InnerDiv = styled.div`
-  display: flex;
-`;
-const RepsTitle = styled.h3`
-  font-weight: bold;
-  text-align: left;
-  margin-left: 1rem;
-`;
-
-const RepsInfo = styled.div`
-  display: flex;
-  & span {
-    height: 25px;
-    width: 55px;
-    margin: 0;
-    padding: 0;
-    border: 2px solid #108ee9;
-    border-radius: 0%;
-  }
-`;
-
-const DivStyle2 = styled.div`
-  margin-left: 1rem;
-  display: flex;
-`;
-
-const HeaderStyle = styled.div`
-  font-size: 1rem;
-  & h1 {
-    font-weight: bolder;
-  }
-`;
 
 export type postType = {
   date: number;
@@ -53,24 +16,64 @@ export type postType = {
 };
 
 
-const PostContent: FC<PostContentProps> = (props) => {
-  const { index } = props;
-  const post:postType = props.post
-  // post.exercises.map((element) => console.log(element))
+const PostContainer = styled.div`
+  text-align: left;
+  font-weight: bolder;
+  display: block;
+  width: 100%;
+  & h2 {
+    font-weight: bolder;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 5px;
+    background-color: ${COLOR_DBE2EF};
+    padding-left: 1rem;
+  }
+`
 
-  console.log(post);
-  // console.log(post.exercises, post.date, post.id);
+const RepsContainer = styled.div`
+  display: block;
+  transition: opacity 300ms ease-in;
+`
+
+
+const PostContent: FC<PostContentProps> = (props) => {
+  const post:postType = props.post
+  const { index } = props
+  const [showReps, setShowReps] = useState(false)
+
+  useEffect(() => {
+    if (index === 0) {
+      setShowReps(true)
+    }
+  }, [])
+
+  const onToggleReps = () => {
+    setShowReps((prev) => !prev)
+  }
+
   return (
-      <div key={index + 1}>
-        <p>{post.date}</p>
-          {
-            post.exercises.map((element) => {
-              return (
-                <Reps key={shortid.generate()} exercise={element}/>
-              )
-            })
-          }
-      </div>
+      <PostContainer>
+        <div onClick={onToggleReps}>
+          <h2>{post.date}</h2>
+        </div>
+        {
+          showReps
+          ?
+          <RepsContainer>
+              {
+                post.exercises.map((element, index) => {
+                  return (
+                    <Reps key={shortid.generate()} exercise={element}/>
+                  )
+                })
+              }
+          </RepsContainer>
+          :
+          null
+        }
+      </PostContainer>
   );
 };
 

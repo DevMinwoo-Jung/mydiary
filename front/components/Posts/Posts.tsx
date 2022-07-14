@@ -1,64 +1,25 @@
-import { Col, Collapse, Row, Tag } from "antd"
-import {
-  INDEX_LAYOUT_DESKTOP,
-  INDEX_LAYOUT_MOBILE,
-  INDEX_LAYOUT_TABLET,
-  size,
-} from "libs/css/layout";
-import React, { memo } from "react";
-import { useSelector } from "react-redux";
-import { dummyPosts } from "reducers/post";
-import styled from "styled-components";
-import PostContent from "./PostContent"
+import React, { memo } from 'react'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import PostContent from './PostContent'
 import shortid from 'shortid'
+import { INDEX_LAYOUT_DESKTOP, INDEX_LAYOUT_MOBILE, INDEX_LAYOUT_TABLET, size } from 'libs/css/layout'
+import { BUTTON_COLOR } from 'libs/css/color'
 
 const PostsContainer = styled.div`
   margin-top: 1rem;
   margin: auto;
   height: 88vh;
   overflow-y: auto;
-  @media screen and (min-width: ${size.mobileS}) {
+  @media screen and (min-width: ${size.mobileS}) { 
     width: ${INDEX_LAYOUT_MOBILE}px;
-    margin-top: 50px;
   }
   @media screen and (min-width: ${size.tablet}) {
     width: ${INDEX_LAYOUT_TABLET}px;
-    margin-top: 1rem;
   }
   @media screen and (min-width: ${size.laptop}) {
     width: ${INDEX_LAYOUT_DESKTOP}px;
-    margin-top: 1rem;
   }
-`;
-const DivStyle = styled.div`
-  display: block;
-`;
-
-const InnerDiv = styled.div`
-  display: flex;
-`;
-const RepsTitle = styled.h3`
-  font-weight: bold;
-  text-align: left;
-  margin-left: 1rem;
-  `;
-
-const RepsInfo = styled.div`
-  display: flex;
-  & span {
-    height: 25px;
-    width: 55px;
-    margin: 0;
-    padding: 0;
-    border: 2px solid #108ee9;
-    border-radius: 0%;
-  }
-
-  `;
-
-const DivStyle2 = styled.div`
-  margin-left: 1rem;
-  display: flex;
 `
 
 const HeaderStyle = styled.div`
@@ -68,32 +29,29 @@ const HeaderStyle = styled.div`
   }
 `
 
+const PostsInnerContainer = styled.div`
+  display: block;
+  margin: auto;
+  @media screen and (min-width: ${size.mobileS}) { 
+    width: ${INDEX_LAYOUT_MOBILE - 50}px;
+  }
+  @media screen and (min-width: ${size.tablet}) {
+    width: ${INDEX_LAYOUT_TABLET - 100}px;
+  }
+  @media screen and (min-width: ${size.laptop}) {
+    width: ${INDEX_LAYOUT_DESKTOP - 150}px;
+  }
+`
+
 const _Posts = () => {
   const { mainPosts } = useSelector((state) => state.post)
-  const { Panel } = Collapse;
-  const dummy = dummyPosts.exercises;
-  const title = Object.keys(dummy);
-  const realTitle = mainPosts.map(element => element)
-  // console.log(
-  //   title.map((element, index) =>
-  //     Object.values(dummy[element]).map((element) => element)
-  //   )
-  // );
-  // console.log(mainPosts.map((element) => element))
-
-  const onChange = (key: string | string[]) => {
-    console.log(key);
-  };
-
-  const text = '취업하고싶다..'
-  console.log(mainPosts)
 
   return (
     <PostsContainer>
       <HeaderStyle>
         <h1>운동일지</h1>
       </HeaderStyle>
-      <div>
+      <PostsInnerContainer>
       {
         mainPosts.map((element: object, index: number) => {
           return (
@@ -101,7 +59,7 @@ const _Posts = () => {
           )
         })
       }
-      </div>
+      </PostsInnerContainer>
     </PostsContainer>
   );
 };

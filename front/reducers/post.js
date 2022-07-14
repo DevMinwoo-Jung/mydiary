@@ -172,12 +172,13 @@ export const initialState = {
           { 8: 901 },
           { 8: 90 },
           { 5: 100 },
-          { 5: 123 }
+          { 5: 1235 }
         ],
       }
       ]
     },
   ],
+  modfiy: false,
 };
 
 export const dummyPosts = {
@@ -296,6 +297,7 @@ const dummy = {
 
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
+export const REPS_MODIFY_REQUEST = 'REPS_MODIFY_REQUEST'
 
 export const addPost = (data) => ({
   type: ADD_POST,
@@ -329,6 +331,12 @@ export default (state = initialState, action) => {
           mainPosts: [action.data, ...state.mainPosts],
           postAdded: true,
         };
+      }
+      case REPS_MODIFY_REQUEST: {
+        return {
+          ...state,
+          modify: true,
+        }
       }
       case REMOVE_IMAGE: 
         draft.imagePaths = draft.imagePaths.filter((y, i) => i !== action.data)
