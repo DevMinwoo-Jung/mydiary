@@ -178,7 +178,7 @@ export const initialState = {
       ]
     },
   ],
-  modfiy: false,
+  modify: false,
 };
 
 export const dummyPosts = {
@@ -298,6 +298,7 @@ const dummy = {
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const REPS_MODIFY_REQUEST = 'REPS_MODIFY_REQUEST'
+export const REPS_DELETE_REQUEST = 'REPS_DELETE_REQUEST'
 
 export const addPost = (data) => ({
   type: ADD_POST,
@@ -336,6 +337,12 @@ export default (state = initialState, action) => {
         return {
           ...state,
           modify: true,
+        }
+      }
+      case REPS_DELETE_REQUEST: {
+        return {
+          ...state,
+          delete: true,
         }
       }
       case REMOVE_IMAGE: 

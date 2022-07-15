@@ -12,11 +12,13 @@ const ContentsContainer = styled.div`
   margin: auto;
   display: flex;
   background-color: ${WHITE};
-  @media screen and (min-width: ${size.mobileS}) { 
+  width: 100%;
+  height: 90vh;
+  @media screen and (max-width: ${size.tablet}) { 
     display: block;
   }
   @media screen and (min-width: ${size.tablet}) {
-    display: flex;
+    display: block;
   }
   @media screen and (min-width: ${size.laptop}) {
     display: flex;

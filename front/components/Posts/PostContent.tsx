@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useLayoutEffect, useState } from 'react'
 import styled from 'styled-components'
 import Reps from './Reps'
 import shortid from 'shortid'
@@ -43,7 +43,7 @@ const PostContent: FC<PostContentProps> = (props) => {
   const { index } = props
   const [showReps, setShowReps] = useState(false)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (index === 0) {
       setShowReps(true)
     }

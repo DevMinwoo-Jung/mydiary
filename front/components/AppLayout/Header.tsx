@@ -29,6 +29,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   justify-content: space-between;
   right: 0; 
+  width: 100%;
 `;
 
 const IconContainer = styled.div`

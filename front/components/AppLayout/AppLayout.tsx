@@ -24,27 +24,18 @@ const PageContainer = styled.div`
   margin: 0 auto;
   width: 100%;
   background-color: ${WHITE};
-  @media screen and (min-width: ${size.mobileS}) { 
-    width: 375px;
-  }
-
-  @media screen and (min-width: ${size.tablet}) {
-    width: 1000px;
-  }
-
-  @media screen and (min-width: ${size.laptopL}) {
-    width: 1400px;
-  }
 `
 
 const ContentContainer = styled.div`
   display: flex;
   margin: auto;
-  @media screen and (min-width: ${size.mobileS}) { 
+  @media screen and (min-width: ${size.mobileM}) { 
     width: 375px;
   }
-
-  @media screen and (min-width: ${size.tablet}) {
+  @media screen and (min-width: ${size.tablet}) { 
+    width: 650px;
+  }
+  @media screen and (min-width: ${size.laptop}) {
     width: 1000px;
   }
 
@@ -69,7 +60,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
             <ContentContainer>
               <PageContainer>{children}</PageContainer>
             </ContentContainer>
-            <CustomFooter/>
+      <CustomFooter/>        
     </Container>
   );
 }

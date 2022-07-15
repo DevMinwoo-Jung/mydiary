@@ -9,20 +9,16 @@ import { BUTTON_COLOR } from 'libs/css/color'
 const PostsContainer = styled.div`
   margin-top: 1rem;
   margin: auto;
-  height: 88vh;
+  height: 100%;
   overflow-y: auto;
-  @media screen and (min-width: ${size.mobileS}) { 
-    width: ${INDEX_LAYOUT_MOBILE}px;
-  }
-  @media screen and (min-width: ${size.tablet}) {
-    width: ${INDEX_LAYOUT_TABLET}px;
-  }
-  @media screen and (min-width: ${size.laptop}) {
-    width: ${INDEX_LAYOUT_DESKTOP}px;
+  width: 80%;
+  @media screen and (max-width: ${size.tablet}) { 
+    width: 100%;
   }
 `
 
 const HeaderStyle = styled.div`
+  margin-top: 1rem;
   font-size: 1rem;
   & h1 {
     font-weight: bolder;
@@ -32,15 +28,7 @@ const HeaderStyle = styled.div`
 const PostsInnerContainer = styled.div`
   display: block;
   margin: auto;
-  @media screen and (min-width: ${size.mobileS}) { 
-    width: ${INDEX_LAYOUT_MOBILE - 50}px;
-  }
-  @media screen and (min-width: ${size.tablet}) {
-    width: ${INDEX_LAYOUT_TABLET - 100}px;
-  }
-  @media screen and (min-width: ${size.laptop}) {
-    width: ${INDEX_LAYOUT_DESKTOP - 150}px;
-  }
+  width: 85%;
 `
 
 const _Posts = () => {

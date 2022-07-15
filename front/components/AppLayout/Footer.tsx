@@ -6,6 +6,7 @@ const { Footer } = Layout;
 const FooterContainer = styled(Footer)`
   width: 100%;
   padding: 12px;
+  position: absolute;
 `
 
 const _Footer = () => {

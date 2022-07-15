@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
-import { REPS_MODIFY_REQUEST } from 'reducers/post'
+import { REPS_DELETE_REQUEST } from 'reducers/post'
 
 
 type RepsProps = {
@@ -52,7 +52,7 @@ const Reps:FC<RepsProps> = (props) => {
 
   const onRepsDelete = () => {
     dispatch({
-      type: REPS_MODIFY_REQUEST
+      type: REPS_DELETE_REQUEST
     })
   }
 

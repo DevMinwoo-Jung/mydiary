@@ -20,6 +20,13 @@ const PostFormContainer = styled.div`
     text-align: center;
     font-weight: bolder;
   }
+  width: 80%;
+  margin: auto;
+  @media screen and (max-width: ${size.tablet}) { 
+    width: 100%;
+    margin: auto;
+    margin-bottom: 2rem;
+  }
 `
 const DateDiv = styled.div`
   font-size: 1.5rem;
@@ -119,23 +126,15 @@ const ButtonsDiv = styled.div`
   right: 0;
 `
 
+const RowStyle = styled(Row)`
+  justify-content: center;
+`
+
 const DetailFormOuter = styled.div`
   width: 100%;
-  height: 60vh;
   margin: auto;
   overflow-y: auto;
-  @media screen and (min-width: ${size.mobileS}) { 
-    width: ${INDEX_LAYOUT_MOBILE}px;
-    height: 300px;
-  }
-  @media screen and (min-width: ${size.tablet}) {
-    width: ${INDEX_LAYOUT_TABLET}px;
-    height: 500px;
-  }
-  @media screen and (min-width: ${size.laptop}) {
-    width: ${INDEX_LAYOUT_DESKTOP}px;
-    height: 600px;
-  }
+  height: 70vh;
 `
 
 export const _PostForm = () => {
@@ -149,7 +148,7 @@ export const _PostForm = () => {
   const [date, onChangeDate] = useInput(moment().format("dddd, MMMM Do YYYY"))
 
   const onAddReps = useCallback(() => {
-    if (formLength.length > 19) {
+    if (formLength.length >= 20) {
       alert('20세트 초과를 할 수 없습니다.')
     } else {
       setFormLength((prev) => [...prev, prev.push()])
@@ -228,17 +227,17 @@ export const _PostForm = () => {
         }
       </PostFormHeader>
       <DetailFormOuter>
-        <Row>
+        <RowStyle>
           {
             formLength.map((element, i) => {
               return (
-                <Col key={i} xs={24} sm={24} md={24} lg={12}>
+                <Col key={i} xs={24} sm={24} md={24} lg={24} xl={24} xxl={12}>
                   <DetailForm key={i} index={i} onAddExercise={onAddExercise} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton}/>
                 </Col>
               )
             })
           }
-        </Row>
+        </RowStyle>
       </DetailFormOuter>
       <ButtonsDiv>
         <ButtonStyle onClick={onAddReps}>추가</ButtonStyle>

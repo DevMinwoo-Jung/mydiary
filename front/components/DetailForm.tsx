@@ -6,8 +6,9 @@ import styled from 'styled-components'
 const DetailFormContainer = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
   & Input {
-    height: 45px;
+    height: 50px;
     border-radius: 12px;
   }
 `
@@ -15,7 +16,7 @@ const DetailFormContainer = styled.div`
 const FormContainer = styled.div`
   display: flex;
   align-items: center;
-  
+  margin-left: 1rem;
   & h2 {
     margin: 0 1rem 0 0;
     font-size: 2rem;
@@ -25,8 +26,10 @@ const FormContainer = styled.div`
   }
 
   & Input {
-    width: 70px;
+    width: 80px;
     text-align: center;
+    font-size: 1rem;
+    font-weight: bolder;
   }
 
   & span {
@@ -86,7 +89,7 @@ const _DetailForm: FC<DetailFormProps> = (props) => {
               <h2>{index + 1}.</h2>
               <Input value={reps} onChange={onChangeReps} placeholder='10'/>
               <span>X</span>
-              <Input value={weight} onChange={onChangeWeight} placeholder=''/>
+              <Input value={weight} onChange={onChangeWeight} placeholder='10'/>
               <span>kg</span>
             </FormContainer>
           </Form.Item>
