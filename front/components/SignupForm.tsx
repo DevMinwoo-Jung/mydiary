@@ -84,6 +84,7 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
 
   const [userId, onChangeUserId] = useInput('')
   const [email, onChangeEmail] = useInput('')
+  const [nickname, onChangeNickname] = useInput('')
   const [password, onChangePassword] = useInput('')
   const [passwordCheck, setPasswordCheck] = useState('')
   const [passwordError, setPasswordError] = useState(false)
@@ -132,6 +133,12 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
             rules={[{ required: true, message: '아이디를 입력해주세요!' }]}
             >
             <InputStyle value={userId} onChange={onChangeUserId} placeholder='아이디'/>
+          </Form.Item>
+          <Form.Item
+            name="nickname"
+            rules={[{ required: true, message: '닉네임을 입력해주세요!' }]}
+            >
+            <InputStyle value={nickname} onChange={onChangeNickname} placeholder='닉네임'/>
           </Form.Item>
           <Form.Item
             name="email"
