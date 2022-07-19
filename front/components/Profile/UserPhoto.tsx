@@ -5,7 +5,7 @@ import React, { memo } from 'react'
 import styled from 'styled-components'
 import { Typography } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { MODIFY_REQUEST } from 'reducers/user'
+import { SHOW_MODIFY_FORM } from 'reducers/user'
 import { COLOR_MAIN, WHITE } from 'libs/css/color'
 
 const { Paragraph } = Typography
@@ -48,7 +48,7 @@ const _UserPhoto = () => {
 
   const onUserModify = () => {
     dispatch({
-      type: MODIFY_REQUEST
+      type: SHOW_MODIFY_FORM
     })
   }
 

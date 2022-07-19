@@ -6,7 +6,7 @@ import { IoLogoGoogle } from 'react-icons/io'
 import useInput from 'libs/hook/useInput'
 import { MdOutlineClose } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import { LOG_IN_SUCCESS } from 'reducers/user'
+import { LOG_IN_REQUEST, LOG_IN_SUCCESS } from 'reducers/user'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 
 const LoginFormContainer = styled.div`
@@ -125,17 +125,15 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
   const { onLogin } = props
   const { logInLoading, logInError, logInDone } = useSelector((state) => state.user)
   const dispatch = useDispatch();
-
-  // console.log(logInError, logInLoading, logInDone)
-
   const [userId, onChangeUserId] = useInput('')
   const [password, onChangePassword] = useInput('')
 
   const onSubmitForm = useCallback(() => {
     dispatch({
-      type:LOG_IN_SUCCESS
+      type: LOG_IN_REQUEST,
+      data: {userId, password}
     })
-  }, []);
+  }, [userId, password]);
 
   const onSocialLogin = useCallback((e) => {
     console.log(e.target)
@@ -156,33 +154,19 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
             name="userId"
             rules={[{ required: true, message: '아이디를 입력해주세요!' }]}
           >
-            <InputStyle value={userId} onChange={onChangeUserId} placeholder='아이디'/>
+            <InputStyle name="userId" value={userId} onChange={onChangeUserId} placeholder='아이디' required />
           </Form.Item>
           <Form.Item
             name="password"
             rules={[{ required: true, message: '비밀번호를 입력해주세요!' }]}
           >
-            <InputPasswordStyle value={password} onChange={onChangePassword} placeholder='비밀번호'/>
+            <InputPasswordStyle name="userPassword" value={password} onChange={onChangePassword} placeholder='비밀번호' required />
           </Form.Item>
           <ButtonStyle htmlType="submit">
               로그인하기
             </ButtonStyle> 
           <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 0, span: 16 }}>
             <CheckboxStyle>로그인 상태 유지</CheckboxStyle>
-          </Form.Item>
-          <Form.Item>
-            <KakaoLogin onClick={onSocialLogin}>   
-                <ImgStyle src='/asset/logo/kakaoLogo.png' alt="" width="45px" height="45px"/>
-                <ButtonPara>
-                  카카오로 로그인하기 
-                </ButtonPara>
-            </KakaoLogin>
-            <GoogleLogin onClick={onSocialLogin}>
-                <GoogleLogo/>
-                <ButtonPara>
-                  구글로 로그인하기
-                </ButtonPara>
-            </GoogleLogin>
           </Form.Item>
         </Form>
       </FormContainer>

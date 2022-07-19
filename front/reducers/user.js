@@ -15,18 +15,24 @@ export const initialState = {
         weight: '83',
         height: '182',
     },
-    modifyLoading: false, // 유저 정보 수정 시도중
-    modifyDone: false,
-    modifyError: null,
+    userInfomodifyLoading: false, // 유저 정보 수정 시도중
+    userInfomodifyDone: false,
+    userInfomodifyError: null,
+    signUpLoading: false, // 회원가입 시도중
+    signUpDone: false,
+    signUpError: null,
+    showModifyForm: false,
 };
 
     const dummyUser = (data) => ({
     ...data,
     nickname: 'minwoo',
-    id: 1,
-    Posts: [{ id: 1 }],
-    Followings: [{ nickname: '또래오래'}, { nickname: '미쳐버린파닭'}, { nickname: '착한수제통닭'}],
-    Followers: [{ nickname: '위스키'}, { nickname: '전통소주'}, { nickname: '소주'}]
+    id: 'devminwooJung',
+    nickname: '짱멋진 개발자 정민우',
+    password: '123123123',
+    createdAt: '2022/07/08',
+    weight: '83',
+    height: '182',
     })
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
@@ -41,10 +47,13 @@ export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 
-export const MODIFY_REQUEST = 'MODIFY_REQUEST';
-export const MODIFY_SUCCESS = 'MODIFY_SUCCESS';
-export const MODIFY_FAILURE = 'MODIFY_FAILURE';
-export const MODIFY_CANCEL = 'MODIFY_CANCEL';
+export const USER_INFO_MODIFY_REQUEST = 'USER_INFO_MODIFY_REQUEST';
+export const USER_INFO_MODIFY_SUCCESS = 'USER_INFO_MODIFY_SUCCESS';
+export const USER_INFO_MODIFY_FAILURE = 'USER_INFO_MODIFY_FAILURE';
+export const MODIFY_CANCEL = 'MODIFY_CANCEL'
+
+export const SHOW_MODIFY_FORM = 'SHOW_MODIFY_FORM'
+export const HIDE_MODIFY_FORM = 'HIDE_MODIFY_FORM'
 
 export const USER_REMOVE_REQUEST = 'USER_REMOVE_REQUEST';
 export const USER_REMOVE_SUCCESS = 'USER_REMOVE_SUCCESS';
@@ -74,7 +83,7 @@ export default (state = initialState, action) => {
             break;
         case LOG_IN_SUCCESS: 
             draft.logInLoading = false;
-            draft.me = action.data;
+            draft.me = dummyUser(action.data);
             draft.logInDone = true;
             break;
         case LOG_IN_FAILURE: 
@@ -96,26 +105,29 @@ export default (state = initialState, action) => {
             draft.logOutLoading = false;
             draft.logOutError = action.error;
             break;
-        case MODIFY_REQUEST: 
+        case SHOW_MODIFY_FORM:
+            draft.showModifyForm = true;
+            break;
+        case USER_INFO_MODIFY_REQUEST: 
             return {
             ...state,
-            modifyLoading: true,
-            modifyDone: false,
-            modifyError: false,
+            userInfomodifyLoading: true,
+            userInfomodifyDone: false,
+            userInfomodifyError: false,
             }
-        case MODIFY_CANCEL: 
+        case HIDE_MODIFY_FORM: 
             return {
             ...state,
-            modifyLoading: false,
+            showModifyForm: false,
             }
-        case MODIFY_SUCCESS: 
-            draft.modifyLoading = false;
-            draft.modifyDone = true;
+        case USER_INFO_MODIFY_SUCCESS: 
+            draft.userInfomodifyLoading = false;
+            draft.userInfomodifyDone = true;
             draft.me = null
             break;
-        case MODIFY_FAILURE: 
-            draft.modifyLoading = false;
-            draft.modifyError = action.error;
+        case USER_INFO_MODIFY_FAILURE: 
+            draft.userInfomodifyLoading = false;
+            draft.userInfomodifyError = action.error;
             break;
         default:
             break;

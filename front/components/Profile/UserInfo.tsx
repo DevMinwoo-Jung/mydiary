@@ -1,11 +1,11 @@
 import { Button, Input, Typography } from 'antd'
 import { size } from 'libs/css/layout'
 import { Divider } from 'antd'
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
-import { MODIFY_CANCEL, MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
+import { HIDE_MODIFY_FORM, USER_INFO_MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 
 const { Title, Paragraph } = Typography
@@ -91,7 +91,7 @@ const ButtonStyle = styled(Button)`
 
 const _UserInfo = () => {
   const { nickname, id, createdAt, password, weight, height } = useSelector((state) => state.user.user)
-  const { modifyLoading } = useSelector((state) => state.user)
+  const { showModifyForm } = useSelector((state) => state.user)
 
 const disaptch = useDispatch()
 
@@ -102,17 +102,17 @@ const disaptch = useDispatch()
   const [ userWeight, onChangeUserWeight] = useInput('')
   const [ passwordAlert, setPasswordAlert ] = useState(false)
 
-  const onModify = (data) => {
-    // console.log(data)
+  const onModify = useCallback((data) => {
+    console.log(data),
     disaptch({
-      type: MODIFY_REQUEST,
-      data,
+      type: USER_INFO_MODIFY_REQUEST,
+      data: {userNickname, userPassword, userHeight, userWeight, checkPassword},
     })
-  }
+  },[userNickname, userPassword, userHeight, userWeight, checkPassword])
 
   const onCancel = () => {
     disaptch({
-      type: MODIFY_CANCEL
+      type: HIDE_MODIFY_FORM
     })
   }
 
@@ -128,7 +128,7 @@ const disaptch = useDispatch()
     } else {
       setPasswordAlert(false)
     }
-  }, [checkPassword])
+  }, [checkPassword, userPassword])
 
 
   return (
@@ -144,7 +144,7 @@ const disaptch = useDispatch()
       <div>
         <Title level={2}>활동명</Title>
         {
-          modifyLoading === false 
+          showModifyForm === false 
           ?
           <ParagraphStyle>{nickname}</ParagraphStyle> 
           :
@@ -161,7 +161,7 @@ const disaptch = useDispatch()
       <div>
         <Title level={2}>비밀번호</Title>
         {
-          modifyLoading === false
+          showModifyForm === false
           ?
           <ParagraphStyle>{password}</ParagraphStyle> 
           :
@@ -183,7 +183,7 @@ const disaptch = useDispatch()
     <div>
         <Title level={2}>키</Title>
         {
-          modifyLoading === false 
+          showModifyForm === false 
           ?
           <ParagraphStyle>{height}cm</ParagraphStyle> 
           :
@@ -193,7 +193,7 @@ const disaptch = useDispatch()
       <div>
         <Title level={2}>몸무게</Title>
         {
-          modifyLoading === false 
+          showModifyForm === false 
           ?
           <ParagraphStyle>{weight}kg</ParagraphStyle> 
           :
@@ -203,14 +203,16 @@ const disaptch = useDispatch()
     </UserInfoDiv>
     <ButtonDiv>
         {
-          modifyLoading 
+          showModifyForm 
           ?
           <>
-            <ButtonStyle onClick={onModify}>수정하기</ButtonStyle>
+            <ButtonStyle disabled={passwordAlert} onClick={onModify}>수정하기</ButtonStyle>
             <ButtonStyle onClick={onCancel}>취소</ButtonStyle>
           </>
           :
+          <>
             <ButtonStyle onClick={onRemoveUser}>탈퇴하기</ButtonStyle>
+          </>
         }
       </ButtonDiv>
   </UserInfoContainer>

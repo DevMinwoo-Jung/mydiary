@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
 import { MdOutlineClose } from 'react-icons/md'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
+import { useDispatch } from 'react-redux'
+import { SIGN_UP_REQUEST } from 'reducers/user'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -82,6 +84,7 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
     console.log('Failed:', errorInfo);
   }
 
+  const dispatch = useDispatch()
   const [userId, onChangeUserId] = useInput('')
   const [email, onChangeEmail] = useInput('')
   const [nickname, onChangeNickname] = useInput('')
@@ -104,11 +107,11 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
     if (password !== passwordCheck) {
       return setPasswordError(true);
     }
-    // dispatch({
-    //   type: SIGN_UP_REQUEST,
-    //   data: { email, password, userId }
-    // });
-  }, [email, password, passwordCheck]);
+    dispatch({
+      type: SIGN_UP_REQUEST,
+      data: { email, password, userId, nickname }
+    });
+  }, [email, password, passwordCheck, nickname]);
 
   useEffect(() => {
     if (password !== passwordCheck) {
