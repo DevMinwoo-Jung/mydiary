@@ -5,12 +5,12 @@ import styled from 'styled-components'
 import DetailForm from './DetailForm'
 import { GiConfirmed } from 'react-icons/gi'
 import { useDispatch } from 'react-redux'
-import { LOG_IN_SUCCESS } from 'reducers/user'
 import moment from 'moment'
 import 'moment/locale/ko'
-import { size, INDEX_LAYOUT_MOBILE, INDEX_LAYOUT_TABLET, INDEX_LAYOUT_DESKTOP } from 'libs/css/layout'
+import { size } from 'libs/css/layout'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 import { ADD_POST_SUCCESS } from 'reducers/post'
+import shortid from 'shortid'
 
 moment.locale('ko');
 
@@ -141,30 +141,32 @@ export const _PostForm = () => {
   const dispatch = useDispatch()
   const [hideRemoveButton, setHideRemoveButton] = useState(false)
   const [hideEdit, setHideEdit] = useState(true);
-  const [formLength, setFormLength] = useState([0,1,2,3,4]) 
+  const [repsForm, setRepsForm] = useState([0,1,2,3,4]) 
   const [removeItems, setRemoveItems] = useState([])
   const [exerciseName, onChangeExerciseName] = useInput('스쿼트')
   const [exercise, setExercise] = useState([])
   const [date, onChangeDate] = useInput(moment().format("dddd, MMMM Do YYYY"))
 
   const onAddReps = useCallback(() => {
-    if (formLength.length >= 20) {
+    if (repsForm.length >= 20) {
       alert('20세트 초과를 할 수 없습니다.')
     } else {
-      setFormLength((prev) => [...prev, prev.push()])
+      setRepsForm((prev) => [...prev, prev.push()])
     }
-  }, [formLength])
+  }, [repsForm])
   
   const onRemoveReps = useCallback(() => {
-    setFormLength(formLength.filter((v) => !removeItems.includes(v)))
+    setRepsForm(repsForm.filter((v) => !removeItems.includes(v)))
   }, [removeItems])
 
   const onShowRemoveButton = useCallback(() => {
     setHideRemoveButton((prev) => !prev)
   }, [])
 
-  const onAddExercise = useCallback(() => {
-    setExercise((prev) => [exercise])
+  const onAddExercise = useCallback((data) => {
+    console.log('data')
+    console.log(data)
+    setExercise((prev) => exercise)
   }, [exercise])
 
   const onAddRemoveItems = useCallback((e) => {
@@ -184,22 +186,25 @@ export const _PostForm = () => {
   }
 
   useEffect(() => {
-    // console.log(exercise)
+  //  console.log(exercise)
   }, [exercise])
 
-  const data = {
-    [date]: {
-      [exerciseName]: {}
-    }
-  }
-
-  const onAdd = () => {
+  const onAdd = useCallback((data) => {
+    console.log(data),
     dispatch({
       type: ADD_POST_SUCCESS,
-      data: data
-    }),
-    console.log(data)
-  }
+      data: {
+        date: [date],
+        id: shortid(),
+        exercises: [
+          {
+            kind: [exerciseName],
+            reps: [...exercise]
+          }
+        ]
+      }
+    })
+  }, [ date, exerciseName, repsForm, exercise ])
   
   return (
     <PostFormContainer>
@@ -229,7 +234,7 @@ export const _PostForm = () => {
       <DetailFormOuter>
         <RowStyle>
           {
-            formLength.map((element, i) => {
+            repsForm.map((element, i) => {
               return (
                 <Col key={i} xs={24} sm={24} md={24} lg={24} xl={24} xxl={12}>
                   <DetailForm key={i} index={i} onAddExercise={onAddExercise} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton}/>

@@ -7,7 +7,7 @@ import { CgGym } from 'react-icons/cg'
 import SignupForm from 'components/SignupForm'
 import LoginForm from 'components/LoginForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { LOG_OUT_REQUEST, LOG_OUT_SUCCESS } from 'reducers/user'
+import { LOG_OUT_REQUEST } from 'reducers/user'
 import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
 
 type HeaderProps = {
@@ -107,7 +107,7 @@ const _Header = (props: HeaderProps) => {
 
   const onLogout = useCallback(() => {
     dispatch({
-      type: LOG_OUT_SUCCESS
+      type: LOG_OUT_REQUEST
     })
     router.push('/')
   }, [isLogin])

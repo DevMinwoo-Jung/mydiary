@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import PostContent from './PostContent'
 import shortid from 'shortid'
-import { INDEX_LAYOUT_DESKTOP, INDEX_LAYOUT_MOBILE, INDEX_LAYOUT_TABLET, size } from 'libs/css/layout'
-import { BUTTON_COLOR } from 'libs/css/color'
+import { size } from 'libs/css/layout'
 
 const PostsContainer = styled.div`
   margin-top: 1rem;
@@ -34,6 +33,10 @@ const PostsInnerContainer = styled.div`
 const _Posts = () => {
   const { mainPosts } = useSelector((state) => state.post)
 
+  const asdasd = mainPosts[0]
+
+  console.log(Object.keys(mainPosts).map((index) => mainPosts[index]).filter((element) => element.date === 20220709))
+  
   return (
     <PostsContainer>
       <HeaderStyle>

@@ -90,8 +90,7 @@ const ButtonStyle = styled(Button)`
 
 
 const _UserInfo = () => {
-  const { nickname, id, createdAt, password, weight, height } = useSelector((state) => state.user.user)
-  const { showModifyForm } = useSelector((state) => state.user)
+  const { showModifyForm, nickname, id, createdAt, password, weight, height } = useSelector((state) => state.user.user)
 
 const disaptch = useDispatch()
 
@@ -102,8 +101,7 @@ const disaptch = useDispatch()
   const [ userWeight, onChangeUserWeight] = useInput('')
   const [ passwordAlert, setPasswordAlert ] = useState(false)
 
-  const onModify = useCallback((data) => {
-    console.log(data),
+  const onModify = useCallback(() => {
     disaptch({
       type: USER_INFO_MODIFY_REQUEST,
       data: {userNickname, userPassword, userHeight, userWeight, checkPassword},
