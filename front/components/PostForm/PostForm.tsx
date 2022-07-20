@@ -144,7 +144,7 @@ export const _PostForm = () => {
   const [repsForm, setRepsForm] = useState([0,1,2,3,4]) 
   const [removeItems, setRemoveItems] = useState([])
   const [exerciseName, onChangeExerciseName] = useInput('스쿼트')
-  const [exercise, setExercise] = useState([])
+  const [exercise, setExercise] = useState(repsForm)
   const [date, onChangeDate] = useInput(moment().format("dddd, MMMM Do YYYY"))
 
   const onAddReps = useCallback(() => {
@@ -164,9 +164,13 @@ export const _PostForm = () => {
   }, [])
 
   const onAddExercise = useCallback((data) => {
-    console.log('data')
+    // console.log('data')
     console.log(data)
-    setExercise((prev) => exercise)
+    setExercise((prev) => ({...prev, data}))
+  }, [exercise])
+
+  useEffect(() => {
+    console.log(exercise)
   }, [exercise])
 
   const onAddRemoveItems = useCallback((e) => {
@@ -185,12 +189,12 @@ export const _PostForm = () => {
     setHideEdit((prev) => !prev)
   }
 
-  useEffect(() => {
-  //  console.log(exercise)
-  }, [exercise])
+  // useEffect(() => {
+  // //  console.log(exercise)
+  // }, [exercise])
 
   const onAdd = useCallback((data) => {
-    console.log(data),
+    // console.log(data),
     dispatch({
       type: ADD_POST_SUCCESS,
       data: {
@@ -199,7 +203,7 @@ export const _PostForm = () => {
         exercises: [
           {
             kind: [exerciseName],
-            reps: [...exercise]
+            reps: Object.values(exercise)
           }
         ]
       }

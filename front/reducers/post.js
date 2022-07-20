@@ -99,7 +99,7 @@ export const initialState = {
       ],
     },
     {
-      date: 20220709,
+      date: 20220711,
       id: 6,
       exercises: [
         {
@@ -119,6 +119,7 @@ export const initialState = {
     },
   ],
   modify: false,
+  showReps: true,
 };
 
 export const dummyPosts = {

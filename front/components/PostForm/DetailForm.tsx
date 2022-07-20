@@ -67,7 +67,8 @@ const _DetailForm: FC<DetailFormProps> = (props) => {
   }, [reps, weight])
 
   const goAddExercise = useCallback(() => {
-    console.log({[reps]:weight})
+
+    // console.log({[reps]:weight})
     onAddExercise({[reps]:weight})
   },[reps, weight])
 

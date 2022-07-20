@@ -33,9 +33,17 @@ const PostsInnerContainer = styled.div`
 const _Posts = () => {
   const { mainPosts } = useSelector((state) => state.post)
 
-  const asdasd = mainPosts[0]
+  const groups = mainPosts.reduce((groups, item) => {
+    const group = (groups[item.date] || []);
+    group.push(item);
+    groups[item.date] = group;
+    return groups;
+  }, {});
 
-  console.log(Object.keys(mainPosts).map((index) => mainPosts[index]).filter((element) => element.date === 20220709))
+  // console.log(groups)
+  // console.log(Object.values(groups))
+
+//  console.log(Object.keys(groups).map(key => groups[key]))
   
   return (
     <PostsContainer>
@@ -44,7 +52,7 @@ const _Posts = () => {
       </HeaderStyle>
       <PostsInnerContainer>
       {
-        mainPosts.map((element: object, index: number) => {
+        Object.values(groups).map((element: object, index: number) => {
           return (
             <PostContent key={shortid.generate()} post={element} index={index}/>
           )
