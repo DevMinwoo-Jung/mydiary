@@ -155,7 +155,8 @@ export const _PostForm = () => {
     }
   }, [repsForm])
   
-  const onRemoveReps = useCallback(() => {
+  const onRemoveReps = useCallback((e) => {
+    console.log(e)
     setRepsForm(repsForm.filter((v) => !removeItems.includes(v)))
   }, [removeItems])
 
@@ -164,17 +165,13 @@ export const _PostForm = () => {
   }, [])
 
   const onAddExercise = useCallback((data) => {
-    // console.log('data')
-    console.log(data)
     setExercise((prev) => ({...prev, data}))
   }, [exercise])
 
-  useEffect(() => {
-    console.log(exercise)
-  }, [exercise])
-
   const onAddRemoveItems = useCallback((e) => {
-    setRemoveItems((prev) => [...prev, e])
+    console.log(e)
+    console.log(removeItems)
+    setRemoveItems((prev) => [...prev])
   }, [])
 
   const onRemoveCancel = useCallback(() => {

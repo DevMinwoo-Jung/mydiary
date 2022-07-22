@@ -58,6 +58,7 @@ const _DetailForm: FC<DetailFormProps> = (props) => {
   }, [reps])
 
   const goRemoveItems = useCallback((e) => {
+    console.log(index)
     onAddRemoveItems(index)
   }, [])
 

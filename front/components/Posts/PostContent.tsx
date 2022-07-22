@@ -43,8 +43,8 @@ const PostContent: FC<PostContentProps> = (props) => {
   const { index } = props
   const [showReps, setShowReps] = useState(false)
 
-
-  useEffect(() => {
+  useLayoutEffect(() => {
+    setShowReps(true)
     if (index === 0) {
       setShowReps(true)
     }
@@ -53,9 +53,6 @@ const PostContent: FC<PostContentProps> = (props) => {
   const onToggleReps = () => {
     setShowReps((prev) => !prev)
   }
-
-  console.log(post)
-  // console.log(Object.keys(post).map((key) => post[key]).map(element => element.exercises))
 
   return (
       <PostContainer>
@@ -69,7 +66,7 @@ const PostContent: FC<PostContentProps> = (props) => {
               {
                 Object.keys(post).map((key) => post[key]).map(element => element.exercises.map((element, index) => {
                   return (
-                    <Reps key={shortid.generate()} exercise={element}/>
+                    <Reps key={shortid.generate()} exercise={element} id={post[index].id}/>
                   )
                 }))
               }

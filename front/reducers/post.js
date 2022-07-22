@@ -9,6 +9,7 @@ export const initialState = {
       exercises: [
         {
           kind: 'squat',
+          id: 61,
           reps: [
             { 15: 70 },
             { 15: 70 },
@@ -28,6 +29,7 @@ export const initialState = {
       exercises: [
         {
           kind: 'sex',
+          id: 51,
           reps: [
             { 15: 70 },
             { 15: 70 },
@@ -47,6 +49,7 @@ export const initialState = {
       exercises: [
         {
           kind: '스쿼트',
+          id: 41,
           reps: [
             { 15: 70 },
             { 15: 70 },
@@ -66,6 +69,7 @@ export const initialState = {
       exercises: [
         {
           kind: 'squat',
+          id: 31,
           reps: [
             { 15: 70 },
             { 15: 70 },
@@ -85,6 +89,7 @@ export const initialState = {
       exercises: [
         {
           kind: 'sex',
+          id: 11,
           reps: [
             { 15: 70 },
             { 15: 70 },
@@ -104,6 +109,7 @@ export const initialState = {
       exercises: [
         {
           kind: '스쿼트',
+          id: 21,
           reps: [
             { 15: 70 },
             { 15: 70 },
@@ -120,6 +126,9 @@ export const initialState = {
   ],
   modify: false,
   showReps: true,
+  deleteLoading: false,
+  deleteDone: false,
+  deleteError: null,
 };
 
 export const dummyPosts = {
@@ -240,6 +249,8 @@ export const REMOVE_IMAGE = 'REMOVE_IMAGE'
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const REPS_MODIFY_REQUEST = 'REPS_MODIFY_REQUEST'
 export const REPS_DELETE_REQUEST = 'REPS_DELETE_REQUEST'
+export const REPS_DELETE_SUCCESS = 'REPS_DELETE_SUCCESS'
+export const REPS_DELETE_FAILURE = 'REPS_DELETE_FAILURE'
 
 export const addPost = (data) => ({
   type: ADD_POST,
@@ -265,6 +276,8 @@ const dummyPost = (data) => ({
 // reducer 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성을 지키면서)
 // 근데 immer를 사용하면 알아서 불변성을 지키면서 만들어준다. state는 건들면 안되고 draft를 건들어야한다.
 export default (state = initialState, action) => {
+  console.log('여기 오기는 함...?')
+  console.log(action.data)
   return produce(state, (draft) => {
     switch (action.type) {
       case ADD_POST_SUCCESS: {
@@ -281,14 +294,25 @@ export default (state = initialState, action) => {
         }
       }
       case REPS_DELETE_REQUEST: {
-        return {
-          ...state,
-          delete: true,
-        }
-      }
-      case REMOVE_IMAGE: 
-        draft.imagePaths = draft.imagePaths.filter((y, i) => i !== action.data)
+        draft.deleteLoading = true;
+        draft.deleteError = null;
+        draft.deleteDone = false;
         break;
+      }
+      case REPS_DELETE_SUCCESS: {
+        draft.deleteLoading = true;
+        draft.deleteError = null;
+        draft.deleteDone = false;
+        draft.mainPosts = draft.mainPosts.filter((y, i) => y.id !== action.data);
+        console.log(state.mainPosts.filter((y, i) => y.id !== action.data))
+        break;
+      }
+      case REPS_DELETE_FAILURE: {
+        draft.deleteLoading = true;
+        draft.deleteError = null;
+        draft.deleteDone = false;
+        break;
+      }
       default: {
         break;
       }

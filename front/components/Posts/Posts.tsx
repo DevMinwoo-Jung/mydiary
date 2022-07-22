@@ -39,11 +39,6 @@ const _Posts = () => {
     groups[item.date] = group;
     return groups;
   }, {});
-
-  // console.log(groups)
-  // console.log(Object.values(groups))
-
-//  console.log(Object.keys(groups).map(key => groups[key]))
   
   return (
     <PostsContainer>

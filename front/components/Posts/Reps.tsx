@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useCallback } from 'react'
 import Rep from './Rep'
 import shortid from 'shortid'
 import styled from 'styled-components'
@@ -10,6 +10,7 @@ import { REPS_DELETE_REQUEST } from 'reducers/post'
 
 type RepsProps = {
   exercise: object;
+  id: number;
 }
 
 export type exerciseType = {
@@ -47,14 +48,18 @@ const RepsContents = styled.div`
 
 const Reps:FC<RepsProps> = (props) => {
   const exercise:exerciseType = props.exercise;
+  const id = props.id
+  console.log(props)
 
   const dispatch = useDispatch()
 
-  const onRepsDelete = () => {
+  const onRepsDelete = useCallback(() => {
+    console.log(id),
     dispatch({
-      type: REPS_DELETE_REQUEST
+      type: REPS_DELETE_REQUEST,
+      data: id
     })
-  }
+  }, [])
 
   return (
     <RepsContainer>
@@ -63,7 +68,7 @@ const Reps:FC<RepsProps> = (props) => {
         {
           exercise.reps.map((element) => {
             return (
-                    <Rep key={shortid.generate()} rep={element}/>
+                    <Rep key={shortid.generate()} rep={element} />
                     )
               })
         }
