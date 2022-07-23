@@ -11,6 +11,7 @@ import { size } from 'libs/css/layout'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 import { ADD_POST_SUCCESS } from 'reducers/post'
 import shortid from 'shortid'
+import { Preview } from '@styled-icons/material'
 
 moment.locale('ko');
 
@@ -137,28 +138,59 @@ const DetailFormOuter = styled.div`
   height: 70vh;
 `
 
+const initialReps = [
+  {
+    id: shortid(),
+    form: [],
+  },
+  {
+    id: shortid(),
+    form: [],
+  },
+  {
+    id: shortid(),
+    form: [],
+  },
+  {
+    id: shortid(),
+    form: [],
+  },
+  {
+    id: shortid(),
+    form: [],
+  },
+]
+
 export const _PostForm = () => {
   const dispatch = useDispatch()
   const [hideRemoveButton, setHideRemoveButton] = useState(false)
   const [hideEdit, setHideEdit] = useState(true);
-  const [repsForm, setRepsForm] = useState([0,1,2,3,4]) 
+  const [repsForm, setRepsForm] = useState(initialReps) 
   const [removeItems, setRemoveItems] = useState([])
   const [exerciseName, onChangeExerciseName] = useInput('스쿼트')
-  const [exercise, setExercise] = useState(repsForm)
+  const [exercise, setExercise] = useState(initialReps)
   const [date, onChangeDate] = useInput(moment().format("dddd, MMMM Do YYYY"))
 
   const onAddReps = useCallback(() => {
     if (repsForm.length >= 20) {
       alert('20세트 초과를 할 수 없습니다.')
     } else {
-      setRepsForm((prev) => [...prev, prev.push()])
+      setRepsForm((prev) => [...prev, {
+        id: shortid(),
+        form: [],
+      }])
     }
   }, [repsForm])
-  
   const onRemoveReps = useCallback((e) => {
-    console.log(e)
-    setRepsForm(repsForm.filter((v) => !removeItems.includes(v)))
-  }, [removeItems])
+    // console.log(e)
+    // console.log(repsForm)
+    // console.log(removeItems)
+    setRepsForm(repsForm.filter((v) => !removeItems.includes(v.id)))
+  }, [removeItems, repsForm])
+
+  useEffect(() => {
+    console.log(repsForm)
+  }, [repsForm])
 
   const onShowRemoveButton = useCallback(() => {
     setHideRemoveButton((prev) => !prev)
@@ -170,9 +202,9 @@ export const _PostForm = () => {
 
   const onAddRemoveItems = useCallback((e) => {
     console.log(e)
+    setRemoveItems((prev) => [...prev, e]) 
     console.log(removeItems)
-    setRemoveItems((prev) => [...prev])
-  }, [])
+  }, [removeItems])
 
   const onRemoveCancel = useCallback(() => {
     setHideRemoveButton((prev) => !prev)
@@ -185,10 +217,6 @@ export const _PostForm = () => {
   const onConfirmExerciseName = () => {
     setHideEdit((prev) => !prev)
   }
-
-  // useEffect(() => {
-  // //  console.log(exercise)
-  // }, [exercise])
 
   const onAdd = useCallback((data) => {
     // console.log(data),
@@ -238,7 +266,7 @@ export const _PostForm = () => {
             repsForm.map((element, i) => {
               return (
                 <Col key={i} xs={24} sm={24} md={24} lg={24} xl={24} xxl={12}>
-                  <DetailForm key={i} index={i} onAddExercise={onAddExercise} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton}/>
+                  <DetailForm key={element.id} id={element.id} index={i} onAddExercise={onAddExercise} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton}/>
                 </Col>
               )
             })

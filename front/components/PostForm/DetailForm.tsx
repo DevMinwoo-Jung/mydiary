@@ -43,24 +43,23 @@ const FormContainer = styled.div`
 
 type DetailFormProps = {
   index: number
-  onAddRemoveItems: (target:number) => void
+  onAddRemoveItems: (target:string) => void
   hideRemoveButton: boolean
   onAddExercise: ({}) => void
+  id: string
 }
 
 const _DetailForm: FC<DetailFormProps> = (props) => {
-  const { index, onAddRemoveItems, hideRemoveButton, onAddExercise } = props 
+  const { id, index, onAddRemoveItems, hideRemoveButton, onAddExercise } = props 
+  // const [reps, onChangeReps] = useInput('')
+  // const [weight, onChangeWeight] = useInput('')
   const [reps, onChangeReps] = useInput('')
   const [weight, onChangeWeight] = useInput('')
-
-  const onSubmit = useCallback(() => {
-    alert('눌렸다능')
-  }, [reps])
-
-  const goRemoveItems = useCallback((e) => {
-    console.log(index)
-    onAddRemoveItems(index)
-  }, [])
+  
+  const goRemoveItems = () => {
+    //console.log(index)
+    onAddRemoveItems(id)
+  }
 
   useEffect(() => {
     // console.log('???')
@@ -79,7 +78,6 @@ const _DetailForm: FC<DetailFormProps> = (props) => {
         <Form
           name="basic"
           initialValues={{ remember: true }}
-          onFinish={onSubmit}
           autoComplete="off"
         >
           <Form.Item>

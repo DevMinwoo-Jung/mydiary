@@ -49,7 +49,6 @@ const RepsContents = styled.div`
 const Reps:FC<RepsProps> = (props) => {
   const exercise:exerciseType = props.exercise;
   const id = props.id
-  console.log(props)
 
   const dispatch = useDispatch()
 
