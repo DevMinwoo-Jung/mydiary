@@ -141,23 +141,23 @@ const DetailFormOuter = styled.div`
 const initialReps = [
   {
     id: shortid(),
-    form: [],
+    form: [{}],
   },
   {
     id: shortid(),
-    form: [],
+    form: [{}],
   },
   {
     id: shortid(),
-    form: [],
+    form: [{}],
   },
   {
     id: shortid(),
-    form: [],
+    form: [{}],
   },
   {
     id: shortid(),
-    form: [],
+    form: [{}],
   },
 ]
 
@@ -168,7 +168,7 @@ export const _PostForm = () => {
   const [repsForm, setRepsForm] = useState(initialReps) 
   const [removeItems, setRemoveItems] = useState([])
   const [exerciseName, onChangeExerciseName] = useInput('스쿼트')
-  const [exercise, setExercise] = useState(initialReps)
+  const [exercise, setExercise] = useState(repsForm)
   const [date, onChangeDate] = useInput(moment().format("dddd, MMMM Do YYYY"))
 
   const onAddReps = useCallback(() => {
@@ -177,7 +177,7 @@ export const _PostForm = () => {
     } else {
       setRepsForm((prev) => [...prev, {
         id: shortid(),
-        form: [],
+        form: [{}],
       }])
     }
   }, [repsForm])
@@ -218,8 +218,7 @@ export const _PostForm = () => {
     setHideEdit((prev) => !prev)
   }
 
-  const onAdd = useCallback((data) => {
-    // console.log(data),
+  const onAdd = useCallback(() => {
     dispatch({
       type: ADD_POST_SUCCESS,
       data: {
@@ -266,7 +265,7 @@ export const _PostForm = () => {
             repsForm.map((element, i) => {
               return (
                 <Col key={i} xs={24} sm={24} md={24} lg={24} xl={24} xxl={12}>
-                  <DetailForm key={element.id} id={element.id} index={i} onAddExercise={onAddExercise} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton}/>
+                  <DetailForm key={element.id} id={element.id} index={i} onAddExercise={onAddExercise} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton} repsform={element}/>
                 </Col>
               )
             })

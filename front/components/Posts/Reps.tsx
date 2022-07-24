@@ -60,6 +60,8 @@ const Reps:FC<RepsProps> = (props) => {
     })
   }, [])
 
+  console.log(exercise)
+
   return (
     <RepsContainer>
       <RepsHeader>{exercise.kind} <DeleteOutlinedStyle onClick={onRepsDelete}/></RepsHeader>
