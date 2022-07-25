@@ -44,14 +44,13 @@ const FormContainer = styled.div`
 type DetailFormProps = {
   index: number
   onAddRemoveItems: (target:string) => void
-  hideRemoveButton: boolean
   onAddExercise: ({}) => void
   id: string
   repsform: {}
 }
 
 const _DetailForm: FC<DetailFormProps> = (props) => {
-  const { repsform, id, index, onAddRemoveItems, hideRemoveButton, onAddExercise } = props 
+  const { repsform, id, index, onAddRemoveItems, onAddExercise } = props 
   const reps = useRef<HTMLInputElement>()
   const weight = useRef<HTMLInputElement>()
   
@@ -79,10 +78,6 @@ const _DetailForm: FC<DetailFormProps> = (props) => {
         >
           <Form.Item>
             <FormContainer>
-              {
-                hideRemoveButton &&
-                <Checkbox onChange={goRemoveItems}></Checkbox>
-              }
               <h2>{index + 1}.</h2>
               <input ref={reps} placeholder=''/>
               <span>X</span>

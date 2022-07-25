@@ -163,7 +163,6 @@ const initialReps = [
 
 export const _PostForm = () => {
   const dispatch = useDispatch()
-  const [hideRemoveButton, setHideRemoveButton] = useState(false)
   const [hideEdit, setHideEdit] = useState(true);
   const [repsForm, setRepsForm] = useState(initialReps) 
   const [removeItems, setRemoveItems] = useState([])
@@ -182,19 +181,13 @@ export const _PostForm = () => {
     }
   }, [repsForm])
   const onRemoveReps = useCallback((e) => {
-    // console.log(e)
-    // console.log(repsForm)
-    // console.log(removeItems)
-    setRepsForm(repsForm.filter((v) => !removeItems.includes(v.id)))
-  }, [removeItems, repsForm])
+    setRepsForm([...repsForm].slice(0, -1))
+  }, [repsForm])
 
   useEffect(() => {
     console.log(repsForm)
   }, [repsForm])
 
-  const onShowRemoveButton = useCallback(() => {
-    setHideRemoveButton((prev) => !prev)
-  }, [])
 
   const onAddExercise = useCallback((data) => {
     setExercise((prev) => ({...prev, data}))
@@ -205,10 +198,6 @@ export const _PostForm = () => {
     setRemoveItems((prev) => [...prev, e]) 
     console.log(removeItems)
   }, [removeItems])
-
-  const onRemoveCancel = useCallback(() => {
-    setHideRemoveButton((prev) => !prev)
-  }, [])
 
   const onEditable = () => {
     setHideEdit((prev) => !prev)
@@ -265,7 +254,7 @@ export const _PostForm = () => {
             repsForm.map((element, i) => {
               return (
                 <Col key={i} xs={24} sm={24} md={24} lg={24} xl={24} xxl={12}>
-                  <DetailForm key={element.id} id={element.id} index={i} onAddExercise={onAddExercise} onAddRemoveItems={onAddRemoveItems} hideRemoveButton={hideRemoveButton} repsform={element}/>
+                  <DetailForm key={element.id} id={element.id} index={i} onAddExercise={onAddExercise} onAddRemoveItems={onAddRemoveItems} repsform={element}/>
                 </Col>
               )
             })
@@ -274,20 +263,7 @@ export const _PostForm = () => {
       </DetailFormOuter>
       <ButtonsDiv>
         <ButtonStyle onClick={onAddReps}>추가</ButtonStyle>
-        {
-          hideRemoveButton 
-          ?
-          <ButtonStyle onClick={onRemoveReps}>제거하기</ButtonStyle>
-          :
-          <ButtonStyle onClick={onShowRemoveButton}>제거</ButtonStyle>
-        }
-        {
-          hideRemoveButton 
-          ?
-          <CancelButtonStyle onClick={onRemoveCancel}>취소</CancelButtonStyle>
-          :
-          null
-        }
+        <ButtonStyle onClick={onRemoveReps}>제거</ButtonStyle>
         <div>
           <AddButtonStyle onClick={onAdd}>운동일지에 추가</AddButtonStyle>
         </div>
