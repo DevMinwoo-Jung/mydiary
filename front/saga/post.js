@@ -18,7 +18,7 @@ function addPostAPI(data) {
 
 function* addPost(action) {
     try {
-        console.log(action)
+        // console.log(action)
         const result = yield call(addPostAPI, action.data);
         yield put({
         type: ADD_POST_SUCCESS,
@@ -41,7 +41,6 @@ function* removeReps(action) {
         try {
             //const result = yield call(loadHashtagPostsAPI, action.data, action.lastId);
             // yield delay(1000);
-            console.log('action', action.data)
             yield put({
                 type: REPS_DELETE_SUCCESS,
                 data: action.data,

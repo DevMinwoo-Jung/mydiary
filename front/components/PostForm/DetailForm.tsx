@@ -1,6 +1,6 @@
 import { Form, Input, Checkbox } from 'antd'
 import useInput from 'libs/hook/useInput'
-import React, { FC, memo, useCallback, useEffect, useRef } from 'react'
+import React, { FC, memo, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 const DetailFormContainer = styled.div`
@@ -43,30 +43,25 @@ const FormContainer = styled.div`
 
 type DetailFormProps = {
   index: number
-  onAddRemoveItems: (target:string) => void
-  onAddExercise: ({}) => void
-  id: string
-  repsform: {}
+  setRepsForm: ({}) => void
+  onAddExercise: (data:{}) => void
+  rep: {}
+  getRep: ({}) => void
+  sibal: boolean
 }
 
 const _DetailForm: FC<DetailFormProps> = (props) => {
-  const { repsform, id, index, onAddRemoveItems, onAddExercise } = props 
-  const reps = useRef<HTMLInputElement>()
-  const weight = useRef<HTMLInputElement>()
-  
-  const goRemoveItems = () => {
-    onAddRemoveItems(id)
-  }
+  const { rep ,index, setRepsForm, onAddExercise, getRep, sibal } = props 
 
-  // useEffect(() => {
-  //   // console.log('???')
-  //   goAddExercise()
-  // }, [reps, weight])
+  const repsRef = useRef<any>(0)
+  const weightRef = useRef<any>(0)
 
-  // const goAddExercise = useCallback(() => {
-  //   // console.log({[reps]:weight})
-  //   onAddExercise({[reps]:weight})
-  // },[reps, weight])
+  useEffect(() => {
+    if (sibal) {
+      console.log(repsRef.current.value, weightRef.current.value)
+      // onAddExercise({[repsRef.current.value]: weightRef.current.value})
+    }
+  },[sibal])
 
 
   return (
@@ -79,9 +74,9 @@ const _DetailForm: FC<DetailFormProps> = (props) => {
           <Form.Item>
             <FormContainer>
               <h2>{index + 1}.</h2>
-              <input ref={reps} placeholder=''/>
+              <input ref={repsRef} name="repsRef" placeholder='10' type="text"/>
               <span>X</span>
-              <input ref={weight} placeholder=''/>
+              <input ref={weightRef} name="weightRef" placeholder='10' type="text"/>
               <span>kg</span>
             </FormContainer>
           </Form.Item>

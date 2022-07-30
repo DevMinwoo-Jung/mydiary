@@ -135,10 +135,6 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
     })
   }, [userId, password]);
 
-  const onSocialLogin = useCallback((e) => {
-    console.log(e.target)
-  }, [])
-
   return (
     <LoginFormContainer>
       <FormHeader>로그인</FormHeader>

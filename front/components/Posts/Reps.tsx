@@ -53,14 +53,12 @@ const Reps:FC<RepsProps> = (props) => {
   const dispatch = useDispatch()
 
   const onRepsDelete = useCallback(() => {
-    console.log(id),
     dispatch({
       type: REPS_DELETE_REQUEST,
       data: id
     })
   }, [])
 
-  console.log(exercise)
 
   return (
     <RepsContainer>

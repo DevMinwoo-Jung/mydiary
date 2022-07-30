@@ -4,14 +4,13 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import DetailForm from './DetailForm'
 import { GiConfirmed } from 'react-icons/gi'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import { size } from 'libs/css/layout'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 import { ADD_POST_SUCCESS } from 'reducers/post'
 import shortid from 'shortid'
-import { Preview } from '@styled-icons/material'
 
 moment.locale('ko');
 
@@ -137,67 +136,41 @@ const DetailFormOuter = styled.div`
   overflow-y: auto;
   height: 70vh;
 `
+const key: string = '';
+const value: string = '';
 
-const initialReps = [
-  {
-    id: shortid(),
-    form: [{}],
-  },
-  {
-    id: shortid(),
-    form: [{}],
-  },
-  {
-    id: shortid(),
-    form: [{}],
-  },
-  {
-    id: shortid(),
-    form: [{}],
-  },
-  {
-    id: shortid(),
-    form: [{}],
-  },
+const initialReps2 = [
+  { [key]:value },
+  { [key]:value },
 ]
 
 export const _PostForm = () => {
   const dispatch = useDispatch()
   const [hideEdit, setHideEdit] = useState(true);
-  const [repsForm, setRepsForm] = useState(initialReps) 
-  const [removeItems, setRemoveItems] = useState([])
+  const [repsForm, setRepsForm] = useState(initialReps2) 
   const [exerciseName, onChangeExerciseName] = useInput('스쿼트')
   const [exercise, setExercise] = useState(repsForm)
   const [date, onChangeDate] = useInput(moment().format("dddd, MMMM Do YYYY"))
+  const [sibal, setSibal] = useState(false)
+  const post = useSelector((state) => state.post);
 
   const onAddReps = useCallback(() => {
     if (repsForm.length >= 20) {
       alert('20세트 초과를 할 수 없습니다.')
     } else {
-      setRepsForm((prev) => [...prev, {
-        id: shortid(),
-        form: [{}],
-      }])
+      setRepsForm((prev) => [...prev,
+        {}
+      ])
     }
   }, [repsForm])
+  
   const onRemoveReps = useCallback((e) => {
     setRepsForm([...repsForm].slice(0, -1))
   }, [repsForm])
 
-  useEffect(() => {
-    console.log(repsForm)
-  }, [repsForm])
-
-
   const onAddExercise = useCallback((data) => {
-    setExercise((prev) => ({...prev, data}))
-  }, [exercise])
-
-  const onAddRemoveItems = useCallback((e) => {
-    console.log(e)
-    setRemoveItems((prev) => [...prev, e]) 
-    console.log(removeItems)
-  }, [removeItems])
+    // setRepsForm(([{data}]))
+  }, [])
 
   const onEditable = () => {
     setHideEdit((prev) => !prev)
@@ -208,21 +181,29 @@ export const _PostForm = () => {
   }
 
   const onAdd = useCallback(() => {
+    setSibal(true),
     dispatch({
       type: ADD_POST_SUCCESS,
       data: {
-        date: [date],
+      date: date,
         id: shortid(),
         exercises: [
           {
             kind: [exerciseName],
-            reps: Object.values(exercise)
+            reps: repsForm
           }
         ]
       }
     })
-  }, [ date, exerciseName, repsForm, exercise ])
+    setRepsForm(initialReps2)
+  }, [ sibal, date, exerciseName, repsForm, exercise ])
   
+
+
+  const getRep = useCallback((e) =>{
+
+  }, [sibal])
+
   return (
     <PostFormContainer>
       <PostFormHeader>
@@ -254,7 +235,7 @@ export const _PostForm = () => {
             repsForm.map((element, i) => {
               return (
                 <Col key={i} xs={24} sm={24} md={24} lg={24} xl={24} xxl={12}>
-                  <DetailForm key={element.id} id={element.id} index={i} onAddExercise={onAddExercise} onAddRemoveItems={onAddRemoveItems} repsform={element}/>
+                  <DetailForm sibal={sibal} key={shortid()} index={i} onAddExercise={onAddExercise} getRep={getRep} setRepsForm={setRepsForm} rep={element}/>
                 </Col>
               )
             })

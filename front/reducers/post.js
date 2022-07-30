@@ -28,7 +28,7 @@ export const initialState = {
       id: 2,
       exercises: [
         {
-          kind: 'sex',
+          kind: 'ㅜㅜ',
           id: 51,
           reps: [
             { 15: 70 },
@@ -88,7 +88,7 @@ export const initialState = {
       id: 5,
       exercises: [
         {
-          kind: 'sex',
+          kind: 'ㅎㅎ',
           id: 11,
           reps: [
             { 15: 70 },
@@ -276,7 +276,6 @@ const dummyPost = (data) => ({
 // reducer 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성을 지키면서)
 // 근데 immer를 사용하면 알아서 불변성을 지키면서 만들어준다. state는 건들면 안되고 draft를 건들어야한다.
 export default (state = initialState, action) => {
-  console.log('여기 오기는 함...?')
   console.log(action.data)
   return produce(state, (draft) => {
     switch (action.type) {
@@ -304,7 +303,6 @@ export default (state = initialState, action) => {
         draft.deleteError = null;
         draft.deleteDone = false;
         draft.mainPosts = draft.mainPosts.filter((y, i) => y.id !== action.data);
-        console.log(state.mainPosts.filter((y, i) => y.id !== action.data))
         break;
       }
       case REPS_DELETE_FAILURE: {

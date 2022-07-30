@@ -76,14 +76,6 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
     onSignup()
   }
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-  }
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  }
-
   const dispatch = useDispatch()
   const [userId, onChangeUserId] = useInput('')
   const [email, onChangeEmail] = useInput('')
@@ -96,9 +88,6 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
     (e) => {
       setPasswordCheck(e.target.value)
       setPasswordError(e.target.value !== password)
-      // console.log(e.target.value)
-      // console.log(password)
-      console.log(e.target.value !== password)
     },
     [password, passwordCheck]
   );
@@ -128,7 +117,6 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
           name="basic"
           initialValues={{ remember: true }}
           onFinish={onSubmit}
-          onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item
