@@ -53,15 +53,18 @@ type DetailFormProps = {
 const _DetailForm: FC<DetailFormProps> = (props) => {
   const { rep ,index, setRepsForm, onAddExercise, getRep, sibal } = props 
 
-  const repsRef = useRef<any>(0)
-  const weightRef = useRef<any>(0)
+  // const repsRef = useRef<any>(0)
+  // const weightRef = useRef<any>(0)
+
+  const [reps, onChangeReps] = useInput('')
+  const [weight, onChangeWeight] = useInput('')
 
   useEffect(() => {
     if (sibal) {
-      console.log(repsRef.current.value, weightRef.current.value)
-      // onAddExercise({[repsRef.current.value]: weightRef.current.value})
+      onChangeReps(reps)
+      onChangeWeight(weight)
     }
-  },[sibal])
+  }, [sibal])
 
 
   return (
@@ -74,9 +77,9 @@ const _DetailForm: FC<DetailFormProps> = (props) => {
           <Form.Item>
             <FormContainer>
               <h2>{index + 1}.</h2>
-              <input ref={repsRef} name="repsRef" placeholder='10' type="text"/>
+              <input value={reps} name="repsvalue" onChange={onChangeReps} placeholder='10' type="text"/>
               <span>X</span>
-              <input ref={weightRef} name="weightRef" placeholder='10' type="text"/>
+              <input value={weight} name="weightRef" onChange={onChangeWeight} placeholder='10' type="text"/>
               <span>kg</span>
             </FormContainer>
           </Form.Item>
