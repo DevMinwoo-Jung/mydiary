@@ -61,8 +61,8 @@ const _DetailForm: FC<DetailFormProps> = (props) => {
 
   useEffect(() => {
     if (sibal) {
-      onChangeReps(reps)
-      onChangeWeight(weight)
+      // onChangeReps(reps)
+      // onChangeWeight(weight)
     }
   }, [sibal])
 
