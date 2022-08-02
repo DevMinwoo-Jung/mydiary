@@ -28,7 +28,7 @@ const FormContainer = styled.div`
   & Input {
     width: 80px;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1rem; 
     font-weight: bolder;
   }
 
@@ -61,8 +61,7 @@ const _DetailForm: FC<DetailFormProps> = (props) => {
 
   useEffect(() => {
     if (sibal) {
-      // onChangeReps(reps)
-      // onChangeWeight(weight)
+    ç
     }
   }, [sibal])
 
