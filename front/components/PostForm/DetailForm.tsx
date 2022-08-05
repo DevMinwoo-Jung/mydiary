@@ -47,11 +47,10 @@ type DetailFormProps = {
   onAddExercise: (data:{}) => void
   rep: {}
   getRep: ({}) => void
-  sibal: boolean
 }
 
 const _DetailForm: FC<DetailFormProps> = (props) => {
-  const { rep ,index, setRepsForm, onAddExercise, getRep, sibal } = props 
+  const { rep ,index, setRepsForm, onAddExercise, getRep } = props 
 
   // const repsRef = useRef<any>(0)
   // const weightRef = useRef<any>(0)
