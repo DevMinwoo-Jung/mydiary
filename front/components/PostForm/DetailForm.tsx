@@ -52,17 +52,8 @@ type DetailFormProps = {
 const _DetailForm: FC<DetailFormProps> = (props) => {
   const { rep ,index, setRepsForm, onAddExercise, getRep } = props 
 
-  // const repsRef = useRef<any>(0)
-  // const weightRef = useRef<any>(0)
-
   const [reps, onChangeReps] = useInput('')
   const [weight, onChangeWeight] = useInput('')
-
-  useEffect(() => {
-    if (sibal) {
-    ç
-    }
-  }, [sibal])
 
 
   return (

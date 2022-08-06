@@ -153,16 +153,15 @@ export const _PostForm = () => {
   const [date, onChangeDate] = useInput(moment().format("dddd, MMMM Do YYYY"))
   const [sibal, setSibal] = useState(false)
   const post = useSelector((state) => state.post);
+  let time = 0
+  const onAddReps = () => {
+    const timer = setInterval(() => {
+      time = time + 1
+    }, 1000);
+    return () => clearInterval(timer);
+  }
 
-  const onAddReps = useCallback(() => {
-    if (repsForm.length >= 20) {
-      alert('20세트 초과를 할 수 없습니다.')
-    } else {
-      setRepsForm((prev) => [...prev,
-        {}
-      ])
-    }
-  }, [repsForm])
+  console.log(time)
   
   const onRemoveReps = useCallback((e) => {
     setRepsForm([...repsForm].slice(0, -1))
@@ -235,7 +234,7 @@ export const _PostForm = () => {
             repsForm.map((element, i) => {
               return (
                 <Col key={i} xs={24} sm={24} md={24} lg={24} xl={24} xxl={12}>
-                  <DetailForm sibal={sibal} key={shortid()} index={i} onAddExercise={onAddExercise} getRep={getRep} setRepsForm={setRepsForm} rep={element}/>
+                  <DetailForm key={shortid()} index={i} onAddExercise={onAddExercise} getRep={getRep} setRepsForm={setRepsForm} rep={element}/>
                 </Col>
               )
             })
