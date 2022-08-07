@@ -151,7 +151,7 @@ export const _PostForm = () => {
   const [exerciseName, onChangeExerciseName] = useInput('스쿼트')
   const [exercise, setExercise] = useState(repsForm)
   const [date, onChangeDate] = useInput(moment().format("dddd, MMMM Do YYYY"))
-  const [sibal, setSibal] = useState(false)
+  const [timer, setTimer] = useState(20)
   const post = useSelector((state) => state.post);
   let time = 0
   const onAddReps = () => {
@@ -179,8 +179,15 @@ export const _PostForm = () => {
     setHideEdit((prev) => !prev)
   }
 
+  const onPlusTimer = () => {
+    setTimer((prev) => prev + 1)
+  }
+
+  const onMinusTimer = () => {
+    setTimer((prev) => prev - 1)
+  }
+
   const onAdd = useCallback(() => {
-    setSibal(true),
     dispatch({
       type: ADD_POST_SUCCESS,
       data: {
@@ -195,13 +202,13 @@ export const _PostForm = () => {
       }
     })
     setRepsForm(initialReps2)
-  }, [ sibal, date, exerciseName, repsForm, exercise ])
-  
+  }, [ date, exerciseName, repsForm, exercise ])
+
 
 
   const getRep = useCallback((e) =>{
 
-  }, [sibal])
+  }, [])
 
   return (
     <PostFormContainer>
@@ -241,6 +248,11 @@ export const _PostForm = () => {
           }
         </RowStyle>
       </DetailFormOuter>
+      <>
+      <ButtonStyle onClick={onPlusTimer}>1분 +</ButtonStyle>
+        <h4>{timer}</h4>
+      <ButtonStyle onClick={onMinusTimer}>1분 -</ButtonStyle>
+      </>
       <ButtonsDiv>
         <ButtonStyle onClick={onAddReps}>추가</ButtonStyle>
         <ButtonStyle onClick={onRemoveReps}>제거</ButtonStyle>
