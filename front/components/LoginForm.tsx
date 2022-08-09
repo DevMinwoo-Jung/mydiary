@@ -77,30 +77,6 @@ const KakaoLogin = styled.div`
   cursor: pointer;
   color: black;
 `
-
-const GoogleLogin = styled.div`
-  width: 100%;
-  display: flex;
-  background-color: red;
-  border-radius: 12px;
-  height: 50px;
-  line-height: 50px;
-  cursor: pointer;
-  color: white;
-`
-
-const ImgStyle = styled(Image)`
-  border-radius: 12px;
-`
-
-const GoogleLogo = styled(IoLogoGoogle)`
-  width: 25px;
-  height: 25px;
-  margin-left: 0.7rem;
-  margin-top: 0.7rem;
-  color: white;
-`
-
 const CheckboxStyle = styled(Checkbox)`
   position: absolute;
   left: 0;

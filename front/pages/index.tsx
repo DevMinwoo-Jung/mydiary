@@ -28,12 +28,11 @@ const _index: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Health Dairy</title>
+        <title>Pomodoro Dairy</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ContentsContainer>
         <PostForm key={shortid.generate()}/>
-        <Posts key={shortid.generate()}/>
       </ContentsContainer>
     </>
   )
