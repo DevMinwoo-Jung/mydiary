@@ -13,7 +13,7 @@ const ContentsContainer = styled.div`
   display: flex;
   background-color: ${WHITE};
   width: 100%;
-  /* height: 90vh; */
+  height: 90vh;
   @media screen and (max-width: ${size.tablet}) { 
     display: block;
   }

@@ -2,6 +2,7 @@ import shortid from 'shortid'
 import produce from 'immer'
 
 export const initialState = {
+  imagePaths: [],
   mainPosts: [
     {
       date: 20220709,
@@ -129,6 +130,9 @@ export const initialState = {
   deleteLoading: false,
   deleteDone: false,
   deleteError: null,
+  uploadImagesLoading: false,
+  uploadImagesDone: false,
+  uploadImagesError: null,
 };
 
 export const dummyPosts = {
@@ -251,6 +255,9 @@ export const REPS_MODIFY_REQUEST = 'REPS_MODIFY_REQUEST'
 export const REPS_DELETE_REQUEST = 'REPS_DELETE_REQUEST'
 export const REPS_DELETE_SUCCESS = 'REPS_DELETE_SUCCESS'
 export const REPS_DELETE_FAILURE = 'REPS_DELETE_FAILURE'
+export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST'
+export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS'
+export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE'
 
 export const addPost = (data) => ({
   type: ADD_POST,
@@ -311,6 +318,11 @@ export default (state = initialState, action) => {
         draft.deleteDone = false;
         break;
       }
+      case UPLOAD_IMAGES_REQUEST:
+        draft.uploadImagesLoading = true;
+        draft.uploadImagesDone = false;
+        draft.uploadImagesError = null;
+        break;
       default: {
         break;
       }

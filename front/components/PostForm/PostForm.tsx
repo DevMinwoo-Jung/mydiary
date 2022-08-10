@@ -1,59 +1,55 @@
-import { Button, Col, Input, Row } from 'antd'
-import useInput from 'libs/hook/useInput'
-import React, { memo, useCallback, useEffect, useState } from 'react' 
+import { Button, DatePicker, DatePickerProps, Form, Input } from 'antd'
+import React, { memo, useCallback, useRef, useState } from 'react' 
 import styled from 'styled-components'
-import DetailForm from './DetailForm'
-import { GiConfirmed } from 'react-icons/gi'
+import { UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import { size } from 'libs/css/layout'
-import { BUTTON_COLOR, WHITE } from 'libs/css/color'
-import { ADD_POST_SUCCESS } from 'reducers/post'
-import shortid from 'shortid'
+import { BUTTON_COLOR, COLOR_DBE2EF, WHITE } from 'libs/css/color'
+import useInput from 'libs/hook/useInput'
 
 moment.locale('ko');
 
-const PostFormContainer = styled.div`
+const PostFormContainer = styled(Form)`
+  margin-top: 1rem;
   display: block;
+  width: 100%;
+  border-radius: 1rem;
+  height: 25vh;
+
+`
+
+const TextContainer = styled(Input.TextArea)`
+  justify-content: center;
+  width: 90%;
+  margin: auto;
+  border: 1px solid ${COLOR_DBE2EF};
+  border-radius: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
   & h1 {
     text-align: center;
     font-weight: bolder;
   }
-  width: 80%;
-  margin: auto;
+  & .textarea.ant-input {
+    height: 300px;
+  }
   @media screen and (max-width: ${size.tablet}) { 
     width: 100%;
-    margin: auto;
     margin-bottom: 2rem;
   }
 `
-const DateDiv = styled.div`
-  font-size: 1.5rem;
-  font-weight: bolder;
-  text-align: left;
-  line-height: 45px;
-  margin-right: 1rem;
-`
 
-const AddButtonStyle = styled(Button)`
-  border-radius: 12px;
-  width: 300px;
-  margin-top: 0.5rem;
-  font-size: 1rem;
-  -webkit-box-shadow: 0px 3px 10px 2px #ABABAB; 
-  box-shadow: 0px 3px 10px 2px #ABABAB;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
-  & :hover {
-    background-color: ${BUTTON_COLOR};
-    color: ${WHITE};
-    font-weight: bolder;
-  }
+const DatePickerStyle = styled(DatePicker)`
+  border-radius: 0.6rem;
+  font-style: normal;
 `
 
 const ButtonStyle = styled(Button)`
   width: 100px;
+  position: right;
   font-size: 12px;
   margin: 5px;
   border-radius: 9px;
@@ -65,40 +61,20 @@ const ButtonStyle = styled(Button)`
     background-color: ${BUTTON_COLOR};
     color: ${WHITE};
     font-weight: bolder;
-  }
-`
-
-const CancelButtonStyle = styled(Button)`
-  width: 60px;
-  font-size: 12px;
-  margin: 5px;
-  border-radius: 9px;
-  -webkit-box-shadow: 0px 3px 10px 2px #ABABAB; 
-  box-shadow: 0px 3px 10px 2px #ABABAB;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
-  & ::hover {
-    background-color: ${BUTTON_COLOR};
-    color: ${WHITE};
-    font-weight: bolder;
-  }
-  &.ant-btn:before, .ant-btn {
-    background-color: black;
-    background: black;
-    border-color: ${BUTTON_COLOR};
-    width: 1000px;
   }
 `
 
 const PostFormHeader = styled.div`
   margin-top: 1rem;
   display: block;
-  justify-content: center;
+  text-align: left;
+  margin-left: 1rem;
+  font-size: 1rem;
   margin-bottom: 1rem;
+  position: relative;
   & Input {
     width: 120px;
     text-align: center;
-    font-size: 2rem;
     font-style: italic;
     border: none;
     margin-right: 1rem;
@@ -106,161 +82,144 @@ const PostFormHeader = styled.div`
   & h1 {
     margin: 0 1rem 0 0;
   }
-  & span {
-    font-size: 2rem;
-    cursor: pointer;
-  }
 `
-
-const ConfirmIcon = styled(GiConfirmed)`
-  font-size: 3rem;
+const HideButton = styled(Button)`
   cursor: pointer;
-  padding-top: 1.5rem;
+  position: absolute;
+  right: 1rem;
+  width: 100px;
+  position: right;
+  font-size: 12px;
+  margin: 5px;
+  border-radius: 9px;
+  -webkit-box-shadow: 0px 3px 10px 2px #ABABAB; 
+  box-shadow: 0px 3px 10px 2px #ABABAB;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  & :hover {
+    background-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
 `
 
 const ButtonsDiv = styled.div`
-  bottom: 60px;
-  position: inherit;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
+  position: relative;
+  text-align:  end;
 `
 
-const RowStyle = styled(Row)`
-  justify-content: center;
+const DateStyle = styled.span`
+  text-align: left;
+  font-size: 1rem;
+  margin-left: 1rem;
 `
-
-const DetailFormOuter = styled.div`
-  width: 100%;
-  margin: auto;
-  overflow-y: auto;
-  height: 70vh;
-`
-const key: string = '';
-const value: string = '';
-
-const initialReps2 = [
-  { [key]:value },
-  { [key]:value },
-]
 
 export const _PostForm = () => {
   const dispatch = useDispatch()
-  const [hideEdit, setHideEdit] = useState(true);
-  const [repsForm, setRepsForm] = useState(initialReps2) 
-  const [exerciseName, onChangeExerciseName] = useInput('스쿼트')
-  const [exercise, setExercise] = useState(repsForm)
-  const [date, onChangeDate] = useInput(moment().format("dddd, MMMM Do YYYY"))
-  const [timer, setTimer] = useState(20)
+  const imageInput = useRef<any>()
   const post = useSelector((state) => state.post);
-  let time = 0
-  const onAddReps = () => {
-    const timer = setInterval(() => {
-      time = time + 1
-    }, 1000);
-    return () => clearInterval(timer);
-  }
+  const [date, setDate] = useState<string>(undefined)
+  const [text, onChangeText, setText] = useInput('')
+  const [showForm, setShowForm] = useState(false)
 
-  console.log(time)
-  
-  const onRemoveReps = useCallback((e) => {
-    setRepsForm([...repsForm].slice(0, -1))
-  }, [repsForm])
+  const { imagePaths } = useSelector((state) => state.post);
 
-  const onAddExercise = useCallback((data) => {
-    // setRepsForm(([{data}]))
-  }, [])
+  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+    setDate(dateString)
+  };
 
-  const onEditable = () => {
-    setHideEdit((prev) => !prev)
-  }
+  const onChangeImages = useCallback((e) => {
+    console.log('images', e.target.files)
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, (f) => {
+        imageFormData.append('image', f)
+    })
+    dispatch({
+        type: UPLOAD_IMAGES_REQUEST,
+        data: imageFormData
+    })
+},[])
 
-  const onConfirmExerciseName = () => {
-    setHideEdit((prev) => !prev)
-  }
+  const onClickImageUploads = useCallback(() => {
+    imageInput.current.click()
+  }, [imageInput.current])
 
-  const onPlusTimer = () => {
-    setTimer((prev) => prev + 1)
-  }
 
-  const onMinusTimer = () => {
-    setTimer((prev) => prev - 1)
-  }
 
   const onAdd = useCallback(() => {
-    dispatch({
-      type: ADD_POST_SUCCESS,
-      data: {
-      date: date,
-        id: shortid(),
-        exercises: [
-          {
-            kind: [exerciseName],
-            reps: repsForm
-          }
-        ]
-      }
-    })
-    setRepsForm(initialReps2)
-  }, [ date, exerciseName, repsForm, exercise ])
+    // dispatch({
+    //   type: ADD_POST_SUCCESS,
+    //   data: {
+    //   date: date,
+    //     id: shortid(),
+    //     exercises: [
+    //       {
+    //         kind: [],
+    //         reps: repsForm
+    //       }
+    //     ]
+    //   }
+    // })
+  }, [])
 
+  const hideForm = () => {
+    setShowForm((prev) => !prev)
+  }
 
+  const onSubmit = () => {
+    console.log(text, date, imageInput.current.value)
+  }
 
-  const getRep = useCallback((e) =>{
-
+  const onRemoveImage = useCallback((index) => () => {
+    // dispatch({
+    //     type: REMOVE_IMAGE,
+    //     data: index
+    // })
   }, [])
 
   return (
-    <PostFormContainer>
-      <PostFormHeader>
-        {
-          hideEdit 
-          ?
-          <span onClick={onEditable}>{date}</span>
-          :
-          <Input value={date} onChange={onChangeDate} placeholder={date}/>
-        }
-        {
-          hideEdit 
-          ?
-          <span onClick={onEditable}>{exerciseName}</span>
-          :
-          <Input value={exerciseName} onChange={onChangeExerciseName} placeholder={exerciseName}/>
-        }
-        {
-          hideEdit
-          ?
-          null
-          :
-          <ConfirmIcon onClick={onConfirmExerciseName}/>
-        }
-      </PostFormHeader>
-      <DetailFormOuter>
-        <RowStyle>
-          {
-            repsForm.map((element, i) => {
-              return (
-                <Col key={i} xs={24} sm={24} md={24} lg={24} xl={24} xxl={12}>
-                  <DetailForm key={shortid()} index={i} onAddExercise={onAddExercise} getRep={getRep} setRepsForm={setRepsForm} rep={element}/>
-                </Col>
-              )
-            })
-          }
-        </RowStyle>
-      </DetailFormOuter>
-      <>
-      <ButtonStyle onClick={onPlusTimer}>1분 +</ButtonStyle>
-        <h4>{timer}</h4>
-      <ButtonStyle onClick={onMinusTimer}>1분 -</ButtonStyle>
-      </>
-      <ButtonsDiv>
-        <ButtonStyle onClick={onAddReps}>추가</ButtonStyle>
-        <ButtonStyle onClick={onRemoveReps}>제거</ButtonStyle>
-        <div>
-          <AddButtonStyle onClick={onAdd}>운동일지에 추가</AddButtonStyle>
-        </div>
-      </ButtonsDiv>
-    </PostFormContainer>
+    <>
+      {
+        showForm === true
+        ? <PostFormContainer>
+            <PostFormHeader>
+              <HideButton onClick={hideForm}>글 작성하기</HideButton>
+            </PostFormHeader>
+          </PostFormContainer>
+        :
+        <PostFormContainer onFinish={onSubmit}>
+          <PostFormHeader>
+            <DatePickerStyle onChange={onChange}/>
+            {
+              date === undefined || date === '' || date === null 
+              ? ''
+              : <DateStyle>{moment(`${date}`).format('dddd')}</DateStyle>
+            }
+            <HideButton onClick={hideForm}>숨기기</HideButton>
+          </PostFormHeader>
+          <TextContainer
+              rows={5}
+              value={text}
+              onChange={onChangeText}
+              maxLength={400}
+              placeholder="무엇이든 기록해봐요"/>
+          <ButtonsDiv>
+          <div>
+            {
+            imagePaths.map((v, i) => (
+            <div key={v} style={{display: 'inline-block'}}>
+                <img src={`${v}`} style={{width: '200px'}} alt={v}/>
+                <button onClick={onRemoveImage(i)}>제거</button>
+            </div>
+            ))}
+          </div>
+            <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>
+            <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
+            <ButtonStyle onClick={onSubmit}>추가</ButtonStyle>
+          </ButtonsDiv>
+        </PostFormContainer>
+      }
+    </>
   )
 }
 
