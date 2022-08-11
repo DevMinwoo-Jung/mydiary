@@ -30,6 +30,8 @@ const HeaderContainer = styled.header`
   justify-content: space-between;
   right: 0; 
   width: 100%;
+  position: fixed;
+  z-index: 100;
 `;
 
 const IconContainer = styled.div`

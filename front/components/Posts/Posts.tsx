@@ -1,33 +1,46 @@
 import React, { memo } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import PostContent from './PostContent'
-import shortid from 'shortid'
-import { size } from 'libs/css/layout'
+import { Image } from 'antd'
+import { COLOR_DBE2EF } from 'libs/css/color'
 
 const PostsContainer = styled.div`
-  margin-top: 1rem;
   margin: auto;
-  height: 100%;
   overflow-y: auto;
-  width: 80%;
-  @media screen and (max-width: ${size.tablet}) { 
-    width: 100%;
-  }
+  width: 100%;
 `
 
-const HeaderStyle = styled.div`
-  margin-top: 1rem;
-  font-size: 1rem;
-  & h1 {
-    font-weight: bolder;
-  }
-`
 
 const PostsInnerContainer = styled.div`
-  display: block;
+  display: flex;
   margin: auto;
-  width: 85%;
+  height: 30rem;
+  border: 1px solid ${COLOR_DBE2EF};
+  border-radius: 1rem;
+  margin: 1rem;
+`
+
+const ContentContainer = styled.div`
+  display: block;
+  width: 50%;
+  margin: 2rem 3rem;
+`
+
+const ImageContainer = styled.div`
+  width: 50%;
+  display: flex;
+  margin: 1rem;
+`
+
+const DatePara = styled.p`
+  font-size: 1.5rem;
+  font-weight: bolder;
+  text-align: left;
+`
+
+const ContentPara = styled.p`
+  font-size: 1rem;
+  text-align: left;
 `
 
 const _Posts = () => {
@@ -42,18 +55,25 @@ const _Posts = () => {
   
   return (
     <PostsContainer>
-      <HeaderStyle>
-        <h1>운동일지</h1>
-      </HeaderStyle>
-      <PostsInnerContainer>
+      <>
       {
-        Object.values(groups).map((element: object, index: number) => {
-          return (
-            <PostContent key={shortid.generate()} post={element} index={index}/>
-          )
-        })
+        mainPosts.map((element) => 
+        <PostsInnerContainer>
+          <ContentContainer>
+            <DatePara>{element.date}</DatePara>
+            <ContentPara>{element.content}</ContentPara>
+          </ContentContainer>
+          <ImageContainer>
+            {
+              element.Images.map((img) => 
+              (
+                <Image src={img.src}/>
+              ))
+            }
+          </ImageContainer>
+        </PostsInnerContainer>)
       }
-      </PostsInnerContainer>
+      </>
     </PostsContainer>
   );
 };

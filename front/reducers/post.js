@@ -1,130 +1,79 @@
 import shortid from 'shortid'
 import produce from 'immer'
 
-export const initialState = {
-  imagePaths: [],
-  mainPosts: [
-    {
-      date: 20220709,
+const dummy = [
+  {
+    id: 1,
+    User: {
       id: 1,
-      exercises: [
-        {
-          kind: 'squat',
-          id: 61,
-          reps: [
-            { 15: 70 },
-            { 15: 70 },
-            { 10: 80 },
-            { 10: 80 },
-            { 8: 90 },
-            { 8: 90 },
-            { 5: 1 },
-            { 5: 100 }
-          ]
-        },
-      ],
+      nickname: 'minwoo',
     },
-    {
-      date: 20220709,
-      id: 2,
-      exercises: [
-        {
-          kind: 'ㅜㅜ',
-          id: 51,
-          reps: [
-            { 15: 70 },
-            { 15: 70 },
-            { 10: 80 },
-            { 10: 80 },
-            { 8: 90 },
-            { 8: 90 },
-            { 5: 1 },
-            { 5: 100 }
-          ]
-        },
-      ],
+    date: '2022-08-11',
+    content: '나는 연봉도 3천 이상 받을 것이고 커리어도 개쩌는 개발자가 되어 주변 사람들한테 좀 배풀 것이다',
+    Images: [{
+      id: shortid.generate(),
+      src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
+    }, {
+      id: shortid.generate(),
+      src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
+    }, {
+      id: shortid.generate(),
+      src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
+    }],
+  },
+  {
+    id: 11,
+    User: {
+      id: 12,
+      nickname: 'minwoo2',
     },
-    {
-      date: 20220710,
-      id: 3,
-      exercises: [
-        {
-          kind: '스쿼트',
-          id: 41,
-          reps: [
-            { 15: 70 },
-            { 15: 70 },
-            { 10: 80 },
-            { 10: 80 },
-            { 8: 90 },
-            { 8: 90 },
-            { 5: 1 },
-            { 5: 100 }
-          ]
-        },
-      ],
+    date: '2022-08-12',
+    content: '두 번째 게시글 #되니',
+    Images: [{
+      id: shortid.generate(),
+      src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
+    }, {
+      id: shortid.generate(),
+      src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
+    }, {
+      id: shortid.generate(),
+      src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
+    }],
+  },
+  {
+    id: 14,
+    User: {
+      id: 15,
+      nickname: 'minwoo',
     },
-    {
-      date: 20220710,
-      id: 4,
-      exercises: [
-        {
-          kind: 'squat',
-          id: 31,
-          reps: [
-            { 15: 70 },
-            { 15: 70 },
-            { 10: 80 },
-            { 10: 80 },
-            { 8: 90 },
-            { 8: 90 },
-            { 5: 1 },
-            { 5: 100 }
-          ]
-        },
-      ],
+    date: '2022-08-14',
+    content: '세 번째 게시글 #되니',
+    Images: [{
+      id: shortid.generate(),
+      src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
+    }, {
+      id: shortid.generate(),
+      src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
+    }, {
+      id: shortid.generate(),
+      src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
+    }],
+  },
+  {
+    id: 122,
+    User: {
+      id: 144,
+      nickname: 'minwoo',
     },
-    {
-      date: 20220710,
-      id: 5,
-      exercises: [
-        {
-          kind: 'ㅎㅎ',
-          id: 11,
-          reps: [
-            { 15: 70 },
-            { 15: 70 },
-            { 10: 80 },
-            { 10: 80 },
-            { 8: 90 },
-            { 8: 90 },
-            { 5: 1 },
-            { 5: 100 }
-          ]
-        },
-      ],
-    },
-    {
-      date: 20220711,
-      id: 6,
-      exercises: [
-        {
-          kind: '스쿼트',
-          id: 21,
-          reps: [
-            { 15: 70 },
-            { 15: 70 },
-            { 10: 80 },
-            { 10: 80 },
-            { 8: 90 },
-            { 8: 90 },
-            { 5: 1 },
-            { 5: 100 }
-          ]
-        },
-      ],
-    },
-  ],
+    date: '2022-08-15',
+    content: '네 번째 게시글 #되니',
+    Images: [],
+  },
+]
+
+export const initialState = {
+  mainPosts: [],
+  imagePaths: [],
   modify: false,
   showReps: true,
   deleteLoading: false,
@@ -133,81 +82,12 @@ export const initialState = {
   uploadImagesLoading: false,
   uploadImagesDone: false,
   uploadImagesError: null,
+  addPostLoading: false,
+  addPostDone: false,
+  addPostError: null,
 };
 
-export const dummyPosts = {
-  id: 1,
-  date: 20220709,
-  exercises: {
-    squat: {
-      1: { 15: 70 },
-      2: { 15: 70 },
-      3: { 10: 80 },
-      4: { 10: 80 },
-      5: { 8: 90 },
-      6: { 8: 90 },
-      7: { 5: 100 },
-      8: { 5: 100 }
-    },
-    benchPress: {
-      1: { 15: 70 },
-      2: { 15: 70 },
-      3: { 10: 80 },
-      4: { 10: 80 },
-      5: { 8: 90 },
-      6: { 8: 90 },
-      7: { 5: 110 }
-    },
-    deadLift: {
-      1: { 15: 70 },
-      2: { 15: 70 },
-      3: { 10: 20 },
-      4: { 10: 80 },
-      5: { 8: 90 },
-    },
-    런지: {
-      1: { 15: 30 },
-      2: { 15: 30 },
-      3: { 10: 40 },
-      4: { 10: 40 },
-      5: { 8: 50 },
-    }
-  }
-}
 
-const dummy = {
-  id: 1,
-  User: {
-    id: 1,
-    nickname: '제로초',
-  },
-  content: '첫 번째 게시글 #되니',
-  Images: [{
-    id: shortid.generate(),
-    src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
-  }, {
-    id: shortid.generate(),
-    src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
-  }, {
-    id: shortid.generate(),
-    src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
-  }],
-  Comments: [{
-    id: shortid.generate(),
-    User: {
-      id: shortid.generate(),
-      nickname: 'nero',
-    },
-    content: '우와 개정판이 나왔군요~',
-  }, {
-    id: shortid.generate(),
-    User: {
-      id: shortid.generate(),
-      nickname: 'hero',
-    },
-    content: '얼른 사고싶어요~',
-  }]
-}
 
 // export const generateDummyPost = (number) => Array(number).fill().map(() => ({
 //   id: shortid.generate(),
@@ -250,7 +130,6 @@ const dummy = {
 // )
 
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'
-export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const REPS_MODIFY_REQUEST = 'REPS_MODIFY_REQUEST'
 export const REPS_DELETE_REQUEST = 'REPS_DELETE_REQUEST'
 export const REPS_DELETE_SUCCESS = 'REPS_DELETE_SUCCESS'
@@ -258,6 +137,9 @@ export const REPS_DELETE_FAILURE = 'REPS_DELETE_FAILURE'
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST'
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS'
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE'
+export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
+export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
 
 export const addPost = (data) => ({
   type: ADD_POST,
@@ -286,19 +168,21 @@ export default (state = initialState, action) => {
   console.log(action.data)
   return produce(state, (draft) => {
     switch (action.type) {
-      case ADD_POST_SUCCESS: {
-        return {
-          ...state,
-          mainPosts: [action.data, ...state.mainPosts],
-          postAdded: true,
-        };
-      }
-      case REPS_MODIFY_REQUEST: {
-        return {
-          ...state,
-          modify: true,
-        }
-      }
+      case ADD_POST_REQUEST: 
+        draft.addPostLoading = true;
+        draft.addPostDone = false;
+        draft.addPostError = null;
+        break;
+      case ADD_POST_SUCCESS: 
+        draft.addPostLoading = false;
+        draft.addPostDone = true;
+        draft.mainPosts.unshift(action.data);
+        draft.imagePaths = [];
+        break;
+      case ADD_POST_FAILURE: 
+        draft.addPostLoading = false;
+        draft.addPostError = action.error
+        break;
       case REPS_DELETE_REQUEST: {
         draft.deleteLoading = true;
         draft.deleteError = null;
@@ -322,6 +206,15 @@ export default (state = initialState, action) => {
         draft.uploadImagesLoading = true;
         draft.uploadImagesDone = false;
         draft.uploadImagesError = null;
+        break;
+      case UPLOAD_IMAGES_SUCCESS: 
+        draft.imagePaths = action.data;
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesDone = true;
+        break;
+      case UPLOAD_IMAGES_FAILURE:
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesError = action.error;
         break;
       default: {
         break;

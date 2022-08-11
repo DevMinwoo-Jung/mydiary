@@ -1,10 +1,9 @@
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import axios from 'axios';
-import { ADD_POST_FAILURE, ADD_POST_SUCCESS,
-    ADD_POST_REQUEST,
-
-    REPS_DELETE_REQUEST, REPS_DELETE_SUCCESS, REPS_DELETE_FAILURE
+import { ADD_POST_FAILURE, ADD_POST_SUCCESS, ADD_POST_REQUEST,
+    UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_REQUEST
 } from '../reducers/post';
+
 import { ADD_POST_TO_ME } from '../reducers/user';
 import shortid from 'shortid';
 
@@ -37,34 +36,38 @@ function* addPost(action) {
     }
 }
 
-function* removeReps(action) {
-        try {
-            //const result = yield call(loadHashtagPostsAPI, action.data, action.lastId);
-            // yield delay(1000);
-            yield put({
-                type: REPS_DELETE_SUCCESS,
-                data: action.data,
-            });
-        } catch (err) {
-            console.error(err);
-            yield put({
-                type: REPS_DELETE_FAILURE,
-                data: err.response.data,
+function uploadImagesAPI(data) {
+    return axios.post(`/post/images`, data)
+}
+
+function* uploadImage(action) {
+    try {
+        const result = yield call(uploadImagesAPI, action.data);
+        // const result = yield action.data
+        // console.log(action.data)
+        yield put({
+        type: UPLOAD_IMAGES_SUCCESS,
+        data: result.data,
+        })
+    } catch (err) {
+        console.log(err)
+        yield put({
+        type: UPLOAD_IMAGES_FAILURE,
+        error: err.response.data,
         });
     }
-}
-    
-function* watchRemoveRep() {
-    yield takeLatest(REPS_DELETE_REQUEST, removeReps)
 }
 
 function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost)
 }
 
+function* watchUploadImagesPost() {
+    yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImage)
+}
+
 export default function* rootSaga() {
     yield all([
-        fork(watchRemoveRep),
-
+        fork(watchUploadImagesPost),
     ])
 }

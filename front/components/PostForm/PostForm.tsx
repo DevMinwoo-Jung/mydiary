@@ -1,7 +1,7 @@
 import { Button, DatePicker, DatePickerProps, Form, Input } from 'antd'
-import React, { memo, useCallback, useRef, useState } from 'react' 
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react' 
 import styled from 'styled-components'
-import { UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
@@ -12,12 +12,17 @@ import useInput from 'libs/hook/useInput'
 moment.locale('ko');
 
 const PostFormContainer = styled(Form)`
-  margin-top: 1rem;
+  margin-top: 6vh;
   display: block;
   width: 100%;
   border-radius: 1rem;
   height: 25vh;
+`
 
+const HideFormContainer = styled(Form)`
+  width: 100%;
+  margin-bottom: 1rem;
+  height: 2vh;
 `
 
 const TextContainer = styled(Input.TextArea)`
@@ -117,16 +122,18 @@ const DateStyle = styled.span`
 export const _PostForm = () => {
   const dispatch = useDispatch()
   const imageInput = useRef<any>()
-  const post = useSelector((state) => state.post);
   const [date, setDate] = useState<string>(undefined)
   const [text, onChangeText, setText] = useInput('')
   const [showForm, setShowForm] = useState(false)
-
-  const { imagePaths } = useSelector((state) => state.post);
+  const { imagePaths, addPostLoading, addPostDone } = useSelector((state) => state.post);
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setDate(dateString)
   };
+
+  const onClickImageUploads = useCallback(() => {
+    imageInput.current.click()
+  }, [imageInput.current])
 
   const onChangeImages = useCallback((e) => {
     console.log('images', e.target.files)
@@ -138,37 +145,34 @@ export const _PostForm = () => {
         type: UPLOAD_IMAGES_REQUEST,
         data: imageFormData
     })
-},[])
+  },[])
 
-  const onClickImageUploads = useCallback(() => {
-    imageInput.current.click()
-  }, [imageInput.current])
+  useEffect(() => {
+    if (addPostDone) {
+        setText('');
+    }
+}, [addPostDone]);
 
-
-
-  const onAdd = useCallback(() => {
-    // dispatch({
-    //   type: ADD_POST_SUCCESS,
-    //   data: {
-    //   date: date,
-    //     id: shortid(),
-    //     exercises: [
-    //       {
-    //         kind: [],
-    //         reps: repsForm
-    //       }
-    //     ]
-    //   }
-    // })
-  }, [])
 
   const hideForm = () => {
     setShowForm((prev) => !prev)
   }
 
-  const onSubmit = () => {
+  const onSubmit = useCallback(() => {
     console.log(text, date, imageInput.current.value)
-  }
+    if (!text || !text.trim()) {
+      return alert('게시글을 작성하세요.');
+    }
+    const formData = new FormData();
+    imagePaths.forEach((p) => {
+        formData.append('image', p);
+    });
+    formData.append('content', text);
+    dispatch({
+        type: ADD_POST_REQUEST,
+        data: formData,
+    });
+  },[imagePaths, text, date])
 
   const onRemoveImage = useCallback((index) => () => {
     // dispatch({
@@ -181,13 +185,13 @@ export const _PostForm = () => {
     <>
       {
         showForm === true
-        ? <PostFormContainer>
+        ? <HideFormContainer>
             <PostFormHeader>
               <HideButton onClick={hideForm}>글 작성하기</HideButton>
             </PostFormHeader>
-          </PostFormContainer>
+          </HideFormContainer>
         :
-        <PostFormContainer onFinish={onSubmit}>
+        <PostFormContainer  name="image" encType="multipart/form-data">
           <PostFormHeader>
             <DatePickerStyle onChange={onChange}/>
             {
@@ -204,19 +208,19 @@ export const _PostForm = () => {
               maxLength={400}
               placeholder="무엇이든 기록해봐요"/>
           <ButtonsDiv>
-          <div>
-            {
-            imagePaths.map((v, i) => (
-            <div key={v} style={{display: 'inline-block'}}>
-                <img src={`${v}`} style={{width: '200px'}} alt={v}/>
-                <button onClick={onRemoveImage(i)}>제거</button>
-            </div>
-            ))}
-          </div>
             <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>
             <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
             <ButtonStyle onClick={onSubmit}>추가</ButtonStyle>
           </ButtonsDiv>
+          <div>
+            {
+            imagePaths.map((v: React.Key, i: any) => (
+            <div key={v} style={{display: 'inline-block'}}>
+                <img src={`${v}`} style={{width: '200px'}} alt={String(v)}/>
+                <button onClick={onRemoveImage(i)}>제거</button>
+            </div>
+            ))}
+          </div>
         </PostFormContainer>
       }
     </>

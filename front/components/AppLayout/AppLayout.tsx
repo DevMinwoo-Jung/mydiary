@@ -23,6 +23,7 @@ const Container = styled.div`
 const PageContainer = styled.div`
   margin: 0 auto;
   width: 100%;
+  height: 94vh;
   background-color: ${WHITE};
 `
 
