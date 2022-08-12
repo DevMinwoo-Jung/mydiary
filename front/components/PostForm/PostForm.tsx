@@ -134,11 +134,17 @@ export const _PostForm = () => {
   const onClickImageUploads = useCallback(() => {
     imageInput.current.click()
   }, [imageInput.current])
+  
+  useEffect(() => {
+    if (addPostDone) {
+        setText('');
+    }
+  }, [addPostDone]);
 
-  const onChangeImages = useCallback((e) => {
+  const onChangeImages = useCallback((e: { target: { files: any } }) => {
     console.log('images', e.target.files)
     const imageFormData = new FormData();
-    [].forEach.call(e.target.files, (f) => {
+    [].forEach.call(e.target.files, (f: string | Blob) => {
         imageFormData.append('image', f)
     })
     dispatch({
@@ -147,11 +153,6 @@ export const _PostForm = () => {
     })
   },[])
 
-  useEffect(() => {
-    if (addPostDone) {
-        setText('');
-    }
-}, [addPostDone]);
 
 
   const hideForm = () => {
@@ -164,17 +165,18 @@ export const _PostForm = () => {
       return alert('게시글을 작성하세요.');
     }
     const formData = new FormData();
-    imagePaths.forEach((p) => {
+    imagePaths.forEach((p: string | Blob) => {
         formData.append('image', p);
     });
     formData.append('content', text);
+    formData.append('date', date)
     dispatch({
         type: ADD_POST_REQUEST,
         data: formData,
     });
   },[imagePaths, text, date])
 
-  const onRemoveImage = useCallback((index) => () => {
+  const onRemoveImage = useCallback((index: any) => () => {
     // dispatch({
     //     type: REMOVE_IMAGE,
     //     data: index
@@ -191,7 +193,7 @@ export const _PostForm = () => {
             </PostFormHeader>
           </HideFormContainer>
         :
-        <PostFormContainer  name="image" encType="multipart/form-data">
+        <PostFormContainer name="image" encType="multipart/form-data" onFinish={onSubmit}>
           <PostFormHeader>
             <DatePickerStyle onChange={onChange}/>
             {
@@ -210,7 +212,7 @@ export const _PostForm = () => {
           <ButtonsDiv>
             <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>
             <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
-            <ButtonStyle onClick={onSubmit}>추가</ButtonStyle>
+            <ButtonStyle htmlType='submit'>추가</ButtonStyle>
           </ButtonsDiv>
           <div>
             {

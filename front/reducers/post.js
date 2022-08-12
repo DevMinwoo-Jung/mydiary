@@ -72,7 +72,7 @@ const dummy = [
 ]
 
 export const initialState = {
-  mainPosts: [],
+  mainPosts: dummy,
   imagePaths: [],
   modify: false,
   showReps: true,
@@ -165,7 +165,7 @@ const dummyPost = (data) => ({
 // reducer 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성을 지키면서)
 // 근데 immer를 사용하면 알아서 불변성을 지키면서 만들어준다. state는 건들면 안되고 draft를 건들어야한다.
 export default (state = initialState, action) => {
-  console.log(action.data)
+  // console.log(action.data)
   return produce(state, (draft) => {
     switch (action.type) {
       case ADD_POST_REQUEST: 

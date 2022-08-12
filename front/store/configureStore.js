@@ -7,16 +7,16 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import createSagaMiddleware from 'redux-saga'
 
 const loggerMiddleWare = ({ dispatch, getState}) => (next) => (action) => {
-  console.log(action);
+  // console.log(action);
   return next(action)
 };
 
 const configtureStore = () => {
   const sagaMiddleware = createSagaMiddleware()
-  const middlewares = [sagaMiddleware, loggerMiddleWare]
+  const middlewares = [sagaMiddleware]
   const enhancer =
     process.env.NODE_ENV === "production"
-      ? compose(applyMiddleware())
+      ? compose(applyMiddleware(...middlewares))
       : composeWithDevTools(applyMiddleware(...middlewares))
 
   const store = createStore(reducer, enhancer)

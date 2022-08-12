@@ -17,15 +17,16 @@ function addPostAPI(data) {
 
 function* addPost(action) {
     try {
-        // console.log(action)
-        const result = yield call(addPostAPI, action.data);
+        // const result = yield call(addPostAPI, action.data);
+        // yield delay(1000);
+        const id = shortid.generate();
         yield put({
         type: ADD_POST_SUCCESS,
-        data: result.data,
-        });
-        yield put({
-        type: ADD_POST_TO_ME,
-        data: result.data.id,
+        data: {
+            id,
+            content: action.data,
+            date: action.data
+            },
         });
     } catch (err) {
         console.error(err);
@@ -41,9 +42,10 @@ function uploadImagesAPI(data) {
 }
 
 function* uploadImage(action) {
+    console.log(action)
     try {
-        const result = yield call(uploadImagesAPI, action.data);
-        // const result = yield action.data
+        // const result = yield call(uploadImagesAPI, action.data);
+        const result = yield action.data
         // console.log(action.data)
         yield put({
         type: UPLOAD_IMAGES_SUCCESS,
@@ -68,6 +70,7 @@ function* watchUploadImagesPost() {
 
 export default function* rootSaga() {
     yield all([
+        fork(watchAddPost),
         fork(watchUploadImagesPost),
     ])
 }
