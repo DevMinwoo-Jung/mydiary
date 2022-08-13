@@ -14,9 +14,11 @@ export type ImagesProps = {
 
 const ImageContainer = styled.div`
   width: 50%;
+  margin: 3rem 1rem 1rem 1rem;
   & img {
     object-fit: fill;
     max-height: 100%;
+    min-width: 90%;
   }
 `
 

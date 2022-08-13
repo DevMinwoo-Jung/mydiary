@@ -18,12 +18,13 @@ const PostsInnerContainer = styled.div`
   border: 1px solid ${COLOR_DBE2EF};
   border-radius: 1rem;
   margin: 1rem;
+  position: relative;
 `
 
 const ContentContainer = styled.div`
   display: block;
   width: 50%;
-  margin: 2rem 3rem;
+  margin: 3rem 3rem;
 `
 
 const DatePara = styled.p`
@@ -37,13 +38,20 @@ const ContentPara = styled.p`
   text-align: left;
 `
 
+const ImagesDiv = styled.div`
+  position: relative;
+`
+
+const RemoveBtn = styled.button`
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+`
+
 
 
 const _Posts = () => {
   const { mainPosts } = useSelector((state) => state.post)
-
-  console.log(mainPosts.map((element) => element.Images))
-
 
   
   return (
@@ -51,12 +59,13 @@ const _Posts = () => {
       {
         mainPosts.map(
           (element) => 
-        <PostsInnerContainer key={element}>
+        <PostsInnerContainer key={shortid()}>
+          <RemoveBtn>x</RemoveBtn>
           <ContentContainer>
             <DatePara>{element.date}</DatePara>
             <ContentPara>{element.content}</ContentPara>
           </ContentContainer>
-          <Images image={element.Images}/>
+            <Images image={element.Images}/>
         </PostsInnerContainer>
         )
       }
