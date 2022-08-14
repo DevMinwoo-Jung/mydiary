@@ -130,10 +130,10 @@ export const initialState = {
 // )
 
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'
-export const REPS_MODIFY_REQUEST = 'REPS_MODIFY_REQUEST'
-export const REPS_DELETE_REQUEST = 'REPS_DELETE_REQUEST'
-export const REPS_DELETE_SUCCESS = 'REPS_DELETE_SUCCESS'
-export const REPS_DELETE_FAILURE = 'REPS_DELETE_FAILURE'
+export const POST_MODIFY_REQUEST = 'POST_MODIFY_REQUEST'
+export const POST_DELETE_REQUEST = 'POST_DELETE_REQUEST'
+export const POST_DELETE_SUCCESS = 'POST_DELETE_SUCCESS'
+export const POST_DELETE_FAILURE = 'POST_DELETE_FAILURE'
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST'
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS'
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE'
@@ -183,20 +183,20 @@ export default (state = initialState, action) => {
         draft.addPostLoading = false;
         draft.addPostError = action.error
         break;
-      case REPS_DELETE_REQUEST: {
+      case POST_DELETE_REQUEST: {
         draft.deleteLoading = true;
         draft.deleteError = null;
         draft.deleteDone = false;
         break;
       }
-      case REPS_DELETE_SUCCESS: {
+      case POST_DELETE_SUCCESS: {
         draft.deleteLoading = true;
         draft.deleteError = null;
         draft.deleteDone = false;
         draft.mainPosts = draft.mainPosts.filter((y, i) => y.id !== action.data);
         break;
       }
-      case REPS_DELETE_FAILURE: {
+      case POST_DELETE_FAILURE: {
         draft.deleteLoading = true;
         draft.deleteError = null;
         draft.deleteDone = false;

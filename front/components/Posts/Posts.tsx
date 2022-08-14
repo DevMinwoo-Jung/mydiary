@@ -1,9 +1,10 @@
 import React, { memo, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { COLOR_DBE2EF } from 'libs/css/color'
 import shortid from 'shortid'
 import Images from './Images'
+import { POST_DELETE_REQUEST, POST_DELETE_SUCCESS } from 'reducers/post'
 
 const PostsContainer = styled.div`
   margin: auto;
@@ -52,7 +53,15 @@ const RemoveBtn = styled.button`
 
 const _Posts = () => {
   const { mainPosts } = useSelector((state) => state.post)
-
+  const dispatch = useDispatch()
+  
+  const onRemovePost = (targetId:string) => {
+    console.log(targetId)
+    dispatch({
+      type: POST_DELETE_REQUEST,
+      data: targetId
+    })
+  }
   
   return (
     <PostsContainer key={shortid()}>
@@ -60,7 +69,7 @@ const _Posts = () => {
         mainPosts.map(
           (element) => 
         <PostsInnerContainer key={shortid()}>
-          <RemoveBtn>x</RemoveBtn>
+          <RemoveBtn onClick={ () => onRemovePost(element.id)}>x</RemoveBtn>
           <ContentContainer>
             <DatePara>{element.date}</DatePara>
             <ContentPara>{element.content}</ContentPara>

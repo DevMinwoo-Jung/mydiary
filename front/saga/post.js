@@ -1,10 +1,9 @@
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import axios from 'axios';
 import { ADD_POST_FAILURE, ADD_POST_SUCCESS, ADD_POST_REQUEST,
-    UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_REQUEST
+    UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_REQUEST, POST_DELETE_REQUEST, POST_DELETE_SUCCESS, POST_DELETE_FAILURE
 } from '../reducers/post';
 
-import { ADD_POST_TO_ME } from '../reducers/user';
 import shortid from 'shortid';
 
 // function addPostAPI(data) {
@@ -35,6 +34,28 @@ function* addPost(action) {
         error: err.response.data,
         });
     }
+}
+
+function* deletePost(action) {
+    console.log(action)
+    try {
+       // const result = yield call(removePostAPI, action.data)
+        // yield delay(1000);
+        yield put({
+            type: POST_DELETE_SUCCESS,
+            data: action.data,
+        });
+        // yield put({
+        //     type: REMOVE_POST_OF_ME,
+        //     data: action.data,
+        // });
+        } catch (err) {
+            console.log(err)
+            yield put({
+                type: POST_DELETE_FAILURE,
+                dataerror: err.response.data
+            })
+        }
 }
 
 function uploadImagesAPI(data) {
@@ -68,9 +89,14 @@ function* watchUploadImagesPost() {
     yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImage)
 }
 
+function* watchDeletePost() {
+    yield takeLatest(POST_DELETE_REQUEST, deletePost)
+}
+
 export default function* rootSaga() {
     yield all([
         fork(watchAddPost),
         fork(watchUploadImagesPost),
+        fork(watchDeletePost)
     ])
 }
