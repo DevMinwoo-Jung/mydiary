@@ -30,7 +30,7 @@ const HeaderContainer = styled.header`
   justify-content: space-between;
   right: 0; 
   width: 100%;
-  position: fixed;
+  position: relative;
   z-index: 100;
 `;
 

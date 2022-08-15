@@ -8,11 +8,11 @@ import 'moment/locale/ko'
 import { size } from 'libs/css/layout'
 import { BUTTON_COLOR, COLOR_DBE2EF, WHITE } from 'libs/css/color'
 import useInput from 'libs/hook/useInput'
+import SearchForm from 'components/SearchForm/SearchForm'
 
 moment.locale('ko');
 
 const PostFormContainer = styled(Form)`
-  margin-top: 6vh;
   display: block;
   width: 100%;
   border-radius: 1rem;
@@ -22,7 +22,6 @@ const PostFormContainer = styled(Form)`
 const HideFormContainer = styled(Form)`
   width: 100%;
   margin-bottom: 1rem;
-  height: 2vh;
 `
 
 const TextContainer = styled(Input.TextArea)`
@@ -71,12 +70,13 @@ const ButtonStyle = styled(Button)`
 
 const PostFormHeader = styled.div`
   margin-top: 1rem;
-  display: block;
+  display: flex;
   text-align: left;
   margin-left: 1rem;
   font-size: 1rem;
   margin-bottom: 1rem;
   position: relative;
+  vertical-align: middle;
   & Input {
     width: 120px;
     text-align: center;
@@ -93,9 +93,7 @@ const HideButton = styled(Button)`
   position: absolute;
   right: 1rem;
   width: 100px;
-  position: right;
   font-size: 12px;
-  margin: 5px;
   border-radius: 9px;
   -webkit-box-shadow: 0px 3px 10px 2px #ABABAB; 
   box-shadow: 0px 3px 10px 2px #ABABAB;
@@ -106,6 +104,11 @@ const HideButton = styled(Button)`
     color: ${WHITE};
     font-weight: bolder;
   }
+`
+
+const SearchFormDiv = styled.div`
+  position: absolute;
+  right: 8rem;
 `
 
 const ButtonsDiv = styled.div`
@@ -125,7 +128,7 @@ export const _PostForm = () => {
   const [date, setDate] = useState<string>(undefined)
   const [text, onChangeText, setText] = useInput('')
   const [showForm, setShowForm] = useState(false)
-  const { imagePaths, addPostLoading, addPostDone } = useSelector((state) => state.post);
+  const { imagePaths, addPostDone } = useSelector((state) => state.post);
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setDate(dateString)
@@ -189,6 +192,9 @@ export const _PostForm = () => {
         showForm === true
         ? <HideFormContainer>
             <PostFormHeader>
+              <SearchFormDiv>
+                <SearchForm/>
+              </SearchFormDiv>
               <HideButton onClick={hideForm}>글 작성하기</HideButton>
             </PostFormHeader>
           </HideFormContainer>
@@ -201,6 +207,9 @@ export const _PostForm = () => {
               ? ''
               : <DateStyle>{moment(`${date}`).format('dddd')}</DateStyle>
             }
+              <SearchFormDiv>
+                <SearchForm/>
+              </SearchFormDiv>
             <HideButton onClick={hideForm}>숨기기</HideButton>
           </PostFormHeader>
           <TextContainer

@@ -5,6 +5,9 @@ import { COLOR_DBE2EF } from 'libs/css/color'
 import shortid from 'shortid'
 import Images from './Images'
 import { POST_DELETE_REQUEST, POST_DELETE_SUCCESS } from 'reducers/post'
+import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
+import { message, Popconfirm } from 'antd'
+import PostTags from './PostTags'
 
 const PostsContainer = styled.div`
   margin: auto;
@@ -39,14 +42,23 @@ const ContentPara = styled.p`
   text-align: left;
 `
 
-const ImagesDiv = styled.div`
-  position: relative;
+const TagAndDelete = styled.div`
+  width: 100%;
+  position: absolute;
 `
 
-const RemoveBtn = styled.button`
-  position: absolute;
+const TagDiv = styled.div`
+  width: 65%;
+`
+
+const DeleteDiv = styled.div`
+  width: 35%;
+`
+
+const RemoveBtn = styled(DeleteOutlined)`
   right: 1rem;
   top: 0.5rem;
+  font-size: 1.5rem;
 `
 
 
@@ -62,6 +74,18 @@ const _Posts = () => {
       data: targetId
     })
   }
+
+  const confirm = (e: React.MouseEvent<HTMLElement> | string) => {
+    console.log(e);
+    onRemovePost(e)
+    message.success('Click on Yes');
+  };
+  
+  const cancel = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(e);
+    message.error('Click on No');
+  };
+  
   
   return (
     <PostsContainer key={shortid()}>
@@ -69,12 +93,29 @@ const _Posts = () => {
         mainPosts.map(
           (element) => 
         <PostsInnerContainer key={shortid()}>
-          <RemoveBtn onClick={ () => onRemovePost(element.id)}>x</RemoveBtn>
-          <ContentContainer>
-            <DatePara>{element.date}</DatePara>
-            <ContentPara>{element.content}</ContentPara>
-          </ContentContainer>
-            <Images image={element.Images}/>
+          <TagAndDelete>
+            <TagDiv>
+              <PostTags postData={element.content} />
+            </TagDiv>
+            <DeleteDiv>
+              <Popconfirm
+                    title="메모 삭제하기"
+                    onCancel={cancel}
+                    onConfirm={() => confirm(element.id)}
+                    okText="삭제"
+                    cancelText="취소"
+                    icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
+                    placement="rightTop"
+                  >
+                    <a href="#"><RemoveBtn/></a>
+                </Popconfirm>
+            </DeleteDiv>
+          </TagAndDelete>
+            <ContentContainer>
+              <DatePara>{element.date}</DatePara>
+              <ContentPara>{element.content}</ContentPara>
+            </ContentContainer>
+              <Images image={element.Images}/>
         </PostsInnerContainer>
         )
       }
