@@ -19,11 +19,9 @@ const _SearchForm = () => {
   }, [searchInput])
 
   return (
-  <Menu mode="horizontal">  
-    <Menu.Item>
+  <div>  
       <SearchInput enterButton value={searchInput} onChange={onChangeSearch} onSearch={onSearch}/>
-    </Menu.Item>
-  </Menu>
+  </div>
   )
 }
 

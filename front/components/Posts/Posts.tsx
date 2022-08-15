@@ -45,6 +45,7 @@ const ContentPara = styled.p`
 const TagAndDelete = styled.div`
   width: 100%;
   position: absolute;
+  display: flex;
 `
 
 const TagDiv = styled.div`
@@ -78,12 +79,12 @@ const _Posts = () => {
   const confirm = (e: React.MouseEvent<HTMLElement> | string) => {
     console.log(e);
     onRemovePost(e)
-    message.success('Click on Yes');
+    message.success('삭제되었습니다.');
   };
   
   const cancel = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
-    message.error('Click on No');
+    message.error('삭제가 취소되었습니다.');
   };
   
   

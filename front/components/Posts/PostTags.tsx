@@ -1,26 +1,24 @@
 import React from 'react'
 import Link from 'next/link'
+import shortid from 'shortid'
 
 const PostTags = ({ postData }) => {
-  const Tags = postData.match(/(#[^\s]+)/)
-  console.log(Tags)
-
+    const Tags = postData.split(/(#[^\s#]+)/g).filter((v:string) => v.match(/(#[^\s]+)/))
     return (
         <div>
-        {postData.split(/(#[^\s#]+)/g).filter((v) => {
-            if (v.match(/(#[^\s]+)/)) {
-                return (
+        {
+        Tags && Tags.map((v:string) => {
+            return (
                     <Link
                         href={{ pathname: '/hashtag', query: { tag: v.slice(1) } }}
                         as={`/hashtag/${v.slice(1)}`}
-                        key={v}
+                        key={shortid()}
                     >
-                        <a>{v}</a>
+                        <a>{v}&nbsp;</a>
                     </Link>
-                );
-            }
-            return v;
-        })}
+                )
+            })
+        }
     </div>
     )
 };

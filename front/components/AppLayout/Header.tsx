@@ -133,7 +133,7 @@ const _Header = (props: HeaderProps) => {
         </IconContainer>
         <HomeButtonContainer onClick={onHome}>
           <GymIcon/>
-          <HomeHeader>Health Dairy</HomeHeader>
+          <HomeHeader>My Dairy</HomeHeader>
         </HomeButtonContainer>
         <UserButtonContainer>
           {

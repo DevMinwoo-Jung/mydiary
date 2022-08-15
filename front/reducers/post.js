@@ -9,7 +9,7 @@ const dummy = [
       nickname: 'minwoo',
     },
     date: '2022-08-11',
-    content: '나는 연봉도 3천 이상 받을 것이고 커리어도 개쩌는 개발자가 되어 주변 사람들한테 좀 배풀 것이다',
+    content: '연봉 3천 이상!',
     Images: [{
       id: shortid.generate(),
       src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
@@ -28,7 +28,7 @@ const dummy = [
       nickname: 'minwoo2',
     },
     date: '2022-08-12',
-    content: '두 번째 게시글 #되니',
+    content: '두 번째 게시글 #되니 #됩니까',
     Images: [{
       id: shortid.generate(),
       src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
