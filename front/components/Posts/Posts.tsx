@@ -1,10 +1,10 @@
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { COLOR_DBE2EF } from 'libs/css/color'
 import shortid from 'shortid'
 import Images from './Images'
-import { POST_DELETE_REQUEST, POST_DELETE_SUCCESS } from 'reducers/post'
+import { POST_DELETE_REQUEST } from 'reducers/post'
 import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import { message, Popconfirm } from 'antd'
 import PostTags from './PostTags'
@@ -50,16 +50,26 @@ const TagAndDelete = styled.div`
 
 const TagDiv = styled.div`
   width: 65%;
+  text-align: left;
+  margin: 1rem;
 `
 
 const DeleteDiv = styled.div`
   width: 35%;
+  color: 'black';
+  text-align: right;
+  margin: 1rem;
 `
 
 const RemoveBtn = styled(DeleteOutlined)`
   right: 1rem;
   top: 0.5rem;
   font-size: 1.5rem;
+`
+
+const Atag = styled.a`
+  text-decoration: none;
+  color: inherit;
 `
 
 
@@ -108,7 +118,7 @@ const _Posts = () => {
                     icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
                     placement="rightTop"
                   >
-                    <a href="#"><RemoveBtn/></a>
+                    <Atag href="#"><RemoveBtn/></Atag>
                 </Popconfirm>
             </DeleteDiv>
           </TagAndDelete>
