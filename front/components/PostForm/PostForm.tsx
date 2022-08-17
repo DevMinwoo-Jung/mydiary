@@ -144,7 +144,7 @@ export const _PostForm = () => {
     }
   }, [addPostDone]);
 
-  const onChangeImages = useCallback((e: { target: { files: any } }) => {
+  const onChangeImages = useCallback((e) => {
     console.log('images', e.target.files)
     const imageFormData = new FormData();
     [].forEach.call(e.target.files, (f: string | Blob) => {
@@ -225,9 +225,9 @@ export const _PostForm = () => {
           </ButtonsDiv>
           <div>
             {
-            imagePaths.map((v: React.Key, i: any) => (
+            imagePaths && imagePaths.map((v: React.Key, i: string) => (
             <div key={v} style={{display: 'inline-block'}}>
-                <img src={`${v}`} style={{width: '200px'}} alt={String(v)}/>
+                <img src={`http://localhost:3065/${v}`} style={{width: '200px'}} alt={String(v)}/>
                 <button onClick={onRemoveImage(i)}>제거</button>
             </div>
             ))}

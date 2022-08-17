@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { FC } from 'react'
 import Link from 'next/link'
 import shortid from 'shortid'
 
-const PostTags = ({ postData }) => {
-    const Tags = postData.split(/(#[^\s#]+)/g).filter((v:string) => v.match(/(#[^\s]+)/))
+type PostTagsProps = {
+    postData: string
+}
+
+const PostTags:FC<PostTagsProps> = (props) => {
+
+    const { postData } = props
+    // console.log(postData)
+
+    const Tags = postData !== undefined ? postData.split(/(#[^\s#]+)/g).filter((v:string) => v.match(/(#[^\s]+)/)) : ''
     return (
         <div>
         {

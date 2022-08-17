@@ -18,14 +18,12 @@ function* addPost(action) {
     try {
         // const result = yield call(addPostAPI, action.data);
         // yield delay(1000);
+        console.log(action.data)
         const id = shortid.generate();
+        const result = yield action.data
         yield put({
         type: ADD_POST_SUCCESS,
-        data: {
-            id,
-            content: action.data,
-            date: action.data
-            },
+        data: result.data
         });
     } catch (err) {
         console.error(err);

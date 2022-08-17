@@ -183,25 +183,22 @@ export default (state = initialState, action) => {
         draft.addPostLoading = false;
         draft.addPostError = action.error
         break;
-      case POST_DELETE_REQUEST: {
+      case POST_DELETE_REQUEST:
         draft.deleteLoading = true;
         draft.deleteError = null;
         draft.deleteDone = false;
         break;
-      }
-      case POST_DELETE_SUCCESS: {
+      case POST_DELETE_SUCCESS: 
         draft.deleteLoading = true;
         draft.deleteError = null;
         draft.deleteDone = false;
         draft.mainPosts = draft.mainPosts.filter((y, i) => y.id !== action.data);
         break;
-      }
-      case POST_DELETE_FAILURE: {
+      case POST_DELETE_FAILURE: 
         draft.deleteLoading = true;
         draft.deleteError = null;
         draft.deleteDone = false;
         break;
-      }
       case UPLOAD_IMAGES_REQUEST:
         draft.uploadImagesLoading = true;
         draft.uploadImagesDone = false;
