@@ -21,7 +21,7 @@ const PostFormContainer = styled(Form)`
 
 const HideFormContainer = styled(Form)`
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 `
 
 const TextContainer = styled(Input.TextArea)`

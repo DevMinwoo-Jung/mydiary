@@ -17,8 +17,8 @@ const ImageContainer = styled.div`
   margin: 3rem 1rem 1rem 1rem;
   & img {
     object-fit: fill;
-    max-height: 100%;
-    min-width: 90%;
+    height: 100%;
+    width: 90%;
   }
 `
 

@@ -6,15 +6,18 @@ import PostForm from 'components/PostForm/PostForm'
 import Posts from 'components/Posts/Posts'
 import { WHITE } from 'libs/css/color'
 import shortid from 'shortid'
+import { useSelector } from 'react-redux'
 
 const ContentsContainer = styled.div`
   margin: auto;
   display: block;
   background-color: ${WHITE};
   width: 100%;
-  height: 100%;
 `
 const _index: NextPage = () => {
+
+  const { logInDone } = useSelector((state) => state.user)
+
   return (
     <>
       <Head>
@@ -22,7 +25,9 @@ const _index: NextPage = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ContentsContainer>
-        <PostForm key={shortid.generate()}/>
+        {
+          logInDone && <PostForm key={shortid.generate()}/>
+        }
         <Posts/>
       </ContentsContainer>
     </>

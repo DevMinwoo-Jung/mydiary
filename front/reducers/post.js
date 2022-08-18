@@ -1,5 +1,6 @@
 import shortid from 'shortid'
 import produce from 'immer'
+import faker from 'faker';
 
 const dummy = [
   {
@@ -72,7 +73,8 @@ const dummy = [
 ]
 
 export const initialState = {
-  mainPosts: dummy,
+  mainPosts: [],
+  hasMorePosts: false,
   imagePaths: [],
   modify: false,
   showReps: true,
@@ -85,28 +87,24 @@ export const initialState = {
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+  loadPostsLoading: false,
+  loadPostsDone: false,
+  loadPostsError: null,
 };
 
 
 
-// export const generateDummyPost = (number) => Array(number).fill().map(() => ({
-//   id: shortid.generate(),
-//   User: {
-//     id: shortid.generate(),
-//     nickname: faker.name.findName(),
-//   },
-//   content: faker.lorem.paragraph(),
-//   Images: [{
-//     src: faker.image.image(),
-//   }],
-//   Comments: [{
-//     User: {
-//       id: shortid.generate(),
-//       nickname: faker.name.findName(),
-//     },
-//     content: faker.lorem.sentence(),
-//   }],
-// }));
+export const generateDummyPost = (number) => Array(number).fill().map(() => ({
+  id: shortid.generate(),
+  User: {
+    id: shortid.generate(),
+    nickname: faker.name.findName(),
+  },
+  content: faker.lorem.paragraph(),
+  Images: [{
+    src: faker.image.image(),
+  }],
+}));
 
 // initialState.mainPosts = initialState.mainPosts.concat(
 //   Array(20).fill().map(() => ({
@@ -129,6 +127,7 @@ export const initialState = {
 //   }))  
 // )
 
+
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'
 export const POST_MODIFY_REQUEST = 'POST_MODIFY_REQUEST'
 export const POST_DELETE_REQUEST = 'POST_DELETE_REQUEST'
@@ -140,16 +139,9 @@ export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE'
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
-
-export const addPost = (data) => ({
-  type: ADD_POST,
-  data: data
-});
-
-export const addComment = (data) => ({
-  type: ADD_COMMENT_REQUEST,
-  data
-});
+export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST'
+export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS'
+export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE'
 
 const dummyPost = (data) => ({
   id: data.id,
@@ -212,6 +204,22 @@ export default (state = initialState, action) => {
       case UPLOAD_IMAGES_FAILURE:
         draft.uploadImagesLoading = false;
         draft.uploadImagesError = action.error;
+        break;
+      case LOAD_POSTS_REQUEST: 
+        draft.loadPostsLoading = true;
+        draft.loadPostsDone = false;
+        draft.loadPostsError = null;
+        break;
+      case LOAD_POSTS_SUCCESS: 
+        draft.loadPostsLoading = false;
+        draft.loadPostsDone = true;
+        draft.mainPosts = action.data.concat(draft.mainPosts)
+        draft.imagePaths = [];
+        draft.hasMorePosts = draft.mainPosts.length < 50;
+        break;
+      case LOAD_POSTS_FAILURE: 
+        draft.loadPostsLoading = false;
+        draft.loadPostsError = action.error
         break;
       default: {
         break;

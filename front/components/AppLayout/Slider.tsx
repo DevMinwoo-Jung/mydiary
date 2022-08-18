@@ -20,7 +20,6 @@ const SidebarContainer = styled.aside<{ isOpened: boolean }>`
   transition: width 0.5s;
   overflow: hidden;
   position: absolute;
-  height: calc(100% - 50px);
   z-index: 10;
   border: 1px solid ${COLOR_MAIN};
   & .ant-menu-item::after {

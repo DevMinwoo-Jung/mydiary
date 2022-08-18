@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Header from './Header'
 import { size } from 'libs/css/layout'
-import CustomFooter from './Footer'
 import Slider from './Slider'
 import { COLOR_BACKGROUND_DEFAULT, WHITE } from 'libs/css/color'
 
@@ -29,6 +28,8 @@ const PageContainer = styled.div`
 const ContentContainer = styled.div`
   display: flex;
   margin: auto;
+  min-height: 94.5vh;
+  height: 100%;
   @media screen and (min-width: ${size.mobileM}) { 
     width: 375px;
   }
@@ -40,7 +41,7 @@ const ContentContainer = styled.div`
   }
 
   @media screen and (min-width: ${size.laptopL}) {
-    width: 1400px;
+    width: 1200px;
   }
 `
 
@@ -60,7 +61,6 @@ export default function AppLayout({ children }: AppLayoutProps) {
             <ContentContainer>
               <PageContainer>{children}</PageContainer>
             </ContentContainer>
-      {/* <CustomFooter/>         */}
     </Container>
   );
 }
