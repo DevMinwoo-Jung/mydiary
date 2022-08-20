@@ -15,7 +15,7 @@ const PostsContainer = styled.div`
 const _Posts = () => {
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post)
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch()   
   useEffect(() => {
     dispatch({
       type: LOAD_POSTS_REQUEST,
