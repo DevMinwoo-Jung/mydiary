@@ -1,9 +1,14 @@
-const http = require('http');
-const server = http.createServer((req, res) => {
-  console.log(req.url, req.method, res)
-  res.end('Hello Node!')
-});
+const express = require('express');
+const app = express()
+const postRouter = require('./routes/post')
 
-server.listen(3065, () => {
+app.use('/post', postRouter)
+
+app.get('/', (req, res) => {
+  res.send('hello express')
+})
+
+
+app.listen(3065, () => {
   console.log('server running...')
 });
