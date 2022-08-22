@@ -94,15 +94,15 @@ function* logout() {
 
 function signUpAPI(data) {
     console.log(data)
-    return axios.post(`/user`, data) // signUp에서 시작한 것이 email, password, nickname이 들어가있다!!
+    return axios.post(`http://localhost:3065/user`, data) // signUp에서 시작한 것이 email, password, nickname이 들어가있다!!
 }
 
 function* signUp(action) {
     try {
-        // const result = yield call(signUpAPI, action.data);
-        yield delay(1000);
+        const result = yield call(signUpAPI, action.data);
         yield put({
             type: SIGN_UP_SUCCESS,
+            data: result.data
         });
     } catch (err) {
         console.log(err)
