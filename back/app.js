@@ -1,7 +1,18 @@
 const express = require('express');
-const app = express()
 const postRouter = require('./routes/post')
+const db = require('./models')
+const dotenv = require('dotenv')
 
+dotenv.config();
+const app = express(); 
+// 이건 서버!
+db.sequelize.sync()
+    .then(() => {
+        console.log('db connect success!!!') 
+    })
+    .catch((error) => {
+        console.error(error)
+    })
 app.use('/post', postRouter)
 
 app.get('/', (req, res) => {
