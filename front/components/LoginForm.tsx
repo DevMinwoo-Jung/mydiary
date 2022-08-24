@@ -49,13 +49,6 @@ const ButtonStyle = styled(Button)`
     font-size: 100rre;
   }
 `
-const ButtonPara = styled.p`
-  position: absolute;
-  font-size: 14px;
-  width: 100%;
-  font-weight: bolder;
-`
-
 const InputStyle = styled(Input)`
   height: 50px;
   border-radius: 12px;
@@ -103,6 +96,12 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
   const dispatch = useDispatch();
   const [userId, onChangeUserId] = useInput('')
   const [password, onChangePassword] = useInput('')
+
+  useEffect(() => {
+    if (logInError) {
+      alert(logInError)
+    }
+  }, [logInError])
 
   const onSubmitForm = useCallback(() => {
     dispatch({

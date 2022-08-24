@@ -4,8 +4,9 @@ import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
 import { MdOutlineClose } from 'react-icons/md'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { SIGN_UP_REQUEST } from 'reducers/user'
+import Router from 'next/router'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -72,6 +73,8 @@ export type SignupFormProps = {
 const _SignupForm: FC<SignupFormProps> = (props) => {
   const { onSignup } = props
 
+  const { signUpLoading, signUpDone, signUpError, me } = useSelector((state) => state.user)
+
   const goSignup = () => {
     onSignup()
   }
@@ -83,6 +86,24 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
   const [password, onChangePassword] = useInput('')
   const [passwordCheck, setPasswordCheck] = useState('')
   const [passwordError, setPasswordError] = useState(false)
+
+  useEffect(() => {
+    if (me && me.id) {
+      Router.replace('/') // 뒤로가기 했을 때 그 페이지 안나오기 하려면
+    }
+  },[me && me.id])
+
+  useEffect(() => {
+    if (signUpDone) {
+      Router.push('/')
+    }
+  }, [signUpDone])
+
+  useEffect(() => {
+    if (signUpError) {
+      alert(signUpError)
+    }
+  }, [signUpError])
 
   const onChangePasswordCheck = useCallback(
     (e) => {
@@ -151,7 +172,7 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
             >
             <InputPasswordStyle value={passwordCheck} onChange={onChangePasswordCheck} placeholder='비밀번호 확인'/>
           </Form.Item>
-          <ButtonStyle htmlType="submit">
+          <ButtonStyle htmlType="submit" loading={signUpLoading}>
               회원가입
           </ButtonStyle> 
         </Form>

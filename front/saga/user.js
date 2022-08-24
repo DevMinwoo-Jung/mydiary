@@ -15,12 +15,10 @@ function loginAPI(data) {
 // 특이하다 loginAPI(action.data, a, b, c) 이 형식이 call쓰면 아래처럼 됨
 function* login(action) {
     try {
-        // const result = yield call(followAPI);
-        yield delay(1000);
-        // const result = yield call(loginAPI, action.data)
+        const result = yield call(loginAPI, action.data);
         yield put({
             type: LOG_IN_SUCCESS,
-            data: action.data,
+            data: result.data,
         });
     } catch (err) {
         console.log(err);
@@ -78,8 +76,7 @@ function logoutAPI() {
 
 function* logout() {
     try {
-        // yield call(logoutAPI);
-        yield delay(1000);
+        yield call(logoutAPI);
         yield put({
             type: LOG_OUT_SUCCESS,
         });
@@ -94,7 +91,7 @@ function* logout() {
 
 function signUpAPI(data) {
     console.log(data)
-    return axios.post(`http://localhost:3065/user`, data) // signUp에서 시작한 것이 email, password, nickname이 들어가있다!!
+    return axios.post(`/user/`, data) // signUp에서 시작한 것이 email, password, nickname이 들어가있다!!
 }
 
 function* signUp(action) {

@@ -90,23 +90,21 @@ const ButtonStyle = styled(Button)`
 
 
 const _UserInfo = () => {
-  const { showModifyForm, nickname, id, createdAt, password, weight, height } = useSelector((state) => state.user.user)
+  const { showModifyForm, nickname, id, createdAt, password } = useSelector((state) => state.user.user)
 
 const disaptch = useDispatch()
 
   const [ userNickname, onChangeUserNickname] = useInput('')
   const [ userPassword, onChangeUserPassword] = useInput('')
   const [ checkPassword, onChangeCheckPssword] = useInput('')
-  const [ userHeight, onChangeUserHeight] = useInput('')
-  const [ userWeight, onChangeUserWeight] = useInput('')
   const [ passwordAlert, setPasswordAlert ] = useState(false)
 
   const onModify = useCallback(() => {
     disaptch({
       type: USER_INFO_MODIFY_REQUEST,
-      data: {userNickname, userPassword, userHeight, userWeight, checkPassword},
+      data: {userNickname, userPassword, checkPassword},
     })
-  },[userNickname, userPassword, userHeight, userWeight, checkPassword])
+  },[userNickname, userPassword, checkPassword])
 
   const onCancel = () => {
     disaptch({
@@ -177,28 +175,6 @@ const disaptch = useDispatch()
       </div>
     </UserInfoDiv>
     <DividerStyle/>
-    <UserInfoDiv>
-    <div>
-        <Title level={2}>키</Title>
-        {
-          showModifyForm === false 
-          ?
-          <ParagraphStyle>{height}cm</ParagraphStyle> 
-          :
-          <InputStyle value={userHeight} onChange={onChangeUserHeight} placeholder={`${height}cm`}/>
-        }
-      </div>
-      <div>
-        <Title level={2}>몸무게</Title>
-        {
-          showModifyForm === false 
-          ?
-          <ParagraphStyle>{weight}kg</ParagraphStyle> 
-          :
-          <InputStyle value={userWeight} onChange={onChangeUserWeight} placeholder={`${weight}kg`}/>
-        }
-      </div>
-    </UserInfoDiv>
     <ButtonDiv>
         {
           showModifyForm 
