@@ -25,8 +25,8 @@ db.sequelize.sync()
 passportConfig()
 
 app.use(cors({
-  origin: true,
-  credentials: false
+  origin: 'http://localhost:3000',
+  credentials: true
 }))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -40,7 +40,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/post', postRouter)
-app.use('/user', userRouter)
+app.use('/user', userRouter) 
 
 app.get('/', (req, res) => {
   res.send('hello express')

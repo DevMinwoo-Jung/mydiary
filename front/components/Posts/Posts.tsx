@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import shortid from 'shortid'
 import Post from './Post'
 import { LOAD_POSTS_REQUEST } from 'reducers/post'
+import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 
 
 const PostsContainer = styled.div`
@@ -18,9 +19,13 @@ const _Posts = () => {
   const dispatch = useDispatch()   
   useEffect(() => {
     dispatch({
+      type: LOAD_MY_INFO_REQUEST
+    })
+    dispatch({
       type: LOAD_POSTS_REQUEST,
     })
   }, [])
+
 
   useEffect(() => {
     function onScroll() {

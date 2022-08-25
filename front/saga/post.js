@@ -8,21 +8,18 @@ import { ADD_POST_FAILURE, ADD_POST_SUCCESS, ADD_POST_REQUEST,
 
 import shortid from 'shortid';
 
-// function addPostAPI(data) {
-//     return axios.post('/post', { content: data }) // 이렇게 해 주는게 req.body에 content에 접근 하려고 없으면 접근이 안될껄..?
-// }                                                    formData는 이렇게 json으로 하면 안됨
-
 function addPostAPI(data) {
-    return axios.post('/post', data) // 이렇게 해 주는게 req.body에 content에 접근 하려고 없으면 접근이 안될껄..?
-}
+    return axios.post('/post', { content: data }) // 이렇게 해 주는게 req.body에 content에 접근 하려고, 없으면 접근이 안됨.
+}                                                   
+
+// function addPostAPI(data) {
+//     return axios.post('/post', data) // 이렇게 해 주는게 req.body에 content에 접근 하려고 없으면 접근이 안될껄..?
+// }
 
 function* addPost(action) {
     try {
-        // const result = yield call(addPostAPI, action.data);
-        // yield delay(1000);
+        const result = yield call(addPostAPI, action.data);
         console.log(action.data)
-        const id = shortid.generate();
-        const result = yield action.data
         yield put({
         type: ADD_POST_SUCCESS,
         data: result.data

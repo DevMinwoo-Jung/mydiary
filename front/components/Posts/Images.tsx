@@ -50,9 +50,17 @@ const _Images:FC<ImagesProps>  = (props) => {
         ? ''
         : 
         <>
-          <CaretLeftOutlined onClick={onShowPrevImg}/>
+        {
+          image.length === 1
+          ? null
+          : <CaretLeftOutlined onClick={onShowPrevImg}/> 
+        }
             <img src={`${image[currentSlide].src}`} alt="" />
-          <CaretRightOutlined onClick={onShowNextImg}/>
+        {
+          image.length === 1
+          ? null
+          : <CaretRightOutlined onClick={onShowNextImg}/>
+        }
         </>
       }
     </ImageContainer>

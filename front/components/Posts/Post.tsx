@@ -148,7 +148,7 @@ const _Post:FC<PostProps> = (props) => {
 
   const [modify, setModify] = useState(false)
   const [date, setDate] = useState<string>(undefined)
-  const [text, onChangeText, setText] = useInput(post.content)
+  const [text, onChangeText, setText] = useInput('')
 
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {

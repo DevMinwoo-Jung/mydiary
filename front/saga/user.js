@@ -3,7 +3,8 @@ import axios from 'axios'
 import { LOG_IN_REQUEST , LOG_IN_SUCCESS, LOG_IN_FAILURE, 
     LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE, 
     SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE, 
-    USER_INFO_MODIFY_REQUEST, USER_INFO_MODIFY_FAILURE, USER_INFO_MODIFY_SUCCESS
+    USER_INFO_MODIFY_REQUEST, USER_INFO_MODIFY_FAILURE, USER_INFO_MODIFY_SUCCESS,
+    LOAD_MY_INFO_FAILURE, LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS
 
 } from '../reducers/user' 
 
@@ -91,7 +92,7 @@ function* logout() {
 
 function signUpAPI(data) {
     console.log(data)
-    return axios.post(`/user/`, data) // signUp에서 시작한 것이 email, password, nickname이 들어가있다!!
+    return axios.post(`/user`, data) // signUp에서 시작한 것이 email, password, nickname이 들어가있다!!
 }
 
 function* signUp(action) {
@@ -146,25 +147,25 @@ function* userInfoModify(action) {
 //     }
 // }
 
-// function loadMyInfoAPI() {
-//     return axios.get('/user') // 쿠키라 데이터가 없데..
-// }
+function loadMyInfoAPI() {
+    return axios.get('/user') // 쿠키라 데이터가 없데..
+}
 
-// function* loadMyInfo() {
-//     try {
-//         const result = yield call(loadMyInfoAPI);
-//         yield put({
-//             type: LOAD_MY_INFO_SUCCESS,
-//             data: result.data
-//         });
-//     } catch (err) {
-//         console.log(err)
-//         yield put({
-//             type: LOAD_MY_INFO_FAILURE,
-//             error: err.response.data
-//         })
-//     }
-// }
+function* loadMyInfo(action) {
+    try {
+        const result = yield call(loadMyInfoAPI, action.data);
+        yield put({
+            type: LOAD_MY_INFO_SUCCESS,
+            data: result.data
+        });
+    } catch (err) {
+        console.log(err)
+        yield put({
+            type: LOAD_MY_INFO_FAILURE,
+            error: err.response.data
+        })
+    }
+}
 
 // function changeNickNameAPI(data) {
 //     return axios.patch(`/user/nickname`, { nickname: data }) // 쿠키라 데이터가 없데..
@@ -271,9 +272,9 @@ function* watchUserInfoModify() {
 //     yield takeLatest(UNFOLLOW_REQUEST, unFollow)
 // }
 
-// function* watchMyInfo() {
-//     yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo)
-// }
+function* watchMyInfo() {
+    yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo)
+}
 
 // function* watchChangeNicknamePost() {
 //     yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickName)
@@ -300,10 +301,8 @@ export default function* userSaga() {
         fork(watchLogin),
         fork(watchLogout),
         fork(watchSigUp),
-        fork(watchUserInfoModify)
-        // fork(watchFollow),
-        // fork(watchUnFollow),
-        // fork(watchMyInfo),
+        fork(watchUserInfoModify),
+        fork(watchMyInfo),
         // fork(watchLoadUser),
         // fork(watchChangeNicknamePost),
         // fork(watchLoadFollowingsPost),

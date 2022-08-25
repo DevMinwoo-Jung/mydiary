@@ -129,7 +129,11 @@ const _Header = (props: HeaderProps) => {
     <>
     <HeaderContainer>
         <IconContainer onClick={toggleDrawer}>
-          {isOpened ? <ChevronLeftStyle /> : <MenuStyle />}
+          {
+            logInDone === true 
+            ? <> {isOpened ? <ChevronLeftStyle /> : <MenuStyle />} </>
+            : null
+          }
         </IconContainer>
         <HomeButtonContainer onClick={onHome}>
           <GymIcon/>

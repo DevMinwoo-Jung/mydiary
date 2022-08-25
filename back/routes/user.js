@@ -7,6 +7,29 @@ const { User, Post, Image } = require('../models');
 
 const router = express.Router();
 
+router.get('/', async (req, res, next) => {
+  try {
+    if (req.user) {
+      const fullUserWithoutPassword = await User.findOne({
+        where: { id: req.user.id },
+        attributes: {
+            exclude: ['password'] // 비밀번호 제외하고 다 가져온다
+        },
+        include: [{ // 다른 테블의 정보를 가져올 때  쓴다 (join 같은 것 인듯)
+            model: Post, 
+            attributes: ['id'],
+        }]
+    })
+      res.status(200).json(fullUserWithoutPassword);
+    } else {
+      res.status(200).json(null)
+    }
+  } catch(error) {
+    console.error(error)
+    next(error)
+  }
+})
+
 router.post('/login', isNotLoggedIn, (req, res, next) => {
   passport.authenticate('local', (error, user, info) => {
       if (error) { // server error
@@ -79,6 +102,12 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/', (req, res) => {
   res.json('delete')
+})
+
+router.post('/logout', (req, res) => {
+  req.logout();
+  req.session.destroy();
+  res.send('ok');
 })
 
 module.exports = router;
