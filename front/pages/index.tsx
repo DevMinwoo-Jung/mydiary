@@ -1,12 +1,13 @@
 import styled from 'styled-components'
 import type { NextPage } from 'next'
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import Head from 'next/head'
 import PostForm from 'components/PostForm/PostForm'
 import Posts from 'components/Posts/Posts'
 import { WHITE } from 'libs/css/color'
 import shortid from 'shortid'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 
 const ContentsContainer = styled.div`
   margin: auto;
@@ -17,6 +18,13 @@ const ContentsContainer = styled.div`
 const _index: NextPage = () => {
 
   const { logInDone } = useSelector((state) => state.user)
+  const dispatch = useDispatch()   
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST
+    })
+  }, [])
 
   return (
     <>

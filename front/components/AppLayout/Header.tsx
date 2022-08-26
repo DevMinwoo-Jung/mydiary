@@ -97,7 +97,7 @@ const _Header = (props: HeaderProps) => {
   const router = useRouter()
   const dispatch = useDispatch()
 
-  const { logInDone } = useSelector((state) => state.user)
+  const { loadMyInfoDone, logInDone } = useSelector((state) => state.user)
 
   const onSignup = useCallback(() => {
     setShowSignUp((prev) => !prev)
@@ -116,13 +116,13 @@ const _Header = (props: HeaderProps) => {
 
   const onHome = useCallback(() => {
     router.push('/')
-    setIsLogin((prev) => prev === true ? !prev : prev)
-    setShowLogin((prev) => prev === true ? !prev : prev)
-    setShowSignUp((prev) => prev === true ? !prev : prev)
+    // setIsLogin((prev) => prev === true ? !prev : prev)
+    // setShowLogin((prev) => prev === true ? !prev : prev)
+    // setShowSignUp((prev) => prev === true ? !prev : prev)
   }, [])
 
   useEffect(() => {
-    logInDone && setShowLogin(false)
+    logInDone === true ? setIsLogin(true) : setIsLogin(false)
   }, [logInDone])
   
   return (
@@ -130,7 +130,7 @@ const _Header = (props: HeaderProps) => {
     <HeaderContainer>
         <IconContainer onClick={toggleDrawer}>
           {
-            logInDone === true 
+            isLogin === true 
             ? <> {isOpened ? <ChevronLeftStyle /> : <MenuStyle />} </>
             : null
           }
@@ -141,14 +141,14 @@ const _Header = (props: HeaderProps) => {
         </HomeButtonContainer>
         <UserButtonContainer>
           {
-            logInDone 
+            isLogin === true
             ?
               <ButtonStyle onClick={onLogout}>로그아웃</ButtonStyle>
             :
               <ButtonStyle onClick={onLogin}>로그인</ButtonStyle>
           }
           {
-            logInDone
+            isLogin === true
             ?
               <ButtonStyle onClick={() => router.push('/profile')}>내정보</ButtonStyle>
             :

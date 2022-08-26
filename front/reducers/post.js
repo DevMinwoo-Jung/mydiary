@@ -221,6 +221,9 @@ export default (state = initialState, action) => {
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error
         break;
+      case REMOVE_IMAGE:
+        draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data)
+        break;
       default: {
         break;
       }

@@ -112,6 +112,7 @@ function* signUp(action) {
 }
 
 function* userInfoModify(action) {
+    console.log(action.data)
     try {
         yield delay(1000);
         yield put({
@@ -152,6 +153,7 @@ function loadMyInfoAPI() {
 }
 
 function* loadMyInfo(action) {
+    console.log(action.data)
     try {
         const result = yield call(loadMyInfoAPI, action.data);
         yield put({

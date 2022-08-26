@@ -88,9 +88,7 @@ function uploadImagesAPI(data) {
 function* uploadImage(action) {
     console.log(action)
     try {
-        // const result = yield call(uploadImagesAPI, action.data);
-        const result = yield action.data
-        // console.log(action.data)
+        const result = yield call(uploadImagesAPI, action.data);
         yield put({
         type: UPLOAD_IMAGES_SUCCESS,
         data: result.data,
@@ -120,11 +118,12 @@ function* watchDeletePost() {
     yield takeLatest(POST_DELETE_REQUEST, deletePost)
 }
 
+
 export default function* rootSaga() {
     yield all([
         fork(watchAddPost),
         fork(watchUploadImagesPost),
         fork(watchDeletePost),
-        fork(watchLoadPost)
+        fork(watchLoadPost),
     ])
 }

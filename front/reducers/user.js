@@ -27,17 +27,6 @@ export const initialState = {
     loadMyInfoError: null,
 };
 
-    const dummyUser = (data) => ({
-    ...data,
-    nickname: 'minwoo',
-    id: 'devminwooJung',
-    nickname: '짱멋진 개발자 정민우',
-    password: '123123123',
-    createdAt: '2022/07/08',
-    weight: '83',
-    height: '182',
-    })
-
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST'
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS'
 export const LOG_IN_FAILURE = 'LOG_IN_FAILURE'
@@ -75,7 +64,7 @@ export const  loginRequestAction = (data) => ({
 export const logoutRequestAction = () => ({
     type: LOG_OUT_REQUEST,
     })
-
+ 
 export const signUpSuccess = {
     type: SIGN_UP_SUCCESS,
 }
@@ -134,6 +123,7 @@ export default (state = initialState, action) => {
             draft.logOutLoading = false;
             draft.logOutDone = true;
             draft.logInDone = false;
+            draft.loadMyInfoDone = false;
             draft.me = null
             break;
         case LOG_OUT_FAILURE: 

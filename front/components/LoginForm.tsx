@@ -103,6 +103,10 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
     }
   }, [logInError])
 
+  useEffect(() => {
+    logInDone === true ? onLogin() : ''
+  }, [logInDone])
+
   const onSubmitForm = useCallback(() => {
     dispatch({
       type: LOG_IN_REQUEST,
@@ -117,7 +121,7 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
       <FormContainer>
         <Form
           name="basic"
-          initialValues={{ remember: true }}
+          initialValues={{ remember: false }}
           onFinish={onSubmitForm}
           autoComplete="off"
         >
@@ -137,7 +141,7 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
               로그인하기
             </ButtonStyle> 
           <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 0, span: 16 }}>
-            <CheckboxStyle>로그인 상태 유지</CheckboxStyle>
+            {/* <CheckboxStyle>로그인 상태 유지</CheckboxStyle> */}
           </Form.Item>
         </Form>
       </FormContainer>

@@ -10,8 +10,8 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   try {
     if (req.user) {
-      const fullUserWithoutPassword = await User.findOne({
-        where: { id: req.user.id },
+      const fullUserWithoutPassword = await User.findOne({  
+        where: { id: req.user.id }, 
         attributes: {
             exclude: ['password'] // 비밀번호 제외하고 다 가져온다
         },
@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
             model: Post, 
             attributes: ['id'],
         }]
-    })
+      })
       res.status(200).json(fullUserWithoutPassword);
     } else {
       res.status(200).json(null)
@@ -86,7 +86,7 @@ router.post('/', async (req, res, next) => {
     if (exEmail) {
       return res.status(403).send('중복된 이메일이 존재합니다.')
     }
-    const hashPassword = await bcrypt.hash(req.body.password, 13)
+    const hashPassword = await bcrypt.hash(req.body.password, 10)
     await User.create({
       userId: req.body.userId,
       email: req.body.email,

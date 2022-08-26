@@ -22,22 +22,23 @@ db.sequelize.sync()
         console.error(error)
     })
 
-passportConfig()
+passportConfig()  
 
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true
 }))
+app.use(express.static(path.join(__dirname, 'uploads')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session({
     saveUninitialized: false,
-    resave: false,
+    resave: false, 
     secret: process.env.COOKIE_SECRET,  
 }));
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session()); 
 
 app.use('/post', postRouter)
 app.use('/user', userRouter) 

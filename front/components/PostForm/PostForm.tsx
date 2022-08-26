@@ -1,7 +1,7 @@
 import { Button, DatePicker, DatePickerProps, Form, Input } from 'antd'
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react' 
 import styled from 'styled-components'
-import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
+import { ADD_POST_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
@@ -122,6 +122,12 @@ const DateStyle = styled.span`
   margin-left: 1rem;
 `
 
+const ImgsDiv = styled.div`
+  width: 100%;
+  z-index: 100;
+  position: absolute;
+`
+
 export const _PostForm = () => {
   const dispatch = useDispatch()
   const imageInput = useRef<any>()
@@ -146,8 +152,8 @@ export const _PostForm = () => {
 
   const onChangeImages = useCallback((e) => {
     console.log('images', e.target.files)
-    const imageFormData = new FormData();
-    [].forEach.call(e.target.files, (f: string | Blob) => {
+    const imageFormData = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
+    [].forEach.call(e.target.files, (f) => {
         imageFormData.append('image', f)
     })
     dispatch({
@@ -168,11 +174,11 @@ export const _PostForm = () => {
       return alert('게시글을 작성하세요.');
     }
     const formData = new FormData();
-    imagePaths.forEach((p: string | Blob) => {
+    imagePaths.forEach((p) => {
         formData.append('image', p);
     });
     formData.append('content', text);
-    formData.append('date', date)
+    formData.append('date', date);
     dispatch({
         type: ADD_POST_REQUEST,
         data: formData,
@@ -180,10 +186,10 @@ export const _PostForm = () => {
   },[imagePaths, text, date])
 
   const onRemoveImage = useCallback((index: any) => () => {
-    // dispatch({
-    //     type: REMOVE_IMAGE,
-    //     data: index
-    // })
+    dispatch({
+        type: REMOVE_IMAGE,
+        data: index
+    })
   }, [])
 
   return (
@@ -223,7 +229,7 @@ export const _PostForm = () => {
             <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
             <ButtonStyle htmlType='submit'>추가</ButtonStyle>
           </ButtonsDiv>
-          <div>
+          <ImgsDiv>
             {
             imagePaths && imagePaths.map((v: React.Key, i: string) => (
             <div key={v} style={{display: 'inline-block'}}>
@@ -231,7 +237,7 @@ export const _PostForm = () => {
                 <button onClick={onRemoveImage(i)}>제거</button>
             </div>
             ))}
-          </div>
+          </ImgsDiv>
         </PostFormContainer>
       }
     </>
