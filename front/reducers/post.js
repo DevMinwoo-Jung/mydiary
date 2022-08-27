@@ -2,7 +2,7 @@ import shortid from 'shortid'
 import produce from 'immer'
 import faker from 'faker';
 
-const dummy = [
+export const dummy = [
   {
     id: 1,
     User: {

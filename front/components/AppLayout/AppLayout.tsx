@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Header from './Header'
 import { size } from 'libs/css/layout'
 import Slider from './Slider'
-import { COLOR_BACKGROUND_DEFAULT, WHITE } from 'libs/css/color'
+import { WHITE } from 'libs/css/color'
 
 export type AppLayoutProps = {
   children: React.ReactNode,
@@ -15,8 +15,6 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-color: ${COLOR_BACKGROUND_DEFAULT};
-
 `
 
 const PageContainer = styled.div`
@@ -30,19 +28,7 @@ const ContentContainer = styled.div`
   margin: auto;
   min-height: 94.5vh;
   height: 100%;
-  @media screen and (min-width: ${size.mobileM}) { 
-    width: 375px;
-  }
-  @media screen and (min-width: ${size.tablet}) { 
-    width: 650px;
-  }
-  @media screen and (min-width: ${size.laptop}) {
-    width: 1000px;
-  }
-
-  @media screen and (min-width: ${size.laptopL}) {
-    width: 1200px;
-  }
+  width: ${size.mobileL};
 `
 
 

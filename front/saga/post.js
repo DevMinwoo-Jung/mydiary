@@ -3,8 +3,9 @@ import axios from 'axios';
 import { ADD_POST_FAILURE, ADD_POST_SUCCESS, ADD_POST_REQUEST,
     UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_REQUEST,
     POST_DELETE_REQUEST, POST_DELETE_SUCCESS, POST_DELETE_FAILURE, 
-    LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE, generateDummyPost
+    LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE, generateDummyPost, dummy
 } from '../reducers/post'
+
 
 import shortid from 'shortid';
 
@@ -66,7 +67,7 @@ function* loadPosts(action) {
         // yield delay(1000);
         yield put({
             type: LOAD_POSTS_SUCCESS,
-            data: generateDummyPost(10),
+            data: dummy,
         });
         // yield put({
         //     type: REMOVE_POST_OF_ME,

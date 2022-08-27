@@ -17,19 +17,19 @@ import useInput from 'libs/hook/useInput'
 moment.locale('ko');
 
 const PostsInnerContainer = styled.div`
-  display: flex;
-  margin: auto;
-  height: 30rem;
+  display: block;
+  margin: 1rem;
+  height: 40rem;
   border: 1px solid ${COLOR_DBE2EF};
   border-radius: 1rem;
-  margin: 1rem;
   position: relative;
 `
 
 const ContentContainer = styled.div`
   display: block;
-  width: 50%;
-  margin: 3rem 3rem;
+  height: 14rem;
+  width: 90%;
+  margin: 1rem;
 `
 
 const DatePara = styled.p`
@@ -45,7 +45,7 @@ const ContentPara = styled.p`
 
 const TagAndDelete = styled.div`
   width: 100%;
-  position: absolute;
+  position: relative;
   display: flex;
 `
 
@@ -84,7 +84,6 @@ const PostFormHeader = styled.div`
   display: flex;
   text-align: left;
   font-size: 1rem;
-  margin-bottom: 1.5rem;
   position: relative;
   vertical-align: middle;
   & Input {
@@ -92,18 +91,17 @@ const PostFormHeader = styled.div`
     text-align: center;
     font-style: italic;
     border: none;
-    margin-right: 1rem;
   }
 `
 
 const TextContainer = styled(Input.TextArea)`
   justify-content: center;
-  width: 90%;
+  width: 100%;
   margin: auto;
   border: 1px solid ${COLOR_DBE2EF};
   border-radius: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   position: relative;
   & h1 {
     text-align: center;
@@ -148,7 +146,7 @@ const _Post:FC<PostProps> = (props) => {
 
   const [modify, setModify] = useState(false)
   const [date, setDate] = useState<string>(undefined)
-  const [text, onChangeText] = useInput('')
+  const [text, onChangeText, setText] = useInput('')
 
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -180,26 +178,27 @@ const _Post:FC<PostProps> = (props) => {
 
   return (
     <PostsInnerContainer key={shortid()}>
-      <TagAndDelete>
-        <TagDiv>
-          <PostTags postData={post.content} />
-        </TagDiv>
-        <DeleteDiv>
-          <BiCustomizeStyle onClick={onChangeModify}/>
-          <Popconfirm
-                title="메모 삭제하기"
-                onCancel={cancel}
-                onConfirm={() => confirm(post.id)}
-                okText="삭제"
-                cancelText="취소"
-                icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
-                placement="rightTop"
-              >
-                <Atag href="#"><RemoveBtn/></Atag>
-            </Popconfirm>
-        </DeleteDiv>
-      </TagAndDelete>
+        <Images image={post.Images}/>
         <ContentContainer>
+          <TagAndDelete>
+            <TagDiv>
+              <PostTags postData={post.content} />
+            </TagDiv>
+            <DeleteDiv>
+              <BiCustomizeStyle onClick={onChangeModify}/>
+              <Popconfirm
+                    title="메모 삭제하기"
+                    onCancel={cancel}
+                    onConfirm={() => confirm(post.id)}
+                    okText="삭제"
+                    cancelText="취소"
+                    icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
+                    placement="rightTop"
+                  >
+                    <Atag href="#"><RemoveBtn/></Atag>
+                </Popconfirm>
+            </DeleteDiv>
+          </TagAndDelete>
         {
             modify === true
             ?
@@ -226,7 +225,6 @@ const _Post:FC<PostProps> = (props) => {
             </>  
           }
         </ContentContainer>
-          <Images image={post.Images}/>
     </PostsInnerContainer>
   )
 }

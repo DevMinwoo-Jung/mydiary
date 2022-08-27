@@ -1,13 +1,12 @@
 const express = require('express');
-const router = express.Router();
 const multer = require('multer');
 const path = require('path'); // 요건 node에서 제공해 주는 것
 const fs = require('fs'); // 파일 시스템
 
 const { User, Post, Image, Hashtag } = require('../models');
-// const { isLoggedIn } = require('./middlewares');
+const { isLoggedIn } = require('./middlewares');
 
- 
+const router = express.Router();
 try {
   fs.accessSync('uploads');
 } catch (error) {
@@ -30,13 +29,13 @@ const uploads = multer({
   limits: { fileSize: 20 * 1024 * 1024 } // 20mb
 })// array인 이유가 여러 장 일수도 있어서, text는 none, 한장이면 single
 
-router.post('/', uploads.none, async (req, res, next) => {
+router.post('/', isLoggedIn, uploads.none, async (req, res, next) => {
   try {
     const hashtags = req.body.content.match(/(#[^\s#]+)/g);
     const post = await Post.create({
       content: req.body.content,
       date: req.body.date,
-      UserId: req.user.id,
+      UserId: req.user.id
     })
     if (hashtags) {
         const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({
@@ -54,14 +53,6 @@ router.post('/', uploads.none, async (req, res, next) => {
           await post.addImages(image);
       }
   } 
-<<<<<<< HEAD
-=======
-    const post = await Post.create({
-      content: req.body.content,
-      date: req.body.date,
-      UserId: req.body.userId,
-    })
->>>>>>> 649134c (20220827)
     const fullPost = await Post.findOne({
       where: { id: post.id },
       include: [{
@@ -79,7 +70,7 @@ router.post('/', uploads.none, async (req, res, next) => {
   }
 })
 
-router.delete('/:postId', async (req, res, next) => { // DELETE /post/1/like
+router.delete('/:postId', isLoggedIn, async (req, res, next) => { // DELETE /post/1/like
   try {
       await Post.destroy({
           where: { id: req.params.postId, userId: req.user.id }
@@ -91,7 +82,7 @@ router.delete('/:postId', async (req, res, next) => { // DELETE /post/1/like
   }
 })
 
-router.post('/images', uploads.array('image'), async (req, res, next) => { // post /images
+router.post('/images', isLoggedIn, uploads.array('image'), async (req, res, next) => { // post /images
   console.log(req.files);
   res.json(req.files.map((v) => v.filename));
 })

@@ -1,8 +1,6 @@
 import React, { FC, memo, useCallback, useEffect } from 'react'
 import { Button, Checkbox, Form, Input } from 'antd'
 import styled from 'styled-components'
-import Image from 'next/image'
-import { IoLogoGoogle } from 'react-icons/io'
 import useInput from 'libs/hook/useInput'
 import { MdOutlineClose } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
