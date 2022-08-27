@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Post, Image } = require('../models');
+const { User, Post, Image, Hashtag } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const multer = require('multer');
 const path = require('path'); // 요건 node에서 제공해 주는 것
@@ -31,10 +31,17 @@ const uploads = multer({
 
 router.post('/', async (req, res, next) => {
   try {
+    const hashtags = req.body.content.match(/(#[^\s#]+)/g);
+    if (hashtags) {
+        const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({
+            where: { name: tag.slice(1).toLowerCase() }, 
+        }))) // [#노드, true], [#리액트, true] 이런식으로 나옴
+        await post.addHashtags(result.map((y) => y[0]))
+    } // 있으면 가져오고 없으면 등록 
     const post = await Post.create({
       content: req.body.content,
       date: req.body.date,
-      UserId: req.user.id,
+      UserId: req.body.userId,
     })
     const fullPost = await Post.findOne({
       where: { id: post.id },

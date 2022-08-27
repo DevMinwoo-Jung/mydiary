@@ -2,6 +2,9 @@
 module.exports = (sequelize, DataType) => {
     const Post = sequelize.define('Post', { 
         //id는 기본적으로 1,2,3,4 ... 순서대로 올라간다
+        date: {
+            type: DataType.STRING(100),
+        },
         content: {
             type: DataType.TEXT,
             allowNull: false, // 필수
