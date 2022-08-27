@@ -29,7 +29,7 @@ const uploads = multer({
   limits: { fileSize: 20 * 1024 * 1024 } // 20mb
 })// array인 이유가 여러 장 일수도 있어서, text는 none, 한장이면 single
 
-router.post('/', async (req, res, next) => {
+router.post('/', uploads.none, async (req, res, next) => {
   try {
     const hashtags = req.body.content.match(/(#[^\s#]+)/g);
     if (hashtags) {
@@ -38,6 +38,16 @@ router.post('/', async (req, res, next) => {
         }))) // [#노드, true], [#리액트, true] 이런식으로 나옴
         await post.addHashtags(result.map((y) => y[0]))
     } // 있으면 가져오고 없으면 등록 
+    if (req.body.image) {
+      if (Array.isArray(req.body.image)) { // 이미지 여러 개 올리면 image: [1.png, 2.png....]
+          const images = await Promise.all(req.body.image.map((image) => { // db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
+              Image.create({ src: image })}));
+          await post.addImages(images);
+      } else { // 하나면 1.png 이런식으로 
+          const image = await Image.create({ src: req.body.image })
+          await post.addImages(image);
+      }
+  } 
     const post = await Post.create({
       content: req.body.content,
       date: req.body.date,
