@@ -54,6 +54,14 @@ router.post('/', uploads.none, async (req, res, next) => {
           await post.addImages(image);
       }
   } 
+<<<<<<< HEAD
+=======
+    const post = await Post.create({
+      content: req.body.content,
+      date: req.body.date,
+      UserId: req.body.userId,
+    })
+>>>>>>> 649134c (20220827)
     const fullPost = await Post.findOne({
       where: { id: post.id },
       include: [{
