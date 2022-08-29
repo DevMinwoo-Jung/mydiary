@@ -169,7 +169,6 @@ export const _PostForm = () => {
   }
 
   const onSubmit = useCallback(() => {
-    console.log(text, date, imageInput.current.value)
     if (!text || !text.trim()) {
       return alert('게시글을 작성하세요.');
     }

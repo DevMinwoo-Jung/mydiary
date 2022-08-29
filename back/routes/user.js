@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const { isNotLoggedIn } = require('./middlewares');
 
 const { User, Post, Image } = require('../models');
 
@@ -90,7 +90,7 @@ router.post('/', async (req, res, next) => {
     await User.create({
       userId: req.body.userId,
       email: req.body.email,
-      nickname: req.body.nickname,
+      nickname: req.body.nickname, 
       password: hashPassword
     })
     res.send('ok')

@@ -143,12 +143,12 @@ const DateStyle = styled.span`
 
 const _Post:FC<PostProps> = (props) => {
 
-  const { post } = props
+  const { post } = props 
   const dispatch = useDispatch()
 
   const [modify, setModify] = useState(false)
   const [date, setDate] = useState<string>(undefined)
-  const [text, onChangeText, setText] = useInput('')
+  const [text, onChangeText] = useInput('')
 
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {

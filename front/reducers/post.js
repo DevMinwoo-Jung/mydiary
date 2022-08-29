@@ -129,29 +129,27 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
 
 
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'
+
 export const POST_MODIFY_REQUEST = 'POST_MODIFY_REQUEST'
 export const POST_DELETE_REQUEST = 'POST_DELETE_REQUEST'
 export const POST_DELETE_SUCCESS = 'POST_DELETE_SUCCESS'
 export const POST_DELETE_FAILURE = 'POST_DELETE_FAILURE'
+
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST'
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS'
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE'
+
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
+
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST'
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS'
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE'
 
-const dummyPost = (data) => ({
-  id: data.id,
-  content: data.content,
-  User: {
-    id: 1,
-    nickname: '제로초',
-  },
-  Images: [],
-  Comments: [],
+export const addPost = (data) => ({
+  type: ADD_POST_REQUEST,
+  data,
 });
 
 // reducer 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성을 지키면서)

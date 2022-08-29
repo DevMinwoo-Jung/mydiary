@@ -8,13 +8,13 @@ import { ADD_POST_FAILURE, ADD_POST_SUCCESS, ADD_POST_REQUEST,
 
 import shortid from 'shortid';
 
-function addPostAPI(data) {
-    return axios.post('/post', { content: data }) // 이렇게 해 주는게 req.body에 content에 접근 하려고, 없으면 접근이 안됨.
-}                                                   
-
 // function addPostAPI(data) {
-//     return axios.post('/post', data) // 이렇게 해 주는게 req.body에 content에 접근 하려고 없으면 접근이 안될껄..?
-// }
+//     return axios.post('/post', { content: data }) // 이렇게 해 주는게 req.body에 content에 접근 하려고, 없으면 접근이 안됨.
+// }                                                   
+
+function addPostAPI(data) {
+    return axios.post('/post', data) // 이렇게 해 주는게 req.body에 content에 접근 하려고 없으면 접근이 안될껄..?
+}
 
 function* addPost(action) {
     try {

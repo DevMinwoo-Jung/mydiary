@@ -1,12 +1,13 @@
 const express = require('express');
-const { User, Post, Image, Hashtag } = require('../models');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const router = express.Router();
 const multer = require('multer');
 const path = require('path'); // 요건 node에서 제공해 주는 것
 const fs = require('fs'); // 파일 시스템
 
-const router = express.Router();
+const { User, Post, Image, Hashtag } = require('../models');
+// const { isLoggedIn } = require('./middlewares');
 
+ 
 try {
   fs.accessSync('uploads');
 } catch (error) {
@@ -32,6 +33,11 @@ const uploads = multer({
 router.post('/', uploads.none, async (req, res, next) => {
   try {
     const hashtags = req.body.content.match(/(#[^\s#]+)/g);
+    const post = await Post.create({
+      content: req.body.content,
+      date: req.body.date,
+      UserId: req.user.id,
+    })
     if (hashtags) {
         const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({
             where: { name: tag.slice(1).toLowerCase() }, 
@@ -48,11 +54,6 @@ router.post('/', uploads.none, async (req, res, next) => {
           await post.addImages(image);
       }
   } 
-    const post = await Post.create({
-      content: req.body.content,
-      date: req.body.date,
-      UserId: req.body.userId,
-    })
     const fullPost = await Post.findOne({
       where: { id: post.id },
       include: [{
@@ -62,6 +63,7 @@ router.post('/', uploads.none, async (req, res, next) => {
       } 
     ]
     })
+    console.log(fullPost)
     res.status(201).json(fullPost)
   } catch(error) {
     console.error(error)
@@ -69,12 +71,7 @@ router.post('/', uploads.none, async (req, res, next) => {
   }
 })
 
-router.post('/images', isLoggedIn, uploads.array('image'), async (req, res, next) => { // post /images
-  console.log(req.files);
-  res.json(req.files.map((v) => v.filename));
-})
-
-router.delete('/:postId', isLoggedIn, async (req, res, next) => { // DELETE /post/1/like
+router.delete('/:postId', async (req, res, next) => { // DELETE /post/1/like
   try {
       await Post.destroy({
           where: { id: req.params.postId, userId: req.user.id }
@@ -84,6 +81,11 @@ router.delete('/:postId', isLoggedIn, async (req, res, next) => { // DELETE /pos
       console.error(error);
       next(error)
   }
+})
+
+router.post('/images', uploads.array('image'), async (req, res, next) => { // post /images
+  console.log(req.files);
+  res.json(req.files.map((v) => v.filename));
 })
 
 module.exports = router;
