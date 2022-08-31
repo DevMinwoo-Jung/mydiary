@@ -102,6 +102,7 @@ const PostFormHeader = styled.div`
   font-size: 1rem;
   position: relative;
   vertical-align: middle;
+  justify-content: space-between;
   & Input {
     width: 120px;
     text-align: center;
@@ -141,7 +142,7 @@ const DatePickerStyle = styled(DatePicker)`
   border-radius: 0.6rem;
   font-style: normal;
   height: 32px;
-  width: 150px;
+  width: 140px;
 `
 
 const DateStyle = styled.span`
@@ -153,7 +154,7 @@ const DateStyle = styled.span`
   line-height: 32px;
 `
 const ButtonStyle = styled(Button)`
-  width: 150px;
+  width: 140px;
   height: 32px;
   position: right;
   font-size: 12px;
@@ -199,9 +200,9 @@ const _Post:FC<PostProps> = (props) => {
     setDate(dateString)
   };
 
-  const onChangeModify = () => {
+  const onChangeModify = useCallback(() => {
     setModify((prev) => !prev)
-  }
+  },[modify])
   
   const onRemovePost = (targetId:string) => {
     console.log(targetId)
@@ -274,7 +275,7 @@ const _Post:FC<PostProps> = (props) => {
                 <DatePara>{post.date}</DatePara>
                 {
                 post.date === undefined || post.date === '' || post.date === null 
-                ? ''
+                ? null
                 : 
                 <>
                   <DatePara>{moment(`${post.date}`).format('dddd')}</DatePara>

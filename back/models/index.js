@@ -13,11 +13,11 @@ db.Post = require('./post')(sequelize, Sequelize);
 db.User = require('./user')(sequelize, Sequelize);
 
 // associate 부분을 실행해 주는겨
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach(modelName => { 
   if (db[modelName].associate) {
     db[modelName].associate(db);
-  }
-});
+  } 
+}); 
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

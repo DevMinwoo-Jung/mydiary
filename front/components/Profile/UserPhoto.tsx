@@ -11,18 +11,19 @@ import { COLOR_MAIN, WHITE } from 'libs/css/color'
 const { Paragraph } = Typography
 
 const UserPhotoDiv = styled.div`
-  width: 350px;
-  height: 100%;
+  width: 100%;
   background: ${COLOR_MAIN};
-  padding-top: 10vh;
   color: ${WHITE};
+  display: flex;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
 `
 
 const AvatarStyle = styled(Avatar)`
-  width:'250px';
-  height:'250px';
+  width: '13rem';
+  height:'13rem';
   border: 99%;
-  margin: 1rem 0;
+  margin: 1rem;
   @media screen and (max-width: ${size.tablet}) { 
     width: 200px;
     height: 200px;
@@ -53,16 +54,16 @@ const _UserPhoto = () => {
   }
 
   return (
-    <>
       <UserPhotoDiv>
-        <AvatarStyle size={200} icon={<UserOutlined />}/>
-        <ParagraphStyle>
-          안녕하세요<br/>
-          {id} 님
-        </ParagraphStyle>
-        <EditOutlinedStyle onClick={onUserModify}/> 
+        <AvatarStyle size={150} icon={<UserOutlined />}/>
+        <div>
+          <ParagraphStyle>
+            안녕하세요<br/>
+            {id} 님
+          </ParagraphStyle>
+          <EditOutlinedStyle onClick={onUserModify}/> 
+        </div>
       </UserPhotoDiv>
-    </>
   )
 }
 

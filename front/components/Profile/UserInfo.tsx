@@ -14,11 +14,9 @@ const UserInfoContainer = styled.div`
   display: block;
   height: 100px;
   width: 100%;
-  padding-top: 10vh;
 `
 
 const UserInfoDiv = styled.div`
-  justify-content: center;
   width: 100%;
   display: flex;
   & div {
@@ -27,19 +25,21 @@ const UserInfoDiv = styled.div`
     display: block;
     width: 175px;
   }
-
-  @media screen and (min-width: ${size.tablet}) {
-    width: 300px;
+  /* @media screen and (min-width: ${size.tablet}) {
+    width: 45%;
   }
 
   @media screen and (min-width: ${size.laptopL}) {
-    width: 350px;
-  }
+    width: 300px;
+  } */
 }
+`
+const UserInfoInnerDiv = styled.div`
+  margin: auto;
 `
 
 const ParagraphStyle = styled(Paragraph)`
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bolder;
 `
 
@@ -54,10 +54,10 @@ const DividerStyle = styled(Divider)`
 const InputStyle = styled(Input)`
   border-radius: 12px;
   @media screen and (min-width: ${size.mobileS}) { 
-    width: 150px;
+    width: 100px;
   }
   @media screen and (min-width: ${size.tablet}) {
-    width: 200px;
+    width: 150px;
   }
 `
 
@@ -90,21 +90,23 @@ const ButtonStyle = styled(Button)`
 
 
 const _UserInfo = () => {
-  const { showModifyForm, nickname, id, createdAt, password } = useSelector((state) => state.user.user)
+  const { showModifyForm } = useSelector((state) => state.user)
+  const { nickname, userId, createdAt } = useSelector((state) => state.user.me)
+  const { password } = useSelector((state) => state.user.user)
+  console.log(password)
+  const disaptch = useDispatch()
 
-const disaptch = useDispatch()
-
-  const [ userNickname, onChangeUserNickname] = useInput('')
-  const [ userPassword, onChangeUserPassword] = useInput('')
-  const [ checkPassword, onChangeCheckPssword] = useInput('')
-  const [ passwordAlert, setPasswordAlert ] = useState(false)
+  const [userNickname, onChangeUserNickname ] = useInput('')
+  const [userPassword, onChangeUserPassword] = useInput('')
+  const [checkPassword, onChangeCheckPssword] = useInput('')
+  const [passwordAlert, setPasswordAlert ] = useState(false)
 
   const onModify = useCallback(() => {
     disaptch({
       type: USER_INFO_MODIFY_REQUEST,
-      data: {userNickname, userPassword, checkPassword},
+      data: {userNickname, userPassword},
     })
-  },[userNickname, userPassword, checkPassword])
+  },[userNickname, userPassword]) 
 
   const onCancel = () => {
     disaptch({
@@ -130,15 +132,13 @@ const disaptch = useDispatch()
   return (
   <>
     <UserInfoContainer>
-    <Title level={1}>내 정보</Title>
-    <DividerStyle/>
     <UserInfoDiv>
-      <div>
-        <Title level={2}>아이디</Title>
-        <ParagraphStyle>{id}</ParagraphStyle> 
-      </div>
-      <div>
-        <Title level={2}>활동명</Title>
+      <UserInfoInnerDiv>
+        <Title level={3}>아이디</Title>
+        <ParagraphStyle>{userId}</ParagraphStyle> 
+      </UserInfoInnerDiv>
+      <UserInfoInnerDiv>
+        <Title level={3}>닉네임</Title>
         {
           showModifyForm === false 
           ?
@@ -146,16 +146,16 @@ const disaptch = useDispatch()
           :
           <InputStyle value={userNickname} onChange={onChangeUserNickname} placeholder={nickname}/>
         }
-      </div>
+      </UserInfoInnerDiv>
     </UserInfoDiv>
     <DividerStyle/>
     <UserInfoDiv>
-      <div>
-        <Title level={2}>회원가입 날짜</Title>
-        <ParagraphStyle>{createdAt}</ParagraphStyle> 
-      </div>
-      <div>
-        <Title level={2}>비밀번호</Title>
+      <UserInfoInnerDiv>
+        <Title level={3}>회원가입 날짜</Title>
+        <ParagraphStyle>{createdAt.split('').slice(0,10)}</ParagraphStyle> 
+      </UserInfoInnerDiv>
+      <UserInfoInnerDiv>
+        <Title level={3}>비밀번호</Title>
         {
           showModifyForm === false
           ?
@@ -167,17 +167,24 @@ const disaptch = useDispatch()
             <br/>
             <InputStyle type={'password'} value={checkPassword} onChange={onChangeCheckPssword} placeholder={'변경할 비밀번호를 다시 입력하세요'}/>
             {
-              passwordAlert &&
-              <Paragraph style={{color: '#dd7474'}}>비밀번호가 일치하지 않습니다.</Paragraph>
+              showModifyForm === false 
+              ? null
+              : 
+              <>
+                {
+                  passwordAlert === false ? null
+                  : <Paragraph style={{color: '#dd7474'}}>비밀번호가 일치하지 않습니다.</Paragraph>
+                }
+              </>
             }
           </PasswordDiv>
         }
-      </div>
+      </UserInfoInnerDiv>
     </UserInfoDiv>
     <DividerStyle/>
     <ButtonDiv>
         {
-          showModifyForm 
+          showModifyForm === true
           ?
           <>
             <ButtonStyle disabled={passwordAlert} onClick={onModify}>수정하기</ButtonStyle>
