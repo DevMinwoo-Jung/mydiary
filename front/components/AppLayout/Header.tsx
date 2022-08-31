@@ -36,9 +36,9 @@ const HeaderContainer = styled.header`
 
 const IconContainer = styled.div`
   padding: 10px;
-  cursor: pointer;
   & svg {
     height: 30px;
+    cursor: pointer;
   }
 `;
 
@@ -128,10 +128,10 @@ const _Header = (props: HeaderProps) => {
   return (
     <>
     <HeaderContainer>
-        <IconContainer onClick={toggleDrawer}>
+        <IconContainer>
           {
             isLogin === true 
-            ? <> {isOpened ? <ChevronLeftStyle /> : <MenuStyle />} </>
+            ? <> {isOpened ? <ChevronLeftStyle onClick={toggleDrawer}/> : <MenuStyle onClick={toggleDrawer}/>} </>
             : null
           }
         </IconContainer>

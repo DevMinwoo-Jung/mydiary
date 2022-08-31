@@ -17,6 +17,7 @@ type SidebarProps = {
 const SidebarContainer = styled.aside<{ isOpened: boolean }>`
   background: ${COLOR_MAIN};
   width: ${(props) => (props.isOpened ? "10rem" : "0")};
+
   transition: width 0.5s;
   overflow: hidden;
   position: absolute;

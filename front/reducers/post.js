@@ -11,7 +11,7 @@ export const dummy = [
     },
     date: '2022-08-11',
     content: '연봉 3천 이상!',
-    Images: [{
+    Images: [{ 
       id: shortid.generate(),
       src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
     }, {

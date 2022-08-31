@@ -8,7 +8,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 
 // 모델을 시퀄라이즈에 등록 
 db.Hashtag = require('./hashtag')(sequelize, Sequelize);
-db.Image = require('./image')(sequelize, Sequelize);
+db.Image = require('./image')(sequelize, Sequelize); 
 db.Post = require('./post')(sequelize, Sequelize);
 db.User = require('./user')(sequelize, Sequelize);
 

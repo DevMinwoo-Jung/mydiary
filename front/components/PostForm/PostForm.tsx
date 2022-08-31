@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import { size } from 'libs/css/layout'
-import { BUTTON_COLOR, COLOR_DBE2EF, WHITE } from 'libs/css/color'
+import { BUTTON_COLOR, COLOR_BACKGROUND_DEFAULT, COLOR_DBE2EF, WHITE } from 'libs/css/color'
 import useInput from 'libs/hook/useInput'
 import SearchForm from 'components/SearchForm/SearchForm'
 
@@ -16,7 +16,13 @@ const PostFormContainer = styled(Form)`
   display: block;
   width: 100%;
   border-radius: 1rem;
-  height: 25vh;
+  height: 30vh;
+`
+const InnerPostFormDiv = styled.div`
+  border: 6px solid ${COLOR_BACKGROUND_DEFAULT};
+  border-radius: 1rem;
+  width: 100%;
+  margin-top: 3rem;
 `
 
 const HideFormContainer = styled(Form)`
@@ -46,7 +52,13 @@ const TextContainer = styled(Input.TextArea)`
   }
 `
 
+const DateDiv = styled.div`
+  text-align: left;
+  margin-left: 1.5rem;
+`
+
 const DatePickerStyle = styled(DatePicker)`
+  margin-top: 0.5rem;
   border-radius: 0.6rem;
   font-style: normal;
 `
@@ -57,8 +69,6 @@ const ButtonStyle = styled(Button)`
   font-size: 12px;
   margin: 5px;
   border-radius: 9px;
-  -webkit-box-shadow: 0px 3px 10px 2px #ABABAB; 
-  box-shadow: 0px 3px 10px 2px #ABABAB;
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
   & :hover {
@@ -95,8 +105,6 @@ const HideButton = styled(Button)`
   width: 100px;
   font-size: 12px;
   border-radius: 9px;
-  -webkit-box-shadow: 0px 3px 10px 2px #ABABAB; 
-  box-shadow: 0px 3px 10px 2px #ABABAB;
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
   & :hover {
@@ -206,37 +214,41 @@ export const _PostForm = () => {
         :
         <PostFormContainer name="image" encType="multipart/form-data" onFinish={onSubmit}>
           <PostFormHeader>
-            <DatePickerStyle onChange={onChange}/>
-            {
-              date === undefined || date === '' || date === null 
-              ? ''
-              : <DateStyle>{moment(`${date}`).format('dddd')}</DateStyle>
-            }
               <SearchFormDiv>
                 <SearchForm/>
               </SearchFormDiv>
             <HideButton onClick={hideForm}>숨기기</HideButton>
           </PostFormHeader>
-          <TextContainer
-              rows={5}
-              value={text}
-              onChange={onChangeText}
-              maxLength={400}
-              placeholder="무엇이든 기록해봐요"/>
-          <ButtonsDiv>
-            <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>
-            <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
-            <ButtonStyle htmlType='submit'>추가</ButtonStyle>
-          </ButtonsDiv>
-          <ImgsDiv>
-            {
-            imagePaths && imagePaths.map((v: React.Key, i: string) => (
-            <div key={v} style={{display: 'inline-block'}}>
-                <img src={`http://localhost:3065/${v}`} style={{width: '200px'}} alt={String(v)}/>
-                <button onClick={onRemoveImage(i)}>제거</button>
-            </div>
-            ))}
-          </ImgsDiv>
+          <InnerPostFormDiv>
+            <DateDiv>
+              <DatePickerStyle onChange={onChange}/>
+                {
+                  date === undefined || date === '' || date === null 
+                  ? ''
+                  : <DateStyle>{moment(`${date}`).format('dddd')}</DateStyle>
+                }
+            </DateDiv>
+            <TextContainer
+                rows={5}
+                value={text}
+                onChange={onChangeText}
+                maxLength={400}
+                placeholder="무엇이든 기록해봐요"/>
+            <ButtonsDiv>
+              <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>
+              <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
+              <ButtonStyle htmlType='submit'>추가</ButtonStyle>
+            </ButtonsDiv>
+            <ImgsDiv>
+              {
+              imagePaths && imagePaths.map((v: React.Key, i: string) => (
+              <div key={v} style={{display: 'inline-block'}}>
+                  <img src={`http://localhost:3065/${v}`} style={{width: '200px'}} alt={String(v)}/>
+                  <button onClick={onRemoveImage(i)}>제거</button>
+              </div>
+              ))}
+            </ImgsDiv>
+          </InnerPostFormDiv>
         </PostFormContainer>
       }
     </>
