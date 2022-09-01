@@ -175,8 +175,8 @@ const _Post:FC<PostProps> = (props) => {
   const dispatch = useDispatch()
 
   const [modify, setModify] = useState(false)
-  const [date, setDate] = useState<string>(undefined)
-  const [text, onChangeText, setText] = useInput('')
+  const [date, setDate] = useState<string>(post.date)
+  const [text, onChangeText, setText] = useInput(post.content)
   const imageInput = useRef<any>()
 
   const onClickImageUploads = useCallback(() => {
@@ -253,7 +253,7 @@ const _Post:FC<PostProps> = (props) => {
             ?
             <>
             <PostFormHeader>
-              <DatePickerStyle onChange={onChange}/>
+              <DatePickerStyle onChange={onChange} />
               {
                 date === undefined || date === '' || date === null 
                 ? ''

@@ -17,7 +17,7 @@ const ContentsContainer = styled.div`
 `
 const _index: NextPage = () => {
 
-  const { logInDone } = useSelector((state) => state.user)
+  const { me } = useSelector((state) => state.user)
   const dispatch = useDispatch()   
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const _index: NextPage = () => {
       </Head>
       <ContentsContainer>
         {
-          logInDone && <PostForm key={shortid.generate()}/>
+          me && <PostForm key={shortid.generate()}/>
         }
         <Posts/>
       </ContentsContainer>

@@ -37,6 +37,11 @@ const ParagraphStyle = styled(Paragraph)`
   color: ${WHITE};
 `
 
+const ParagraphDivStyle = styled.div`
+  width: 70%;
+  margin: auto;
+`
+
 const EditOutlinedStyle = styled(EditOutlined)`
   font-size: 1.5rem;
   font-weight: bolder;
@@ -44,7 +49,7 @@ const EditOutlinedStyle = styled(EditOutlined)`
 `
 
 const _UserPhoto = () => {
-  const { id } = useSelector((state) => state.user.user);
+  const { userId } = useSelector((state) => state.user.me)
   const dispatch = useDispatch()
 
   const onUserModify = () => {
@@ -56,13 +61,13 @@ const _UserPhoto = () => {
   return (
       <UserPhotoDiv>
         <AvatarStyle size={150} icon={<UserOutlined />}/>
-        <div>
+        <ParagraphDivStyle>
           <ParagraphStyle>
             안녕하세요<br/>
-            {id} 님
+            {userId} 님
           </ParagraphStyle>
           <EditOutlinedStyle onClick={onUserModify}/> 
-        </div>
+        </ParagraphDivStyle>
       </UserPhotoDiv>
   )
 }

@@ -16,7 +16,8 @@ const PostFormContainer = styled(Form)`
   display: block;
   width: 100%;
   border-radius: 1rem;
-  height: 30vh;
+  min-height: 30vh;
+  position: relative;
 `
 const InnerPostFormDiv = styled.div`
   border: 6px solid ${COLOR_BACKGROUND_DEFAULT};
@@ -133,7 +134,32 @@ const DateStyle = styled.span`
 const ImgsDiv = styled.div`
   width: 100%;
   z-index: 100;
-  position: absolute;
+`
+
+const ImgContainer = styled.div`
+  width: 100%;
+  display: block;
+`
+
+const ImgStyle = styled.img`
+  object-fit: fill;
+  height: 20vh;
+  width: 100%;
+`
+
+const RemoveButtonStyle = styled(Button)`
+  width: 20%;
+  margin: auto;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 9px;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  & :hover {
+    background-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
 `
 
 export const _PostForm = () => {
@@ -242,10 +268,10 @@ export const _PostForm = () => {
             <ImgsDiv>
               {
               imagePaths && imagePaths.map((v: React.Key, i: string) => (
-              <div key={v} style={{display: 'inline-block'}}>
-                  <img src={`http://localhost:3065/${v}`} style={{width: '200px'}} alt={String(v)}/>
-                  <button onClick={onRemoveImage(i)}>제거</button>
-              </div>
+              <ImgContainer key={v} style={{display: 'inline-block'}}>
+                  <ImgStyle src={`http://localhost:3065/${v}`} alt={String(v)}/>
+                  <RemoveButtonStyle onClick={onRemoveImage(i)}>제거</RemoveButtonStyle>
+              </ImgContainer>
               ))}
             </ImgsDiv>
           </InnerPostFormDiv>

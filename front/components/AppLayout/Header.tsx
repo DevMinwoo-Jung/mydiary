@@ -43,7 +43,9 @@ const IconContainer = styled.div`
 `;
 
 const UserButtonContainer = styled.div`
-  cursor: pointer;
+  & button {
+    cursor: pointer;
+  }
 `
 
 const ButtonStyle = styled(Button)`
@@ -52,12 +54,12 @@ const ButtonStyle = styled(Button)`
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
   border-color: ${BUTTON_COLOR};
-  & :hover {
+  &:hover {
     background-color: ${BUTTON_COLOR};
     color: ${WHITE};
     font-weight: bolder;
   }
-  & ::selection {
+  &::selection {
     background-color: ${BUTTON_COLOR};
   }
 `
@@ -91,20 +93,23 @@ const SignupLoginFormContainer = styled.div`
 const _Header = (props: HeaderProps) => {
   const [isLogin, setIsLogin] = useState(true)
   const [showSignUp, setShowSignUp] = useState(false)
-  const [showLogin, setShowLogin] = useState(false)  
+  const [showLogin, setShowLogin] = useState(false)
+  const [isClicked, setIsClicked] = useState(false)
   const { isOpened, toggleDrawer } = props
 
   const router = useRouter()
   const dispatch = useDispatch()
 
-  const { loadMyInfoDone, logInDone } = useSelector((state) => state.user)
+  const { me, logInDone, signUpDone } = useSelector((state) => state.user)
 
   const onSignup = useCallback(() => {
     setShowSignUp((prev) => !prev)
+    setIsClicked((prev) => !prev)
   }, [showSignUp])
 
   const onLogin = useCallback(() => {
     setShowLogin((prev) => !prev)
+    setIsClicked((prev) => !prev)
   }, [showLogin])
 
   const onLogout = useCallback(() => {
@@ -121,6 +126,14 @@ const _Header = (props: HeaderProps) => {
     // setShowSignUp((prev) => prev === true ? !prev : prev)
   }, [])
 
+  console.log(signUpDone)
+  useEffect(() => {
+    if (signUpDone === true) {
+      setShowSignUp((prev) => !prev)
+      setIsClicked((prev) => !prev)
+    }
+  }, [signUpDone])
+
   useEffect(() => {
     logInDone === true ? setIsLogin(true) : setIsLogin(false)
   }, [logInDone])
@@ -130,7 +143,7 @@ const _Header = (props: HeaderProps) => {
     <HeaderContainer>
         <IconContainer>
           {
-            isLogin === true 
+            me 
             ? <> {isOpened ? <ChevronLeftStyle onClick={toggleDrawer}/> : <MenuStyle onClick={toggleDrawer}/>} </>
             : null
           }
@@ -141,18 +154,18 @@ const _Header = (props: HeaderProps) => {
         </HomeButtonContainer>
         <UserButtonContainer>
           {
-            isLogin === true
+            me
             ?
               <ButtonStyle onClick={onLogout}>로그아웃</ButtonStyle>
             :
-              <ButtonStyle onClick={onLogin}>로그인</ButtonStyle>
+              <ButtonStyle disabled={isClicked} onClick={onLogin}>로그인</ButtonStyle>
           }
           {
-            isLogin === true
+            me
             ?
               <ButtonStyle onClick={() => router.push('/profile')}>내정보</ButtonStyle>
             :
-              <ButtonStyle onClick={onSignup}>회원가입</ButtonStyle>
+              <ButtonStyle disabled={isClicked} onClick={onSignup}>회원가입</ButtonStyle>
           }
         </UserButtonContainer>
     </HeaderContainer>

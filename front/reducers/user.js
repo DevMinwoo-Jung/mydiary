@@ -25,6 +25,7 @@ export const initialState = {
     loadMyInfoLoading: false,
     loadMyInfoDone: false,
     loadMyInfoError: null,
+    me: null,
 };
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST'

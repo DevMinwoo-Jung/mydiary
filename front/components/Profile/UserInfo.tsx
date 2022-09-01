@@ -187,7 +187,8 @@ const _UserInfo = () => {
           showModifyForm === true
           ?
           <>
-            <ButtonStyle disabled={passwordAlert} onClick={onModify}>수정하기</ButtonStyle>
+            {/* <ButtonStyle disabled={passwordAlert} onClick={onModify}>수정하기</ButtonStyle> */}
+            <ButtonStyle onClick={onModify}>수정하기</ButtonStyle>
             <ButtonStyle onClick={onCancel}>취소</ButtonStyle>
           </>
           :
