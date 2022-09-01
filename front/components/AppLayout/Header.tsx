@@ -125,8 +125,6 @@ const _Header = (props: HeaderProps) => {
     // setShowLogin((prev) => prev === true ? !prev : prev)
     // setShowSignUp((prev) => prev === true ? !prev : prev)
   }, [])
-
-  console.log(signUpDone)
   useEffect(() => {
     if (signUpDone === true) {
       setShowSignUp((prev) => !prev)

@@ -211,7 +211,7 @@ export const _PostForm = () => {
         formData.append('image', p);
     });
     formData.append('content', text);
-    formData.append('date', date);
+    console.log('formData', formData)
     dispatch({
         type: ADD_POST_REQUEST,
         data: formData,

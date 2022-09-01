@@ -8,6 +8,7 @@ import { WHITE } from 'libs/css/color'
 import shortid from 'shortid'
 import { useDispatch, useSelector } from 'react-redux'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
+import Tags from 'components/Tags/Tags'
 
 const ContentsContainer = styled.div`
   margin: auto;
@@ -18,6 +19,7 @@ const ContentsContainer = styled.div`
 const _index: NextPage = () => {
 
   const { me } = useSelector((state) => state.user)
+  const { mainPosts } = useSelector((state) => state.post)
   const dispatch = useDispatch()   
 
   useEffect(() => {
@@ -37,6 +39,7 @@ const _index: NextPage = () => {
           me && <PostForm key={shortid.generate()}/>
         }
         <Posts/>
+        <Tags/>
       </ContentsContainer>
     </>
   )

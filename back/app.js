@@ -43,11 +43,6 @@ app.use(passport.session());
 app.use('/post', postRouter)
 app.use('/user', userRouter) 
 
-app.get('/', (req, res) => {
-  res.send('hello express')
-})
-
-
 app.listen(3065, () => {
   console.log('server running...')
 });

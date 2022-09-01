@@ -27,7 +27,7 @@ const PostTags:FC<PostTagsProps> = (props) => {
                 )
             })
         }
-    </div>
+        </div>
     )
 };
 

@@ -13,19 +13,9 @@ import moment from 'moment'
 import 'moment/locale/ko'
 import { size } from 'libs/css/layout'
 import useInput from 'libs/hook/useInput'
+import { PostProps } from 'libs/type'
 
 moment.locale('ko');
-
-type PostObject = {
-  content: string;
-  id: string;
-  date: string;
-  Images: []
-}
-
-type PostProps = {
-  post: PostObject
-}
 
 const PostsInnerContainer = styled.div`
   display: block;

@@ -1,4 +1,5 @@
 const express = require('express');
+const router = express.Router();
 const multer = require('multer');
 const path = require('path'); // 요건 node에서 제공해 주는 것
 const fs = require('fs'); // 파일 시스템
@@ -6,7 +7,6 @@ const fs = require('fs'); // 파일 시스템
 const { User, Post, Image, Hashtag } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
-const router = express.Router();
 try {
   fs.accessSync('uploads');
 } catch (error) {
@@ -29,14 +29,14 @@ const uploads = multer({
   limits: { fileSize: 20 * 1024 * 1024 } // 20mb
 })// array인 이유가 여러 장 일수도 있어서, text는 none, 한장이면 single
 
-router.post('/', isLoggedIn, uploads.none, async (req, res, next) => {
+router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
   try {
     const hashtags = req.body.content.match(/(#[^\s#]+)/g);
     const post = await Post.create({
       content: req.body.content,
       date: req.body.date,
-      UserId: req.user.id
-    })
+      UserId: req.user.id,
+    });
     if (hashtags) {
         const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({
             where: { name: tag.slice(1).toLowerCase() }, 
@@ -52,19 +52,21 @@ router.post('/', isLoggedIn, uploads.none, async (req, res, next) => {
           const image = await Image.create({ src: req.body.image })
           await post.addImages(image);
       }
-  } 
+  }
+  // hashtag image는 문제 없음
     const fullPost = await Post.findOne({
       where: { id: post.id },
       include: [{
         model: Image
       }, {
-        model: User
-      } 
-    ]
+        model: User,
+        attributes: ['id', 'nickname'],
+      }]
     })
-    console.log(fullPost)
-    res.status(201).json(fullPost)
+    console.log(fullPost);
+    res.status(201).json(fullPost);
   } catch(error) {
+    console.log('여기가 에러에유!!')
     console.error(error)
     next(error)
   }
