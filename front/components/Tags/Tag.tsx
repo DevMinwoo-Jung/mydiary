@@ -9,7 +9,6 @@ type PostTagsProps = {
 const _Tag:FC<PostTagsProps> = (props) => {
   const { postData } = props
   const Tags = postData !== undefined ? postData.content.split(/(#[^\s#]+)/g).filter((v:string) => v.match(/(#[^\s]+)/)) : ''
-  console.log(Tags)
   return (
     <div>
       {/* {

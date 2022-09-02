@@ -213,10 +213,12 @@ const _Post:FC<PostProps> = (props) => {
     message.error('삭제가 취소되었습니다.');
   };
 
+  console.log(post.Images.length)
+
   return (
     <PostsInnerContainer key={shortid()}>
       {
-        post.Images.length > 0 ? <Images image={post.Images}/> : null
+        post.Images[0] && <Images image={post.Images}/>
       }
         <ContentContainer>
           <TagAndDelete>

@@ -261,7 +261,7 @@ export const _PostForm = () => {
                 maxLength={400}
                 placeholder="무엇이든 기록해봐요"/>
             <ButtonsDiv>
-              <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>
+              <input type='file' name='image'multiple hidden ref={imageInput} onChange={onChangeImages}/>
               <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
               <ButtonStyle htmlType='submit'>추가</ButtonStyle>
             </ButtonsDiv>

@@ -59,9 +59,9 @@ const ImgStyle = styled.img`
 const _Images:FC<ImagesProps>  = (props) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { image } = props
+  console.log(image)
 
   const onShowPrevImg = (e) => {
-    console.log(e)
     if (currentSlide === 0) {
       setCurrentSlide(image.length - 1)
     } else {
@@ -85,13 +85,13 @@ const _Images:FC<ImagesProps>  = (props) => {
         : 
         <>
         {
-          image.length === 1
+          image.length >= 1
           ? null
           : <CaretLeftOutlinedStyle onClick={onShowPrevImg}/> 
         }
-            <ImgStyle src={`${image[currentSlide].src}`} alt="" />
+            <ImgStyle src={`http://localhost:3065/${image[currentSlide].src}`} alt="" />
         {
-          image.length === 1
+          image.length >= 1
           ? null
           : <CaretRightOutlinedStyle onClick={onShowNextImg}/>
         }
