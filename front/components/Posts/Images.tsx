@@ -80,9 +80,6 @@ const _Images:FC<ImagesProps>  = (props) => {
   return (
     <ImageContainer>
       {
-        image.length < 1 
-        ? ''
-        : 
         <>
         {
           image.length >= 1

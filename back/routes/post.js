@@ -49,11 +49,15 @@ router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
       if (Array.isArray(req.body.image)) { // 이미지 여러 개 올리면 image: [1.png, 2.png....]
           console.log('여기 안오냐??')
           const images = await Promise.all(req.body.image.map((image) => { // db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
+              console.log(image)
               Image.create({ src: image })}));
-          await post.addImages(images);
-      } else { // 하나면 1.png 이런식으로 
+              console.log(images)
+              await post.addImages(images);
+        } else { // 하나면 1.png 이런식으로 
           const image = await Image.create({ src: req.body.image })
           console.log('여기만 옴??')
+          console.log('--------')
+          console.log(image)
           await post.addImages(image);
       }
   }
