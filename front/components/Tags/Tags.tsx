@@ -13,7 +13,7 @@ const _Tags = (props) => {
           <Tag postData={mainPosts[key]}/>
         )
       }
-    </>
+    </> 
   )
 }
 
