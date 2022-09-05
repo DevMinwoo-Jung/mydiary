@@ -29,9 +29,6 @@ module.exports = (sequelize, DataType) => {
     });
     User.associate = (db) => {
         db.User.hasMany(db.Post);
-        db.User.belongsToMany(db.Post, { through: 'Like', as: 'Liked' }); // 이건 alias해 주는 것
-        db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'FollowingId' });
-        db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followings', foreignKey: 'FollowerId' }); // 같은 테이블 참조 시에는 foreignKey가 필요
     };
     return User;
 }

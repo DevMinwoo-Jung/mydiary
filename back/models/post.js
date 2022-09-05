@@ -19,9 +19,7 @@ module.exports = (sequelize, DataType) => {
         db.Post.belongsTo(db.User); // post.addUser, post.getUser, post.setUser
         db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' }); // post.addHashtags
         db.Post.hasMany(db.Image); // post.addImages, post.getImages
-        db.Post.belongsToMany(db.User, { through: 'Like', as: 'Likers' }) // post.addLikers, post.removeLikers
-        db.Post.belongsTo(db.Post, { as: 'Retweet' }); // post.addRetweet
     };
     // 이건 sequelize가 알아서 만들어주는 거임
     return Post;
-}
+} 

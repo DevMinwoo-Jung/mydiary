@@ -29,11 +29,10 @@ function* addPost(action) {
 function* deletePost(action) {
     console.log(action)
     try {
-       // const result = yield call(removePostAPI, action.data)
-        // yield delay(1000);
+        const result = yield call(removePostAPI, action.data)
         yield put({
             type: POST_DELETE_SUCCESS,
-            data: action.data,
+            data: result.data,
         });
         // yield put({
         //     type: REMOVE_POST_OF_ME,
@@ -49,22 +48,17 @@ function* deletePost(action) {
 }
 
 function loadPostsAPI(data) {
-    return axios.get('/post', data) // 이렇게 해 주는게 req.body에 content에 접근 하려고 없으면 접근이 안될껄..?
+    return axios.get('/posts', data)
 }
 
 function* loadPosts(action) {
     console.log(action)
     try {
-       // const result = yield call(removePostAPI, action.data)
-        // yield delay(1000);
+        const result = yield call(loadPostsAPI, action.data)
         yield put({
             type: LOAD_POSTS_SUCCESS,
-            data: dummy,
+            data: result.data,
         });
-        // yield put({
-        //     type: REMOVE_POST_OF_ME,
-        //     data: action.data,
-        // });
         } catch (err) {
             console.log(err)
             yield put({

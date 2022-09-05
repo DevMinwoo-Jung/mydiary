@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import shortid from 'shortid'
@@ -13,13 +13,14 @@ const PostsContainer = styled.div`
 
 const _Posts = () => {
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post)
+  const { me } = useSelector((state) => state.user)
 
   const dispatch = useDispatch()   
-  useEffect(() => {
-    dispatch({
-      type: LOAD_POSTS_REQUEST,
-    })
-  }, [])
+  // useEffect(() => {
+  //     dispatch({
+  //       type: LOAD_POSTS_REQUEST,
+  //   })
+  // }, []) 
 
 
   useEffect(() => {

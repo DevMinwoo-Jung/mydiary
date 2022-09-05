@@ -30,12 +30,13 @@ const uploads = multer({
 })// array인 이유가 여러 장 일수도 있어서, text는 none, 한장이면 single
 
 router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
+  console.log(req)
   try {
     const hashtags = req.body.content.match(/(#[^\s#]+)/g);
     const post = await Post.create({
       content: req.body.content,
       date: req.body.date,
-      UserId: req.user.id,
+      userId: req.body.userId,
     });
     if (hashtags) {
         const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({

@@ -166,9 +166,15 @@ export const _PostForm = () => {
   const dispatch = useDispatch()
   const imageInput = useRef<any>()
   const [date, setDate] = useState<string>(undefined)
+  const [userId, setUserId] = useState<string>(undefined)
   const [text, onChangeText, setText] = useInput('')
   const [showForm, setShowForm] = useState(false)
   const { imagePaths, addPostDone } = useSelector((state) => state.post);
+  const { me } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    setUserId(me.userId)
+  }, [])
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setDate(dateString)
@@ -210,13 +216,14 @@ export const _PostForm = () => {
     imagePaths.forEach((p) => {
         formData.append('image', p);
     });
+    formData.append('date', date);
     formData.append('content', text);
-    console.log('formData', formData)
+    formData.append('userId', userId);
     dispatch({
         type: ADD_POST_REQUEST,
         data: formData,
     });
-  },[imagePaths, text, date])
+  },[imagePaths, text, date, userId])
 
   const onRemoveImage = useCallback((index: any) => () => {
     dispatch({
