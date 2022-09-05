@@ -38,7 +38,7 @@ const ParagraphStyle = styled(Paragraph)`
 `
 
 const ParagraphDivStyle = styled.div`
-  width: 70%;
+  width: 65%;
   margin: auto;
 `
 

@@ -8,7 +8,8 @@ import {
   HomeOutlined,
 } from '@ant-design/icons'
 import { useRouter } from 'next/router'
-import { FONT_WHITE, COLOR_MAIN } from '../../libs/css/color'
+import { FONT_WHITE, COLOR_MAIN, WHITE } from '../../libs/css/color'
+import UserInfoMini from 'components/Profile/UserInfoMini'
 
 type SidebarProps = {
   isOpened: boolean;
@@ -17,7 +18,6 @@ type SidebarProps = {
 const SidebarContainer = styled.aside<{ isOpened: boolean }>`
   background: ${COLOR_MAIN};
   width: ${(props) => (props.isOpened ? "10rem" : "0")};
-
   transition: width 0.5s;
   overflow: hidden;
   position: absolute;
@@ -26,6 +26,12 @@ const SidebarContainer = styled.aside<{ isOpened: boolean }>`
   & .ant-menu-item::after {
     border-right: ${COLOR_MAIN};
   }
+  & li:first-child {
+    height: 15vh;
+    cursor: default;
+    background: ${COLOR_MAIN};
+    pointer-events: none;
+  }
 `;
 
 const MenuStyle = styled(Menu)`
@@ -33,6 +39,10 @@ const MenuStyle = styled(Menu)`
   color: ${FONT_WHITE};
   width: 10rem;
   border-color: ${COLOR_MAIN};
+`
+
+const UserInfoContainer = styled.div`
+
 `
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -55,6 +65,7 @@ const _Slider = (props: SidebarProps) => {
   const { isOpened } = props
   const router = useRouter()
   const items: MenuItem[] = [
+    getItem('','0', <UserInfoContainer><UserInfoMini/></UserInfoContainer>),
     getItem('메인화면', '1', <HomeOutlined />),
     getItem('내 정보', '2', <UserOutlined />),
     getItem('기록 보기', '3', <BarChartOutlined />)]

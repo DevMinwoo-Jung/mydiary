@@ -44,24 +44,14 @@ router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
         await post.addHashtags(result.map((y) => y[0]))
     } // 있으면 가져오고 없으면 등록 
     if (req.body.image) {
-      console.log('--------')
-      console.log(req.body.image)
       if (Array.isArray(req.body.image)) { // 이미지 여러 개 올리면 image: [1.png, 2.png....]
-          console.log('여기 안오냐??')
-          const images = await Promise.all(req.body.image.map((image) => { // db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
-              console.log(image)
-              Image.create({ src: image })}));
-              console.log(images)
-              await post.addImages(images);
+          const images = await Promise.all(req.body.image.map((image) => Image.create({ src: image })));// db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
+          await post.addImages(images);
         } else { // 하나면 1.png 이런식으로 
           const image = await Image.create({ src: req.body.image })
-          console.log('여기만 옴??')
-          console.log('--------')
-          console.log(image)
           await post.addImages(image);
       }
   }
-  // hashtag image는 문제 없음
     const fullPost = await Post.findOne({
       where: { id: post.id },
       include: [{
@@ -74,7 +64,6 @@ router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
     console.log(fullPost);
     res.status(201).json(fullPost);
   } catch(error) {
-    console.log('여기가 에러에유!!')
     console.error(error)
     next(error)
   }
