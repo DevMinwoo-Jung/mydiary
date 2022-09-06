@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { Menu, ChevronLeft } from '@styled-icons/material'
 import { Button } from 'antd'
-import { CgGym } from 'react-icons/cg'
+import { BiMessageRoundedEdit } from 'react-icons/bi'
 import SignupForm from 'components/SignupForm'
 import LoginForm from 'components/LoginForm'
 import { useDispatch, useSelector } from 'react-redux'
@@ -64,7 +64,7 @@ const ButtonStyle = styled(Button)`
   }
 `
 
-const GymIcon = styled(CgGym)`
+const HomeIcon = styled(BiMessageRoundedEdit)`
   font-size: 2rem;
 `
 
@@ -147,7 +147,7 @@ const _Header = (props: HeaderProps) => {
           }
         </IconContainer>
         <HomeButtonContainer onClick={onHome}>
-          <GymIcon/>
+          <HomeIcon/>
           <HomeHeader>My Dairy</HomeHeader>
         </HomeButtonContainer>
         <UserButtonContainer>

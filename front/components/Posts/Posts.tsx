@@ -13,15 +13,17 @@ const PostsContainer = styled.div`
 
 const _Posts = () => {
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post)
-  const { me, logInDone } = useSelector((state) => state.user)
+  const { me } = useSelector((state) => state.user)
 
   const dispatch = useDispatch()   
   useEffect(() => {
+    if (me) {
       dispatch({
         type: LOAD_POSTS_REQUEST,
         data: me && me.userId
-    })
-  }, [logInDone]) 
+      })
+    }
+  }, []) 
 
   console.log(me && me.userId)
 
