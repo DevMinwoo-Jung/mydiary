@@ -59,7 +59,6 @@ const ImgStyle = styled.img`
 const _Images:FC<ImagesProps>  = (props) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { image } = props
-  console.log(image.length)
 
   const onShowPrevImg = (e) => {
     if (currentSlide === 0) {

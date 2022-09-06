@@ -13,15 +13,17 @@ const PostsContainer = styled.div`
 
 const _Posts = () => {
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post)
-  const { me } = useSelector((state) => state.user)
+  const { me, logInDone } = useSelector((state) => state.user)
 
   const dispatch = useDispatch()   
-  // useEffect(() => {
-  //     dispatch({
-  //       type: LOAD_POSTS_REQUEST,
-  //   })
-  // }, []) 
+  useEffect(() => {
+      dispatch({
+        type: LOAD_POSTS_REQUEST,
+        data: me && me.userId
+    })
+  }, [logInDone]) 
 
+  console.log(me && me.userId)
 
   useEffect(() => {
     function onScroll() {
@@ -43,10 +45,11 @@ const _Posts = () => {
   return (
     <PostsContainer key={shortid()}>
       {
-        mainPosts.map(
-          (element) => 
-          <Post post={element} key={shortid()}/>
-        )
+        me &&
+          mainPosts.map(
+            (element) => 
+            <Post post={element} key={shortid()}/>
+          )
       }
     </PostsContainer>
   );

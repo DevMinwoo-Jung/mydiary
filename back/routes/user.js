@@ -63,12 +63,14 @@ router.post('/', async (req, res, next) => {
 })
 
 router.post('/login', isNotLoggedIn, (req, res, next) => {
+  console.log('여기도 안오는겅미??')
   passport.authenticate('local', (error, user, info) => {
       if (error) { // server error
           console.error(error);
           return next(error);
       }
       if (info) { // client error
+          console.log(info)
           return res.status(401).send(info.reason);
       }
       return req.login(user, async (loginErr) => {
@@ -79,7 +81,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
           try {
               if (req.user) {
                   const fullUserWithoutPassword = await User.findOne({
-                      where: { id: req.user.id },
+                      where: { id: user.id },
                       attributes: {
                           exclude: ['password'] // 비밀번호 제외하고 다 가져온다
                       },
