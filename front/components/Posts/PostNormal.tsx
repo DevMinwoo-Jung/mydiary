@@ -24,18 +24,20 @@ const ContentPara = styled.p`
 const PostNormal:FC<PostProps> = (props) => {
 
   const { post } = props 
+  console.log(post.date)
 
   return (
     <>
       <DateDiv>
-        <DatePara>{post.date}</DatePara>
           {
-          post.date === undefined || post.date === '' || post.date === null 
-          ? null
-          : 
-          <>
-          <DatePara>{moment(`${post.date}`).format('dddd')}</DatePara>
-          </>  
+            post.date !== 'undefined'
+            ? <DatePara>{post.date}</DatePara>
+            : ''
+          }
+          {
+          post.date !== 'undefined'
+          ? <DatePara>{moment(`${post.date}`).format('dddd')}</DatePara>
+          : null
           }
         </DateDiv>
         <ContentPara>{post.content}</ContentPara>

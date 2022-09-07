@@ -112,7 +112,7 @@ const PostEdit:FC<PostProps> = (props) => {
       <PostFormHeader>
         <DatePickerStyle onChange={onChange} />
         {
-          date === undefined || date === '' || date === null 
+          date === 'undefined' || date === '' || date === null 
           ? ''
           : <DateStyle>{moment(`${date}`).format('dddd')}</DateStyle>
         }
