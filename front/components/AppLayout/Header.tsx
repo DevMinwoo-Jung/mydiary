@@ -161,7 +161,7 @@ const _Header = (props: HeaderProps) => {
           {
             me
             ?
-              <ButtonStyle onClick={() => router.push('/profile')}>내정보</ButtonStyle>
+              null
             :
               <ButtonStyle disabled={isClicked} onClick={onSignup}>회원가입</ButtonStyle>
           }
