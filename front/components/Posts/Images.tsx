@@ -1,6 +1,7 @@
 import React, { FC, memo, useState } from 'react'
 import styled from 'styled-components'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
 
 
 type image = {
@@ -60,6 +61,8 @@ const _Images:FC<ImagesProps>  = (props) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { image } = props
 
+  const { me } = useSelector((state) => state.user)
+
   const onShowPrevImg = (e) => {
     if (currentSlide === 0) {
       setCurrentSlide(image.length - 1)
@@ -85,7 +88,11 @@ const _Images:FC<ImagesProps>  = (props) => {
           ? null
           : <CaretLeftOutlinedStyle onClick={onShowPrevImg}/> 
         }
-            <ImgStyle src={`http://localhost:3065/${image[currentSlide].src}`} alt="" />
+        {
+          me !== null
+          ? <ImgStyle src={`http://localhost:3065/${image[currentSlide].src}`} alt="" />
+          : <ImgStyle src={`${image[currentSlide].src}`} alt="" />
+        }
         {
           image.length === 1
           ? null

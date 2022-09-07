@@ -4,22 +4,20 @@ import faker from 'faker';
 
 export const dummy = [
   {
-    id: 1,
+    id: 11,
     User: {
-      id: 1,
-      nickname: 'minwoo',
+      id: 12,
+      nickname: 'minwoo2',
     },
-    date: '2022-08-11',
-    content: '연봉 3천 이상!',
-    Images: [{ 
+    date: '2021-12-12',
+    content: '육식맨 보고 따라함 #삼겹살 #육식맨',
+    Images: [{
       id: shortid.generate(),
-      src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
-    }, {
+      src: 'images/7.jpeg',
+    },
+    {
       id: shortid.generate(),
-      src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
-    }, {
-      id: shortid.generate(),
-      src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
+      src: 'images/8.jpeg',
     }],
   },
   {
@@ -28,47 +26,48 @@ export const dummy = [
       id: 12,
       nickname: 'minwoo2',
     },
-    date: '2022-08-12',
-    content: '두 번째 게시글 #되니 #됩니까',
+    date: '2022-03-12',
+    content: '치킨에는 소맥 #치킨 #또래오래',
     Images: [{
       id: shortid.generate(),
-      src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
-    }, {
-      id: shortid.generate(),
-      src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
-    }, {
-      id: shortid.generate(),
-      src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
+      src: 'images/4.jpeg',
     }],
   },
   {
-    id: 14,
+    id: 11,
     User: {
-      id: 15,
-      nickname: 'minwoo',
+      id: 12,
+      nickname: 'minwoo2',
     },
-    date: '2022-08-14',
-    content: '세 번째 게시글 #되니',
+    date: '2022-05-12',
+    content: '대구 놀라가서 본 고양이들 #대구 #고양이',
     Images: [{
       id: shortid.generate(),
-      src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
-    }, {
+      src: 'images/5.jpeg',
+    },
+    {
       id: shortid.generate(),
-      src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
-    }, {
-      id: shortid.generate(),
-      src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
+      src: 'images/6.jpeg',
     }],
   },
   {
-    id: 122,
+    id: 1,
     User: {
-      id: 144,
+      id: 1,
       nickname: 'minwoo',
     },
-    date: '2022-08-15',
-    content: '네 번째 게시글 #되니',
-    Images: [],
+    date: '2022-08-07',
+    content: '제주도 여행 #여자친구 #차맛있음 #설록원',
+    Images: [{ 
+      id: shortid.generate(),
+      src: 'images/1.jpeg',
+    }, {
+      id: shortid.generate(),
+      src: 'images/2.jpeg',
+    }, {
+      id: shortid.generate(),
+      src: 'images/3.jpeg',
+    }],
   },
 ]
 

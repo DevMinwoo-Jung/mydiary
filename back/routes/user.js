@@ -63,14 +63,12 @@ router.post('/', async (req, res, next) => {
 })
 
 router.post('/login', isNotLoggedIn, (req, res, next) => {
-  console.log('여기도 안오는겅미??')
   passport.authenticate('local', (error, user, info) => {
       if (error) { // server error
           console.error(error);
           return next(error);
       }
       if (info) { // client error
-          console.log(info)
           return res.status(401).send(info.reason);
       }
       return req.login(user, async (loginErr) => {
@@ -90,7 +88,6 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
                           attributes: ['id'],
                       }]
                   });
-                  console.log(fullUserWithoutPassword)
                   return res.status(200).json(fullUserWithoutPassword); // 이제 프론트로 넘기기~
               } else {
                   return res.status(200).json(null); // 이제 프론트로 넘기기~

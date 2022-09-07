@@ -93,7 +93,6 @@ const _UserInfo = () => {
   const { showModifyForm } = useSelector((state) => state.user)
   const { nickname, userId, createdAt } = useSelector((state) => state.user.me)
   const { password } = useSelector((state) => state.user.user)
-  console.log(password)
   const disaptch = useDispatch()
 
   const [userNickname, onChangeUserNickname ] = useInput('')
