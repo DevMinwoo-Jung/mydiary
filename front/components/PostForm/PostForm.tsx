@@ -179,10 +179,6 @@ export const _PostForm = () => {
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setDate(dateString)
   };
-
-  const onClickImageUploads = useCallback(() => {
-    imageInput.current.click()
-  }, [imageInput.current])
   
   useEffect(() => {
     if (addPostDone) {
@@ -190,6 +186,10 @@ export const _PostForm = () => {
     }
   }, [addPostDone]);
 
+  const onClickImageUploads = useCallback(() => {
+    imageInput.current.click()
+  }, [imageInput.current])
+  
   const onChangeImages = useCallback((e) => {
     console.log('images', e.target.files)
     const imageFormData = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다

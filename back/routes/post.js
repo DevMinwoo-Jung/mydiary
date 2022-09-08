@@ -89,4 +89,35 @@ router.post('/images', isLoggedIn, uploads.array('image'), async (req, res, next
   res.json(req.files.map((v) => v.filename));
 })
 
+router.post('/image', isLoggedIn, uploads.single('image'), async (req, res, next) => { // post /image
+  console.log(req.file);
+  res.json(req.file);
+})
+
+router.post('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res, next) => { 
+  try {
+  const post = await Image.create({
+    userId: req.user.userId,
+    src: req.body.image
+  });
+    res.status(201).json(post); 
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+router.get('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res, next) => { 
+  try {
+  const image = await Image.findOne({
+    where: {userId: req.user.userId },
+    order: [
+      ['createdAt', 'DESC'],
+    ]
+  });
+    res.status(201).json(image); 
+  } catch (error) {
+    console.error(error)
+  }
+})
+
 module.exports = router;

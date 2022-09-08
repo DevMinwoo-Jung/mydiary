@@ -1,12 +1,13 @@
 import { EditOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar } from 'antd'
+import { Avatar, Button, Form } from 'antd'
 import { size } from 'libs/css/layout'
-import React, { memo } from 'react'
+import React, { memo, useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Typography } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { SHOW_MODIFY_FORM } from 'reducers/user'
-import { COLOR_MAIN, WHITE } from 'libs/css/color'
+import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
+import { LOAD_PROFILE_REQUEST, MODIFY_PROFILE_IMAGE_REQUEST, UPLOAD_PROFILE_IMAGES_REQUEST } from 'reducers/post'
 
 const { Paragraph } = Typography
 
@@ -28,6 +29,11 @@ const AvatarStyle = styled(Avatar)`
     width: 200px;
     height: 200px;
   }
+  & img {
+    object-fit: fill;
+    height: 100%;
+    width: 100%;
+  }
 `
 
 const ParagraphStyle = styled(Paragraph)`
@@ -48,9 +54,78 @@ const EditOutlinedStyle = styled(EditOutlined)`
   cursor: pointer;
 `
 
+const ButtonStyle = styled(Button)`
+  width: 100px;
+  position: right;
+  font-size: 12px;
+  margin: 5px;
+  border-radius: 9px;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  & :hover {
+    background-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+`
+
+const UserOutlinedStyle = styled(UserOutlined)`
+  object-fit: fill;
+  width: 100%;
+`
+
+const ImgsDiv = styled.div`
+  width: 100%;
+  z-index: 100;
+`
+
+const ImgContainer = styled.div`
+  width: 100%;
+  display: block;
+`
+
+const ImgStyle = styled.img`
+  object-fit: fill;
+  width: 100%;
+`
+
+const RemoveButtonStyle = styled(Button)`
+  width: 20%;
+  margin: auto;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 9px;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  & :hover {
+    background-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+`
+
 const _UserPhoto = () => {
-  const { userId } = useSelector((state) => state.user.me)
   const dispatch = useDispatch()
+  const { userId } = useSelector((state) => state.user.me)
+  const { imagePath } = useSelector((state) => state.post)
+  const post = useSelector((state) => state.post)
+  const imageInput = useRef<any>()
+
+  const onClickImageUploads = useCallback(() => {
+    imageInput.current.click()
+  }, [imageInput.current])
+  
+  const onChangeImages = useCallback((e) => {
+    console.log('images', e.target.files)
+    const imageFormData = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
+    [].forEach.call(e.target.files, (f) => {
+        imageFormData.append('image', f)
+    })
+    dispatch({
+        type: UPLOAD_PROFILE_IMAGES_REQUEST,
+        data: imageFormData
+    })
+  },[])
 
   const onUserModify = () => {
     dispatch({
@@ -58,20 +133,51 @@ const _UserPhoto = () => {
     })
   }
 
+  useEffect(() => {
+    dispatch({
+      type: LOAD_PROFILE_REQUEST
+    })
+  }, [])
+
+  useEffect(() => {
+    console.log(post)
+  }, [post])
+
+  const onSubmit = useCallback((e) => {
+    const formData = new FormData();
+    formData.append('image', imagePath.filename);
+    formData.append('user', userId);
+    dispatch({
+        type: MODIFY_PROFILE_IMAGE_REQUEST,
+        data: formData,
+    });
+  },[imagePath])
+
   return (
-      <UserPhotoDiv>
-        <AvatarStyle size={150} icon={<UserOutlined />}/>
+    <Form encType="multipart/form-data" >
+      <UserPhotoDiv >
+        {
+          imagePath === null 
+          ? <AvatarStyle size={150} icon={<UserOutlinedStyle />}/>
+          : <AvatarStyle size={150} 
+            icon={<ImgStyle src={`http://localhost:3065/${imagePath.src}`} alt={String(imagePath.filename)}/>}
+            />
+          }
         <ParagraphDivStyle>
           <ParagraphStyle>
             안녕하세요<br/>
             {userId} 님
           </ParagraphStyle>
-          <EditOutlinedStyle onClick={onUserModify}/> 
+          <EditOutlinedStyle onClick={onUserModify}/>
+          <input type='file' name='image'multiple hidden ref={imageInput} onChange={onChangeImages}/>
+          <ButtonStyle onClick={onClickImageUploads}>프로필 이미지 추가</ButtonStyle>
+          <ButtonStyle onClick={onSubmit}>수정하기</ButtonStyle>
         </ParagraphDivStyle>
       </UserPhotoDiv>
+    </Form>  
   )
 }
 
 const UserPhoto = memo(_UserPhoto)
 
-export default UserPhoto
+export default UserPhoto 

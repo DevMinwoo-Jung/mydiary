@@ -6,6 +6,10 @@ module.exports = (sequelize, DataType) => {
             type: DataType.STRING(100),
             allowNull: false, // 필수
         },
+        userId: {
+            type: DataType.STRING(30),
+            allowNull: false, // 필수
+        },
     }, {
         modelName: 'Image',
         tableName: 'images',

@@ -75,6 +75,7 @@ export const initialState = {
   mainPosts: [],
   hasMorePosts: false,
   imagePaths: [],
+  imagePath: null,
   modify: false,
   showReps: true,
   deleteLoading: false,
@@ -83,12 +84,21 @@ export const initialState = {
   uploadImagesLoading: false,
   uploadImagesDone: false,
   uploadImagesError: null,
+  uploadProfileImagesLoading: false,
+  uploadProfileImagesDone: false,
+  uploadProfileImagesError: null,
+  modifyProfileImagesLoading: false,
+  modifyProfileImagesDone: false,
+  modifyProfileImagesError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
+  loadProfileLoading: false,
+  loadProfileDone: false,
+  loadProfileError: null,
 };
 
 
@@ -138,6 +148,14 @@ export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST'
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS'
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE'
 
+export const UPLOAD_PROFILE_IMAGES_REQUEST = 'UPLOAD_PROFILE_IMAGES_REQUEST'
+export const UPLOAD_PROFILE_IMAGES_SUCCESS = 'UPLOAD_PROFILE_IMAGES_SUCCESS'
+export const UPLOAD_PROFILE_IMAGES_FAILURE = 'UPLOAD_PROFILE_IMAGES_FAILURE'
+
+export const MODIFY_PROFILE_IMAGE_REQUEST = 'MODIFY_PROFILE_IMAGE_REQUEST'
+export const MODIFY_PROFILE_IMAGE_SUCCESS = 'MODIFY_PROFILE_IMAGE_SUCCESS'
+export const MODIFY_PROFILE_IMAGE_FAILURE = 'MODIFY_PROFILE_IMAGE_FAILURE'
+
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
@@ -145,6 +163,11 @@ export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST'
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS'
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE'
+
+export const LOAD_PROFILE_REQUEST = 'LOAD_PROFILE_REQUEST'
+export const LOAD_PROFILE_SUCCESS = 'LOAD_PROFILE_SUCCESS'
+export const LOAD_PROFILE_FAILURE = 'LOAD_PROFILE_FAILURE'
+
 
 export const addPost = (data) => ({
   type: ADD_POST_REQUEST,
@@ -188,20 +211,62 @@ export default (state = initialState, action) => {
         draft.deleteError = null;
         draft.deleteDone = false;
         break;
-      case UPLOAD_IMAGES_REQUEST:
+      case LOAD_PROFILE_REQUEST:
         draft.uploadImagesLoading = true;
         draft.uploadImagesDone = false;
         draft.uploadImagesError = null;
         break;
-      case UPLOAD_IMAGES_SUCCESS: 
-        draft.imagePaths = action.data;
+      case LOAD_PROFILE_SUCCESS: 
+        draft.imagePath = action.data;
         draft.uploadImagesLoading = false;
         draft.uploadImagesDone = true;
         break;
-      case UPLOAD_IMAGES_FAILURE:
+      case LOAD_PROFILE_FAILURE:
         draft.uploadImagesLoading = false;
         draft.uploadImagesError = action.error;
         break;
+      case UPLOAD_IMAGES_REQUEST:
+        draft.loadProfileLoading = true;
+        draft.loadProfileDone = false;
+        draft.loadProfileError = null;
+        break;
+      case UPLOAD_IMAGES_SUCCESS: 
+        draft.imagePaths = action.data;
+        draft.loadProfileLoading = false;
+        draft.loadProfileDone = true;
+        break;
+      case UPLOAD_IMAGES_FAILURE:
+        draft.loadProfileLoading = false;
+        draft.loadProfileError = action.error;
+        break;
+      case UPLOAD_PROFILE_IMAGES_REQUEST:
+        draft.uploadProfileImagesLoading = true;
+        draft.uploadProfileImagesDone = false;
+        draft.uploadProfileImagesError = null;
+        break;
+      case UPLOAD_PROFILE_IMAGES_SUCCESS: 
+        draft.imagePath = action.data;
+        draft.uploadProfileImagesLoading = false;
+        draft.uploadProfileImagesDone = true;
+        break;
+      case UPLOAD_PROFILE_IMAGES_FAILURE:
+        draft.uploadProfileImagesLoading = false;
+        draft.uploadProfileImagesError = action.error;
+        break;      
+      case MODIFY_PROFILE_IMAGE_REQUEST:
+        draft.modifyProfileImagesLoading = true;
+        draft.modifyProfileImagesDone = false;
+        draft.modifyProfileImagesError = null;
+        break;
+      case MODIFY_PROFILE_IMAGE_SUCCESS: 
+        draft.imagePath = action.data;
+        draft.modifyProfileImagesLoading = false;
+        draft.modifyProfileImagesDone = true;
+        break;
+      case MODIFY_PROFILE_IMAGE_FAILURE:
+        draft.modifyProfileImagesLoading = false;
+        draft.modifyProfileImagesImagesError = action.error;
+        break;   
       case LOAD_POSTS_REQUEST: 
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;

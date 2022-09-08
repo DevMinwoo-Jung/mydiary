@@ -4,6 +4,9 @@ import { ADD_POST_FAILURE, ADD_POST_SUCCESS, ADD_POST_REQUEST,
     UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_REQUEST,
     POST_DELETE_REQUEST, POST_DELETE_SUCCESS, POST_DELETE_FAILURE, 
     LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE, generateDummyPost, dummy
+    ,UPLOAD_PROFILE_IMAGES_REQUEST, UPLOAD_PROFILE_IMAGES_FAILURE, UPLOAD_PROFILE_IMAGES_SUCCESS,
+    MODIFY_PROFILE_IMAGE_FAILURE, MODIFY_PROFILE_IMAGE_REQUEST, MODIFY_PROFILE_IMAGE_SUCCESS,
+    LOAD_PROFILE_FAILURE, LOAD_PROFILE_REQUEST, LOAD_PROFILE_SUCCESS
 } from '../reducers/post'
 
 function addPostAPI(data) {
@@ -68,13 +71,32 @@ function* loadPosts(action) {
         }
 }
 
+function loadProfileAPI(data) {
+    return axios.get('/post/profilephoto', data)
+}
+
+function* loadProfile(action) {
+    console.log(action)
+    try {
+        const result = yield call(loadProfileAPI, action.data)
+        yield put({
+            type: LOAD_PROFILE_SUCCESS,
+            data: result.data,
+        });
+        } catch (err) {
+            console.log(err)
+            yield put({
+                type: LOAD_PROFILE_FAILURE,
+                dataerror: err.response.data
+            })
+        }
+}
+
 function uploadImagesAPI(data) {
     return axios.post(`/post/images`, data)
 }
 
 function* uploadImage(action) {
-    console.log('upload Image')
-    console.log(action.data)
     try {
         const result = yield call(uploadImagesAPI, action.data);
         yield put({
@@ -90,8 +112,52 @@ function* uploadImage(action) {
     }
 }
 
+function uploadProfileImagesAPI(data) {
+    return axios.post(`/post/image`, data)
+}
+
+function* uploadProfileImage(action) {
+    try {
+        const result = yield call(uploadProfileImagesAPI, action.data);
+        yield put({
+        type: UPLOAD_PROFILE_IMAGES_SUCCESS,
+        data: result.data,
+        })
+    } catch (err) {
+        console.log(err)
+        yield put({
+        type: UPLOAD_PROFILE_IMAGES_FAILURE,
+        error: err.response.data,
+        });
+    }
+}
+
+function profilePhotoModifyAPI(data) {
+    return axios.post(`/post/profilephoto`, data)
+}
+
+function* profilePhotoModify(action) {
+    try {
+        const result = yield call(profilePhotoModifyAPI, action.data);
+        yield put({
+        type: MODIFY_PROFILE_IMAGE_SUCCESS,
+        data: result.data,
+        })
+    } catch (err) {
+        console.log(err)
+        yield put({
+        type: MODIFY_PROFILE_IMAGE_FAILURE,
+        error: err.response.data,
+        });
+    }
+}
+
 function* watchLoadPost() {
     yield takeLatest(LOAD_POSTS_REQUEST, loadPosts)
+}
+
+function* watchLoadProfile() {
+    yield takeLatest(LOAD_PROFILE_REQUEST, loadProfile)
 }
 
 function* watchAddPost() {
@@ -106,6 +172,14 @@ function* watchDeletePost() {
     yield takeLatest(POST_DELETE_REQUEST, deletePost)
 }
 
+function* watchUploadProfileImagesPost() {
+    yield takeLatest(UPLOAD_PROFILE_IMAGES_REQUEST, uploadProfileImage)
+}
+
+function* watchModifyProfileImagesPost() {
+    yield takeLatest(MODIFY_PROFILE_IMAGE_REQUEST, profilePhotoModify)
+}
+
 
 export default function* rootSaga() {
     yield all([
@@ -113,5 +187,8 @@ export default function* rootSaga() {
         fork(watchUploadImagesPost),
         fork(watchDeletePost),
         fork(watchLoadPost),
+        fork(watchUploadProfileImagesPost),
+        fork(watchModifyProfileImagesPost),
+        fork(watchLoadProfile)
     ])
 }
