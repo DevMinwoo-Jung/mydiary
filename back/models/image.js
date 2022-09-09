@@ -8,7 +8,7 @@ module.exports = (sequelize, DataType) => {
         },
         userId: {
             type: DataType.STRING(30),
-            allowNull: false, // 필수
+            allowNull: true, // 필수
         },
     }, {
         modelName: 'Image',

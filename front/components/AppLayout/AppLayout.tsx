@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Header from './Header'
 import { size } from 'libs/css/layout'
@@ -36,17 +36,17 @@ const ContentContainer = styled.div`
 export default function AppLayout({ children }: AppLayoutProps) {
   const [isOpened, setOpened] = useState(false);
 
-  const toggleDrawer = () => {
-    setOpened((prev) => !prev);
+  const toggleDrawer = (closed:boolean) => {
+    setOpened(closed);
   };
 
   return (
     <Container>
       <Header isOpened={isOpened} toggleDrawer={toggleDrawer}/>
-            <Slider isOpened={isOpened}/>
+            <Slider isOpened={isOpened} toggleDrawer={toggleDrawer}/>
             <ContentContainer>
               <PageContainer>{children}</PageContainer>
             </ContentContainer>
     </Container>
   );
-}
+} 

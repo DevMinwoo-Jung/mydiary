@@ -41,13 +41,10 @@ const _Posts = () => {
 
   const dispatch = useDispatch()   
   useEffect(() => {
-    if (me) {
       dispatch({
         type: LOAD_POSTS_REQUEST,
-        data: me && me.userId
       })
-    }
-  }, [me]) 
+  }, []) 
 
   useEffect(() => {
     if (me !== null) {

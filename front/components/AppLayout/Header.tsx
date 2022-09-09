@@ -9,11 +9,7 @@ import LoginForm from 'components/LoginForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { LOG_OUT_REQUEST } from 'reducers/user'
 import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
-
-type HeaderProps = {
-  isOpened: boolean,
-  toggleDrawer: () => void,
-};
+import { ToggleProps } from 'libs/type'
 
 const ChevronLeftStyle = styled(ChevronLeft)`
   color: ${WHITE};
@@ -90,7 +86,7 @@ const SignupLoginFormContainer = styled.div`
   z-index: 1;
 `
 
-const _Header = (props: HeaderProps) => {
+const _Header = (props: ToggleProps) => {
   const [isLogin, setIsLogin] = useState(true)
   const [showSignUp, setShowSignUp] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
@@ -121,10 +117,9 @@ const _Header = (props: HeaderProps) => {
 
   const onHome = useCallback(() => {
     router.push('/')
-    // setIsLogin((prev) => prev === true ? !prev : prev)
-    // setShowLogin((prev) => prev === true ? !prev : prev)
-    // setShowSignUp((prev) => prev === true ? !prev : prev)
+    toggleDrawer(false)
   }, [])
+
   useEffect(() => {
     if (signUpDone === true) {
       setShowSignUp((prev) => !prev)
@@ -142,7 +137,7 @@ const _Header = (props: HeaderProps) => {
         <IconContainer>
           {
             me 
-            ? <> {isOpened ? <ChevronLeftStyle onClick={toggleDrawer}/> : <MenuStyle onClick={toggleDrawer}/>} </>
+            ? <> {isOpened ? <ChevronLeftStyle onClick={() => toggleDrawer(false)}/> : <MenuStyle onClick={() => toggleDrawer(true)}/>} </>
             : null
           }
         </IconContainer>

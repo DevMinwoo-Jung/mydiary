@@ -90,6 +90,7 @@ router.post('/images', isLoggedIn, uploads.array('image'), async (req, res, next
 })
 
 router.post('/image', isLoggedIn, uploads.single('image'), async (req, res, next) => { // post /image
+  console.log('오기는 하지?')
   console.log(req.file);
   res.json(req.file);
 })

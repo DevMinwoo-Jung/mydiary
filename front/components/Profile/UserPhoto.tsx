@@ -5,9 +5,10 @@ import React, { memo, useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Typography } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { SHOW_MODIFY_FORM } from 'reducers/user'
+import { LOAD_MY_INFO_REQUEST, SHOW_MODIFY_FORM } from 'reducers/user'
 import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
 import { LOAD_PROFILE_REQUEST, MODIFY_PROFILE_IMAGE_REQUEST, UPLOAD_PROFILE_IMAGES_REQUEST } from 'reducers/post'
+import { InitialUser } from 'libs/type'
 
 const { Paragraph } = Typography
 
@@ -23,7 +24,7 @@ const UserPhotoDiv = styled.div`
 const AvatarStyle = styled(Avatar)`
   width: '13rem';
   height:'13rem';
-  border: 99%;
+  border-radius: 1rem;
   margin: 1rem;
   @media screen and (max-width: ${size.tablet}) { 
     width: 200px;
@@ -74,16 +75,6 @@ const UserOutlinedStyle = styled(UserOutlined)`
   width: 100%;
 `
 
-const ImgsDiv = styled.div`
-  width: 100%;
-  z-index: 100;
-`
-
-const ImgContainer = styled.div`
-  width: 100%;
-  display: block;
-`
-
 const ImgStyle = styled.img`
   object-fit: fill;
   width: 100%;
@@ -106,7 +97,14 @@ const RemoveButtonStyle = styled(Button)`
 
 const _UserPhoto = () => {
   const dispatch = useDispatch()
-  const { userId } = useSelector((state) => state.user.me)
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST
+    })
+  }, [])
+
+  const userId = useSelector((state) => state.user?.me?.userId)
   const { imagePath } = useSelector((state) => state.post)
   const post = useSelector((state) => state.post)
   const imageInput = useRef<any>()
@@ -116,6 +114,7 @@ const _UserPhoto = () => {
   }, [imageInput.current])
   
   const onChangeImages = useCallback((e) => {
+    console.log('--------')
     console.log('images', e.target.files)
     const imageFormData = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
     [].forEach.call(e.target.files, (f) => {
@@ -140,8 +139,9 @@ const _UserPhoto = () => {
   }, [])
 
   useEffect(() => {
-    console.log(post)
-  }, [post])
+    console.log('-----ㅁㄴㅇㅁㄴㅇㅁㄴ----')
+    console.log(imagePath)
+  }, [imagePath])
 
   const onSubmit = useCallback((e) => {
     const formData = new FormData();
@@ -160,7 +160,7 @@ const _UserPhoto = () => {
           imagePath === null 
           ? <AvatarStyle size={150} icon={<UserOutlinedStyle />}/>
           : <AvatarStyle size={150} 
-            icon={<ImgStyle src={`http://localhost:3065/${imagePath.src}`} alt={String(imagePath.filename)}/>}
+            icon={<ImgStyle src={`http://localhost:3065/${imagePath.src || imagePath}`} alt={String(imagePath.filename)}/>}
             />
           }
         <ParagraphDivStyle>

@@ -10,10 +10,7 @@ import {
 import { useRouter } from 'next/router'
 import { FONT_WHITE, COLOR_MAIN, WHITE } from '../../libs/css/color'
 import UserInfoMini from 'components/Profile/UserInfoMini'
-
-type SidebarProps = {
-  isOpened: boolean;
-};
+import { ToggleProps } from 'libs/type'
 
 const SidebarContainer = styled.aside<{ isOpened: boolean }>`
   background: ${COLOR_MAIN};
@@ -61,8 +58,8 @@ function getItem(
   } as MenuItem;
 }
 
-const _Slider = (props: SidebarProps) => {
-  const { isOpened } = props
+const _Slider = (props: ToggleProps) => {
+  const { isOpened, toggleDrawer } = props
   const router = useRouter()
   const items: MenuItem[] = [
     getItem('','0', <UserInfoContainer><UserInfoMini/></UserInfoContainer>),
@@ -73,10 +70,13 @@ const _Slider = (props: SidebarProps) => {
   const onMoveRecord = (e) => {
     if (e.keyPath[0] === '1') {
       router.push('/')
+      toggleDrawer(false)
     } else if (e.keyPath[0] === '2') {
       router.push('/profile')
+      toggleDrawer(false)
     } else if (e.keyPath[0] === '3') {
       router.push('/record')
+      toggleDrawer(false)
     }
   } 
   return (

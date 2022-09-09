@@ -11,8 +11,9 @@ const UserInfoMiniContainer = styled.div`
 const AvatarStyle = styled(Avatar)`
   width: 80%;
   height: 100%;
-  border: 99%;
+  border-radius: 1rem;
   margin: auto;
+  object-fit: fill;
 `
 
 const ImgStyle = styled.img`
@@ -29,6 +30,10 @@ const UserInfoMini = () => {
       type: LOAD_PROFILE_REQUEST
     })
   }, [])
+
+  useEffect(() => {
+    console.log(imagePath)
+  }, [imagePath])
 
   return (
     <UserInfoMiniContainer>
