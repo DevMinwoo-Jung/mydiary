@@ -106,7 +106,7 @@ const _UserPhoto = () => {
 
   const userId = useSelector((state) => state.user?.me?.userId)
   const { imagePath } = useSelector((state) => state.post)
-  const post = useSelector((state) => state.post)
+  const me = useSelector((state) => state.user?.me)
   const imageInput = useRef<any>()
 
   const onClickImageUploads = useCallback(() => {
@@ -114,8 +114,6 @@ const _UserPhoto = () => {
   }, [imageInput.current])
   
   const onChangeImages = useCallback((e) => {
-    console.log('--------')
-    console.log('images', e.target.files)
     const imageFormData = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
     [].forEach.call(e.target.files, (f) => {
         imageFormData.append('image', f)
@@ -133,15 +131,12 @@ const _UserPhoto = () => {
   }
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_PROFILE_REQUEST
-    })
-  }, [])
-
-  useEffect(() => {
-    console.log('-----ㅁㄴㅇㅁㄴㅇㅁㄴ----')
-    console.log(imagePath)
-  }, [imagePath])
+    if(me !== null){
+      dispatch({
+        type: LOAD_PROFILE_REQUEST
+      })
+    }
+  }, [me])
 
   const onSubmit = useCallback((e) => {
     const formData = new FormData();

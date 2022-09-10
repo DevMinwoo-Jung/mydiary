@@ -36,22 +36,33 @@ const IntroPara = styled.p`
 const _Posts = () => {
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post)
   const { me } = useSelector((state) => state.user)
+  const [filteredPosts, setFilteredPosts] = useState(mainPosts);
+  
 
   const postRef: any = useRef()
 
   const dispatch = useDispatch()   
+  
   useEffect(() => {
+    if(me !== null) {
       dispatch({
         type: LOAD_POSTS_REQUEST,
       })
-  }, []) 
+    }
+  }, [me])
+
+  useEffect(() => {
+    setFilteredPosts(mainPosts)
+  }, [mainPosts])
+
+  
 
   useEffect(() => {
     if (me !== null) {
       const onScroll = () => {
           if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 500) {
               if (hasMorePosts && !loadPostsLoading) {
-                  const lastId = mainPosts[mainPosts.length - 1]?.id;
+                  const lastId = filteredPosts[filteredPosts.length - 1]?.id;
                   dispatch({
                     type: LOAD_POSTS_REQUEST,
                   });
@@ -63,7 +74,7 @@ const _Posts = () => {
               window.removeEventListener('scroll', onScroll);
           };
     }
-    }, [mainPosts, hasMorePosts, loadPostsLoading, me]);
+    }, [filteredPosts, hasMorePosts, loadPostsLoading, me]);
 
     useEffect(() => {
       if (me === null) {
@@ -86,7 +97,7 @@ const _Posts = () => {
     <PostsContainer key={shortid()}>
       {
         me !== null ?
-          mainPosts.map(
+          filteredPosts.map(
             (element) => 
             <Post post={element} key={shortid()}/>
           )

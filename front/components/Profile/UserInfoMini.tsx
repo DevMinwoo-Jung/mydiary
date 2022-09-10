@@ -24,16 +24,15 @@ const ImgStyle = styled.img`
 const UserInfoMini = () => {
   const dispatch = useDispatch()
   const { imagePath } = useSelector((state) => state.post)
+  const me = useSelector((state) => state.user?.me)
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_PROFILE_REQUEST
-    })
-  }, [])
-
-  useEffect(() => {
-    console.log(imagePath)
-  }, [imagePath])
+    if(me !== null){
+      dispatch({
+        type: LOAD_PROFILE_REQUEST
+      })
+    }
+  }, [me])
 
   return (
     <UserInfoMiniContainer>

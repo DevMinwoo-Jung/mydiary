@@ -168,6 +168,8 @@ export const LOAD_PROFILE_REQUEST = 'LOAD_PROFILE_REQUEST'
 export const LOAD_PROFILE_SUCCESS = 'LOAD_PROFILE_SUCCESS'
 export const LOAD_PROFILE_FAILURE = 'LOAD_PROFILE_FAILURE'
 
+export const REMOVE_POSTS = 'REMOVE_POSTS'
+
 
 export const addPost = (data) => ({
   type: ADD_POST_REQUEST,
@@ -282,6 +284,9 @@ export default (state = initialState, action) => {
       case LOAD_POSTS_FAILURE: 
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error
+        break;
+      case REMOVE_POSTS:
+        draft.mainPosts = [];  
         break;
       case REMOVE_IMAGE:
         draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data)

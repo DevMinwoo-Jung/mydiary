@@ -14,7 +14,7 @@ module.exports = (sequelize, DataType) => {
         },
         nickname: {
             type: DataType.STRING(30),
-            allowNull: false, // 필수
+            allowNull: false, // 필수 
         },
         password: {
             type: DataType.STRING(100),

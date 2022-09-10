@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { LOG_OUT_REQUEST } from 'reducers/user'
 import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
 import { ToggleProps } from 'libs/type'
+import { REMOVE_POSTS } from 'reducers/post'
 
 const ChevronLeftStyle = styled(ChevronLeft)`
   color: ${WHITE};
@@ -113,6 +114,9 @@ const _Header = (props: ToggleProps) => {
       type: LOG_OUT_REQUEST
     })
     router.push('/')
+    dispatch({
+      type: REMOVE_POSTS
+    })
   }, [isLogin])
 
   const onHome = useCallback(() => {

@@ -7,14 +7,7 @@ export const initialState = {
     logOutLoading: false, // 로그아웃 시도중
     logOutDone: false,
     logOutError: null,
-    user: {
-        id: 'devminwooJung',
-        nickname: '짱멋진 개발자 정민우',
-        password: '123123123',
-        createdAt: '2022/07/08',
-        weight: '83',
-        height: '182',
-    },
+    user: {},
     userInfomodifyLoading: false, // 유저 정보 수정 시도중
     userInfomodifyDone: false,
     userInfomodifyError: null,

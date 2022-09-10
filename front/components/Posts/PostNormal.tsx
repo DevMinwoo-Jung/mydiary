@@ -24,7 +24,6 @@ const ContentPara = styled.p`
 const PostNormal:FC<PostProps> = (props) => {
 
   const { post } = props 
-  console.log(post.date)
 
   return (
     <>

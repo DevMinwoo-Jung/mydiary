@@ -6,6 +6,7 @@ import { MdOutlineClose } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { LOG_IN_REQUEST, LOG_IN_SUCCESS } from 'reducers/user'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
+import { LOAD_POSTS_REQUEST } from 'reducers/post'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -109,6 +110,9 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
     dispatch({
       type: LOG_IN_REQUEST,
       data: {userId, password}
+    })
+    dispatch({
+      type: LOAD_POSTS_REQUEST,
     })
   }, [userId, password]);
 
