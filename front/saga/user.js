@@ -30,47 +30,6 @@ function* login(action) {
     }
 }
 
-// function followAPI(data) {
-//     return axios.patch(`user/${data}/follow`)
-// }
-
-// // 특이하다 loginAPI(action.data, a, b, c) 이 형식이 call쓰면 아래처럼 됨
-// function* follow(action) {
-//     try {
-// //        yield delay(1000) // 비동기적 효과 주려공 
-//         const result = yield call(followAPI, action.data);
-//         yield put({
-//             type: FOLLOW_SUCCESS,
-//             data: result.data
-//         });
-//     } catch (err) {
-//         yield put({
-//             type: FOLLOW_FAILURE,
-//             data: err.response.data
-//         })
-//     }
-// }
-
-// function unFollowAPI(data) {
-//     return axios.delete(`/user/${data}/follow`)
-// }
-
-// // 특이하다 loginAPI(action.data, a, b, c) 이 형식이 call쓰면 아래처럼 됨
-// function* unFollow(action) {
-//     try {
-//         const result = yield call(unFollowAPI, action.data);
-//         yield put({
-//             type: UNFOLLOW_SUCCESS,
-//             data: result.data
-//         });
-//     } catch (err) {
-//         yield put({
-//             type: UNFOLLOW_FAILURE,
-//             data: err.response.data
-//         })
-//     }
-// }
-
 function logoutAPI() {
     return axios.post('/user/logout')
 }
@@ -111,13 +70,16 @@ function* signUp(action) {
     }
 }
 
+function userInfoModifyAPI(data) {
+    return axios.patch('/user/modify', data)
+}
+
 function* userInfoModify(action) {
-    console.log(action.data)
     try {
-        yield delay(1000);
+        const result = yield call(userInfoModifyAPI, action.data);
         yield put({
             type: USER_INFO_MODIFY_SUCCESS,
-            data: action.data,
+            data: result.data,
         });
     } catch (err) {
         console.log(err)
@@ -127,26 +89,6 @@ function* userInfoModify(action) {
         })
     }
 }
-
-// function loadUserAPI(data) {
-//     return axios.get(`/user/${data}`) // 쿠키라 데이터가 없데..
-// }
-
-// function* loadUser(action) {
-//     try {
-//         const result = yield call(loadUserAPI, action.data);
-//         yield put({
-//             type: LOAD_USER_SUCCESS,
-//             data: result.data
-//         });
-//     } catch (err) {
-//         console.log(err)
-//         yield put({
-//             type: LOAD_USER_FAILURE,
-//             error: err.response.data
-//         })
-//     }
-// }
 
 function loadMyInfoAPI() {
     return axios.get('/user') // 쿠키라 데이터가 없데..
@@ -169,87 +111,6 @@ function* loadMyInfo(action) {
     }
 }
 
-// function changeNickNameAPI(data) {
-//     return axios.patch(`/user/nickname`, { nickname: data }) // 쿠키라 데이터가 없데..
-// }
-
-// function* changeNickName(action) {
-//     try {
-//         const result = yield call(changeNickNameAPI, action.data);
-//         yield put({
-//             type: CHANGE_NICKNAME_SUCCESS,
-//             data: result.data
-//         });
-//     } catch (err) {
-//         console.log(err)
-//         yield put({
-//             type: CHANGE_NICKNAME_FAILURE,
-//             error: err.response.data
-//         })
-//     }
-// }
-
-// function loadFollowersAPI(data) {
-//     return axios.get(`/user/followers`, { nickname: data }) // 쿠키라 데이터가 없데..
-// }
-
-// function* loadFollowers(action) {
-//     try {
-//         const result = yield call(loadFollowersAPI, action.data);
-//         yield put({
-//             type: LOAD_FOLLOWERS_SUCCESS,
-//             data: result.data
-//         });
-//     } catch (err) {
-//         console.log(err)
-//         yield put({
-//             type: LOAD_FOLLOWERS_FAILURE,
-//             error: err.response.data
-//         })
-//     }
-// }
-
-// function loadFollwingsAPI(data) {
-//     return axios.get(`/user/followings`, { nickname: data }) // 쿠키라 데이터가 없데..
-// }
-
-// function* loadFollwings(action) {
-//     try {
-//         const result = yield call(loadFollwingsAPI, action.data);
-//         yield put({
-//             type: LOAD_FOLLOWINGS_SUCCESS,
-//             data: result.data
-//         });
-//     } catch (err) {
-//         console.log(err)
-//         yield put({
-//             type: LOAD_FOLLOWINGS_FAILURE,
-//             error: err.response.data
-//         })
-//     }
-// }
-
-
-// function removeFollowersAPI(data) {
-//     return axios.delete(`/user/follower/${data}`, data) // 쿠키라 데이터가 없데..
-// }
-
-// function* removeFollowers(action) {
-//     try {
-//         const result = yield call(removeFollowersAPI, action.data);
-//         yield put({
-//             type: REMOVE_FOLLOWER_SUCCESS,
-//             data: result.data
-//         });
-//     } catch (err) {
-//         console.log(err)
-//         yield put({
-//             type: REMOVE_FOLLOWER_FAILURE,
-//             error: err.response.data
-//         })
-//     }
-// }
-
 function* watchLogin() {
     yield takeLatest(LOG_IN_REQUEST, login)
 }
@@ -266,37 +127,9 @@ function* watchUserInfoModify() {
     yield takeLatest(USER_INFO_MODIFY_REQUEST, userInfoModify)
 }
 
-// function* watchFollow() {
-//     yield takeLatest(FOLLOW_REQUEST, follow)
-// }
-
-// function* watchUnFollow() {
-//     yield takeLatest(UNFOLLOW_REQUEST, unFollow)
-// }
-
 function* watchMyInfo() {
     yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo)
 }
-
-// function* watchChangeNicknamePost() {
-//     yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickName)
-// }
-
-// function* watchLoadFollowingsPost() {
-//     yield takeLatest(LOAD_FOLLOWINGS_REQUEST, loadFollwings)
-// }
-
-// function* watchLoadFollowersPost() {
-//     yield takeLatest(LOAD_FOLLOWERS_REQUEST, loadFollowers)
-// }
-
-// function* watchRemoveFollower() {
-//     yield takeLatest(REMOVE_FOLLOWER_REQUEST, removeFollowers)
-// }
-
-// function* watchLoadUser() {
-//     yield takeLatest(LOAD_USER_REQUEST, loadUser)
-// }
 
 export default function* userSaga() {
     yield all([
@@ -305,10 +138,5 @@ export default function* userSaga() {
         fork(watchSigUp),
         fork(watchUserInfoModify),
         fork(watchMyInfo),
-        // fork(watchLoadUser),
-        // fork(watchChangeNicknamePost),
-        // fork(watchLoadFollowingsPost),
-        // fork(watchLoadFollowersPost),
-        // fork(watchRemoveFollower),
     ])
 }

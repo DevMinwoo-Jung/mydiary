@@ -36,7 +36,7 @@ router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
     const post = await Post.create({
       content: req.body.content,
       date: req.body.date,
-      userId: req.body.userId,
+      UserId: req.user.id,
     });
     if (hashtags) {
         const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({

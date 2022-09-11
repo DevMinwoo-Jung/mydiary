@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const { isNotLoggedIn } = require('./middlewares');
+const { isNotLoggedIn, isLoggedIn } = require('./middlewares');
 
 const { User, Post, Image } = require('../models');
 
@@ -99,6 +99,20 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
       })
   })(req, res, next) 
 });
+
+router.patch('/modify', isLoggedIn, async (req, res, next) => { 
+  try {
+  const userInfo = await User.update({
+    nickname: req.body.userNickname,
+    password: req.body.userPassword
+  }, {
+    where: { id: req.user.id },
+  });
+    res.status(201).json(userInfo); 
+  } catch (error) {
+    console.error(error)
+  }
+})
 
 
 

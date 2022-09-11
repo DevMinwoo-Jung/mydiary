@@ -5,10 +5,9 @@ import React, { memo, useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Typography } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { LOAD_MY_INFO_REQUEST, SHOW_MODIFY_FORM } from 'reducers/user'
+import { ISPOST_IMAGE_FALSE, ISPOST_IMAGE_TRUE, LOAD_MY_INFO_REQUEST, SHOW_MODIFY_FORM } from 'reducers/user'
 import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
 import { LOAD_PROFILE_REQUEST, MODIFY_PROFILE_IMAGE_REQUEST, UPLOAD_PROFILE_IMAGES_REQUEST } from 'reducers/post'
-import { InitialUser } from 'libs/type'
 
 const { Paragraph } = Typography
 
@@ -98,15 +97,11 @@ const RemoveButtonStyle = styled(Button)`
 const _UserPhoto = () => {
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch({
-      type: LOAD_MY_INFO_REQUEST
-    })
-  }, [])
-
   const userId = useSelector((state) => state.user?.me?.userId)
+  const nickname = useSelector((state) => state.user?.me?.nickname)
   const { imagePath } = useSelector((state) => state.post)
   const me = useSelector((state) => state.user?.me)
+  const { userInfomodifyLoading, showModifyForm, isPosted } = useSelector((state) => state.user)
   const imageInput = useRef<any>()
 
   const onClickImageUploads = useCallback(() => {
@@ -119,8 +114,11 @@ const _UserPhoto = () => {
         imageFormData.append('image', f)
     })
     dispatch({
-        type: UPLOAD_PROFILE_IMAGES_REQUEST,
-        data: imageFormData
+      type: UPLOAD_PROFILE_IMAGES_REQUEST,
+      data: imageFormData
+    })
+    dispatch({
+      type: ISPOST_IMAGE_TRUE,
     })
   },[])
 
@@ -130,15 +128,7 @@ const _UserPhoto = () => {
     })
   }
 
-  useEffect(() => {
-    if(me !== null){
-      dispatch({
-        type: LOAD_PROFILE_REQUEST
-      })
-    }
-  }, [me])
-
-  const onSubmit = useCallback((e) => {
+  const onSubmit = useCallback(() => {
     const formData = new FormData();
     formData.append('image', imagePath.filename);
     formData.append('user', userId);
@@ -148,6 +138,29 @@ const _UserPhoto = () => {
     });
   },[imagePath])
 
+  useEffect(() => {
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST
+    })
+  }, [])
+
+  useEffect(() => {
+    if(me !== null){
+      dispatch({
+        type: LOAD_PROFILE_REQUEST
+      })
+    }
+  }, [me])
+ 
+  useEffect(() => {
+    if ((isPosted === true) && (userInfomodifyLoading === true)) {
+      onSubmit()
+      dispatch({
+        type: ISPOST_IMAGE_FALSE
+      })
+    }
+  }, [userInfomodifyLoading, isPosted])
+
   return (
     <Form encType="multipart/form-data" >
       <UserPhotoDiv >
@@ -155,18 +168,18 @@ const _UserPhoto = () => {
           imagePath === null 
           ? <AvatarStyle size={150} icon={<UserOutlinedStyle />}/>
           : <AvatarStyle size={150} 
-            icon={<ImgStyle src={`http://localhost:3065/${imagePath.src || imagePath}`} alt={String(imagePath.filename)}/>}
+            icon={<ImgStyle src={`http://localhost:3065/${imagePath.filename || imagePath.src}`} alt={String(imagePath.filename)}/>}
             />
           }
         <ParagraphDivStyle>
           <ParagraphStyle>
             안녕하세요<br/>
-            {userId} 님
+            {nickname} 님 <EditOutlinedStyle onClick={onUserModify}/>
           </ParagraphStyle>
-          <EditOutlinedStyle onClick={onUserModify}/>
+          {
+            showModifyForm && <ButtonStyle onClick={onClickImageUploads}>프로필 이미지 추가</ButtonStyle>
+          }
           <input type='file' name='image'multiple hidden ref={imageInput} onChange={onChangeImages}/>
-          <ButtonStyle onClick={onClickImageUploads}>프로필 이미지 추가</ButtonStyle>
-          <ButtonStyle onClick={onSubmit}>수정하기</ButtonStyle>
         </ParagraphDivStyle>
       </UserPhotoDiv>
     </Form>  

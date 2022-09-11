@@ -98,13 +98,11 @@ const _UserInfo = () => {
     })
   }, [])
 
-  const { showModifyForm } = useSelector((state) => state.user)
-  // const { nickname, userId, createdAt } = useSelector((state) => state.user.me)
+  const { showModifyForm, userInfomodifyDone } = useSelector((state) => state.user)
   const nickname = useSelector((state) => state.user?.me?.nickname)
   const userId = useSelector((state) => state.user?.me?.userId)
   const createdAt = useSelector((state) => state.user?.me?.createdAt)
-  const { password } = useSelector((state) => state.user.user)
-
+  
   const [userNickname, onChangeUserNickname ] = useInput('')
   const [userPassword, onChangeUserPassword] = useInput('')
   const [checkPassword, onChangeCheckPssword] = useInput('')
@@ -114,6 +112,9 @@ const _UserInfo = () => {
     dispatch({
       type: USER_INFO_MODIFY_REQUEST,
       data: {userNickname, userPassword},
+    })
+    dispatch({
+      type: HIDE_MODIFY_FORM
     })
   },[userNickname, userPassword]) 
 
@@ -128,6 +129,14 @@ const _UserInfo = () => {
       type: USER_REMOVE_REQUEST
     })
   }
+
+  useEffect(() => {
+    if(userInfomodifyDone === true) {
+      dispatch({
+        type: LOAD_MY_INFO_REQUEST
+      })
+    }
+  }, [userInfomodifyDone])
 
   useEffect(() => {
     if(checkPassword !== userPassword) {
@@ -166,12 +175,9 @@ const _UserInfo = () => {
       <UserInfoInnerDiv>
         <Title level={3}>비밀번호</Title>
         {
-          showModifyForm === false
-          ?
-          <ParagraphStyle>{password}</ParagraphStyle> 
-          :
+          showModifyForm &&
           <PasswordDiv>
-            <InputStyle type={'password'} value={userPassword} onChange={onChangeUserPassword} placeholder={password}/>
+            <InputStyle type={'password'} value={userPassword} onChange={onChangeUserPassword} placeholder={null}/>
             <br/>
             <br/>
             <InputStyle type={'password'} value={checkPassword} onChange={onChangeCheckPssword} placeholder={'변경할 비밀번호를 다시 입력하세요'}/>
@@ -196,7 +202,7 @@ const _UserInfo = () => {
           showModifyForm === true
           ?
           <>
-            <ButtonStyle onClick={onModify}>수정하기</ButtonStyle>
+            <ButtonStyle disabled={passwordAlert} onClick={onModify}>수정하기</ButtonStyle>
             <ButtonStyle onClick={onCancel}>취소</ButtonStyle>
           </>
           :

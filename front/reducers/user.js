@@ -14,11 +14,12 @@ export const initialState = {
     signUpLoading: false, // 회원가입 시도중
     signUpDone: false,
     signUpError: null,
-    showModifyForm: false,
     loadMyInfoLoading: false,
     loadMyInfoDone: false,
     loadMyInfoError: null,
     me: null,
+    showModifyForm: false,
+    isPosted: false
 };
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST'
@@ -36,8 +37,8 @@ export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE'
 export const USER_INFO_MODIFY_REQUEST = 'USER_INFO_MODIFY_REQUEST'
 export const USER_INFO_MODIFY_SUCCESS = 'USER_INFO_MODIFY_SUCCESS'
 export const USER_INFO_MODIFY_FAILURE = 'USER_INFO_MODIFY_FAILURE'
-export const MODIFY_CANCEL = 'MODIFY_CANCEL'
 
+export const MODIFY_CANCEL = 'MODIFY_CANCEL'
 export const SHOW_MODIFY_FORM = 'SHOW_MODIFY_FORM'
 export const HIDE_MODIFY_FORM = 'HIDE_MODIFY_FORM'
 
@@ -49,6 +50,8 @@ export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST'
 export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS'
 export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE'
 
+export const ISPOST_IMAGE_TRUE = 'ISPOST_IMAGE_TRUE'
+export const ISPOST_IMAGE_FALSE = 'ISPOST_IMAGE_FALSE'
 
 
 
@@ -139,8 +142,14 @@ export default (state = initialState, action) => {
         case HIDE_MODIFY_FORM: 
             return {
             ...state,
-            showModifyForm: false,
+            showModifyForm: false ? true : false,
             }
+        case ISPOST_IMAGE_TRUE:
+            draft.isPosted = true;
+            break;
+        case ISPOST_IMAGE_FALSE:
+            draft.isPosted = false;
+            break;
         case USER_INFO_MODIFY_SUCCESS: 
             draft.userInfomodifyLoading = false;
             draft.userInfomodifyDone = true;
