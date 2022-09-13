@@ -58,24 +58,6 @@ const InputPasswordStyle = styled(Input.Password)`
   border-radius: 12px;
 `
 
-const KakaoLogin = styled.div`
-  display: flex;
-  width: 100%;
-  background-color: #FEE500;
-  border-radius: 12px;
-  height: 50px;
-  line-height: 50px;
-  margin-bottom: 1rem;
-  cursor: pointer;
-  color: black;
-`
-const CheckboxStyle = styled(Checkbox)`
-  position: absolute;
-  left: 0;
-  top: 0;
-  margin-top: 1rem;
-`
-
 const CloseButton = styled(MdOutlineClose)`
   position: absolute;
   right: 1rem;

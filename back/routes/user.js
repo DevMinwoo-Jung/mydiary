@@ -108,12 +108,24 @@ router.patch('/modify', isLoggedIn, async (req, res, next) => {
   }, {
     where: { id: req.user.id },
   });
-    res.status(201).json(userInfo); 
+    res.status(201).json(userInfo);  
   } catch (error) {
     console.error(error)
   }
 })
 
+router.delete('/remove', isLoggedIn, async (req, res, next) => { // delete/user/1
+  try {
+    await User.destroy({
+        where: { id: req.user.id }
+    })
+    res.json({ userId: parseInt(req.user.id, 10) })
+} catch (error) {
+    console.error(error);
+    next(error) 
+}  
+})
+  
 
 
 router.delete('/', (req, res) => {

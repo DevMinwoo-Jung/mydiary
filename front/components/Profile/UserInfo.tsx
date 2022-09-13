@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
 import { HIDE_MODIFY_FORM, LOAD_MY_INFO_REQUEST, USER_INFO_MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
+import router from 'next/router'
+import RemoveUser from './RemoveUser'
 
 const { Title, Paragraph } = Typography
 
@@ -88,6 +90,11 @@ const ButtonStyle = styled(Button)`
   }
 `
 
+const ModalContainer = styled.div`
+  position: absolute;
+  margin: auto;
+`
+
 
 const _UserInfo = () => {
   const dispatch = useDispatch()
@@ -102,13 +109,15 @@ const _UserInfo = () => {
   const nickname = useSelector((state) => state.user?.me?.nickname)
   const userId = useSelector((state) => state.user?.me?.userId)
   const createdAt = useSelector((state) => state.user?.me?.createdAt)
-  
+
   const [userNickname, onChangeUserNickname ] = useInput('')
   const [userPassword, onChangeUserPassword] = useInput('')
   const [checkPassword, onChangeCheckPssword] = useInput('')
-  const [passwordAlert, setPasswordAlert ] = useState(false)
+  const [passwordAlert, setPasswordAlert] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onModify = useCallback(() => {
+    router.push('/')
     dispatch({
       type: USER_INFO_MODIFY_REQUEST,
       data: {userNickname, userPassword},
@@ -124,11 +133,13 @@ const _UserInfo = () => {
     })
   }
 
-  const onRemoveUser = () => {
-    dispatch({
-      type: USER_REMOVE_REQUEST
-    })
-  }
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false)
+  }, [isModalOpen])
 
   useEffect(() => {
     if(userInfomodifyDone === true) {
@@ -139,13 +150,16 @@ const _UserInfo = () => {
   }, [userInfomodifyDone])
 
   useEffect(() => {
+    console.log(isModalOpen)
+  }, [isModalOpen])
+
+  useEffect(() => {
     if(checkPassword !== userPassword) {
       setPasswordAlert(true)
     } else {
       setPasswordAlert(false)
     }
   }, [checkPassword, userPassword])
-
 
   return (
   <>
@@ -207,10 +221,17 @@ const _UserInfo = () => {
           </>
           :
           <>
-            <ButtonStyle onClick={onRemoveUser}>탈퇴하기</ButtonStyle>
+            <ButtonStyle onClick={showModal}>탈퇴하기</ButtonStyle>
           </>
         }
       </ButtonDiv>
+      {
+        isModalOpen === true ?
+          <ModalContainer>
+            <RemoveUser closeModal={closeModal} isModalOpen={isModalOpen}/>
+          </ModalContainer>
+          : null
+      }
   </UserInfoContainer>
   </>
   )

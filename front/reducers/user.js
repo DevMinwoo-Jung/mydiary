@@ -17,6 +17,9 @@ export const initialState = {
     loadMyInfoLoading: false,
     loadMyInfoDone: false,
     loadMyInfoError: null,
+    userRemoveLoading: false, // 유저 삭제 시도중
+    userRemoveDone: false,
+    userRemoveError: null,
     me: null,
     showModifyForm: false,
     isPosted: false
@@ -63,7 +66,7 @@ export const  loginRequestAction = (data) => ({
 export const logoutRequestAction = () => ({
     type: LOG_OUT_REQUEST,
     })
- 
+
 export const signUpSuccess = {
     type: SIGN_UP_SUCCESS,
 }
@@ -71,6 +74,19 @@ export const signUpSuccess = {
 export default (state = initialState, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
+        case USER_REMOVE_REQUEST: 
+            draft.userRemoveLoading = true;
+            draft.userRemoveError = null;
+            draft.userRemoveDone = false;
+            break;
+        case USER_REMOVE_SUCCESS: 
+            draft.userRemoveLoading = false;
+            draft.userRemoveDone = true;
+            break;
+        case USER_REMOVE_FAILURE: 
+            draft.userRemoveLoading = false;
+            draft.userRemoveError = action.error;
+            break;            
         case LOG_IN_REQUEST: 
             draft.logInLoading = true;
             draft.logInError = null;
