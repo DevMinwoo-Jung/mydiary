@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import shortid from 'shortid'
 import Post from './Post'
 import { dummy, LOAD_POSTS_REQUEST } from 'reducers/post'
+import Arrow from 'lottie/Arrow'
 
 const PostsContainer = styled.div`
   margin: auto;
@@ -37,8 +38,8 @@ const _Posts = () => {
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post)
   const { me } = useSelector((state) => state.user)
   
-
   const postRef: any = useRef()
+  const arrowRef: any = useRef()
 
   const dispatch = useDispatch()   
   
@@ -75,8 +76,11 @@ const _Posts = () => {
           if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 2200) {
             postRef.current.style.opacity = '1'
             postRef.current.style.transition = '1.5s'
+            arrowRef.current.style.opacity = '0'
+            arrowRef.current.style.transition = '1.5s'
           } else {
             postRef.current.style.opacity = '0'
+            arrowRef.current.style.opacity = '1'
           }
         }
         window.addEventListener('scroll', onScroll);
@@ -98,6 +102,9 @@ const _Posts = () => {
         <IntroContainer>
           <IntroParaContainer>
             <IntroPara>당신의 <br/> 소중한 <br/>순간들을 <br/>기록하세요.</IntroPara>
+            <div ref={arrowRef}>
+              <Arrow/>
+            </div>
           </IntroParaContainer>
           <IntroPostContainer ref={postRef}>
           {
