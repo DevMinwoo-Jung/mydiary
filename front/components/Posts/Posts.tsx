@@ -36,7 +36,6 @@ const IntroPara = styled.p`
 const _Posts = () => {
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post)
   const { me } = useSelector((state) => state.user)
-  const [filteredPosts, setFilteredPosts] = useState(mainPosts);
   
 
   const postRef: any = useRef()
@@ -50,19 +49,13 @@ const _Posts = () => {
       })
     }
   }, [me])
-
-  useEffect(() => {
-    setFilteredPosts(mainPosts)
-  }, [mainPosts])
-
   
-
   useEffect(() => {
     if (me !== null) {
       const onScroll = () => {
           if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 500) {
               if (hasMorePosts && !loadPostsLoading) {
-                  const lastId = filteredPosts[filteredPosts.length - 1]?.id;
+                  const lastId = mainPosts[mainPosts.length - 1]?.id;
                   dispatch({
                     type: LOAD_POSTS_REQUEST,
                   });
@@ -74,12 +67,12 @@ const _Posts = () => {
               window.removeEventListener('scroll', onScroll);
           };
     }
-    }, [filteredPosts, hasMorePosts, loadPostsLoading, me]);
+    }, [mainPosts, hasMorePosts, loadPostsLoading, me]);
 
     useEffect(() => {
       if (me === null) {
         const onScroll = () => { 
-          if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 2500) {
+          if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 2200) {
             postRef.current.style.opacity = '1'
             postRef.current.style.transition = '1.5s'
           } else {
@@ -97,7 +90,7 @@ const _Posts = () => {
     <PostsContainer key={shortid()}>
       {
         me !== null ?
-          filteredPosts.map(
+          mainPosts.map(
             (element) => 
             <Post post={element} key={shortid()}/>
           )

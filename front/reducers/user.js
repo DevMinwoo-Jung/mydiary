@@ -89,7 +89,7 @@ export default (state = initialState, action) => {
             break;            
         case LOG_IN_REQUEST: 
             draft.logInLoading = true;
-            draft.logInError = null;
+            draft.logInError = false;
             draft.logInDone = false;
             break;
         case LOG_IN_SUCCESS: 
@@ -99,7 +99,7 @@ export default (state = initialState, action) => {
             break;
         case LOG_IN_FAILURE: 
             draft.logInLoading = false;
-            draft.logInError = action.error;
+            draft.logInError = true;
             break;
         case SIGN_UP_REQUEST: 
             draft.signUpLoading = true;

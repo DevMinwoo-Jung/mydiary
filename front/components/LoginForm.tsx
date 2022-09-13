@@ -1,12 +1,11 @@
 import React, { FC, memo, useCallback, useEffect } from 'react'
-import { Button, Checkbox, Form, Input } from 'antd'
+import { Button, Form, Input } from 'antd'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
 import { MdOutlineClose } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import { LOG_IN_REQUEST, LOG_IN_SUCCESS } from 'reducers/user'
+import { LOG_IN_REQUEST } from 'reducers/user'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
-import { LOAD_POSTS_REQUEST } from 'reducers/post'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -41,7 +40,9 @@ const ButtonStyle = styled(Button)`
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
   border-color: ${BUTTON_COLOR};
-  & .ant-btn:hover, .ant-btn:focus, ::after {
+  margin-bottom: 1rem;
+  border-color: none;
+  &.ant-btn:hover, .ant-btn:focus, ::after {
     background-color: ${BUTTON_COLOR};
     color: ${WHITE};
     font-weight: bolder;
@@ -73,16 +74,10 @@ export type LoginFormProps = {
 
 const _LoginForm: FC<LoginFormProps> = (props) => {
   const { onLogin } = props
-  const { logInLoading, logInError, logInDone } = useSelector((state) => state.user)
+  const { logInError, logInDone } = useSelector((state) => state.user)
   const dispatch = useDispatch();
   const [userId, onChangeUserId] = useInput('')
   const [password, onChangePassword] = useInput('')
-
-  useEffect(() => {
-    if (logInError) {
-      alert(logInError)
-    }
-  }, [logInError])
 
   useEffect(() => {
     logInDone === true ? onLogin() : ''
@@ -92,9 +87,6 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
     dispatch({
       type: LOG_IN_REQUEST,
       data: {userId, password}
-    })
-    dispatch({
-      type: LOAD_POSTS_REQUEST,
     })
   }, [userId, password]);
 
@@ -121,12 +113,14 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
           >
             <InputPasswordStyle name="userPassword" value={password} onChange={onChangePassword} placeholder='비밀번호' required />
           </Form.Item>
+          {
+              logInError === true 
+              ? <p>아이디 혹은 비밀번호가 잘못됐습니다.</p>
+              : null
+          }
           <ButtonStyle htmlType="submit">
               로그인하기
             </ButtonStyle> 
-          <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 0, span: 16 }}>
-            {/* <CheckboxStyle>로그인 상태 유지</CheckboxStyle> */}
-          </Form.Item>
         </Form>
       </FormContainer>
     </LoginFormContainer>

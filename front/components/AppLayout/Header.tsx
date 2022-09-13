@@ -51,13 +51,18 @@ const ButtonStyle = styled(Button)`
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
   border-color: ${BUTTON_COLOR};
-  &:hover {
+  border-color: none;
+  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
     background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
     color: ${WHITE};
     font-weight: bolder;
   }
-  &::selection {
-    background-color: ${BUTTON_COLOR};
+  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
+        background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
   }
 `
 

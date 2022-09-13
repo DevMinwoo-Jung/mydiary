@@ -40,8 +40,16 @@ const ButtonStyle = styled(Button)`
   margin-bottom: 2rem;
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
-  & :hover {
+  border-color: none;
+  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
     background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
+    background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
     color: ${WHITE};
     font-weight: bolder;
   }
@@ -84,8 +92,6 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
   const [email, onChangeEmail] = useInput('')
   const [nickname, onChangeNickname] = useInput('')
   const [password, onChangePassword] = useInput('')
-  const [passwordCheck, setPasswordCheck] = useState('')
-  const [passwordError, setPasswordError] = useState(false)
 
   useEffect(() => {
     if (me && me.id) {
@@ -105,29 +111,12 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
     }
   }, [signUpError])
 
-  const onChangePasswordCheck = useCallback(
-    (e) => {
-      setPasswordCheck(e.target.value)
-      setPasswordError(e.target.value !== password)
-    },
-    [password, passwordCheck]
-  );
-
   const onSubmit = useCallback(() => {
-    if (password !== passwordCheck) {
-      return setPasswordError(true);
-    }
     dispatch({
       type: SIGN_UP_REQUEST,
       data: { email, password, userId, nickname }
     });
-  }, [email, password, passwordCheck, nickname]);
-
-  useEffect(() => {
-    if (password !== passwordCheck) {
-      setPasswordError(true)
-    }
-  }, [passwordCheck])
+  }, [email, password, userId, nickname]);
 
   return (
     <LoginFormContainer>
@@ -143,34 +132,49 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
           <Form.Item
             name="userId"
             rules={[{ required: true, message: '아이디를 입력해주세요!' }]}
+            hasFeedback
             >
             <InputStyle value={userId} onChange={onChangeUserId} placeholder='아이디'/>
           </Form.Item>
           <Form.Item
             name="nickname"
             rules={[{ required: true, message: '닉네임을 입력해주세요!' }]}
+            hasFeedback
             >
             <InputStyle value={nickname} onChange={onChangeNickname} placeholder='닉네임'/>
           </Form.Item>
           <Form.Item
             name="email"
             rules={[{ required: true, message: '올바른 이메일 형식이 아닙니다.' }]}
+            hasFeedback
             >
             <InputStyle value={email} onChange={onChangeEmail} type='email' placeholder='이메일'/>
           </Form.Item> 
           <Form.Item
             name="password"
             rules={[{ required: true, message: '비밀번호를 입력해주세요!' }]}
+            hasFeedback
             >
             <InputPasswordStyle value={password} onChange={onChangePassword} placeholder='비밀번호'/>
           </Form.Item>
           <Form.Item
             name="passwordCheck"
             required
+            dependencies={['password']}
+            hasFeedback
             rules={[
-              { required: passwordError, message: '비밀번호가 일지하지 않습니다' }]}
+              { required: true, message: '비밀번호를 한번 더 입력해주세요!' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('비밀번호가 일지하지 않습니다'));
+                },
+              }),
+            ]}
             >
-            <InputPasswordStyle value={passwordCheck} onChange={onChangePasswordCheck} placeholder='비밀번호 확인'/>
+            <InputPasswordStyle placeholder='비밀번호 확인'/>
           </Form.Item>
           <ButtonStyle htmlType="submit" loading={signUpLoading}>
               회원가입

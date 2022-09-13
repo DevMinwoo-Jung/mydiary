@@ -1,7 +1,7 @@
 import { Button, DatePicker, DatePickerProps, Form, Input } from 'antd'
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react' 
 import styled from 'styled-components'
-import { ADD_POST_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
+import { ADD_POST_REQUEST, LOAD_POSTS_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
@@ -72,8 +72,16 @@ const ButtonStyle = styled(Button)`
   border-radius: 9px;
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
-  & :hover {
+  border-color: none;
+  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
     background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
+        background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
     color: ${WHITE};
     font-weight: bolder;
   }
@@ -108,8 +116,16 @@ const HideButton = styled(Button)`
   border-radius: 9px;
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
-  & :hover {
+  border-color: none;
+  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
     background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
+        background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
     color: ${WHITE};
     font-weight: bolder;
   }
@@ -155,8 +171,16 @@ const RemoveButtonStyle = styled(Button)`
   border-radius: 9px;
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
-  & :hover {
+  border-color: none;
+  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
     background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
+        background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
     color: ${WHITE};
     font-weight: bolder;
   }
@@ -223,6 +247,9 @@ export const _PostForm = () => {
         type: ADD_POST_REQUEST,
         data: formData,
     });
+    // dispatch({
+    //   type: LOAD_POSTS_REQUEST,
+    // })
   },[imagePaths, text, date, userId])
 
   const onRemoveImage = useCallback((index: any) => () => {

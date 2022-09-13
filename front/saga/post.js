@@ -29,6 +29,10 @@ function* addPost(action) {
     }
 }
 
+function removePostAPI(data) {
+    return axios.delete(`/post/${data}`, data) // 이렇게 해 주는게 req.body에 content에 접근 하려고 없으면 접근이 안될껄..?
+}
+
 function* deletePost(action) {
     console.log(action)
     try {
@@ -37,10 +41,6 @@ function* deletePost(action) {
             type: POST_DELETE_SUCCESS,
             data: result.data,
         });
-        // yield put({
-        //     type: REMOVE_POST_OF_ME,
-        //     data: action.data,
-        // });
         } catch (err) {
             console.log(err)
             yield put({

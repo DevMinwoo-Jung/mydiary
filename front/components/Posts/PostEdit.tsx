@@ -49,8 +49,16 @@ const ButtonStyle = styled(Button)`
   border-radius: 0.6rem;
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
-  & :hover {
+  
+  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
     background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
+    background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
     color: ${WHITE};
     font-weight: bolder;
   }
