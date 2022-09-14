@@ -75,6 +75,7 @@ export const initialState = {
   mainPosts: [],
   hasMorePosts: false,
   imagePaths: [],
+  modifyImagePaths: [],
   imagePath: null,
   modify: false,
   showReps: true,
@@ -99,6 +100,9 @@ export const initialState = {
   loadProfileLoading: false,
   loadProfileDone: false,
   loadProfileError: null,
+  modifyPostLoading: false,
+  modifyPostDone: false,
+  modifyPostError: null,
 };
 
 
@@ -138,6 +142,7 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
 
 
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'
+export const REMOVE_POSTS = 'REMOVE_POSTS'
 
 export const POST_MODIFY_REQUEST = 'POST_MODIFY_REQUEST'
 export const POST_DELETE_REQUEST = 'POST_DELETE_REQUEST'
@@ -156,6 +161,12 @@ export const MODIFY_PROFILE_IMAGE_REQUEST = 'MODIFY_PROFILE_IMAGE_REQUEST'
 export const MODIFY_PROFILE_IMAGE_SUCCESS = 'MODIFY_PROFILE_IMAGE_SUCCESS'
 export const MODIFY_PROFILE_IMAGE_FAILURE = 'MODIFY_PROFILE_IMAGE_FAILURE'
 
+export const MODIFY_POST_LOADING_BACK = 'MODIFY_POST_LOADING_BACK'
+export const MODIFY_POST_REQUEST = 'MODIFY_POST_REQUEST'
+export const MODIFY_POST_SUCCESS = 'MODIFY_POST_SUCCESS'
+export const MODIFY_POST_FAILURE = 'MODIFY_POST_FAILURE'
+
+
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
@@ -168,7 +179,7 @@ export const LOAD_PROFILE_REQUEST = 'LOAD_PROFILE_REQUEST'
 export const LOAD_PROFILE_SUCCESS = 'LOAD_PROFILE_SUCCESS'
 export const LOAD_PROFILE_FAILURE = 'LOAD_PROFILE_FAILURE'
 
-export const REMOVE_POSTS = 'REMOVE_POSTS'
+
 
 
 export const addPost = (data) => ({
@@ -179,7 +190,7 @@ export const addPost = (data) => ({
 // reducer 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성을 지키면서)
 // 근데 immer를 사용하면 알아서 불변성을 지키면서 만들어준다. state는 건들면 안되고 draft를 건들어야한다.
 export default (state = initialState, action) => {
-  // console.log(action.data)
+  console.log(action.data)
   return produce(state, (draft) => {
     switch (action.type) {
       case ADD_POST_REQUEST: 
@@ -206,7 +217,7 @@ export default (state = initialState, action) => {
         draft.deleteLoading = true;
         draft.deleteError = null;
         draft.deleteDone = false;
-        draft.mainPosts = draft.mainPosts.filter((y, i) => y.id !== action.data);
+        draft.mainPosts = draft.mainPosts.filter((y, i) => y.id !== action.data.PostId);
         break;
       case POST_DELETE_FAILURE: 
         draft.deleteLoading = true;
@@ -269,6 +280,24 @@ export default (state = initialState, action) => {
         draft.modifyProfileImagesLoading = false;
         draft.modifyProfileImagesImagesError = action.error;
         break;   
+      case MODIFY_POST_REQUEST:
+        draft.modifyPostLoading = true;
+        draft.modifyPostDone = false;
+        draft.modifyPostError = null;
+        break;
+      case MODIFY_POST_SUCCESS: 
+        draft.imagePath = action.data;
+        draft.modifyPostLoading = false;
+        draft.modifyPostDone = true;
+        draft.mainPosts.find((v) => v.id === action.data.PostId).content = action.data.content;
+        break;
+      case MODIFY_POST_LOADING_BACK: 
+        draft.modifyPostLoading = true;
+        break;
+      case MODIFY_POST_FAILURE:
+        draft.modifyPostLoading = false;
+        draft.modifyPostImagesError = action.error;
+        break; 
       case LOAD_POSTS_REQUEST: 
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;

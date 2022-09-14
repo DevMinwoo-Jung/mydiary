@@ -4,10 +4,11 @@ import { size } from 'libs/css/layout'
 import useInput from 'libs/hook/useInput'
 import { PostProps } from 'libs/type'
 import moment from 'moment'
-import React, { FC, useCallback, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { UPLOAD_IMAGES_REQUEST } from 'reducers/post'
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { LOAD_POSTS_REQUEST, MODIFY_POST_LOADING_BACK, MODIFY_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from 'reducers/post'
 import styled from 'styled-components'
+import { CheckOutlined } from '@ant-design/icons'
 
 const PostFormHeader = styled.div`
   width: 100%;
@@ -86,6 +87,16 @@ const TextContainer = styled(Input.TextArea)`
   }
 `
 
+const CheckOutlinedStyle = styled(CheckOutlined)`
+  right: 0rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  margin-right: 4.4rem;
+  bottom: 1.7rem;
+  position: absolute;
+  cursor: pointer;
+`
+
 const PostEdit:FC<PostProps> = (props) => {
 
   const { post } = props
@@ -95,9 +106,10 @@ const PostEdit:FC<PostProps> = (props) => {
     setDate(dateString)
   };
 
+
   const [date, setDate] = useState<string>('')
   const imageInput = useRef<any>()
-  const [text, onChangeText, setText] = useInput(post.content)
+  const [text, onChangeText] = useInput(post.content)
 
   const onClickImageUploads = useCallback(() => {
     imageInput.current.click()
@@ -113,7 +125,19 @@ const PostEdit:FC<PostProps> = (props) => {
         type: UPLOAD_IMAGES_REQUEST,
         data: imageFormData
     })
+
   },[])
+
+  const onModify = useCallback(() => {
+    dispatch({
+      type: MODIFY_POST_REQUEST,
+      data: {
+        date, 
+        content: text, 
+        PostId: post.id,
+      }
+    })
+  }, [date, text])
 
   return (
     <>
@@ -126,6 +150,7 @@ const PostEdit:FC<PostProps> = (props) => {
         }
         <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>
         <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
+        <CheckOutlinedStyle onClick={onModify}/>
       </PostFormHeader>
         <TextContainer
           rows={5}

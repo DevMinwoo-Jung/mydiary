@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { COLOR_DBE2EF } from 'libs/css/color'
 import shortid from 'shortid'
 import Images from './Images'
-import { LOAD_POSTS_REQUEST, POST_DELETE_REQUEST } from 'reducers/post'
+import { POST_DELETE_REQUEST } from 'reducers/post'
 import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import { message, Popconfirm } from 'antd'
 import PostTags from './PostTags'
@@ -14,6 +14,7 @@ import 'moment/locale/ko'
 import { PostProps } from 'libs/type'
 import PostNormal from './PostNormal'
 import PostEdit from './PostEdit'
+import EditImages from './EditImages/EditImages'
 
 moment.locale('ko');
 
@@ -54,19 +55,24 @@ const DeleteDiv = styled.div`
   margin: 1rem;
 `
 
-const RemoveBtn = styled(DeleteOutlined)`
-  right: 1rem;
-  top: 0.5rem;
-  font-size: 1.5rem;
-`
 
 const BiCustomizeStyle = styled(BiCustomize)`
   right: 1rem;
   top: 0.5rem;
   font-size: 1.5rem;
-  margin-right: 1rem;
+  margin-left: 0.5rem;
   cursor: pointer;
-`
+  `
+
+const RemoveBtn = styled(DeleteOutlined)`
+    right: 0rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    margin-right: 2.7rem;
+    position: absolute;
+    cursor: pointer;
+  `
+
 
 const Atag = styled.a`
   text-decoration: none;
@@ -93,18 +99,26 @@ const _Post:FC<PostProps> = (props) => {
   const dispatch = useDispatch()
   const [modify, setModify] = useState(false)
   const { me } = useSelector((state) => state.user)
+  const [clicked, setClicked] = useState(false)
+  const id = useSelector((state) => state.user.me?.id);
+
+  console.log(post)
 
   const onChangeModify = useCallback(() => {
     setModify((prev) => !prev)
   },[modify])
   
-  const onRemovePost = (targetId:string) => {
+  const onRemovePost = useCallback((targetId:string) => {
     console.log(targetId)
     dispatch({
       type: POST_DELETE_REQUEST,
-      data: targetId
+      data: post.id
     })
-  }
+  }, [id])
+
+  const clickedFalse = useCallback(() => {
+    setClicked(false)
+  }, [clicked])
 
   const confirm = (e: React.MouseEvent<HTMLElement> | string) => {
     console.log(e);
@@ -118,7 +132,11 @@ const _Post:FC<PostProps> = (props) => {
   };
   return (
     <PostsInnerContainer key={shortid()}>
-      { post.Images[0] && <Images image={post.Images}/> }
+      {
+        modify === true 
+        ? post.Images[0] && <EditImages image={post.Images}/>
+        : post.Images[0] && <Images image={post.Images}/>
+      }
         <ContentContainer>
           <TagAndDelete>
             <TagDiv>
@@ -128,18 +146,24 @@ const _Post:FC<PostProps> = (props) => {
               me !== null
               ?
               <DeleteDiv>
+                {
+                  modify === true ?
+                  <>
+                    <Popconfirm
+                          title="메모 삭제하기"
+                          onCancel={cancel}
+                          onConfirm={() => confirm(post.id)}
+                          okText="삭제"
+                          cancelText="취소"
+                          icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
+                          placement="rightTop"
+                        >
+                          <Atag href="#"><RemoveBtn/></Atag>
+                    </Popconfirm>
+                  </>
+                  : null
+                }
                 <BiCustomizeStyle onClick={onChangeModify}/>
-                <Popconfirm
-                      title="메모 삭제하기"
-                      onCancel={cancel}
-                      onConfirm={() => confirm(post.id)}
-                      okText="삭제"
-                      cancelText="취소"
-                      icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
-                      placement="rightTop"
-                    >
-                      <Atag href="#"><RemoveBtn/></Atag>
-                </Popconfirm>
               </DeleteDiv>
             : null
             }

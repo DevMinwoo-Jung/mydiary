@@ -34,7 +34,7 @@ const IntroPara = styled.p`
   font-weight: bolder;
 `
 
-const _Posts = () => {
+const Posts = () => {
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post)
   const { me } = useSelector((state) => state.user)
   
@@ -54,7 +54,7 @@ const _Posts = () => {
   useEffect(() => {
     if (me !== null) {
       const onScroll = () => {
-          if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 500) {
+          if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
               if (hasMorePosts && !loadPostsLoading) {
                   const lastId = mainPosts[mainPosts.length - 1]?.id;
                   dispatch({
@@ -120,6 +120,6 @@ const _Posts = () => {
   );
 };
 
-const Posts = memo(_Posts);
+// const Posts = memo(_Posts);
 
 export default Posts;

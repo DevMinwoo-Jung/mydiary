@@ -247,9 +247,6 @@ export const _PostForm = () => {
         type: ADD_POST_REQUEST,
         data: formData,
     });
-    // dispatch({
-    //   type: LOAD_POSTS_REQUEST,
-    // })
   },[imagePaths, text, date, userId])
 
   const onRemoveImage = useCallback((index: any) => () => {
