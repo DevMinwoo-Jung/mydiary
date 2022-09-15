@@ -1,14 +1,15 @@
-import { Button, DatePicker, DatePickerProps, Input } from 'antd'
+import { Button, DatePicker, DatePickerProps, Form, Input } from 'antd'
 import { BUTTON_COLOR, COLOR_DBE2EF, WHITE } from 'libs/css/color'
 import { size } from 'libs/css/layout'
 import useInput from 'libs/hook/useInput'
 import { PostProps } from 'libs/type'
 import moment from 'moment'
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import React, { FC, memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { LOAD_POSTS_REQUEST, MODIFY_POST_LOADING_BACK, MODIFY_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from 'reducers/post'
+import { LOAD_POSTS_REQUEST, MODIFY_POST_LOADING_BACK, MODIFY_POST_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST, UPLOAD_IMAGES_REQUEST } from 'reducers/post'
 import styled from 'styled-components'
 import { CheckOutlined } from '@ant-design/icons'
+import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 
 const PostFormHeader = styled.div`
   width: 100%;
@@ -97,7 +98,7 @@ const CheckOutlinedStyle = styled(CheckOutlined)`
   cursor: pointer;
 `
 
-const PostEdit:FC<PostProps> = (props) => {
+const _PostEdit:FC<PostProps> = (props) => {
 
   const { post } = props
   const dispatch = useDispatch()
@@ -106,43 +107,58 @@ const PostEdit:FC<PostProps> = (props) => {
     setDate(dateString)
   };
 
+  const { modifyImagePaths } = useSelector((state) => state.post)
+  const { me } = useSelector((state) => state.user);
 
-  const [date, setDate] = useState<string>('')
+  const [userId, setUserId] = useState<string>(undefined)
+  const [date, setDate] = useState<string>(post.date)
   const imageInput = useRef<any>()
   const [text, onChangeText] = useInput(post.content)
+
+  useEffect(() => {
+    setUserId(me.userId)
+    console.log(post.id)
+  }, [])
+
 
   const onClickImageUploads = useCallback(() => {
     imageInput.current.click()
   }, [imageInput.current])
 
   const onChangeImages = useCallback((e) => {
-    console.log('images', e.target.files)
+    // console.log('images', e.target.files)
     const imageFormData = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
     [].forEach.call(e.target.files, (f) => {
         imageFormData.append('image', f)
     })
     dispatch({
-        type: UPLOAD_IMAGES_REQUEST,
+        type: UPLOAD_EDIT_IMAGES_REQUEST,
         data: imageFormData
-    })
-
+      })
   },[])
 
   const onModify = useCallback(() => {
+    if (!text || !text.trim()) {
+      return alert('게시글을 작성하세요.');
+    }
+    const formData = new FormData();
+    modifyImagePaths.forEach((p) => {
+        formData.append('image', p);
+    });
+    formData.append('date', date);
+    formData.append('content', text);
+    formData.append('userId', userId);
+    formData.append('PostId', post.id)
     dispatch({
       type: MODIFY_POST_REQUEST,
-      data: {
-        date, 
-        content: text, 
-        PostId: post.id,
-      }
+      data: formData
     })
-  }, [date, text])
+  }, [modifyImagePaths, date, text, userId, post])
 
   return (
-    <>
+    <Form name="image" encType="multipart/form-data" onFinish={onModify}>
       <PostFormHeader>
-        <DatePickerStyle onChange={onChange} />
+        <DatePickerStyle onChange={onChange}/>
         {
           date === 'undefined' || date === '' || date === null 
           ? ''
@@ -158,8 +174,10 @@ const PostEdit:FC<PostProps> = (props) => {
           onChange={onChangeText}
           maxLength={400}
           />
-    </>
-  )
+    </Form>
+  ) 
 }
+
+const PostEdit = memo(_PostEdit)
 
 export default PostEdit

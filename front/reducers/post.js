@@ -77,14 +77,15 @@ export const initialState = {
   imagePaths: [],
   modifyImagePaths: [],
   imagePath: null,
-  modify: false,
-  showReps: true,
   deleteLoading: false,
   deleteDone: false,
   deleteError: null,
   uploadImagesLoading: false,
   uploadImagesDone: false,
   uploadImagesError: null,
+  uploadEditImagesLoading: false,
+  uploadEditImagesDone: false,
+  uploadEditImagesError: null,
   uploadProfileImagesLoading: false,
   uploadProfileImagesDone: false,
   uploadProfileImagesError: null,
@@ -142,6 +143,7 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
 
 
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'
+export const REMOVE_EDIT_IMAGE = 'REMOVE_EDIT_IMAGE'
 export const REMOVE_POSTS = 'REMOVE_POSTS'
 
 export const POST_MODIFY_REQUEST = 'POST_MODIFY_REQUEST'
@@ -152,6 +154,10 @@ export const POST_DELETE_FAILURE = 'POST_DELETE_FAILURE'
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST'
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS'
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE'
+
+export const UPLOAD_EDIT_IMAGES_REQUEST = 'UPLOAD_EDIT_IMAGES_REQUEST'
+export const UPLOAD_EDIT_IMAGES_SUCCESS = 'UPLOAD_EDIT_IMAGES_SUCCESS'
+export const UPLOAD_EDIT_IMAGES_FAILURE = 'UPLOAD_EDIT_IMAGES_FAILURE'
 
 export const UPLOAD_PROFILE_IMAGES_REQUEST = 'UPLOAD_PROFILE_IMAGES_REQUEST'
 export const UPLOAD_PROFILE_IMAGES_SUCCESS = 'UPLOAD_PROFILE_IMAGES_SUCCESS'
@@ -225,32 +231,46 @@ export default (state = initialState, action) => {
         draft.deleteDone = false;
         break;
       case LOAD_PROFILE_REQUEST:
-        draft.uploadImagesLoading = true;
-        draft.uploadImagesDone = false;
-        draft.uploadImagesError = null;
-        break;
-      case LOAD_PROFILE_SUCCESS: 
-        draft.imagePath = action.data;
-        draft.uploadImagesLoading = false;
-        draft.uploadImagesDone = true;
-        break;
-      case LOAD_PROFILE_FAILURE:
-        draft.uploadImagesLoading = false;
-        draft.uploadImagesError = action.error;
-        break;
-      case UPLOAD_IMAGES_REQUEST:
         draft.loadProfileLoading = true;
         draft.loadProfileDone = false;
         draft.loadProfileError = null;
         break;
-      case UPLOAD_IMAGES_SUCCESS: 
-        draft.imagePaths = action.data;
+      case LOAD_PROFILE_SUCCESS: 
+        draft.imagePath = action.data;
         draft.loadProfileLoading = false;
         draft.loadProfileDone = true;
         break;
-      case UPLOAD_IMAGES_FAILURE:
+      case LOAD_PROFILE_FAILURE:
         draft.loadProfileLoading = false;
         draft.loadProfileError = action.error;
+        break;
+      case UPLOAD_IMAGES_REQUEST:
+        draft.uploadImagesLoading = true;
+        draft.uploadImagesDone = false;
+        draft.uploadImagesError = null;
+        break;
+      case UPLOAD_IMAGES_SUCCESS: 
+        draft.imagePaths = action.data;
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesDone = true;
+        break;
+      case UPLOAD_IMAGES_FAILURE:
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesError = action.error;
+        break;
+      case UPLOAD_EDIT_IMAGES_REQUEST:
+        draft.uploadEditImagesLoading = true;
+        draft.uploadEditImagesDone = false;
+        draft.uploadEditImagesError = null;
+        break;
+      case UPLOAD_EDIT_IMAGES_SUCCESS: 
+        draft.modifyImagePaths = action.data;
+        draft.uploadEditImagesLoading = false;
+        draft.uploadEditImagesDone = true;
+        break;
+      case UPLOAD_EDIT_IMAGES_FAILURE:
+        draft.uploadEditImagesLoading = false;
+        draft.uploadEditImagesError = action.error;
         break;
       case UPLOAD_PROFILE_IMAGES_REQUEST:
         draft.uploadProfileImagesLoading = true;
@@ -289,7 +309,7 @@ export default (state = initialState, action) => {
         draft.imagePath = action.data;
         draft.modifyPostLoading = false;
         draft.modifyPostDone = true;
-        draft.mainPosts.find((v) => v.id === action.data.PostId).content = action.data.content;
+        draft.mainPosts = draft.mainPosts.find((v) => v.id === action.data.PostId)[0] = action.data[0]
         break;
       case MODIFY_POST_LOADING_BACK: 
         draft.modifyPostLoading = true;
@@ -320,6 +340,9 @@ export default (state = initialState, action) => {
       case REMOVE_IMAGE:
         draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data)
         break;
+      case REMOVE_EDIT_IMAGE:
+        draft.modifyImagePaths = draft.modifyImagePaths.filter((v, i) => i !== action.data)
+        break; 
       default: {
         break;
       }

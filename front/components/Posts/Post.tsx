@@ -78,47 +78,24 @@ const Atag = styled.a`
   text-decoration: none;
   color: inherit;
 `
-const PostFormHeader = styled.div`
-  width: 100%;
-  display: flex;
-  text-align: left;
-  font-size: 1rem;
-  position: relative;
-  vertical-align: middle;
-  justify-content: space-between;
-  & Input {
-    width: 120px;
-    text-align: center;
-    font-style: italic;
-    border: none;
-  }
-`
 const _Post:FC<PostProps> = (props) => {
 
   const { post } = props 
   const dispatch = useDispatch()
   const [modify, setModify] = useState(false)
-  const { me } = useSelector((state) => state.user)
-  const [clicked, setClicked] = useState(false)
+  const me = useSelector((state) => state.user.me)
   const id = useSelector((state) => state.user.me?.id);
-
-  console.log(post)
 
   const onChangeModify = useCallback(() => {
     setModify((prev) => !prev)
-  },[modify])
-  
+  }, [modify])
+
   const onRemovePost = useCallback((targetId:string) => {
-    console.log(targetId)
     dispatch({
       type: POST_DELETE_REQUEST,
       data: post.id
     })
   }, [id])
-
-  const clickedFalse = useCallback(() => {
-    setClicked(false)
-  }, [clicked])
 
   const confirm = (e: React.MouseEvent<HTMLElement> | string) => {
     console.log(e);
@@ -133,7 +110,7 @@ const _Post:FC<PostProps> = (props) => {
   return (
     <PostsInnerContainer key={shortid()}>
       {
-        modify === true 
+        modify === true
         ? post.Images[0] && <EditImages image={post.Images}/>
         : post.Images[0] && <Images image={post.Images}/>
       }
@@ -170,7 +147,7 @@ const _Post:FC<PostProps> = (props) => {
           </TagAndDelete>
         {
             modify === true
-            ? <PostEdit post={post}/>             
+            ? <PostEdit post={post}/>      
             : <PostNormal post={post} />
         }
         </ContentContainer>

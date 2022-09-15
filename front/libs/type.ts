@@ -7,6 +7,7 @@ export type PostObject = {
 
 export type PostProps = {
   post: PostObject
+  modify?: boolean
 }
 
 export type ToggleProps = {

@@ -7,7 +7,8 @@ import { ADD_POST_FAILURE, ADD_POST_SUCCESS, ADD_POST_REQUEST,
     ,UPLOAD_PROFILE_IMAGES_REQUEST, UPLOAD_PROFILE_IMAGES_FAILURE, UPLOAD_PROFILE_IMAGES_SUCCESS,
     MODIFY_PROFILE_IMAGE_FAILURE, MODIFY_PROFILE_IMAGE_REQUEST, MODIFY_PROFILE_IMAGE_SUCCESS,
     LOAD_PROFILE_FAILURE, LOAD_PROFILE_REQUEST, LOAD_PROFILE_SUCCESS,
-    MODIFY_POST_FAILURE, MODIFY_POST_REQUEST, MODIFY_POST_SUCCESS
+    MODIFY_POST_FAILURE, MODIFY_POST_REQUEST, MODIFY_POST_SUCCESS,
+    UPLOAD_EDIT_IMAGES_FAILURE, UPLOAD_EDIT_IMAGES_REQUEST, UPLOAD_EDIT_IMAGES_SUCCESS
 } from '../reducers/post'
 
 function addPostAPI(data) {
@@ -35,7 +36,6 @@ function removePostAPI(data) {
 }
 
 function* deletePost(action) {
-    console.log(action)
     try {
         const result = yield call(removePostAPI, action.data)
         yield put({
@@ -108,6 +108,26 @@ function* uploadImage(action) {
         console.log(err)
         yield put({
         type: UPLOAD_IMAGES_FAILURE,
+        error: err.response.data,
+        });
+    }
+}
+
+function uploadEditImagesAPI(data) {
+    return axios.post(`/post/images`, data)
+}
+
+function* uploadEditImage(action) {
+    try {
+        const result = yield call(uploadEditImagesAPI, action.data);
+        yield put({
+        type: UPLOAD_EDIT_IMAGES_SUCCESS,
+        data: result.data,
+        })
+    } catch (err) {
+        console.log(err)
+        yield put({
+        type: UPLOAD_EDIT_IMAGES_FAILURE,
         error: err.response.data,
         });
     }
@@ -189,6 +209,10 @@ function* watchUploadImagesPost() {
     yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImage)
 }
 
+function* watchUploadEditImagesPost() {
+    yield takeLatest(UPLOAD_EDIT_IMAGES_REQUEST, uploadEditImage)
+}
+
 function* watchDeletePost() {
     yield takeLatest(POST_DELETE_REQUEST, deletePost)
 }
@@ -214,6 +238,7 @@ export default function* rootSaga() {
         fork(watchUploadProfileImagesPost),
         fork(watchModifyProfileImagesPost),
         fork(watchLoadProfile),
-        fork(watchModifyPost)
+        fork(watchModifyPost),
+        fork(watchUploadEditImagesPost)
     ])
 }

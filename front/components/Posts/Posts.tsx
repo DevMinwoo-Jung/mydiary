@@ -1,5 +1,5 @@
-import React, { memo, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import shortid from 'shortid'
 import Post from './Post'
@@ -34,41 +34,11 @@ const IntroPara = styled.p`
   font-weight: bolder;
 `
 
-const Posts = () => {
-  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post)
-  const { me } = useSelector((state) => state.user)
-  
+const _Posts = () => {
+  const mainPosts = useSelector((state) => state.post.mainPosts, shallowEqual)
+  const me = useSelector((state) => state.user.me)
   const postRef: any = useRef()
-  const arrowRef: any = useRef()
-
-  const dispatch = useDispatch()   
-  
-  useEffect(() => {
-    if(me !== null) {
-      dispatch({
-        type: LOAD_POSTS_REQUEST,
-      })
-    }
-  }, [me])
-  
-  useEffect(() => {
-    if (me !== null) {
-      const onScroll = () => {
-          if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
-              if (hasMorePosts && !loadPostsLoading) {
-                  const lastId = mainPosts[mainPosts.length - 1]?.id;
-                  dispatch({
-                    type: LOAD_POSTS_REQUEST,
-                  });
-              }
-          }
-      }
-      window.addEventListener('scroll', onScroll);
-          return () => {
-              window.removeEventListener('scroll', onScroll);
-          };
-    }
-    }, [mainPosts, hasMorePosts, loadPostsLoading, me]);
+  const arrowRef: any = useRef()  
 
     useEffect(() => {
       if (me === null) {
@@ -90,15 +60,21 @@ const Posts = () => {
         }
       }, [me]);
   
+      useEffect(() => {
+        console.log('rerender????')
+      }, [])
+
+      const renderedPostList = useMemo(() => (
+        mainPosts.map((post) => {
+          return(  <Post post={post} key={shortid()} />)
+        })
+      ), [mainPosts]) 
   return (
     <PostsContainer key={shortid()}>
       {
         me !== null ?
-          mainPosts.map(
-            (element) => 
-            <Post post={element} key={shortid()}/>
-          )
-        :
+          <>{renderedPostList}</>
+        : 
         <IntroContainer>
           <IntroParaContainer>
             <IntroPara>당신의 <br/> 소중한 <br/>순간들을 <br/>기록하세요.</IntroPara>
@@ -120,6 +96,6 @@ const Posts = () => {
   );
 };
 
-// const Posts = memo(_Posts);
+const Posts = memo(_Posts);
 
 export default Posts;

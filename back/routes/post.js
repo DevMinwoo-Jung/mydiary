@@ -121,20 +121,18 @@ router.get('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res
   }
 })
 
-router.patch('/:postId', isLoggedIn, async (req, res, next) => { 
-  console.log('오긴하냐?')
-  console.log(req.body.date, req.body.content, req.body.PostId)
+router.patch('/:postId', isLoggedIn, uploads.array(), async (req, res, next) => { 
   const hashtags = req.body.content.match(/#[^\s#]+/g);
   try {
     await Post.update({
       date: req.body.date,
       content: req.body.content
-  }, {
+    }, {
       where: { 
-        id: req.body.PostId, 
+        id: req.body.PostId,
         UserId: req.user.id,
       },
-  });
+    });
   const post = await Post.findOne({ where: { id: req.params.postId }});
   if (hashtags) {
     const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({

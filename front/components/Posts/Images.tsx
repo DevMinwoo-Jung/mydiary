@@ -28,7 +28,7 @@ const CaretLeftOutlinedStyle = styled(CaretLeftOutlined)`
   font-size: 1.2rem;
   position: absolute;
   top: 12rem;
-  color: #f1eded;;
+  color: #f1eded;
   left: 0.5rem;
   border-radius: 99%;
   background-color: grey;

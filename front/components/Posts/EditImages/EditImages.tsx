@@ -1,7 +1,10 @@
-import React, { FC, memo, useState } from 'react'
+import React, { FC, memo, useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button } from 'antd'
+import { BUTTON_COLOR, WHITE } from 'libs/css/color'
+import { REMOVE_EDIT_IMAGE } from 'reducers/post'
 
 
 type image = {
@@ -10,7 +13,7 @@ type image = {
 }
 
 export type EditImagesProps = {
-  image: image[]
+  image: image[];
 }
 
 const ImageContainer = styled.div`
@@ -57,43 +60,70 @@ const ImgStyle = styled.img`
   border-radius: 1rem 1rem 0 0;
 `
 
+const RemoveButtonStyle = styled(Button)`
+  width: 20%;
+  margin: auto;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 9px;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  border-color: none;
+  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
+    background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
+        background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+`
+
 const _EditImages:FC<EditImagesProps>  = (props) => {
+  const dispatch = useDispatch()
+  const { modifyImagePaths } = useSelector((state) => state.post)
+  console.log(modifyImagePaths)
+
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { image } = props
-
-  const { me } = useSelector((state) => state.user)
-
   const onShowPrevImg = (e) => {
     if (currentSlide === 0) {
-      setCurrentSlide(image.length - 1)
+      setCurrentSlide(modifyImagePaths.length - 1)
     } else {
       setCurrentSlide((prev) => prev - 1)
     }
   }
 
   const onShowNextImg = () => {
-    if (currentSlide === image.length - 1) {
+    if (currentSlide === modifyImagePaths.length - 1) {
       setCurrentSlide(0)
     } else {
       setCurrentSlide((prev) => prev + 1)
     }
   }
 
+  const onRemoveImage = useCallback((index: any) => () => {
+    dispatch({
+        type: REMOVE_EDIT_IMAGE,
+        data: index
+    })
+  }, [])
+
   return (
     <ImageContainer>
         <>
         {
-          image.length === 1
+          modifyImagePaths.length === 1
           ? null
           : <CaretLeftOutlinedStyle onClick={onShowPrevImg}/> 
         }
+          <ImgStyle src={`http://localhost:3065/${modifyImagePaths[currentSlide]}`}/>
+          <RemoveButtonStyle onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
         {
-          me !== null
-          ? <ImgStyle src={`http://localhost:3065/${image[currentSlide].src}`} alt="" />
-          : <ImgStyle src={`${image[currentSlide].src}`} alt="" />
-        }
-        {
-          image.length === 1
+          modifyImagePaths.length === 1
           ? null
           : <CaretRightOutlinedStyle onClick={onShowNextImg}/>
         }
