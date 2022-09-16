@@ -196,8 +196,8 @@ export const addPost = (data) => ({
 // reducer 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성을 지키면서)
 // 근데 immer를 사용하면 알아서 불변성을 지키면서 만들어준다. state는 건들면 안되고 draft를 건들어야한다.
 export default (state = initialState, action) => {
-  console.log(action.data)
   return produce(state, (draft) => {
+    console.log(action.data)
     switch (action.type) {
       case ADD_POST_REQUEST: 
         draft.addPostLoading = true;
@@ -309,7 +309,9 @@ export default (state = initialState, action) => {
         draft.imagePath = action.data;
         draft.modifyPostLoading = false;
         draft.modifyPostDone = true;
-        draft.mainPosts = draft.mainPosts.find((v) => v.id === action.data.PostId)[0] = action.data[0]
+        console.log(draft.mainPosts.find((v) => v.id))
+        console.log(action.data)
+        // draft.mainPosts = draft.mainPosts.find((v) => v.id === action.data.PostId)[0] = action.data[0]
         break;
       case MODIFY_POST_LOADING_BACK: 
         draft.modifyPostLoading = true;

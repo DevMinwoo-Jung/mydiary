@@ -52,7 +52,7 @@ router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
           const image = await Image.create({ src: req.body.image })
           await post.addImages(image);
       }
-  }
+    }
     const fullPost = await Post.findOne({
       where: { id: post.id },
       include: [{
@@ -74,6 +74,7 @@ router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
 
 router.delete('/:postId', isLoggedIn, async (req, res, next) => { // DELETE /post/1/like
   try {
+    console.log(req.params.postId)
       await Post.destroy({
           where: { id: req.params.postId, userId: req.user.id }
       })
@@ -122,24 +123,14 @@ router.get('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res
 })
 
 router.patch('/:postId', isLoggedIn, uploads.array(), async (req, res, next) => { 
-  const hashtags = req.body.content.match(/#[^\s#]+/g);
+  console.log(req.body)
   try {
-    await Post.update({
+    const post = await Post.update({
       date: req.body.date,
       content: req.body.content
     }, {
-      where: { 
-        id: req.body.PostId,
-        UserId: req.user.id,
-      },
+      where: { id: req.params.postId, userId: req.user.id }
     });
-  const post = await Post.findOne({ where: { id: req.params.postId }});
-  if (hashtags) {
-    const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({
-      where: { name: tag.slice(1).toLowerCase() },
-    }))); // [[노드, true], [리액트, true]]
-    await post.setHashtags(result.map((v) => v[0]));
-  }
   res.status(200).json({ PostId: parseInt(req.params.postId, 10), date: req.body.date, content: req.body.content });
   } catch (error) {
     console.error(error)

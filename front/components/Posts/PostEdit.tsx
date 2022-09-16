@@ -4,12 +4,11 @@ import { size } from 'libs/css/layout'
 import useInput from 'libs/hook/useInput'
 import { PostProps } from 'libs/type'
 import moment from 'moment'
-import React, { FC, memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { FC, memo, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { LOAD_POSTS_REQUEST, MODIFY_POST_LOADING_BACK, MODIFY_POST_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST, UPLOAD_IMAGES_REQUEST } from 'reducers/post'
+import { MODIFY_POST_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST } from 'reducers/post'
 import styled from 'styled-components'
 import { CheckOutlined } from '@ant-design/icons'
-import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 
 const PostFormHeader = styled.div`
   width: 100%;
@@ -114,10 +113,11 @@ const _PostEdit:FC<PostProps> = (props) => {
   const [date, setDate] = useState<string>(post.date)
   const imageInput = useRef<any>()
   const [text, onChangeText] = useInput(post.content)
-
+  const [postId, setPostId] = useState(null);
   useEffect(() => {
     setUserId(me.userId)
-    console.log(post.id)
+    setPostId(post.id)
+    console.log
   }, [])
 
 
@@ -145,15 +145,17 @@ const _PostEdit:FC<PostProps> = (props) => {
     modifyImagePaths.forEach((p) => {
         formData.append('image', p);
     });
-    formData.append('date', date);
-    formData.append('content', text);
-    formData.append('userId', userId);
-    formData.append('PostId', post.id)
     dispatch({
       type: MODIFY_POST_REQUEST,
-      data: formData
+      data: {
+        formData: formData,
+        date: date,
+        content: text,
+        PostId: post.id,
+        userId: userId
+      }
     })
-  }, [modifyImagePaths, date, text, userId, post])
+  }, [modifyImagePaths, date, text, userId, post.id])
 
   return (
     <Form name="image" encType="multipart/form-data" onFinish={onModify}>
