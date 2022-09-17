@@ -6,7 +6,7 @@ import { PostProps } from 'libs/type'
 import moment from 'moment'
 import React, { FC, memo, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { MODIFY_POST_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST } from 'reducers/post'
+import { MODIFY_POST_IMAGE_REQUEST, MODIFY_POST_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST } from 'reducers/post'
 import styled from 'styled-components'
 import { CheckOutlined } from '@ant-design/icons'
 
@@ -147,6 +147,16 @@ const _PostEdit:FC<PostProps> = (props) => {
     });
     dispatch({
       type: MODIFY_POST_REQUEST,
+      data: {
+        formData: formData,
+        date: date,
+        content: text,
+        PostId: post.id,
+        userId: userId
+      }
+    })
+    dispatch({
+      type: MODIFY_POST_IMAGE_REQUEST,
       data: {
         formData: formData,
         date: date,

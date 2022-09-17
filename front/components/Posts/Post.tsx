@@ -95,7 +95,8 @@ const _Post:FC<PostProps> = (props) => {
       type: POST_DELETE_REQUEST,
       data: post.id
     })
-  }, [id])
+    setModify(false)
+  }, [id, modify])
 
   const confirm = (e: React.MouseEvent<HTMLElement> | string) => {
     console.log(e);

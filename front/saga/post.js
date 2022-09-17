@@ -8,7 +8,8 @@ import { ADD_POST_FAILURE, ADD_POST_SUCCESS, ADD_POST_REQUEST,
     MODIFY_PROFILE_IMAGE_FAILURE, MODIFY_PROFILE_IMAGE_REQUEST, MODIFY_PROFILE_IMAGE_SUCCESS,
     LOAD_PROFILE_FAILURE, LOAD_PROFILE_REQUEST, LOAD_PROFILE_SUCCESS,
     MODIFY_POST_FAILURE, MODIFY_POST_REQUEST, MODIFY_POST_SUCCESS,
-    UPLOAD_EDIT_IMAGES_FAILURE, UPLOAD_EDIT_IMAGES_REQUEST, UPLOAD_EDIT_IMAGES_SUCCESS
+    UPLOAD_EDIT_IMAGES_FAILURE, UPLOAD_EDIT_IMAGES_REQUEST, UPLOAD_EDIT_IMAGES_SUCCESS,
+    MODIFY_POST_IMAGE_FAILURE, MODIFY_POST_IMAGE_REQUEST, MODIFY_POST_IMAGE_SUCCESS
 } from '../reducers/post'
 
 function addPostAPI(data) {
@@ -193,6 +194,26 @@ function* postModify(action) {
     }
 }
 
+function postModifyImageAPI(data) {
+    return axios.post(`/post/images/${data.PostId}`, data)
+}
+
+function* postImageModify(action) {
+    try {
+        const result = yield call(postModifyImageAPI, action.data);
+        yield put({
+        type: MODIFY_POST_IMAGE_SUCCESS,
+        data: result.data,
+        })
+    } catch (err) {
+        console.log(err)
+        yield put({
+        type: MODIFY_POST_IMAGE_FAILURE,
+        error: err.response.data,
+        });
+    }
+}
+
 function* watchLoadPost() {
     yield takeLatest(LOAD_POSTS_REQUEST, loadPosts)
 }
@@ -229,6 +250,10 @@ function* watchModifyPost() {
     yield takeLatest(MODIFY_POST_REQUEST, postModify)
 }
 
+function* watchModifyPostImage() {
+    yield takeLatest(MODIFY_POST_IMAGE_REQUEST, postImageModify)
+}
+
 export default function* rootSaga() {
     yield all([
         fork(watchAddPost),
@@ -239,6 +264,7 @@ export default function* rootSaga() {
         fork(watchModifyProfileImagesPost),
         fork(watchLoadProfile),
         fork(watchModifyPost),
-        fork(watchUploadEditImagesPost)
+        fork(watchUploadEditImagesPost),
+        fork(watchModifyPostImage)
     ])
 }

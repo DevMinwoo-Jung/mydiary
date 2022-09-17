@@ -131,9 +131,54 @@ router.patch('/:postId', isLoggedIn, uploads.array(), async (req, res, next) => 
     }, {
       where: { id: req.params.postId, userId: req.user.id }
     });
+    if (req.body.image) {
+      if (Array.isArray(req.body.image)) { // 이미지 여러 개 올리면 image: [1.png, 2.png....]
+          const images = await Promise.all(req.body.image.map((image) => Image.create({ src: image })));// db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
+          await post.addImages(images);
+        } else { // 하나면 1.png 이런식으로 
+          const image = await Image.create({ src: req.body.image })
+          await post.addImages(image);
+      }
+    }
   res.status(200).json({ PostId: parseInt(req.params.postId, 10), date: req.body.date, content: req.body.content });
   } catch (error) {
     console.error(error)
+  }
+})
+
+router.post('/images/:postId', isLoggedIn, uploads.none(), async (req, res, next) => {
+  console.log(req)
+  try {
+    const post = await Post.update({
+      content: req.body.content,
+      date: req.body.date,
+      UserId: req.user.id,
+    });
+    if (req.body.image) {
+      if (Array.isArray(req.body.image)) { // 이미지 여러 개 올리면 image: [1.png, 2.png....]
+          const images = await Promise.all(req.body.image.map((image) => Image.create({ src: image })));// db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
+          await post.addImages(images);
+        } else { // 하나면 1.png 이런식으로 
+          const image = await Image.create({ src: req.body.image })
+          await post.addImages(image);
+      }
+    }
+    const fullPost = await Post.findOne({
+      where: { id: req.params.postId, userId: req.user.id },
+      include: [{
+        model: Image
+      }
+      , {
+        model: User,
+        attributes: ['userId', 'nickname'],
+      }
+      ]
+    })
+    console.log(fullPost);
+    res.status(201).json(fullPost);
+  } catch(error) {
+    console.error(error)
+    next(error)
   }
 })
 

@@ -104,6 +104,9 @@ export const initialState = {
   modifyPostLoading: false,
   modifyPostDone: false,
   modifyPostError: null,
+  modifyPostImageLoading: false,
+  modifyPostImageDone: false,
+  modifyPostImageError: null,
 };
 
 
@@ -170,7 +173,11 @@ export const MODIFY_PROFILE_IMAGE_FAILURE = 'MODIFY_PROFILE_IMAGE_FAILURE'
 export const MODIFY_POST_LOADING_BACK = 'MODIFY_POST_LOADING_BACK'
 export const MODIFY_POST_REQUEST = 'MODIFY_POST_REQUEST'
 export const MODIFY_POST_SUCCESS = 'MODIFY_POST_SUCCESS'
-export const MODIFY_POST_FAILURE = 'MODIFY_POST_FAILURE'
+export const MODIFY_POST_FAILURE = 'MODIFY_POST_FAILUR'
+
+export const MODIFY_POST_IMAGE_REQUEST = 'MODIFY_POST_IMAGE_REQUEST'
+export const MODIFY_POST_IMAGE_SUCCESS = 'MODIFY_POST_IMAGE_SUCCESS'
+export const MODIFY_POST_IMAGE_FAILURE = 'MODIFY_POST_IMAGE_FAILURE'
 
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
@@ -309,16 +316,29 @@ export default (state = initialState, action) => {
         draft.imagePath = action.data;
         draft.modifyPostLoading = false;
         draft.modifyPostDone = true;
-        console.log(draft.mainPosts.find((v) => v.id))
-        console.log(action.data)
-        // draft.mainPosts = draft.mainPosts.find((v) => v.id === action.data.PostId)[0] = action.data[0]
+        draft.mainPosts.find((v) => v.id === action.data.PostId).content = action.data.content;
+        draft.mainPosts.find((v) => v.id === action.data.PostId).date = action.data.date;
         break;
       case MODIFY_POST_LOADING_BACK: 
         draft.modifyPostLoading = true;
         break;
       case MODIFY_POST_FAILURE:
         draft.modifyPostLoading = false;
-        draft.modifyPostImagesError = action.error;
+        draft.modifyPostError = action.error;
+        break;
+      case MODIFY_POST_IMAGE_REQUEST:
+          draft.modifyPostImageLoading = true;
+          draft.modifyPostImageDone = false;
+          draft.modifyPostImageError = null;
+          break;
+      case MODIFY_POST_IMAGE_SUCCESS: 
+        draft.imagePath = action.data;
+        draft.modifyPostImageLoading = false;
+        draft.modifyPostImageDone = true;
+        break;
+      case MODIFY_POST_IMAGE_FAILURE:
+        draft.modifyPostImageLoading = false;
+        draft.modifyPostImageError = action.error;
         break; 
       case LOAD_POSTS_REQUEST: 
         draft.loadPostsLoading = true;
