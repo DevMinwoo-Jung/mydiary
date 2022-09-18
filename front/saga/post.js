@@ -175,7 +175,7 @@ function* profilePhotoModify(action) {
 }
 
 function postModifyAPI(data) {
-    return axios.patch(`/post/${data.PostId}`, data)
+    return axios.patch(`/post`, data)
 }
 
 function* postModify(action) {

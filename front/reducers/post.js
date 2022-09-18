@@ -147,6 +147,7 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
 
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'
 export const REMOVE_EDIT_IMAGE = 'REMOVE_EDIT_IMAGE'
+export const LOAD_EDIT_IMAGE = 'LOAD_EDIT_IMAGE'
 export const REMOVE_POSTS = 'REMOVE_POSTS'
 
 export const POST_MODIFY_REQUEST = 'POST_MODIFY_REQUEST'
@@ -179,6 +180,10 @@ export const MODIFY_POST_IMAGE_REQUEST = 'MODIFY_POST_IMAGE_REQUEST'
 export const MODIFY_POST_IMAGE_SUCCESS = 'MODIFY_POST_IMAGE_SUCCESS'
 export const MODIFY_POST_IMAGE_FAILURE = 'MODIFY_POST_IMAGE_FAILURE'
 
+export const MODIFY_POST_IMAGE_LOAD_REQUEST = 'MODIFY_POST_IMAGE_LOAD_REQUEST'
+export const MODIFY_POST_IMAGE_LOAD_SUCCESS = 'MODIFY_POST_IMAGE_LOAD_SUCCESS'
+export const MODIFY_POST_IMAGE_LOAD_FAILURE = 'MODIFY_POST_IMAGE_FAILURE'
+
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
@@ -192,13 +197,6 @@ export const LOAD_PROFILE_REQUEST = 'LOAD_PROFILE_REQUEST'
 export const LOAD_PROFILE_SUCCESS = 'LOAD_PROFILE_SUCCESS'
 export const LOAD_PROFILE_FAILURE = 'LOAD_PROFILE_FAILURE'
 
-
-
-
-export const addPost = (data) => ({
-  type: ADD_POST_REQUEST,
-  data,
-});
 
 // reducer 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성을 지키면서)
 // 근데 immer를 사용하면 알아서 불변성을 지키면서 만들어준다. state는 건들면 안되고 draft를 건들어야한다.
@@ -271,7 +269,7 @@ export default (state = initialState, action) => {
         draft.uploadEditImagesError = null;
         break;
       case UPLOAD_EDIT_IMAGES_SUCCESS: 
-        draft.modifyImagePaths = action.data;
+        draft.modifyImagePaths = draft.modifyImagePaths.concat(action.data);
         draft.uploadEditImagesLoading = false;
         draft.uploadEditImagesDone = true;
         break;
@@ -313,11 +311,23 @@ export default (state = initialState, action) => {
         draft.modifyPostError = null;
         break;
       case MODIFY_POST_SUCCESS: 
-        draft.imagePath = action.data;
         draft.modifyPostLoading = false;
         draft.modifyPostDone = true;
+        // console.log(action.data)
+        // console.log(action.data.date)
+        // console.log(action.data.content)
+        // console.log(action.data.postId)
+        // console.log(action.data.PostId)
+        console.log(action.data.Image.Images)
+        const latetestImg = action.data.Image.Images.map((element => element.createdAt)).sort((a, b) => a - b)[0]
+        // console.log(latetestImg)
+        // console.log(action.data.Image.Images.map((element => element.createdAt)))
+        // console.log(action.data.Image.Images.map((element => element)))
+        // console.log(action.data.Image.Images)
+        // console.log(action.data.Image.Images.filter((element) => element.createdAt === latetestImg))
         draft.mainPosts.find((v) => v.id === action.data.PostId).content = action.data.content;
         draft.mainPosts.find((v) => v.id === action.data.PostId).date = action.data.date;
+        draft.mainPosts.find((v) => v.id === action.data.PostId).Image = action.data.Image.Images.filter((element) => element.createdAt == latetestImg);
         break;
       case MODIFY_POST_LOADING_BACK: 
         draft.modifyPostLoading = true;
@@ -346,9 +356,16 @@ export default (state = initialState, action) => {
         draft.loadPostsError = null;
         break;
       case LOAD_POSTS_SUCCESS: 
+        // const latetestInitImg = action.data.map(element => element.createdAt).sort((a, b) => a - b)[0]
+        // console.log(latetestInitImg)
+        // console.log('--------')
+        // console.log(draft.mainPosts)
+        // console.log(action.data)
+        // console.log(action.data.map((element) => element.Images)[0].filter((element) => element.createdAt == latetestInitImg))
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
         draft.mainPosts = action.data.concat(draft.mainPosts)
+        //draft.mainPosts.map((v) => v.id === action.data).Image = action.data.Images.filter((element) => element.createdAt == latetestImg);
         draft.imagePaths = [];
         draft.hasMorePosts = draft.mainPosts.length < 50;
         break;
@@ -364,7 +381,11 @@ export default (state = initialState, action) => {
         break;
       case REMOVE_EDIT_IMAGE:
         draft.modifyImagePaths = draft.modifyImagePaths.filter((v, i) => i !== action.data)
-        break; 
+        break;
+      case LOAD_EDIT_IMAGE:
+        console.log(action.data)
+        draft.modifyImagePaths = action.data.map((element) => element.src);
+        break;
       default: {
         break;
       }

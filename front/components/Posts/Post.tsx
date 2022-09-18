@@ -112,7 +112,7 @@ const _Post:FC<PostProps> = (props) => {
     <PostsInnerContainer key={shortid()}>
       {
         modify === true
-        ? post.Images[0] && <EditImages image={post.Images}/>
+        ? post.Images[0] && <EditImages post={post} image={post.Images}/>
         : post.Images[0] && <Images image={post.Images}/>
       }
         <ContentContainer>

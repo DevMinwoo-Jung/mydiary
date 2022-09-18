@@ -106,6 +106,11 @@ const _PostEdit:FC<PostProps> = (props) => {
     setDate(dateString)
   };
 
+  
+  useEffect(() => {
+    console.log(post.Images) 
+  }, [])
+
   const { modifyImagePaths } = useSelector((state) => state.post)
   const { me } = useSelector((state) => state.user);
 
@@ -127,13 +132,13 @@ const _PostEdit:FC<PostProps> = (props) => {
 
   const onChangeImages = useCallback((e) => {
     // console.log('images', e.target.files)
-    const imageFormData = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
+    const modifyImagePaths = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
     [].forEach.call(e.target.files, (f) => {
-        imageFormData.append('image', f)
+      modifyImagePaths.append('image', f)
     })
     dispatch({
         type: UPLOAD_EDIT_IMAGES_REQUEST,
-        data: imageFormData
+        data: modifyImagePaths
       })
   },[])
 
@@ -145,25 +150,14 @@ const _PostEdit:FC<PostProps> = (props) => {
     modifyImagePaths.forEach((p) => {
         formData.append('image', p);
     });
+    formData.append('date', date);
+    formData.append('content', text);
+    formData.append('PostId', post.id);
+    formData.append('postId', post.id);
+    formData.append('userId', userId);
     dispatch({
       type: MODIFY_POST_REQUEST,
-      data: {
-        formData: formData,
-        date: date,
-        content: text,
-        PostId: post.id,
-        userId: userId
-      }
-    })
-    dispatch({
-      type: MODIFY_POST_IMAGE_REQUEST,
-      data: {
-        formData: formData,
-        date: date,
-        content: text,
-        PostId: post.id,
-        userId: userId
-      }
+      data: formData, postId: post.id
     })
   }, [modifyImagePaths, date, text, userId, post.id])
 

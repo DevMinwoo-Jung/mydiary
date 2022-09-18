@@ -30,7 +30,7 @@ const uploads = multer({
 })// array인 이유가 여러 장 일수도 있어서, text는 none, 한장이면 single
 
 router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
-  console.log(req)
+  console.log(req.body.image)
   try {
     const hashtags = req.body.content.match(/(#[^\s#]+)/g);
     const post = await Post.create({
@@ -122,25 +122,42 @@ router.get('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res
   }
 })
 
-router.patch('/:postId', isLoggedIn, uploads.array(), async (req, res, next) => { 
+router.patch('/', isLoggedIn, uploads.array(), async (req, res, next) => { 
   console.log(req.body)
+  // console.log(req.body.content)
+  // console.log(req.body.date)
+  // console.log(req.params.postId)
+  // console.log(req.body.PostId)
+  // console.log(req.user.id)
+  // console.log(req.body.formData)
+  // console.log(req.body.image)
+  console.log('------------')
   try {
-    const post = await Post.update({
+    await Post.update({
       date: req.body.date,
       content: req.body.content
     }, {
-      where: { id: req.params.postId, userId: req.user.id }
+      where: { id: req.body.postId, userId: req.user.id }
     });
     if (req.body.image) {
+      console.log('여기 오지??')
       if (Array.isArray(req.body.image)) { // 이미지 여러 개 올리면 image: [1.png, 2.png....]
-          const images = await Promise.all(req.body.image.map((image) => Image.create({ src: image })));// db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
-          await post.addImages(images);
+          await Promise.all(req.body.image.map((image) => Image.create({ src: image, PostId: req.body.postId })));// db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
+          //await post.addImages(images);
         } else { // 하나면 1.png 이런식으로 
-          const image = await Image.create({ src: req.body.image })
-          await post.addImages(image);
+          await Image.create({ src: req.body.image, PostId: req.body.postId })
+          //await post.addImages(image);
       }
     }
-  res.status(200).json({ PostId: parseInt(req.params.postId, 10), date: req.body.date, content: req.body.content });
+    const fullPost = await Post.findOne({
+      where: { id: req.body.postId, userId: req.user.id },
+      include: [{
+        model: Image
+      }
+      ]
+    })
+    console.log(fullPost);
+  res.status(200).json({ PostId: parseInt(req.body.postId, 10), date: req.body.date, content: req.body.content, Image: fullPost });
   } catch (error) {
     console.error(error)
   }

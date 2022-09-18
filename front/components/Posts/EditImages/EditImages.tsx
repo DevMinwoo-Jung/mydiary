@@ -1,10 +1,10 @@
-import React, { FC, memo, useCallback, useState } from 'react'
+import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from 'antd'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
-import { REMOVE_EDIT_IMAGE } from 'reducers/post'
+import post, { LOAD_EDIT_IMAGE, REMOVE_EDIT_IMAGE } from 'reducers/post'
 
 
 type image = {
@@ -87,6 +87,7 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
   const dispatch = useDispatch()
   const { modifyImagePaths } = useSelector((state) => state.post)
   console.log(modifyImagePaths)
+  const { image } = props
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const onShowPrevImg = (e) => {
@@ -96,6 +97,15 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
       setCurrentSlide((prev) => prev - 1)
     }
   }
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_EDIT_IMAGE,
+      data: image
+    })
+    console.log(modifyImagePaths)
+  }, [])
+
 
   const onShowNextImg = () => {
     if (currentSlide === modifyImagePaths.length - 1) {

@@ -10,6 +10,9 @@ module.exports = (sequelize, DataType) => {
             type: DataType.STRING(30),
             allowNull: true, // 필수
         },
+        PostId: {
+            type: DataType.STRING(100),
+        }
     }, {
         modelName: 'Image',
         tableName: 'images',
