@@ -1,4 +1,4 @@
-import React, { FC, memo, useCallback, useState } from 'react'
+import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { COLOR_DBE2EF } from 'libs/css/color'
@@ -86,6 +86,9 @@ const _Post:FC<PostProps> = (props) => {
   const me = useSelector((state) => state.user.me)
   const id = useSelector((state) => state.user.me?.id);
 
+  // useEffect(() => {
+  //   console.log(post.Images)
+  // }, [])
   const onChangeModify = useCallback(() => {
     setModify((prev) => !prev)
   }, [modify])
@@ -112,7 +115,7 @@ const _Post:FC<PostProps> = (props) => {
     <PostsInnerContainer key={shortid()}>
       {
         modify === true
-        ? post.Images[0] && <EditImages post={post} image={post.Images}/>
+        ? <EditImages post={post} image={post.Images}/>
         : post.Images[0] && <Images image={post.Images}/>
       }
         <ContentContainer>

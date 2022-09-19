@@ -57,6 +57,23 @@ const ImgStyle = styled.img`
   border-radius: 1rem 1rem 0 0;
 `
 
+const Slide = styled.div`
+  position: absolute;
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  bottom: 5%;
+  font-size: 12px;
+  border-radius: 6px;
+  background-color: #464545;
+  width: 15%;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  opacity: 0.6;
+  color: white;
+`
+
 const _Images:FC<ImagesProps>  = (props) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { image } = props
@@ -91,8 +108,11 @@ const _Images:FC<ImagesProps>  = (props) => {
         {
           me !== null
           ? <ImgStyle src={`http://localhost:3065/${image[currentSlide].src}`} alt="" />
-          : <ImgStyle src={`${image[currentSlide].src}`} alt="" />
+          : <ImgStyle src={`${image[currentSlide].src}`} alt="" /> 
         }
+          <Slide>
+            <p>{currentSlide+1} / {image.length}</p>
+          </Slide>
         {
           image.length === 1
           ? null

@@ -6,7 +6,7 @@ import { PostProps } from 'libs/type'
 import moment from 'moment'
 import React, { FC, memo, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { MODIFY_POST_IMAGE_REQUEST, MODIFY_POST_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST } from 'reducers/post'
+import { MODIFY_POST_IMAGE_REQUEST, MODIFY_POST_REQUEST, REMOVE_EXIST_IMAGE_ID_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST } from 'reducers/post'
 import styled from 'styled-components'
 import { CheckOutlined } from '@ant-design/icons'
 
@@ -143,6 +143,13 @@ const _PostEdit:FC<PostProps> = (props) => {
   },[])
 
   const onModify = useCallback(() => {
+    dispatch({
+      type: REMOVE_EXIST_IMAGE_ID_REQUEST,
+      data: {
+        PostId: post.id
+      }
+    })
+
     if (!text || !text.trim()) {
       return alert('게시글을 작성하세요.');
     }

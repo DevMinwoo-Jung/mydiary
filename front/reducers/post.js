@@ -107,6 +107,9 @@ export const initialState = {
   modifyPostImageLoading: false,
   modifyPostImageDone: false,
   modifyPostImageError: null,
+  removeExistIdLoading: false,
+  removeExistIdDone: false,
+  removeExistIdError: null,
 };
 
 
@@ -196,6 +199,10 @@ export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE'
 export const LOAD_PROFILE_REQUEST = 'LOAD_PROFILE_REQUEST'
 export const LOAD_PROFILE_SUCCESS = 'LOAD_PROFILE_SUCCESS'
 export const LOAD_PROFILE_FAILURE = 'LOAD_PROFILE_FAILURE'
+
+export const REMOVE_EXIST_IMAGE_ID_REQUEST = 'REMOVE_EXIST_IMAGE_ID_REQUEST'
+export const REMOVE_EXIST_IMAGE_ID_SUCCESS = 'REMOVE_EXIST_IMAGE_ID_SUCCESS'
+export const REMOVE_EXIST_IMAGE_ID_FAILURE = 'REMOVE_EXIST_IMAGE_ID_FAILURE'
 
 
 // reducer 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성을 지키면서)
@@ -313,21 +320,10 @@ export default (state = initialState, action) => {
       case MODIFY_POST_SUCCESS: 
         draft.modifyPostLoading = false;
         draft.modifyPostDone = true;
-        // console.log(action.data)
-        // console.log(action.data.date)
-        // console.log(action.data.content)
-        // console.log(action.data.postId)
-        // console.log(action.data.PostId)
-        console.log(action.data.Image.Images)
-        const latetestImg = action.data.Image.Images.map((element => element.createdAt)).sort((a, b) => a - b)[0]
-        // console.log(latetestImg)
-        // console.log(action.data.Image.Images.map((element => element.createdAt)))
-        // console.log(action.data.Image.Images.map((element => element)))
-        // console.log(action.data.Image.Images)
-        // console.log(action.data.Image.Images.filter((element) => element.createdAt === latetestImg))
+        draft.modifyImagePaths = [];
         draft.mainPosts.find((v) => v.id === action.data.PostId).content = action.data.content;
         draft.mainPosts.find((v) => v.id === action.data.PostId).date = action.data.date;
-        draft.mainPosts.find((v) => v.id === action.data.PostId).Image = action.data.Image.Images.filter((element) => element.createdAt == latetestImg);
+        draft.mainPosts.find((v) => v.id === action.data.PostId).Images = action.data.Image.Images.map(element => element);
         break;
       case MODIFY_POST_LOADING_BACK: 
         draft.modifyPostLoading = true;
@@ -350,22 +346,29 @@ export default (state = initialState, action) => {
         draft.modifyPostImageLoading = false;
         draft.modifyPostImageError = action.error;
         break; 
+      case REMOVE_EXIST_IMAGE_ID_REQUEST:
+          draft.removeExistIdLoading = true;
+          draft.removeExistIdDone = false;
+          draft.removeExistIdError = null;
+          break;
+      case REMOVE_EXIST_IMAGE_ID_SUCCESS: 
+        draft.imagePath = action.data;
+        draft.removeExistIdLoading = false;
+        draft.removeExistIdDone = true;
+        break;
+      case REMOVE_EXIST_IMAGE_ID_FAILURE:
+        draft.removeExistIdLoading = false;
+        draft.removeExistIdError = action.error;
+        break;         
       case LOAD_POSTS_REQUEST: 
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
         break;
       case LOAD_POSTS_SUCCESS: 
-        // const latetestInitImg = action.data.map(element => element.createdAt).sort((a, b) => a - b)[0]
-        // console.log(latetestInitImg)
-        // console.log('--------')
-        // console.log(draft.mainPosts)
-        // console.log(action.data)
-        // console.log(action.data.map((element) => element.Images)[0].filter((element) => element.createdAt == latetestInitImg))
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
         draft.mainPosts = action.data.concat(draft.mainPosts)
-        //draft.mainPosts.map((v) => v.id === action.data).Image = action.data.Images.filter((element) => element.createdAt == latetestImg);
         draft.imagePaths = [];
         draft.hasMorePosts = draft.mainPosts.length < 50;
         break;

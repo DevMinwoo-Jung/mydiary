@@ -4,7 +4,7 @@ import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from 'antd'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
-import post, { LOAD_EDIT_IMAGE, REMOVE_EDIT_IMAGE } from 'reducers/post'
+import { LOAD_EDIT_IMAGE, REMOVE_EDIT_IMAGE } from 'reducers/post'
 
 
 type image = {
@@ -76,11 +76,28 @@ const RemoveButtonStyle = styled(Button)`
     font-weight: bolder;
   }
   &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
-        background-color: ${BUTTON_COLOR};
+    background-color: ${BUTTON_COLOR};
     border-color: ${BUTTON_COLOR};
     color: ${WHITE};
     font-weight: bolder;
   }
+`
+
+const Slide = styled.div`
+  position: absolute;
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  bottom: 5%;
+  font-size: 12px;
+  border-radius: 6px;
+  background-color: #464545;
+  width: 15%;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  opacity: 0.6;
+  color: white;
 `
 
 const _EditImages:FC<EditImagesProps>  = (props) => {
@@ -103,7 +120,6 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
       type: LOAD_EDIT_IMAGE,
       data: image
     })
-    console.log(modifyImagePaths)
   }, [])
 
 
@@ -123,22 +139,30 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
   }, [])
 
   return (
-    <ImageContainer>
-        <>
-        {
-          modifyImagePaths.length === 1
-          ? null
-          : <CaretLeftOutlinedStyle onClick={onShowPrevImg}/> 
-        }
+    <>
+      {
+        modifyImagePaths.length === 0 
+        ? null
+        : 
+        <ImageContainer>
+          {
+            modifyImagePaths.length === 1
+            ? null
+            : <CaretLeftOutlinedStyle onClick={onShowPrevImg}/> 
+          }
           <ImgStyle src={`http://localhost:3065/${modifyImagePaths[currentSlide]}`}/>
+          <Slide>
+            <p>{currentSlide+1} / {modifyImagePaths.length}</p>
+          </Slide>
           <RemoveButtonStyle onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
-        {
-          modifyImagePaths.length === 1
-          ? null
-          : <CaretRightOutlinedStyle onClick={onShowNextImg}/>
-        }
-        </>
-    </ImageContainer>
+          {
+            modifyImagePaths.length === 1
+            ? null
+            : <CaretRightOutlinedStyle onClick={onShowNextImg}/> 
+          }
+        </ImageContainer>
+      }
+    </>  
   )
 }
 

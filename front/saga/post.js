@@ -9,7 +9,8 @@ import { ADD_POST_FAILURE, ADD_POST_SUCCESS, ADD_POST_REQUEST,
     LOAD_PROFILE_FAILURE, LOAD_PROFILE_REQUEST, LOAD_PROFILE_SUCCESS,
     MODIFY_POST_FAILURE, MODIFY_POST_REQUEST, MODIFY_POST_SUCCESS,
     UPLOAD_EDIT_IMAGES_FAILURE, UPLOAD_EDIT_IMAGES_REQUEST, UPLOAD_EDIT_IMAGES_SUCCESS,
-    MODIFY_POST_IMAGE_FAILURE, MODIFY_POST_IMAGE_REQUEST, MODIFY_POST_IMAGE_SUCCESS
+    MODIFY_POST_IMAGE_FAILURE, MODIFY_POST_IMAGE_REQUEST, MODIFY_POST_IMAGE_SUCCESS, 
+    REMOVE_EXIST_IMAGE_ID_REQUEST, REMOVE_EXIST_IMAGE_ID_SUCCESS, REMOVE_EXIST_IMAGE_ID_FAILURE
 } from '../reducers/post'
 
 function addPostAPI(data) {
@@ -214,6 +215,26 @@ function* postImageModify(action) {
     }
 }
 
+function removeExistIdAPI(data) {
+    return axios.patch(`/post/images/${data.PostId}`, data)
+}
+
+function* removeExistId(action) {
+    try {
+        const result = yield call(removeExistIdAPI, action.data);
+        yield put({
+        type: REMOVE_EXIST_IMAGE_ID_SUCCESS,
+        data: result.data,
+        })
+    } catch (err) {
+        console.log(err)
+        yield put({
+        type: REMOVE_EXIST_IMAGE_ID_FAILURE,
+        error: err.response.data,
+        });
+    }
+}
+
 function* watchLoadPost() {
     yield takeLatest(LOAD_POSTS_REQUEST, loadPosts)
 }
@@ -254,6 +275,10 @@ function* watchModifyPostImage() {
     yield takeLatest(MODIFY_POST_IMAGE_REQUEST, postImageModify)
 }
 
+function* watchRemoveExistId() {
+    yield takeLatest(REMOVE_EXIST_IMAGE_ID_REQUEST, removeExistId)
+}
+
 export default function* rootSaga() {
     yield all([
         fork(watchAddPost),
@@ -265,6 +290,7 @@ export default function* rootSaga() {
         fork(watchLoadProfile),
         fork(watchModifyPost),
         fork(watchUploadEditImagesPost),
-        fork(watchModifyPostImage)
+        fork(watchModifyPostImage),
+        fork(watchRemoveExistId)
     ])
 }

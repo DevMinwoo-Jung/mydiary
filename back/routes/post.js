@@ -123,7 +123,7 @@ router.get('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res
 })
 
 router.patch('/', isLoggedIn, uploads.array(), async (req, res, next) => { 
-  console.log(req.body)
+  // console.log(req.body)
   // console.log(req.body.content)
   // console.log(req.body.date)
   // console.log(req.params.postId)
@@ -163,36 +163,16 @@ router.patch('/', isLoggedIn, uploads.array(), async (req, res, next) => {
   }
 })
 
-router.post('/images/:postId', isLoggedIn, uploads.none(), async (req, res, next) => {
-  console.log(req)
+router.patch('/images/:postId', isLoggedIn, async (req, res, next) => {
+  console.log('--------')
+  console.log(req.body.PostId)
   try {
-    const post = await Post.update({
-      content: req.body.content,
-      date: req.body.date,
-      UserId: req.user.id,
+    const updateImageId = await Image.update({
+      PostId: 0,
+    }, {
+      where: { PostId: req.body.PostId },
     });
-    if (req.body.image) {
-      if (Array.isArray(req.body.image)) { // 이미지 여러 개 올리면 image: [1.png, 2.png....]
-          const images = await Promise.all(req.body.image.map((image) => Image.create({ src: image })));// db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
-          await post.addImages(images);
-        } else { // 하나면 1.png 이런식으로 
-          const image = await Image.create({ src: req.body.image })
-          await post.addImages(image);
-      }
-    }
-    const fullPost = await Post.findOne({
-      where: { id: req.params.postId, userId: req.user.id },
-      include: [{
-        model: Image
-      }
-      , {
-        model: User,
-        attributes: ['userId', 'nickname'],
-      }
-      ]
-    })
-    console.log(fullPost);
-    res.status(201).json(fullPost);
+    res.status(201).json(updateImageId);
   } catch(error) {
     console.error(error)
     next(error)
