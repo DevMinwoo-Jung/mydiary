@@ -10,7 +10,8 @@ import { ADD_POST_FAILURE, ADD_POST_SUCCESS, ADD_POST_REQUEST,
     MODIFY_POST_FAILURE, MODIFY_POST_REQUEST, MODIFY_POST_SUCCESS,
     UPLOAD_EDIT_IMAGES_FAILURE, UPLOAD_EDIT_IMAGES_REQUEST, UPLOAD_EDIT_IMAGES_SUCCESS,
     MODIFY_POST_IMAGE_FAILURE, MODIFY_POST_IMAGE_REQUEST, MODIFY_POST_IMAGE_SUCCESS, 
-    REMOVE_EXIST_IMAGE_ID_REQUEST, REMOVE_EXIST_IMAGE_ID_SUCCESS, REMOVE_EXIST_IMAGE_ID_FAILURE
+    REMOVE_EXIST_IMAGE_ID_REQUEST, REMOVE_EXIST_IMAGE_ID_SUCCESS, REMOVE_EXIST_IMAGE_ID_FAILURE,
+    LOAD_HASHTAG_POSTS_SUCCESS, LOAD_HASHTAG_POSTS_FAILURE, LOAD_HASHTAG_POSTS_REQUEST,
 } from '../reducers/post'
 
 function addPostAPI(data) {
@@ -235,6 +236,33 @@ function* removeExistId(action) {
     }
 }
 
+function loadHashtagPostsAPI(data, lastId) {
+    console.log('why ra no')
+    console.log(data)
+    console.log(encodeURIComponent(data))
+    return axios.get(`/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
+}
+
+function* loadHashTagPosts(action) {
+    try {
+        const result = yield call(loadHashtagPostsAPI, action.data, action.lastId);
+        yield put({
+            type: LOAD_HASHTAG_POSTS_SUCCESS,
+            data: result.data,
+        });
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: LOAD_HASHTAG_POSTS_FAILURE,
+            data: err.response.data,
+    });
+}
+}
+
+function* watchLoadHashTagPosts() {
+    yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashTagPosts)
+}
+
 function* watchLoadPost() {
     yield takeLatest(LOAD_POSTS_REQUEST, loadPosts)
 }
@@ -291,6 +319,7 @@ export default function* rootSaga() {
         fork(watchModifyPost),
         fork(watchUploadEditImagesPost),
         fork(watchModifyPostImage),
-        fork(watchRemoveExistId)
+        fork(watchRemoveExistId),
+        fork(watchLoadHashTagPosts),
     ])
 }

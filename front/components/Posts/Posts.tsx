@@ -37,8 +37,13 @@ const IntroPara = styled.p`
 const _Posts = () => {
   const mainPosts = useSelector((state) => state.post.mainPosts, shallowEqual)
   const me = useSelector((state) => state.user.me)
+  const UserId = useSelector((state) => state.user?.me?.id)
   const postRef: any = useRef()
   const arrowRef: any = useRef()  
+
+  useEffect(() => {
+    console.log(mainPosts)
+  }, [])
 
     useEffect(() => {
       if (me === null) {
@@ -59,21 +64,22 @@ const _Posts = () => {
             };
         }
       }, [me]);
-  
-      useEffect(() => {
-        console.log('rerender????')
-      }, [])
 
-      const renderedPostList = useMemo(() => (
-        mainPosts.map((post) => {
-          return(  <Post post={post} key={shortid()} />)
-        })
-      ), [mainPosts]) 
+      console.log(mainPosts)
+      console.log(UserId)
   return (
     <PostsContainer key={shortid()}>
       {
         me !== null ?
-          <>{renderedPostList}</>
+          <>
+            {
+              mainPosts.filter((post) => post.UserId == UserId)
+              .map(post =>{
+                return <Post post={post} key={shortid()} />
+              }
+              )
+            }
+          </>
         : 
         <IntroContainer>
           <IntroParaContainer>

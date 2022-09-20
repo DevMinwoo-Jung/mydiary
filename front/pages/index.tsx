@@ -37,6 +37,10 @@ const _index: NextPage = () => {
       })
     }
   }, [me])
+
+  useEffect(() => {
+    console.log('여기 오냐?')
+  }, [])
   
   // useEffect(() => {
   //   if (me !== null) {

@@ -8,13 +8,15 @@ type PostTagsProps = {
 
 const PostTags:FC<PostTagsProps> = (props) => {
 
-    const { postData } = props
+    const postData = props.postData
 
-    const Tags = postData !== undefined ? postData.split(/(#[^\s#]+)/g).filter((v:string) => v.match(/(#[^\s]+)/)) : ''
+    const Tags = postData.split(/(#[^\s#]+)/g).filter((v:string) => v.match(/(#[^\s]+)/))
+
     return (
         <div>
         {
         Tags && Tags.map((v:string) => {
+            console.log(v)
             return (
                     <Link
                         href={{ pathname: '/hashtag', query: { tag: v.slice(1) } }}

@@ -110,6 +110,9 @@ export const initialState = {
   removeExistIdLoading: false,
   removeExistIdDone: false,
   removeExistIdError: null,
+  loadHashTagPostsLoading: false,
+  loadHashTagPostsDone: false,
+  loadHashTagPostsError: null,
 };
 
 
@@ -204,12 +207,14 @@ export const REMOVE_EXIST_IMAGE_ID_REQUEST = 'REMOVE_EXIST_IMAGE_ID_REQUEST'
 export const REMOVE_EXIST_IMAGE_ID_SUCCESS = 'REMOVE_EXIST_IMAGE_ID_SUCCESS'
 export const REMOVE_EXIST_IMAGE_ID_FAILURE = 'REMOVE_EXIST_IMAGE_ID_FAILURE'
 
+export const LOAD_HASHTAG_POSTS_REQUEST = 'LOAD_HASHTAG_POSTS_REQUEST'
+export const LOAD_HASHTAG_POSTS_SUCCESS = 'LOAD_HASHTAG_POSTS_SUCCESS'
+export const LOAD_HASHTAG_POSTS_FAILURE = 'LOAD_HASHTAG_POSTS_FAILURE'
 
 // reducer 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성을 지키면서)
 // 근데 immer를 사용하면 알아서 불변성을 지키면서 만들어준다. state는 건들면 안되고 draft를 건들어야한다.
 export default (state = initialState, action) => {
   return produce(state, (draft) => {
-    console.log(action.data)
     switch (action.type) {
       case ADD_POST_REQUEST: 
         draft.addPostLoading = true;
@@ -364,6 +369,7 @@ export default (state = initialState, action) => {
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
+        draft.mainPosts = []
         break;
       case LOAD_POSTS_SUCCESS: 
         draft.loadPostsLoading = false;
@@ -376,6 +382,22 @@ export default (state = initialState, action) => {
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error
         break;
+      case LOAD_HASHTAG_POSTS_REQUEST: 
+        draft.loadHashTagPostsLoading = true;
+        draft.loadHashTagPostsDone = false;
+        draft.loadHashTagPostsError = null;
+        break;
+      case LOAD_HASHTAG_POSTS_SUCCESS: 
+        draft.loadHashTagPostsLoading = false;
+        draft.loadHashTagPostsDone = true;
+        draft.mainPosts = action.data.concat(draft.mainPosts)
+        draft.imagePaths = [];
+        draft.hasMorePosts = draft.mainPosts.length < 50;
+        break;
+      case LOAD_HASHTAG_POSTS_FAILURE: 
+        draft.loadmainPostsLoading = false;
+        draft.loadmainPostsError = action.error
+        break;
       case REMOVE_POSTS:
         draft.mainPosts = [];  
         break;
@@ -386,7 +408,7 @@ export default (state = initialState, action) => {
         draft.modifyImagePaths = draft.modifyImagePaths.filter((v, i) => i !== action.data)
         break;
       case LOAD_EDIT_IMAGE:
-        console.log(action.data)
+  
         draft.modifyImagePaths = action.data.map((element) => element.src);
         break;
       default: {
