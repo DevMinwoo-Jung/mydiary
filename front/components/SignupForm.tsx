@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { SIGN_UP_REQUEST } from 'reducers/user'
 import Router from 'next/router'
 import { useLengthCheck } from 'libs/hook/useLengthCheck'
+import useEngInput from 'libs/hook/useEngInput'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -98,7 +99,7 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
   }
 
   const dispatch = useDispatch()
-  const [userId, onChangeUserId] = useInput('')
+  const [userId, onChangeUserId] = useEngInput('')
   const [email, onChangeEmail] = useInput('')
   const [nickname, onChangeNickname] = useInput('')
   const [password, onChangePassword] = useInput('')
@@ -108,6 +109,7 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
   const [checkPwLength, alertPwMessage] = useLengthCheck(20, password, '비밀번호')
   const [passwordAlert, setPasswordAlert] = useState(false)
   const [buttonDisabled , setButtonDisabled] = useState(true)
+  const [idCheck, setIdCheck] = useState(false)
 
   useEffect(() => {
     if(checkIdLength === true
@@ -118,7 +120,6 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
     } else {
       setButtonDisabled(false)
     }
-    console.log(checkIdLength, checkNickNameLength, checkPwLength, passwordAlert)
   }, [checkIdLength, checkNickNameLength, checkPwLength, passwordAlert])
 
   useEffect(() => {
@@ -171,7 +172,7 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
             >
             <InputStyle value={userId} onChange={onChangeUserId} placeholder='아이디' maxLength={15}/>
             {
-              checkIdLength === true ?
+              checkIdLength === true || idCheck === true ?
               <AlertMessageStyle>{alertIdMessage}</AlertMessageStyle>
               : null
             }
