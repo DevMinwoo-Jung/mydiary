@@ -9,6 +9,7 @@ import { HIDE_MODIFY_FORM, LOAD_MY_INFO_REQUEST, USER_INFO_MODIFY_REQUEST, USER_
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 import router from 'next/router'
 import RemoveUser from './RemoveUser'
+import { useLengthCheck } from 'libs/hook/useLengthCheck'
 
 const { Title, Paragraph } = Typography
 
@@ -85,15 +86,6 @@ const ButtonStyle = styled(Button)`
   color: ${WHITE};
   border-color: none;
   &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
-    background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
-    font-weight: bolder;
-  }
-  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
-        background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
     font-weight: bolder;
   }
 `
@@ -101,6 +93,12 @@ const ButtonStyle = styled(Button)`
 const ModalContainer = styled.div`
   position: absolute;
   margin: auto;
+`
+const AlertMessageStyle = styled.div`
+
+  color: #ff4d4f;
+  font-size: 0.8rem;
+  text-align: center;
 `
 
 
@@ -121,8 +119,13 @@ const _UserInfo = () => {
   const [userNickname, onChangeUserNickname ] = useInput('')
   const [userPassword, onChangeUserPassword] = useInput('')
   const [checkPassword, onChangeCheckPssword] = useInput('')
+
+  const [checkNickNameLength, alertNickNameMessage] = useLengthCheck(10, userNickname, '닉네임')
+  const [checkPwLength, alertPwMessage] = useLengthCheck(20, userPassword, '비밀번호')
+
   const [passwordAlert, setPasswordAlert] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [buttonDisabled , setButtonDisabled] = useState(true)
 
   const onModify = useCallback(() => {
     router.push('/')
@@ -158,8 +161,14 @@ const _UserInfo = () => {
   }, [userInfomodifyDone])
 
   useEffect(() => {
-    console.log(isModalOpen)
-  }, [isModalOpen])
+    if (checkNickNameLength 
+        || checkPwLength 
+        || passwordAlert) {
+      setButtonDisabled(true)
+    } else {
+      setButtonDisabled(false)
+    }
+  }, [checkNickNameLength, checkPwLength, passwordAlert])
 
   useEffect(() => {
     if(checkPassword !== userPassword) {
@@ -184,7 +193,14 @@ const _UserInfo = () => {
           ?
           <ParagraphStyle>{nickname}</ParagraphStyle> 
           :
-          <InputStyle value={userNickname} onChange={onChangeUserNickname} placeholder={nickname}/>
+          <>
+            <InputStyle value={userNickname} onChange={onChangeUserNickname} placeholder={nickname}/>
+            {
+              checkNickNameLength === true ?
+              <AlertMessageStyle>{alertNickNameMessage}</AlertMessageStyle>
+              : null
+            }
+          </>
         }
       </UserInfoInnerDiv>
     </UserInfoDiv>
@@ -200,6 +216,11 @@ const _UserInfo = () => {
           showModifyForm &&
           <PasswordDiv>
             <InputStyle type={'password'} value={userPassword} onChange={onChangeUserPassword} placeholder={null}/>
+            {
+              checkPwLength === true ?
+              <AlertMessageStyle>{alertPwMessage}</AlertMessageStyle>
+              : null
+            }
             <br/>
             <br/>
             <InputStyle type={'password'} value={checkPassword} onChange={onChangeCheckPssword} placeholder={'변경할 비밀번호를 다시 입력하세요'}/>
@@ -224,7 +245,7 @@ const _UserInfo = () => {
           showModifyForm === true
           ?
           <>
-            <ButtonStyle disabled={passwordAlert} onClick={onModify}>수정하기</ButtonStyle>
+            <ButtonStyle disabled={buttonDisabled} onClick={onModify}>수정하기</ButtonStyle>
             <ButtonStyle onClick={onCancel}>취소</ButtonStyle>
           </>
           :

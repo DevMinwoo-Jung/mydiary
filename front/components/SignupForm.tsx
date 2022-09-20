@@ -109,11 +109,10 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
   const [checkPwLength, alertPwMessage] = useLengthCheck(20, password, '비밀번호')
   const [passwordAlert, setPasswordAlert] = useState(false)
   const [buttonDisabled , setButtonDisabled] = useState(true)
-  const [idCheck, setIdCheck] = useState(false)
 
   useEffect(() => {
-    if(checkIdLength === true
-        || checkNickNameLength === true 
+    if(checkIdLength
+        || checkNickNameLength 
         || checkPwLength 
         || passwordAlert) {
       setButtonDisabled(true)
@@ -172,7 +171,7 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
             >
             <InputStyle value={userId} onChange={onChangeUserId} placeholder='아이디' maxLength={15}/>
             {
-              checkIdLength === true || idCheck === true ?
+              checkIdLength === true ?
               <AlertMessageStyle>{alertIdMessage}</AlertMessageStyle>
               : null
             }
