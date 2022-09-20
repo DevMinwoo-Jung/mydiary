@@ -1,4 +1,4 @@
-import { Button, Input, Form } from 'antd'
+import { Button, Input, Form, Typography } from 'antd'
 import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
@@ -7,6 +7,7 @@ import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 import { useDispatch, useSelector } from 'react-redux'
 import { SIGN_UP_REQUEST } from 'reducers/user'
 import Router from 'next/router'
+import { useLengthCheck } from 'libs/hook/useLengthCheck'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -41,12 +42,13 @@ const ButtonStyle = styled(Button)`
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
   border-color: none;
-  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
-    background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
+  /* &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
+    background-color: red;
+    border-color: red;
     color: ${WHITE};
     font-weight: bolder;
-  }
+    cursor: none;
+  } */
   &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
     background-color: ${BUTTON_COLOR};
     border-color: ${BUTTON_COLOR};
@@ -74,6 +76,14 @@ const CloseButton = styled(MdOutlineClose)`
   cursor: pointer;
 `
 
+const AlertMessageStyle = styled.div`
+  position: absolute;
+  color: #ff4d4f;
+  font-size: 0.8rem;
+  text-align: center;
+  width: 100%;
+`
+
 export type SignupFormProps = {
   onSignup: () => void
 }
@@ -92,12 +102,38 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
   const [email, onChangeEmail] = useInput('')
   const [nickname, onChangeNickname] = useInput('')
   const [password, onChangePassword] = useInput('')
+  const [checkPassword, onChangeCheckPssword] = useInput('')
+  const [checkIdLength, alertIdMessage] = useLengthCheck(15, userId, '아이디')
+  const [checkNickNameLength, alertNickNameMessage] = useLengthCheck(10, nickname, '닉네임')
+  const [checkPwLength, alertPwMessage] = useLengthCheck(20, password, '비밀번호')
+  const [passwordAlert, setPasswordAlert] = useState(false)
+  const [buttonDisabled , setButtonDisabled] = useState(true)
+
+  useEffect(() => {
+    if(checkIdLength === true
+        || checkNickNameLength === true 
+        || checkPwLength 
+        || passwordAlert) {
+      setButtonDisabled(true)
+    } else {
+      setButtonDisabled(false)
+    }
+    console.log(checkIdLength, checkNickNameLength, checkPwLength, passwordAlert)
+  }, [checkIdLength, checkNickNameLength, checkPwLength, passwordAlert])
 
   useEffect(() => {
     if (me && me.id) {
       Router.replace('/') // 뒤로가기 했을 때 그 페이지 안나오기 하려면
     }
   },[me && me.id])
+
+  useEffect(() => {
+    if(checkPassword !== password) {
+      setPasswordAlert(true)
+    } else {
+      setPasswordAlert(false)
+    }
+  }, [checkPassword, password])
 
   useEffect(() => {
     if (signUpDone) {
@@ -131,52 +167,55 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
         >
           <Form.Item
             name="userId"
-            rules={[{ required: true, message: '아이디를 입력해주세요!' }]}
-            hasFeedback
+            required
             >
-            <InputStyle value={userId} onChange={onChangeUserId} placeholder='아이디'/>
+            <InputStyle value={userId} onChange={onChangeUserId} placeholder='아이디' maxLength={15}/>
+            {
+              checkIdLength === true ?
+              <AlertMessageStyle>{alertIdMessage}</AlertMessageStyle>
+              : null
+            }
           </Form.Item>
           <Form.Item
             name="nickname"
-            rules={[{ required: true, message: '닉네임을 입력해주세요!' }]}
-            hasFeedback
+            required
             >
-            <InputStyle value={nickname} onChange={onChangeNickname} placeholder='닉네임'/>
+            <InputStyle value={nickname} onChange={onChangeNickname} placeholder='닉네임' maxLength={10}/>
+            {
+              checkNickNameLength === true ?
+              <AlertMessageStyle>{alertNickNameMessage}</AlertMessageStyle>
+              : null
+            }
           </Form.Item>
           <Form.Item
             name="email"
+            required
             rules={[{ required: true, message: '올바른 이메일 형식이 아닙니다.' }]}
-            hasFeedback
             >
-            <InputStyle value={email} onChange={onChangeEmail} type='email' placeholder='이메일'/>
+            <InputStyle value={email} onChange={onChangeEmail} type='email' placeholder='이메일' maxLength={40}/>
           </Form.Item> 
           <Form.Item
             name="password"
-            rules={[{ required: true, message: '비밀번호를 입력해주세요!' }]}
-            hasFeedback
+            required
             >
-            <InputPasswordStyle value={password} onChange={onChangePassword} placeholder='비밀번호'/>
+            <InputPasswordStyle value={password} onChange={onChangePassword} placeholder='비밀번호' maxLength={20}/>
+            {
+              checkPwLength === true ?
+              <AlertMessageStyle>{alertPwMessage}</AlertMessageStyle>
+              : null
+            }
           </Form.Item>
           <Form.Item
             name="passwordCheck"
             required
-            dependencies={['password']}
-            hasFeedback
-            rules={[
-              { required: true, message: '비밀번호를 한번 더 입력해주세요!' },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error('비밀번호가 일지하지 않습니다'));
-                },
-              }),
-            ]}
             >
-            <InputPasswordStyle placeholder='비밀번호 확인'/>
+            <InputPasswordStyle value={checkPassword} onChange={onChangeCheckPssword} placeholder='비밀번호 확인' maxLength={20}/>
+            {
+              passwordAlert === false ? null
+              : <AlertMessageStyle>비밀번호가 일치하지 않습니다.</AlertMessageStyle>
+            }
           </Form.Item>
-          <ButtonStyle htmlType="submit" loading={signUpLoading}>
+          <ButtonStyle disabled={buttonDisabled} htmlType="submit" loading={signUpLoading}>
               회원가입
           </ButtonStyle> 
         </Form>
