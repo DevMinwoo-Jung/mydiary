@@ -215,10 +215,20 @@ export const _PostForm = () => {
   }, [imageInput.current])
   
   const onChangeImages = useCallback((e) => {
+    const fileType = e.target.files[0].type.replace(/(.*)\//g, '')
+    console.log(fileType)
     console.log('images', e.target.files)
+    console.log('images', e.target.files[0].size)
+    if(fileType != 'png' && fileType != 'jpg' && fileType != 'jpeg') {
+      return alert('파일 확장자는 png, jpg, jpeg만 지원합니다');
+    }
+    if((e.target.files[0].size/1024/1024).toFixed(4) >= '4') {
+      return alert('이미지 크기는 5MB를 초과할 수 없습니다.');
+    }
     const imageFormData = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
+    // bytes -> kilobytes (KB) -> megabytes (MB)
     [].forEach.call(e.target.files, (f) => {
-        imageFormData.append('image', f)
+      imageFormData.append('image', f)
     })
     dispatch({
         type: UPLOAD_IMAGES_REQUEST,

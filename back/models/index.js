@@ -14,7 +14,7 @@ db.User = require('./user')(sequelize, Sequelize);
 
 // associate 부분을 실행해 주는겨
 Object.keys(db).forEach(modelName => { 
-  if (db[modelName].associate) {  
+  if (db[modelName].associate) {   
     db[modelName].associate(db);
   } 
 }); 
