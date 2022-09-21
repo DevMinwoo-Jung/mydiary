@@ -86,9 +86,6 @@ const _Post:FC<PostProps> = (props) => {
   const me = useSelector((state) => state.user.me)
   const id = useSelector((state) => state.user.me?.id);
 
-  // useEffect(() => {
-  //   console.log(post.Images)
-  // }, [])
   const onChangeModify = useCallback(() => {
     setModify((prev) => !prev)
   }, [modify])

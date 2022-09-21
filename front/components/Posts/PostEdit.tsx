@@ -112,19 +112,11 @@ const _PostEdit:FC<PostProps> = (props) => {
   }, [])
 
   const { modifyImagePaths } = useSelector((state) => state.post)
-  const { me } = useSelector((state) => state.user);
 
   const [userId, setUserId] = useState<string>(undefined)
   const [date, setDate] = useState<string>(post.date)
   const imageInput = useRef<any>()
   const [text, onChangeText] = useInput(post.content)
-  const [postId, setPostId] = useState(null);
-  useEffect(() => {
-    setUserId(me.userId)
-    setPostId(post.id)
-    console.log
-  }, [])
-
 
   const onClickImageUploads = useCallback(() => {
     imageInput.current.click()
@@ -132,11 +124,14 @@ const _PostEdit:FC<PostProps> = (props) => {
 
   const onChangeImages = useCallback((e) => {
     const fileType = e.target.files[0].type.replace(/(.*)\//g, '')
+    if(e.target.files.length > 10 || (post.Images.length + e.target.files.length) > 10) {
+      return alert('파일은 한 게시물당 10개까지만 올릴 수 있습니다.')
+    }
     if(fileType != 'png' && fileType != 'jpg' && fileType != 'jpeg') {
       return alert('파일 확장자는 png, jpg, jpeg만 지원합니다');
     }
-    if((e.target.files[0].size/1024/1024).toFixed(4) >= '4') {
-      return alert('이미지 크기는 5MB를 초과할 수 없습니다.');
+    if((e.target.files[0].size/1024/1024).toFixed(4) >= '5') {
+      return alert(`${e.target.files[0].name} 이미지 크기는 5MB를 초과할 수 없습니다.`);
     }
     const modifyImagePaths = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
     [].forEach.call(e.target.files, (f) => {
