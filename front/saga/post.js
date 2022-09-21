@@ -1,4 +1,4 @@
-import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
+import { all, fork, put, takeLatest, call, throttle } from 'redux-saga/effects';
 import axios from 'axios';
 import { ADD_POST_FAILURE, ADD_POST_SUCCESS, ADD_POST_REQUEST,
     UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_REQUEST,
@@ -54,14 +54,14 @@ function* deletePost(action) {
         }
 }
 
-function loadPostsAPI(data) {
-    return axios.get('/posts', data)
+function loadPostsAPI(lastId) {
+    return axios.get(`/posts?lastId=${lastId || 0}`);
 }
 
 function* loadPosts(action) {
     console.log(action)
     try {
-        const result = yield call(loadPostsAPI, action.data)
+        const result = yield call(loadPostsAPI, action.lastId) 
         yield put({
             type: LOAD_POSTS_SUCCESS,
             data: result.data,
@@ -258,18 +258,18 @@ function* loadHashTagPosts(action) {
     });
 }
 }
-
+ 
 function* watchLoadHashTagPosts() {
     yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashTagPosts)
 }
 
 function* watchLoadPost() {
-    yield takeLatest(LOAD_POSTS_REQUEST, loadPosts)
+    yield throttle(1000, LOAD_POSTS_REQUEST, loadPosts)
 }
 
 function* watchLoadProfile() {
     yield takeLatest(LOAD_PROFILE_REQUEST, loadProfile)
-}
+} 
 
 function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost)

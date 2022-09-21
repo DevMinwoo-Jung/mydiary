@@ -73,7 +73,7 @@ export const dummy = [
 
 export const initialState = {
   mainPosts: [],
-  hasMorePosts: false,
+  hasMorePosts: true,
   imagePaths: [],
   modifyImagePaths: [],
   imagePath: null,
@@ -369,14 +369,14 @@ export default (state = initialState, action) => {
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
-        draft.mainPosts = []
+        // draft.mainPosts = []
         break;
       case LOAD_POSTS_SUCCESS: 
+        draft.mainPosts = draft.mainPosts.concat(action.data);
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
-        draft.mainPosts = action.data.concat(draft.mainPosts)
+        draft.hasMorePosts = action.data.length === 10;
         draft.imagePaths = [];
-        draft.hasMorePosts = draft.mainPosts.length < 50;
         break;
       case LOAD_POSTS_FAILURE: 
         draft.loadPostsLoading = false;
@@ -390,9 +390,9 @@ export default (state = initialState, action) => {
       case LOAD_HASHTAG_POSTS_SUCCESS: 
         draft.loadHashTagPostsLoading = false;
         draft.loadHashTagPostsDone = true;
-        draft.mainPosts = action.data.concat(draft.mainPosts)
+        draft.mainPosts = draft.mainPosts.concat(action.data);
         draft.imagePaths = [];
-        draft.hasMorePosts = draft.mainPosts.length < 50;
+        draft.hasMorePosts = action.data.length === 10;
         break;
       case LOAD_HASHTAG_POSTS_FAILURE: 
         draft.loadmainPostsLoading = false;

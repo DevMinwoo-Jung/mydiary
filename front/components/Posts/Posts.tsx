@@ -41,10 +41,6 @@ const _Posts = () => {
   const postRef: any = useRef()
   const arrowRef: any = useRef()  
 
-  useEffect(() => {
-    console.log(mainPosts)
-  }, [])
-
     useEffect(() => {
       if (me === null) {
         const onScroll = () => { 
@@ -65,8 +61,6 @@ const _Posts = () => {
         }
       }, [me]);
 
-      console.log(mainPosts)
-      console.log(UserId)
   return (
     <PostsContainer key={shortid()}>
       {

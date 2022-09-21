@@ -16,7 +16,6 @@ const PostTags:FC<PostTagsProps> = (props) => {
         <div>
         {
         Tags && Tags.map((v:string) => {
-            console.log(v)
             return (
                     <Link
                         href={{ pathname: '/hashtag', query: { tag: v.slice(1) } }}

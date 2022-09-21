@@ -8,7 +8,6 @@ import { WHITE } from 'libs/css/color'
 import shortid from 'shortid'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
-import Tags from 'components/Tags/Tags'
 import { LOAD_POSTS_REQUEST } from 'reducers/post'
 
 const ContentsContainer = styled.div`
@@ -17,11 +16,13 @@ const ContentsContainer = styled.div`
   background-color: ${WHITE};
   width: 100%;
 `
-const _index: NextPage = () => {
+const index: NextPage = () => {
   const { me } = useSelector((state) => state.user)
-  const { imagePaths, modifyImagePaths } = useSelector((state) => state.post)
+  const { hasMorePosts, loadPostsLoading, mainPosts } = useSelector((state) => state.post)
   const dispatch = useDispatch()   
-  const modifyPostDone = useSelector((state) => state.post.mainPosts, shallowEqual)
+
+
+  console.log('re render?')
 
   useEffect(() => {
     dispatch({
@@ -31,35 +32,34 @@ const _index: NextPage = () => {
 
   useEffect(() => {
     if(me !== null) {
-      console.log('rerender!!!!!!')
       dispatch({
         type: LOAD_POSTS_REQUEST,
       })
     }
   }, [me])
 
-  useEffect(() => {
-    console.log('여기 오냐?')
-  }, [])
   
-  // useEffect(() => {
-  //   if (me !== null) {
-  //     const onScroll = () => {
-  //         if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
-  //             if (hasMorePosts && !loadPostsLoading) {
-  //                 const lastId = mainPosts[mainPosts.length - 1]?.id;
-  //                 dispatch({
-  //                   type: LOAD_POSTS_REQUEST,
-  //                 });
-  //             }
-  //         }
-  //     }
-  //     window.addEventListener('scroll', onScroll);
-  //         return () => {
-  //             window.removeEventListener('scroll', onScroll);
-  //         };
-  //   }
-  //   }, [mainPosts, hasMorePosts, loadPostsLoading, me]);
+  useEffect(() => {
+    if (me !== null) {
+      const onScroll = () => {
+          if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+              if (hasMorePosts && !loadPostsLoading) {
+                  const lastId = mainPosts[mainPosts.length - 1]?.id;
+                  console.log(mainPosts)
+                  console.log(mainPosts[mainPosts.length - 1]?.id)
+                  dispatch({
+                    type: LOAD_POSTS_REQUEST,
+                    lastId
+                  });
+              }
+          }
+      }
+      window.addEventListener('scroll', onScroll);
+          return () => {
+              window.removeEventListener('scroll', onScroll);
+          };
+    }
+    }, [mainPosts, hasMorePosts, loadPostsLoading, me]);
 
 
   return (
@@ -73,12 +73,11 @@ const _index: NextPage = () => {
           me && <PostForm key={shortid.generate()}/>
         }
         <Posts/>
-        {/* <Tags/> */}
       </ContentsContainer>
     </>
   )
 };
 
-const index = memo(_index)
+// const index = memo(_index)
 
 export default index;

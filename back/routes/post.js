@@ -123,22 +123,21 @@ router.get('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res
 })
 
 router.patch('/', isLoggedIn, uploads.array(), async (req, res, next) => { 
-  // console.log(req.body)
-  // console.log(req.body.content)
-  // console.log(req.body.date)
-  // console.log(req.params.postId)
-  // console.log(req.body.PostId)
-  // console.log(req.user.id)
-  // console.log(req.body.formData)
-  // console.log(req.body.image)
-  console.log('------------')
   try {
+    const hashtags = req.body.content.match(/(#[^\s#]+)/g);
     await Post.update({
       date: req.body.date,
       content: req.body.content
     }, {
       where: { id: req.body.postId, userId: req.user.id }
     });
+    const post = await Post.findOne({ where: { id: req.body.postId }});
+    if (hashtags) {
+      const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({
+        where: { name: tag.slice(1).toLowerCase() },
+      }))); // [[노드, true], [리액트, true]]
+      await post.setHashtags(result.map((v) => v[0]));
+    }
     if (req.body.image) {
       console.log('여기 오지??')
       if (Array.isArray(req.body.image)) { // 이미지 여러 개 올리면 image: [1.png, 2.png....]

@@ -2,7 +2,7 @@ import { Button, DatePicker, DatePickerProps, Form, Input } from 'antd'
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react' 
 import styled from 'styled-components'
 import { ADD_POST_REQUEST, LOAD_POSTS_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import { size } from 'libs/css/layout'
@@ -193,8 +193,8 @@ export const _PostForm = () => {
   const [userId, setUserId] = useState<string>(undefined)
   const [text, onChangeText, setText] = useInput('')
   const [showForm, setShowForm] = useState(false)
-  const { imagePaths, addPostDone } = useSelector((state) => state.post);
-  const { me } = useSelector((state) => state.user);
+  const { imagePaths, addPostDone } = useSelector((state) => state.post, shallowEqual);
+  const { me } = useSelector((state) => state.user, shallowEqual);
 
   useEffect(() => {
     setUserId(me.userId)
