@@ -73,7 +73,9 @@ export const dummy = [
 
 export const initialState = {
   mainPosts: [],
+  hashTagPosts: [],
   hasMorePosts: true,
+  hashTagStatus: false,
   imagePaths: [],
   modifyImagePaths: [],
   imagePath: null,
@@ -155,6 +157,10 @@ export const REMOVE_IMAGE = 'REMOVE_IMAGE'
 export const REMOVE_EDIT_IMAGE = 'REMOVE_EDIT_IMAGE'
 export const LOAD_EDIT_IMAGE = 'LOAD_EDIT_IMAGE'
 export const REMOVE_POSTS = 'REMOVE_POSTS'
+export const FALSE_TO_TRUE_HASHTAG = 'FALSE_TO_TRUE_HASHTAG'
+export const TRUE_TO_FALSE_HASHTAG = 'TRUE_TO_FALSE_HASHTAG'
+export const POST_REQUEST_FASLE = 'POST_REQUEST_FASLE'
+export const POST_REQUEST_TRUE = 'POST_REQUEST_TRUE'
 
 export const POST_MODIFY_REQUEST = 'POST_MODIFY_REQUEST'
 export const POST_DELETE_REQUEST = 'POST_DELETE_REQUEST'
@@ -212,7 +218,7 @@ export const LOAD_HASHTAG_POSTS_SUCCESS = 'LOAD_HASHTAG_POSTS_SUCCESS'
 export const LOAD_HASHTAG_POSTS_FAILURE = 'LOAD_HASHTAG_POSTS_FAILURE'
 
 // reducer 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성을 지키면서)
-// 근데 immer를 사용하면 알아서 불변성을 지키면서 만들어준다. state는 건들면 안되고 draft를 건들어야한다.
+// 근데 immer를 사용하면 알아서 불변성을 지키면서 만들어준다. state는 건들면 안되고 draft를 건드려야한다.
 export default (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
@@ -369,7 +375,6 @@ export default (state = initialState, action) => {
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
-        // draft.mainPosts = []
         break;
       case LOAD_POSTS_SUCCESS: 
         draft.mainPosts = draft.mainPosts.concat(action.data);
@@ -388,15 +393,15 @@ export default (state = initialState, action) => {
         draft.loadHashTagPostsError = null;
         break;
       case LOAD_HASHTAG_POSTS_SUCCESS: 
+        draft.hashTagPosts = draft.hashTagPosts.concat(action.data);
         draft.loadHashTagPostsLoading = false;
         draft.loadHashTagPostsDone = true;
-        draft.mainPosts = draft.mainPosts.concat(action.data);
         draft.imagePaths = [];
         draft.hasMorePosts = action.data.length === 10;
         break;
       case LOAD_HASHTAG_POSTS_FAILURE: 
-        draft.loadmainPostsLoading = false;
-        draft.loadmainPostsError = action.error
+        draft.loadHashTagPostsLoading = false;
+        draft.loadHashTagPostsError = action.error
         break;
       case REMOVE_POSTS:
         draft.mainPosts = [];  
@@ -408,9 +413,21 @@ export default (state = initialState, action) => {
         draft.modifyImagePaths = draft.modifyImagePaths.filter((v, i) => i !== action.data)
         break;
       case LOAD_EDIT_IMAGE:
-  
         draft.modifyImagePaths = action.data.map((element) => element.src);
         break;
+      case FALSE_TO_TRUE_HASHTAG:
+        draft.hashTagStatus = true;
+        break;
+      case TRUE_TO_FALSE_HASHTAG:
+        draft.hashTagStatus = false;
+        break;
+      case POST_REQUEST_FASLE:
+          draft.postRequest = false;
+          break;
+      case POST_REQUEST_TRUE:
+          draft.postRequest = true;
+          draft.mainPosts = [];
+          break;
       default: {
         break;
       }

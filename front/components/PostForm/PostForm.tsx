@@ -1,7 +1,7 @@
 import { Button, DatePicker, DatePickerProps, Form, Input } from 'antd'
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react' 
 import styled from 'styled-components'
-import { ADD_POST_REQUEST, LOAD_POSTS_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
+import { ADD_POST_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
@@ -216,10 +216,6 @@ export const _PostForm = () => {
   
   const onChangeImages = useCallback((e) => {
     const fileType = e.target.files[0].type.replace(/(.*)\//g, '')
-    console.log(fileType)
-    console.log(e.target.files.length)
-    console.log('images', e.target.files)
-    console.log('images', e.target.files[0].name)
     if(e.target.files.length > 10) {
       return alert('파일은 한 게시물당 10개까지만 올릴 수 있습니다.')
     }

@@ -3,7 +3,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import shortid from 'shortid'
 import Post from './Post'
-import { dummy, LOAD_POSTS_REQUEST } from 'reducers/post'
+import { dummy } from 'reducers/post'
 import Arrow from 'lottie/Arrow'
 
 const PostsContainer = styled.div`

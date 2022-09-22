@@ -22,7 +22,8 @@ export const initialState = {
     userRemoveError: null,
     me: null,
     showModifyForm: false,
-    isPosted: false
+    isPosted: false,
+    postRequest: false,
 };
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST'
@@ -55,6 +56,9 @@ export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE'
 
 export const ISPOST_IMAGE_TRUE = 'ISPOST_IMAGE_TRUE'
 export const ISPOST_IMAGE_FALSE = 'ISPOST_IMAGE_FALSE'
+export const LOGIN_DONE_FALSE = 'LOGIN_DONE_FALSE'
+export const POST_REQUEST_FASLE = 'POST_REQUEST_FASLE'
+export const POST_REQUEST_TRUE = 'POST_REQUEST_TRUE'
 
 
 
@@ -96,6 +100,7 @@ export default (state = initialState, action) => {
             draft.logInLoading = false;
             draft.me = action.data;
             draft.logInDone = true;
+            draft.postRequest = true;
             break;
         case LOG_IN_FAILURE: 
             draft.logInLoading = false;
@@ -174,6 +179,9 @@ export default (state = initialState, action) => {
         case USER_INFO_MODIFY_FAILURE: 
             draft.userInfomodifyLoading = false;
             draft.userInfomodifyError = action.error;
+            break;
+        case LOGIN_DONE_FALSE:
+            draft.logInDone = false;
             break;
         default:
             break;

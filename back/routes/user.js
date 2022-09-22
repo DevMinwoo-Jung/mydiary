@@ -102,9 +102,10 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
 
 router.patch('/modify', isLoggedIn, async (req, res, next) => { 
   try {
+  const hashPassword = await bcrypt.hash(req.body.userPassword, 10)
   const userInfo = await User.update({
     nickname: req.body.userNickname,
-    password: req.body.userPassword
+    password: hashPassword
   }, {
     where: { id: req.user.id },
   });

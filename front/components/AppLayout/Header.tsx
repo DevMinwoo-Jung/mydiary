@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { LOG_OUT_REQUEST } from 'reducers/user'
 import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
 import { ToggleProps } from 'libs/type'
-import { REMOVE_POSTS } from 'reducers/post'
+import { LOAD_POSTS_REQUEST, REMOVE_POSTS } from 'reducers/post'
 
 const ChevronLeftStyle = styled(ChevronLeft)`
   color: ${WHITE};

@@ -5,7 +5,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
-import { HIDE_MODIFY_FORM, LOAD_MY_INFO_REQUEST, USER_INFO_MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
+import { HIDE_MODIFY_FORM, USER_INFO_MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 import router from 'next/router'
 import RemoveUser from './RemoveUser'
@@ -105,13 +105,7 @@ const AlertMessageStyle = styled.div`
 const _UserInfo = () => {
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch({
-      type: LOAD_MY_INFO_REQUEST
-    })
-  }, [])
-
-  const { showModifyForm, userInfomodifyDone } = useSelector((state) => state.user)
+  const { showModifyForm } = useSelector((state) => state.user)
   const nickname = useSelector((state) => state.user?.me?.nickname)
   const userId = useSelector((state) => state.user?.me?.userId)
   const createdAt = useSelector((state) => state.user?.me?.createdAt)
@@ -151,14 +145,6 @@ const _UserInfo = () => {
   const closeModal = useCallback(() => {
     setIsModalOpen(false)
   }, [isModalOpen])
-
-  useEffect(() => {
-    if(userInfomodifyDone === true) {
-      dispatch({
-        type: LOAD_MY_INFO_REQUEST
-      })
-    }
-  }, [userInfomodifyDone])
 
   useEffect(() => {
     if (checkNickNameLength 

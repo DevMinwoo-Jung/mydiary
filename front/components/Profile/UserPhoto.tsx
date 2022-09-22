@@ -5,7 +5,7 @@ import React, { memo, useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Typography } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { ISPOST_IMAGE_FALSE, ISPOST_IMAGE_TRUE, LOAD_MY_INFO_REQUEST, SHOW_MODIFY_FORM } from 'reducers/user'
+import { ISPOST_IMAGE_FALSE, ISPOST_IMAGE_TRUE, SHOW_MODIFY_FORM } from 'reducers/user'
 import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
 import { LOAD_PROFILE_REQUEST, MODIFY_PROFILE_IMAGE_REQUEST, UPLOAD_PROFILE_IMAGES_REQUEST } from 'reducers/post'
 
@@ -147,11 +147,6 @@ const _UserPhoto = () => {
     });
   },[imagePath])
 
-  useEffect(() => {
-    dispatch({
-      type: LOAD_MY_INFO_REQUEST
-    })
-  }, [])
 
   useEffect(() => {
     if(me !== null){

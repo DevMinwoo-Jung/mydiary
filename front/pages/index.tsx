@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import type { NextPage } from 'next'
-import { memo, useEffect, useRef } from 'react'
+import { memo, useEffect } from 'react'
 import Head from 'next/head'
 import PostForm from 'components/PostForm/PostForm'
 import Posts from 'components/Posts/Posts'
@@ -8,7 +8,8 @@ import { WHITE } from 'libs/css/color'
 import shortid from 'shortid'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
-import { LOAD_POSTS_REQUEST } from 'reducers/post'
+import { LOAD_POSTS_REQUEST, POST_REQUEST_FASLE } from 'reducers/post'
+import { useInView } from 'react-intersection-observer'
 
 const ContentsContainer = styled.div`
   margin: auto;
@@ -16,50 +17,40 @@ const ContentsContainer = styled.div`
   background-color: ${WHITE};
   width: 100%;
 `
-const index: NextPage = () => {
-  const { me } = useSelector((state) => state.user)
-  const { hasMorePosts, loadPostsLoading, mainPosts } = useSelector((state) => state.post)
+const _index: NextPage = () => {
+  const me = useSelector((state) => state.user?.me?.id)
+  const postRequest = useSelector((state) => state.post?.postRequest)
+  const { hasMorePosts, loadPostsLoading, mainPosts } = useSelector((state) => state.post, shallowEqual)
   const dispatch = useDispatch()   
+  const [ref, inView] = useInView()
 
-
-  console.log('re render?')
-
-  useEffect(() => {
-    dispatch({
-      type: LOAD_MY_INFO_REQUEST
-    })
-  }, [])
-
-  useEffect(() => {
-    if(me !== null) {
+    useEffect(() => {
+    if(postRequest) {
       dispatch({
         type: LOAD_POSTS_REQUEST,
       })
+      dispatch({
+        type: POST_REQUEST_FASLE
+      })
     }
-  }, [me])
+  }, [postRequest])
 
-  
   useEffect(() => {
-    if (me !== null) {
-      const onScroll = () => {
-          if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
-              if (hasMorePosts && !loadPostsLoading) {
-                  const lastId = mainPosts[mainPosts.length - 1]?.id;
-                  console.log(mainPosts)
-                  console.log(mainPosts[mainPosts.length - 1]?.id)
-                  dispatch({
-                    type: LOAD_POSTS_REQUEST,
-                    lastId
-                  });
-              }
-          }
-      }
-      window.addEventListener('scroll', onScroll);
-          return () => {
-              window.removeEventListener('scroll', onScroll);
-          };
-    }
-    }, [mainPosts, hasMorePosts, loadPostsLoading, me]);
+        if (inView && hasMorePosts && !loadPostsLoading) {
+          const lastId = mainPosts[mainPosts.length - 1]?.id;
+          dispatch({
+            type: LOAD_POSTS_REQUEST,
+            lastId,
+          });
+        }
+    },[inView, hasMorePosts, loadPostsLoading, mainPosts]);
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    })
+  }, [])
+
 
 
   return (
@@ -73,11 +64,12 @@ const index: NextPage = () => {
           me && <PostForm key={shortid.generate()}/>
         }
         <Posts/>
+        <div ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />
       </ContentsContainer>
     </>
   )
 };
 
-// const index = memo(_index)
+const index = memo(_index)
 
 export default index;
