@@ -76,6 +76,7 @@ export const initialState = {
   hashTagPosts: [],
   hasMorePosts: true,
   hashTagStatus: false,
+  postRequest: true,
   imagePaths: [],
   modifyImagePaths: [],
   imagePath: null,

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { LOG_OUT_REQUEST } from 'reducers/user'
 import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
 import { ToggleProps } from 'libs/type'
-import { LOAD_POSTS_REQUEST, REMOVE_POSTS } from 'reducers/post'
+import { POST_REQUEST_FASLE } from 'reducers/post'
 
 const ChevronLeftStyle = styled(ChevronLeft)`
   color: ${WHITE};
@@ -120,7 +120,7 @@ const _Header = (props: ToggleProps) => {
     })
     router.push('/')
     dispatch({
-      type: REMOVE_POSTS
+      type: POST_REQUEST_FASLE
     })
   }, [isLogin])
 

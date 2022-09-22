@@ -1,7 +1,7 @@
 import { Button, DatePicker, DatePickerProps, Form, Input } from 'antd'
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react' 
 import styled from 'styled-components'
-import { ADD_POST_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
@@ -9,6 +9,7 @@ import { size } from 'libs/css/layout'
 import { BUTTON_COLOR, COLOR_BACKGROUND_DEFAULT, COLOR_DBE2EF, WHITE } from 'libs/css/color'
 import useInput from 'libs/hook/useInput'
 import SearchForm from 'components/SearchForm/SearchForm'
+import Images from 'components/Posts/Images'
 
 moment.locale('ko');
 
@@ -152,40 +153,6 @@ const ImgsDiv = styled.div`
   z-index: 100;
 `
 
-const ImgContainer = styled.div`
-  width: 100%;
-  display: block;
-`
-
-const ImgStyle = styled.img`
-  object-fit: fill;
-  height: 20vh;
-  width: 100%;
-`
-
-const RemoveButtonStyle = styled(Button)`
-  width: 20%;
-  margin: auto;
-  cursor: pointer;
-  font-size: 12px;
-  border-radius: 9px;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
-  border-color: none;
-  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
-    background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
-    font-weight: bolder;
-  }
-  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
-        background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
-    font-weight: bolder;
-  }
-`
-
 export const _PostForm = () => {
   const dispatch = useDispatch()
   const imageInput = useRef<any>()
@@ -259,13 +226,6 @@ export const _PostForm = () => {
     });
   },[imagePaths, text, date, userId])
 
-  const onRemoveImage = useCallback((index: any) => () => {
-    dispatch({
-        type: REMOVE_IMAGE,
-        data: index
-    })
-  }, [])
-
   return (
     <>
       {
@@ -308,12 +268,8 @@ export const _PostForm = () => {
             </ButtonsDiv>
             <ImgsDiv>
               {
-              imagePaths && imagePaths.map((v: React.Key, i: string) => (
-              <ImgContainer key={v} style={{display: 'inline-block'}}>
-                  <ImgStyle src={`http://localhost:3065/${v}`} alt={String(v)}/>
-                  <RemoveButtonStyle onClick={onRemoveImage(i)}>제거</RemoveButtonStyle>
-              </ImgContainer>
-              ))}
+                imagePaths.length > 0 && <Images image={imagePaths} type={'postForm'}/>
+              }
             </ImgsDiv>
           </InnerPostFormDiv>
         </PostFormContainer>

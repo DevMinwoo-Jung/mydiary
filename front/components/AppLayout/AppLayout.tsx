@@ -29,6 +29,10 @@ const ContentContainer = styled.div`
   min-height: 94.5vh;
   height: 100%;
   width: ${size.mobileL};
+
+  @media screen and (max-width: ${size.mobileL}) { 
+    width: ${size.mobileS}
+  }
 `
 
 

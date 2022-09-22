@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
-import { FALSE_TO_TRUE_HASHTAG, LOAD_HASHTAG_POSTS_REQUEST, POST_REQUEST_TRUE } from "../../reducers/post"
+import { FALSE_TO_TRUE_HASHTAG, LOAD_HASHTAG_POSTS_REQUEST, POST_REQUEST_FASLE, POST_REQUEST_TRUE } from "../../reducers/post"
 import shortid from 'shortid'
 import Post from 'components/Posts/Post'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
@@ -15,9 +15,9 @@ const Hashtag = () => {
 
     useEffect(() => {
         dispatch({
-          type: LOAD_MY_INFO_REQUEST,
+            type: LOAD_MY_INFO_REQUEST,
         })
-      }, [])
+    }, [])
 
     useEffect(() => {
         if(!tag) {

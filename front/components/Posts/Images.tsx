@@ -1,7 +1,10 @@
-import React, { FC, memo, useState } from 'react'
+import React, { FC, memo, useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button } from 'antd'
+import { BUTTON_COLOR, WHITE } from 'libs/css/color'
+import { REMOVE_IMAGE } from 'reducers/post'
 
 
 type image = {
@@ -10,7 +13,8 @@ type image = {
 }
 
 export type ImagesProps = {
-  image: image[]
+  image: image[];
+  type?: string;
 }
 
 const ImageContainer = styled.div`
@@ -74,9 +78,36 @@ const Slide = styled.div`
   color: white;
 `
 
+
+const RemoveButtonStyle = styled(Button)`
+  width: 20%;
+  margin: auto;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 9px;
+  background-color: ${BUTTON_COLOR};
+  color: ${WHITE};
+  border-color: none;
+  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
+    background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
+    background-color: ${BUTTON_COLOR};
+    border-color: ${BUTTON_COLOR};
+    color: ${WHITE};
+    font-weight: bolder;
+  }
+`
+
 const _Images:FC<ImagesProps>  = (props) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { image } = props
+  const { image, type } = props
+  const dispatch = useDispatch()
+
+  console.log(image)
 
   const { me } = useSelector((state) => state.user)
 
@@ -96,6 +127,13 @@ const _Images:FC<ImagesProps>  = (props) => {
     }
   }
 
+  const onRemoveImage = useCallback((index: any) => () => {
+    dispatch({
+      type: REMOVE_IMAGE,
+      data: index
+    })
+  }, [])
+
   return (
     <ImageContainer>
       {
@@ -107,12 +145,23 @@ const _Images:FC<ImagesProps>  = (props) => {
         }
         {
           me !== null
-          ? <ImgStyle src={`http://localhost:3065/${image[currentSlide].src}`} alt="" />
+          ? 
+          <>
+            {
+              type === 'postForm' ? <ImgStyle src={`http://localhost:3065/${image[currentSlide]}`} alt="" />
+              : <ImgStyle src={`http://localhost:3065/${image[currentSlide].src}`} alt="" />
+            }
+          </>
           : <ImgStyle src={`${image[currentSlide].src}`} alt="" /> 
         }
           <Slide>
             <p>{currentSlide+1} / {image.length}</p>
           </Slide>
+          {
+            type === 'postForm' ?
+            <RemoveButtonStyle onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
+            : null
+          }
         {
           image.length === 1
           ? null
