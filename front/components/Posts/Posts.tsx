@@ -10,7 +10,7 @@ const PostsContainer = styled.div`
   margin: auto;
   overflow-y: auto;
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
 `
 
 const IntroContainer = styled.div`

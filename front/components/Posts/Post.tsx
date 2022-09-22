@@ -21,16 +21,16 @@ moment.locale('ko');
 const PostsInnerContainer = styled.div`
   display: block;
   margin: 1rem;
-  max-height: 40rem;
-  min-height: 15rem;
+  max-height: 60rem;
+  min-height: 20rem;
   border: 1px solid ${COLOR_DBE2EF};
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   position: relative;
 `
 
 const ContentContainer = styled.div`
   display: block;
-  height: 14rem;
+  height: 25rem;
   width: 90%;
   margin: 1rem;
 `

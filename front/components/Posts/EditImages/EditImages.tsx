@@ -2,9 +2,10 @@ import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button } from 'antd'
+import { Button, Popover } from 'antd'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 import { LOAD_EDIT_IMAGE, REMOVE_EDIT_IMAGE } from 'reducers/post'
+import DeleteDiv from '../DeleteDiv'
 
 
 type image = {
@@ -18,7 +19,7 @@ export type EditImagesProps = {
 
 const ImageContainer = styled.div`
   width: 100%;
-  height: 25rem;
+  height: 35rem;
   position: relative;
   & img {
     object-fit: fill;
@@ -30,7 +31,7 @@ const ImageContainer = styled.div`
 const CaretLeftOutlinedStyle = styled(CaretLeftOutlined)`
   font-size: 1.2rem;
   position: absolute;
-  top: 12rem;
+  top: 17.5rem;
   color: #f1eded;;
   left: 0.5rem;
   border-radius: 99%;
@@ -45,7 +46,7 @@ const CaretLeftOutlinedStyle = styled(CaretLeftOutlined)`
 const CaretRightOutlinedStyle = styled(CaretRightOutlined)`
   font-size: 1.2rem;
   position: absolute;
-  top: 12rem;
+  top: 17.5rem;
   color: #f1eded;
   right: 0.5rem;
   border-radius: 99%;
@@ -61,6 +62,9 @@ const ImgStyle = styled.img`
 `
 
 const RemoveButtonStyle = styled(Button)`
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
   width: 20%;
   margin: auto;
   cursor: pointer;
@@ -100,11 +104,13 @@ const Slide = styled.div`
   color: white;
 `
 
+
 const _EditImages:FC<EditImagesProps>  = (props) => {
   const dispatch = useDispatch()
   const { modifyImagePaths } = useSelector((state) => state.post)
-  console.log(modifyImagePaths)
   const { image } = props
+
+
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const onShowPrevImg = (e) => {
@@ -154,7 +160,7 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
           <Slide>
             <p>{currentSlide+1} / {modifyImagePaths.length}</p>
           </Slide>
-          <RemoveButtonStyle onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
+            <RemoveButtonStyle onMouseEnter={DeleteDiv} onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
           {
             modifyImagePaths.length === 1
             ? null
