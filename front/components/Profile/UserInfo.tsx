@@ -161,8 +161,6 @@ const _UserInfo = () => {
     })
   }
 
-  console.log(userPassword)
-
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -236,13 +234,14 @@ const _UserInfo = () => {
           <ModifyDiv>
           {
           showModifyForm &&
-            <InputStyle type={'password'} value={userPassword} onChange={onChangeUserPassword} placeholder={''}/>
-          }
+            <>
+            <InputStyle type={'password'} onChange={onChangeUserPassword} placeholder={''}/>
             {
-              checkPwLength === true ?
-              <AlertMessageStyle>{alertPwMessage}</AlertMessageStyle>
-              : null
+              checkPwLength === false ? null
+              : <AlertMessageStyle>{alertPwMessage}</AlertMessageStyle>
             }
+            </>
+          }
           </ModifyDiv>
           <ModifyDiv>
               {
@@ -250,7 +249,7 @@ const _UserInfo = () => {
                 ? null
                 : 
                 <>
-                <InputStyle type={'password'} value={checkPassword} onChange={onChangeCheckPssword} placeholder={'변경할 비밀번호를 다시 입력하세요'}/>
+                <InputStyle type={'password'} onChange={onChangeCheckPssword} placeholder={'변경할 비밀번호를 다시 입력하세요'}/>
                   {
                     passwordAlert === false ? null
                     : <AlertMessageStyle>비밀번호가 일치하지 않습니다.</AlertMessageStyle>
