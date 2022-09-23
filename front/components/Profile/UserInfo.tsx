@@ -11,23 +11,28 @@ import router from 'next/router'
 import RemoveUser from './RemoveUser'
 import { useLengthCheck } from 'libs/hook/useLengthCheck'
 
-const { Title, Paragraph } = Typography
-
 const UserInfoContainer = styled.div`
   display: block;
   height: 100px;
   width: 100%;
+  margin-top: 3rem;
+  font-size: 1.1rem;
+  @media screen and (max-width: ${size.mobileL}) {
+    font-size: 1rem;
+  }
+`
+
+const ParagraphStyle = styled.p`
+  margin: 0 1rem 0 1rem;
 `
 
 const UserInfoDiv = styled.div`
   width: 100%;
-  display: flex;
-  & div {
-  display: block;
+  /* & div {
     @media screen and (max-width: ${size.tablet}) { 
     display: block;
     width: 175px;
-  }
+  } */
   /* @media screen and (min-width: ${size.tablet}) {
     width: 45%;
   }
@@ -37,25 +42,41 @@ const UserInfoDiv = styled.div`
   } */
 }
 `
+
 const UserInfoInnerDiv = styled.div`
-  margin: auto;
+  display: flex;
+  left: 1rem;
+  width: 100%;
 `
 
-const ParagraphStyle = styled(Paragraph)`
-  font-size: 1rem;
-  font-weight: bolder;
+const TitleDiv = styled.div`
+  width: 20%;
+  @media screen and (max-width: ${size.mobileL}) {
+    width: 30%;
+  }
+`
+
+const InfoDiv = styled.div`
+  width: 40%;
+`
+
+const ModifyDiv = styled.div`
+  display: block;
+  width: 40%;
 `
 
 const DividerStyle = styled(Divider)`
   &.ant-divider-horizontal {
     width: 80%;
     min-width: 80%;
-    margin: 2rem auto;
+    margin: 1rem auto;
   }
 `
 
 const InputStyle = styled(Input)`
-  border-radius: 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  height: 30px;
   @media screen and (min-width: ${size.mobileS}) { 
     width: 100px;
   }
@@ -64,15 +85,10 @@ const InputStyle = styled(Input)`
   }
 `
 
-const PasswordDiv = styled.div`
-  display: block;
-`
-
 const ButtonDiv = styled.div`
-  position: inherit;
-  margin-left: 40%;
-  margin-top: 4rem;
-  
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
 `
 
 const ButtonStyle = styled(Button)`
@@ -95,11 +111,19 @@ const ModalContainer = styled.div`
   margin: auto;
 `
 const AlertMessageStyle = styled.div`
-
   color: #ff4d4f;
   font-size: 0.8rem;
   text-align: center;
 `
+
+const ModifyButtonDiv = styled.div`
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+`
+
+
 
 
 const _UserInfo = () => {
@@ -108,7 +132,6 @@ const _UserInfo = () => {
   const { showModifyForm } = useSelector((state) => state.user)
   const nickname = useSelector((state) => state.user?.me?.nickname)
   const userId = useSelector((state) => state.user?.me?.userId)
-  const createdAt = useSelector((state) => state.user?.me?.createdAt)
 
   const [userNickname, onChangeUserNickname ] = useInput('')
   const [userPassword, onChangeUserPassword] = useInput('')
@@ -138,6 +161,8 @@ const _UserInfo = () => {
     })
   }
 
+  console.log(userPassword)
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -147,7 +172,7 @@ const _UserInfo = () => {
   }, [isModalOpen])
 
   useEffect(() => {
-    if (checkNickNameLength 
+    if (checkNickNameLength
         || checkPwLength 
         || passwordAlert) {
       setButtonDisabled(true)
@@ -169,75 +194,85 @@ const _UserInfo = () => {
     <UserInfoContainer>
     <UserInfoDiv>
       <UserInfoInnerDiv>
-        <Title level={3}>아이디</Title>
-        <ParagraphStyle>{userId}</ParagraphStyle> 
-      </UserInfoInnerDiv>
-      <UserInfoInnerDiv>
-        <Title level={3}>닉네임</Title>
-        {
-          showModifyForm === false 
-          ?
-          <ParagraphStyle>{nickname}</ParagraphStyle> 
-          :
-          <>
-            <InputStyle value={userNickname} onChange={onChangeUserNickname} placeholder={nickname}/>
-            {
-              checkNickNameLength === true ?
-              <AlertMessageStyle>{alertNickNameMessage}</AlertMessageStyle>
-              : null
-            }
-          </>
-        }
+        <TitleDiv>
+          <ParagraphStyle>아이디</ParagraphStyle>
+        </TitleDiv>
+        <InfoDiv>
+          <ParagraphStyle>{userId}</ParagraphStyle> 
+        </InfoDiv>
       </UserInfoInnerDiv>
     </UserInfoDiv>
     <DividerStyle/>
+    <UserInfoContainer>
+      <UserInfoDiv>
+        <UserInfoInnerDiv>
+          <TitleDiv>
+            <ParagraphStyle>활동명</ParagraphStyle>
+          </TitleDiv>
+          <InfoDiv>
+            <ParagraphStyle>{nickname}</ParagraphStyle> 
+          </InfoDiv>
+          {
+            showModifyForm &&
+            <ModifyDiv>
+              <InputStyle onChange={onChangeUserNickname} placeholder={nickname}/>
+              {
+                checkNickNameLength === true ?
+                <AlertMessageStyle>{alertNickNameMessage}</AlertMessageStyle>
+                : null
+              }
+            </ModifyDiv>
+          }
+        </UserInfoInnerDiv>
+      </UserInfoDiv>
+    </UserInfoContainer>
+    <DividerStyle/>
     <UserInfoDiv>
       <UserInfoInnerDiv>
-        <Title level={3}>회원가입 날짜</Title>
-        <ParagraphStyle>{createdAt && createdAt.split('').slice(0,10)}</ParagraphStyle> 
-      </UserInfoInnerDiv>
-      <UserInfoInnerDiv>
-        <Title level={3}>비밀번호</Title>
-        {
+        <TitleDiv>
+          <ParagraphStyle>비밀번호</ParagraphStyle>
+        </TitleDiv>
+        <>
+          <ModifyDiv>
+          {
           showModifyForm &&
-          <PasswordDiv>
-            <InputStyle type={'password'} value={userPassword} onChange={onChangeUserPassword} placeholder={null}/>
+            <InputStyle type={'password'} value={userPassword} onChange={onChangeUserPassword} placeholder={''}/>
+          }
             {
               checkPwLength === true ?
               <AlertMessageStyle>{alertPwMessage}</AlertMessageStyle>
               : null
             }
-            <br/>
-            <br/>
-            <InputStyle type={'password'} value={checkPassword} onChange={onChangeCheckPssword} placeholder={'변경할 비밀번호를 다시 입력하세요'}/>
-            {
-              showModifyForm === false 
-              ? null
-              : 
-              <>
-                {
-                  passwordAlert === false ? null
-                  : <Paragraph style={{color: '#dd7474'}}>비밀번호가 일치하지 않습니다.</Paragraph>
-                }
-              </>
-            }
-          </PasswordDiv>
-        }
+          </ModifyDiv>
+          <ModifyDiv>
+              {
+                showModifyForm === false 
+                ? null
+                : 
+                <>
+                <InputStyle type={'password'} value={checkPassword} onChange={onChangeCheckPssword} placeholder={'변경할 비밀번호를 다시 입력하세요'}/>
+                  {
+                    passwordAlert === false ? null
+                    : <AlertMessageStyle>비밀번호가 일치하지 않습니다.</AlertMessageStyle>
+                  }
+                </>
+              }
+            </ModifyDiv>   
+        </>
       </UserInfoInnerDiv>
     </UserInfoDiv>
-    <DividerStyle/>
     <ButtonDiv>
         {
           showModifyForm === true
           ?
-          <>
+          <ModifyButtonDiv>
             <ButtonStyle disabled={buttonDisabled} onClick={onModify}>수정하기</ButtonStyle>
             <ButtonStyle onClick={onCancel}>취소</ButtonStyle>
-          </>
+          </ModifyButtonDiv>
           :
-          <>
+          <ModifyButtonDiv>
             <ButtonStyle onClick={showModal}>탈퇴하기</ButtonStyle>
-          </>
+          </ModifyButtonDiv>
         }
       </ButtonDiv>
       {

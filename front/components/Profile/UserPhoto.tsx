@@ -44,6 +44,7 @@ const ParagraphStyle = styled(Paragraph)`
 `
 
 const ParagraphDivStyle = styled.div`
+  position: relative;
   width: 65%;
   margin: auto;
 `
@@ -55,14 +56,15 @@ const EditOutlinedStyle = styled(EditOutlined)`
 `
 
 const ButtonStyle = styled(Button)`
-  width: 100px;
-  position: right;
+  width: 150px;
+  position: absolute;
+  bottom: -1rem;
+  right: 25%;
   font-size: 12px;
-  margin: 5px;
   border-radius: 9px;
   background-color: ${BUTTON_COLOR};
   color: ${WHITE};
-  border-color: none;
+  border: none;
   &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active, .ant-btn {
     background-color: ${BUTTON_COLOR};
     border-color: ${BUTTON_COLOR};
@@ -74,6 +76,13 @@ const ButtonStyle = styled(Button)`
     border-color: ${BUTTON_COLOR};
     color: ${WHITE};
     font-weight: bolder;
+  }
+  @media screen and (max-width: ${size.mobileL}) { 
+    position: absolute;
+    width: 120px;
+    height: 25px;
+    bottom: 0rem;
+    right: 1rem;
   }
 `
 
