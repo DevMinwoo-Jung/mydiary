@@ -6,6 +6,9 @@ import styled from 'styled-components'
 const DateDiv = styled.div`
   display: flex;
   font-size: 0.8rem;
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
 `
 
 const DatePara = styled.p`

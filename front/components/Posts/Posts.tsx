@@ -44,7 +44,8 @@ const _Posts = () => {
     useEffect(() => {
       if (me === null) {
         const onScroll = () => { 
-          if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 3500) {
+          console.log(document.documentElement.scrollHeight, document.documentElement.clientHeight, window.screenY)
+          if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 2500) {
             postRef.current.style.opacity = '1'
             postRef.current.style.transition = '1.5s'
             arrowRef.current.style.opacity = '0'

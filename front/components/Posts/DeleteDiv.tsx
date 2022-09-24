@@ -4,7 +4,7 @@ const DeleteImageContainer = styled.div`
   background-color: black;
   opacity: 0.7;
   width: 28rem;
-  height: 35rem;
+  height: 25rem;
   position: absolute;
   top: 0;
   left: 0;

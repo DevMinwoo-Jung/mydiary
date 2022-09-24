@@ -21,7 +21,8 @@ export type ImagesProps = {
 
 const ImageContainer = styled.div`
   width: 100%;
-  height: 35rem;
+  height: 25rem;
+  margin-top: 3rem;
   position: relative;
   & img {
     object-fit: fill;
@@ -33,11 +34,11 @@ const ImageContainer = styled.div`
 const CaretLeftOutlinedStyle = styled(CaretLeftOutlined)`
   font-size: 1.2rem;
   position: absolute;
-  top: 17.5rem;
+  top: 12.5rem;
   color: #f1eded;
   left: 0.5rem;
-  border-radius: 99%;
   background-color: grey;
+  border-radius: 99%;
   opacity: 0.8;
   height: 1.5rem;
   line-height: 1.8rem;
@@ -48,7 +49,7 @@ const CaretLeftOutlinedStyle = styled(CaretLeftOutlined)`
 const CaretRightOutlinedStyle = styled(CaretRightOutlined)`
   font-size: 1.2rem;
   position: absolute;
-  top: 17.5rem;
+  top: 12.5rem;
   color: #f1eded;
   right: 0.5rem;
   border-radius: 99%;
@@ -60,7 +61,6 @@ const CaretRightOutlinedStyle = styled(CaretRightOutlined)`
   font-weight: 100;
 `
 const ImgStyle = styled.img`
-  border-radius: 0.5rem 0.5rem 0 0;
 `
 
 const Slide = styled.div`

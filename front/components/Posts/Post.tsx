@@ -21,8 +21,8 @@ moment.locale('ko');
 const PostsInnerContainer = styled.div`
   display: block;
   margin: 1rem;
-  max-height: 60rem;
-  min-height: 20rem;
+  max-height: 45rem;
+  min-height: 15rem;
   border: 1px solid ${COLOR_DBE2EF};
   border-radius: 0.5rem;
   position: relative;
@@ -30,7 +30,7 @@ const PostsInnerContainer = styled.div`
 
 const ContentContainer = styled.div`
   display: block;
-  height: 25rem;
+  height: 20rem;
   width: 90%;
   margin: 1rem;
 `
@@ -39,7 +39,6 @@ const TagAndDelete = styled.div`
   width: 100%;
   position: relative;
   display: flex;
-  height: 3rem;
 `
 
 const TagDiv = styled.div`
@@ -52,13 +51,16 @@ const DeleteDiv = styled.div`
   width: 35%;
   color: 'black';
   text-align: right;
-  margin: 1rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 2.5rem;
 `
 
 
 const BiCustomizeStyle = styled(BiCustomize)`
   right: 1rem;
   top: 0.5rem;
+  position: absolute;
   font-size: 1.5rem;
   margin-left: 0.5rem;
   cursor: pointer;
@@ -116,13 +118,11 @@ const _Post:FC<PostProps> = (props) => {
         : post.Images[0] && <Images image={post.Images}/>
       }
         <ContentContainer>
-          <TagAndDelete>
-            <TagDiv>
-              <PostTags postData={post.content} />
-            </TagDiv>
-            {
-              me !== null
-              ?
+          {
+            me !== null
+            ?
+            <>
+              <BiCustomizeStyle onClick={onChangeModify}/>
               <DeleteDiv>
                 {
                   modify === true ?
@@ -141,10 +141,14 @@ const _Post:FC<PostProps> = (props) => {
                   </>
                   : null
                 }
-                <BiCustomizeStyle onClick={onChangeModify}/>
               </DeleteDiv>
+              </>
             : null
             }
+          <TagAndDelete>
+            <TagDiv>
+              <PostTags postData={post.content} />
+            </TagDiv>
           </TagAndDelete>
         {
             modify === true

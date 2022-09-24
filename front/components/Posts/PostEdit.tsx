@@ -6,7 +6,7 @@ import { PostProps } from 'libs/type'
 import moment from 'moment'
 import React, { FC, memo, useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { MODIFY_POST_IMAGE_REQUEST, MODIFY_POST_REQUEST, REMOVE_EXIST_IMAGE_ID_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST } from 'reducers/post'
+import { MODIFY_POST_REQUEST, REMOVE_EXIST_IMAGE_ID_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST } from 'reducers/post'
 import styled from 'styled-components'
 import { CheckOutlined } from '@ant-design/icons'
 
@@ -27,13 +27,20 @@ const PostFormHeader = styled.div`
 `
 
 const DatePickerStyle = styled(DatePicker)`
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
   border-radius: 0.6rem;
   font-style: normal;
   height: 32px;
   width: 140px;
+
 `
 
 const DateStyle = styled.span`
+  position: absolute;
+  left: 9rem;
+  top: 0.5rem;
   text-align: left;
   margin-left: 1rem;
   font-size: 0.8rem;
@@ -88,10 +95,9 @@ const TextContainer = styled(Input.TextArea)`
 `
 
 const CheckOutlinedStyle = styled(CheckOutlined)`
-  right: 0rem;
-  margin-bottom: 1rem;
+  right: 3rem;
+  top: 0.5rem;
   font-size: 1.5rem;
-  margin-right: 4.4rem;
   bottom: 1.7rem;
   position: absolute;
   cursor: pointer;
@@ -171,16 +177,16 @@ const _PostEdit:FC<PostProps> = (props) => {
 
   return (
     <Form name="image" encType="multipart/form-data" onFinish={onModify}>
-      <PostFormHeader>
-        <DatePickerStyle onChange={onChange}/>
+      <DatePickerStyle onChange={onChange}/>
         {
           date === 'undefined' || date === '' || date === null 
           ? ''
           : <DateStyle>{moment(`${date}`).format('dddd')}</DateStyle>
         }
+      <CheckOutlinedStyle onClick={onModify}/>
+      <PostFormHeader>
         <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>
         <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
-        <CheckOutlinedStyle onClick={onModify}/>
       </PostFormHeader>
         <TextContainer
           rows={5}
