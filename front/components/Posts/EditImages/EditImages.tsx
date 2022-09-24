@@ -2,10 +2,11 @@ import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Popover } from 'antd'
+import { Button } from 'antd'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 import { LOAD_EDIT_IMAGE, REMOVE_EDIT_IMAGE } from 'reducers/post'
 import DeleteDiv from '../DeleteDiv'
+import useToggle from 'libs/hook/useToggle'
 
 
 type image = {
@@ -109,10 +110,9 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
   const dispatch = useDispatch()
   const { modifyImagePaths } = useSelector((state) => state.post)
   const { image } = props
-
-
-
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [hideDelete, toggle] = useToggle()
+
   const onShowPrevImg = (e) => {
     if (currentSlide === 0) {
       setCurrentSlide(modifyImagePaths.length - 1)
@@ -157,10 +157,13 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
             : <CaretLeftOutlinedStyle onClick={onShowPrevImg}/> 
           }
           <ImgStyle src={`http://localhost:3065/${modifyImagePaths[currentSlide]}`}/>
+            {
+              hideDelete === false ? <DeleteDiv/> : null
+            }
           <Slide>
             <p>{currentSlide+1} / {modifyImagePaths.length}</p>
           </Slide>
-            <RemoveButtonStyle onMouseEnter={DeleteDiv} onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
+            <RemoveButtonStyle onMouseEnter={toggle} onMouseLeave={toggle} onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
           {
             modifyImagePaths.length === 1
             ? null

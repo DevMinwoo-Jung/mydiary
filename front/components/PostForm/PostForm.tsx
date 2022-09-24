@@ -15,9 +15,11 @@ moment.locale('ko');
 
 const PostFormContainer = styled(Form)`
   display: block;
-  width: 100%;
-  border-radius: 1rem;
-  min-height: 30vh;
+  margin: 3rem 1rem 1rem 1rem;
+  max-height: 60rem;
+  min-height: 20rem;
+  border: 1px solid ${COLOR_DBE2EF};
+  border-radius: 0.5rem;
   position: relative;
 `
 const InnerPostFormDiv = styled.div`
@@ -239,13 +241,19 @@ export const _PostForm = () => {
             </PostFormHeader>
           </HideFormContainer>
         :
-        <PostFormContainer name="image" encType="multipart/form-data" onFinish={onSubmit}>
-          <PostFormHeader>
+        <>
+            <PostFormHeader>
               <SearchFormDiv>
                 <SearchForm/>
               </SearchFormDiv>
             <HideButton onClick={hideForm}>숨기기</HideButton>
           </PostFormHeader>
+          <PostFormContainer name="image" encType="multipart/form-data" onFinish={onSubmit}>
+          <ImgsDiv>
+              {
+                imagePaths.length > 0 && <Images image={imagePaths} type={'postForm'}/>
+              }
+            </ImgsDiv>
           <InnerPostFormDiv>
             <DateDiv>
               <DatePickerStyle onChange={onChange}/>
@@ -266,13 +274,9 @@ export const _PostForm = () => {
               <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
               <ButtonStyle htmlType='submit'>추가</ButtonStyle>
             </ButtonsDiv>
-            <ImgsDiv>
-              {
-                imagePaths.length > 0 && <Images image={imagePaths} type={'postForm'}/>
-              }
-            </ImgsDiv>
           </InnerPostFormDiv>
-        </PostFormContainer>
+          </PostFormContainer>
+          </>
       }
     </>
   )

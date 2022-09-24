@@ -3,8 +3,11 @@ import styled from 'styled-components'
 const DeleteImageContainer = styled.div`
   background-color: black;
   opacity: 0.7;
-  width: 30rem;
+  width: 28rem;
   height: 35rem;
+  position: absolute;
+  top: 0;
+  left: 0;
   &.ant-popover-inner-content {
     padding: 0;
     opacity: 0.7;

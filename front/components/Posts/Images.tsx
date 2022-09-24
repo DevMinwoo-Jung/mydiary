@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button } from 'antd'
 import { BUTTON_COLOR, WHITE } from 'libs/css/color'
 import { REMOVE_IMAGE } from 'reducers/post'
+import useToggle from 'libs/hook/useToggle'
+import DeleteDiv from './DeleteDiv'
 
 
 type image = {
@@ -80,6 +82,9 @@ const Slide = styled.div`
 
 
 const RemoveButtonStyle = styled(Button)`
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
   width: 20%;
   margin: auto;
   cursor: pointer;
@@ -106,6 +111,7 @@ const _Images:FC<ImagesProps>  = (props) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { image, type } = props
   const dispatch = useDispatch()
+  const [hideDelete, toggle] = useToggle()
 
   console.log(image)
 
@@ -154,12 +160,15 @@ const _Images:FC<ImagesProps>  = (props) => {
           </>
           : <ImgStyle src={`${image[currentSlide].src}`} alt="" /> 
         }
+          {
+            hideDelete === false ? <DeleteDiv/> : null
+          }
           <Slide>
             <p>{currentSlide+1} / {image.length}</p>
           </Slide>
           {
             type === 'postForm' ?
-            <RemoveButtonStyle onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
+            <RemoveButtonStyle  onMouseEnter={toggle} onMouseLeave={toggle}  onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
             : null
           }
         {
