@@ -1,6 +1,6 @@
 import UserInfo from 'components/Profile/UserInfo'
 import UserPhoto from 'components/Profile/UserPhoto'
-import { COLOR_BACKGROUND_DEFAULT } from 'libs/css/color'
+import { BACKGROUND_COLOR, COLOR_BACKGROUND_DEFAULT, WHITE } from 'libs/css/color'
 import Head from 'next/head'
 import React, { memo, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -10,11 +10,11 @@ import styled from 'styled-components'
 const ProfileContainer = styled.div`
   width: 100%;
   height: 70%;
-  margin-top: 2rem;
+  margin-top: 4rem;
   position: relative;
   display: block;
   border-radius: 1rem;
-  border: 5px solid ${COLOR_BACKGROUND_DEFAULT};
+  background-color: ${WHITE};
 `
 
 const _profile = () => {

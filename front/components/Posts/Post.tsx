@@ -1,31 +1,32 @@
 import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { COLOR_DBE2EF } from 'libs/css/color'
+import { COLOR_DBE2EF, WHITE } from 'libs/css/color'
 import shortid from 'shortid'
 import Images from './Images'
 import { POST_DELETE_REQUEST } from 'reducers/post'
 import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
-import { message, Popconfirm } from 'antd'
+import { message, Popconfirm, Tooltip } from 'antd'
 import PostTags from './PostTags'
-import { BiCustomize } from 'react-icons/bi'
 import moment from 'moment'
 import 'moment/locale/ko'
 import { PostProps } from 'libs/type'
 import PostNormal from './PostNormal'
 import PostEdit from './PostEdit'
 import EditImages from './EditImages/EditImages'
+import { BsThreeDots } from 'react-icons/bs'
 
 moment.locale('ko');
 
 const PostsInnerContainer = styled.div`
   display: block;
-  margin: 1rem;
   max-height: 45rem;
   min-height: 15rem;
   border: 1px solid ${COLOR_DBE2EF};
   border-radius: 0.5rem;
   position: relative;
+  margin: 1.5rem;
+  background-color: ${WHITE};
 `
 
 const ContentContainer = styled.div`
@@ -48,16 +49,22 @@ const TagDiv = styled.div`
 `
 
 const DeleteDiv = styled.div`
-  width: 35%;
   color: 'black';
   text-align: right;
   position: absolute;
   top: 0.5rem;
+  right: 0.5rem;
+`
+
+const TooltipStyle = styled(Tooltip)`
+  position: absolute;
   right: 2.5rem;
+  font-size: 1.5rem;
+  top: -0.4rem;
 `
 
 
-const BiCustomizeStyle = styled(BiCustomize)`
+const BsThreeDotsStyle = styled(BsThreeDots)`
   right: 1rem;
   top: 0.5rem;
   position: absolute;
@@ -65,16 +72,6 @@ const BiCustomizeStyle = styled(BiCustomize)`
   margin-left: 0.5rem;
   cursor: pointer;
   `
-
-const RemoveBtn = styled(DeleteOutlined)`
-    right: 0rem;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    margin-right: 2.7rem;
-    position: absolute;
-    cursor: pointer;
-  `
-
 
 const Atag = styled.a`
   text-decoration: none;
@@ -122,7 +119,7 @@ const _Post:FC<PostProps> = (props) => {
             me !== null
             ?
             <>
-              <BiCustomizeStyle onClick={onChangeModify}/>
+              <BsThreeDotsStyle onClick={onChangeModify}/>
               <DeleteDiv>
                 {
                   modify === true ?
@@ -134,9 +131,11 @@ const _Post:FC<PostProps> = (props) => {
                           okText="삭제"
                           cancelText="취소"
                           icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
-                          placement="rightTop"
+              
                         >
-                          <Atag href="#"><RemoveBtn/></Atag>
+                        <TooltipStyle title="게시물 삭제">
+                          <Atag href="#"><DeleteOutlined/></Atag>
+                        </TooltipStyle>
                     </Popconfirm>
                   </>
                   : null

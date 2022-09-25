@@ -4,7 +4,7 @@ import { memo, useEffect } from 'react'
 import Head from 'next/head'
 import PostForm from 'components/PostForm/PostForm'
 import Posts from 'components/Posts/Posts'
-import { WHITE } from 'libs/css/color'
+import { BACKGROUND_COLOR, WHITE } from 'libs/css/color'
 import shortid from 'shortid'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
@@ -14,8 +14,8 @@ import { useInView } from 'react-intersection-observer'
 const ContentsContainer = styled.div`
   margin: auto;
   display: block;
-  background-color: ${WHITE};
   width: 100%;
+  background-color: ${BACKGROUND_COLOR};
 `
 const _index: NextPage = () => {
   const me = useSelector((state) => state.user?.me?.id)

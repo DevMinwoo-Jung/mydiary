@@ -1,4 +1,4 @@
-import { Button, DatePicker, DatePickerProps, Form, Input } from 'antd'
+import { Button, DatePicker, DatePickerProps, Form, Input, Tooltip } from 'antd'
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react' 
 import styled from 'styled-components'
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
@@ -6,24 +6,25 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import { size } from 'libs/css/layout'
-import { BUTTON_COLOR, COLOR_BACKGROUND_DEFAULT, COLOR_DBE2EF, WHITE } from 'libs/css/color'
+import { BORDER_COLOR, BUTTON_COLOR, COLOR_DBE2EF, FONT_COLOR, WHITE } from 'libs/css/color'
 import useInput from 'libs/hook/useInput'
-import SearchForm from 'components/SearchForm/SearchForm'
 import Images from 'components/Posts/Images'
+import { BiMessageAltAdd, BiHide, BiShow } from 'react-icons/bi'
+import { BsImage } from 'react-icons/bs'
 
 moment.locale('ko');
 
 const PostFormContainer = styled(Form)`
   display: block;
-  margin: 3rem 1rem 1rem 1rem;
+  margin: 4rem 1rem 1rem 1rem;
   max-height: 60rem;
   min-height: 20rem;
   border: 1px solid ${COLOR_DBE2EF};
   border-radius: 0.5rem;
   position: relative;
+  background-color: ${WHITE};
 `
 const InnerPostFormDiv = styled.div`
-  border: 6px solid ${COLOR_BACKGROUND_DEFAULT};
   border-radius: 1rem;
   width: 100%;
   margin-top: 3rem;
@@ -67,28 +68,38 @@ const DatePickerStyle = styled(DatePicker)`
   font-style: normal;
 `
 
-const ButtonStyle = styled(Button)`
-  width: 100px;
+const AddButtonStyle = styled(BiMessageAltAdd)`
   position: right;
-  font-size: 12px;
+  font-size: 2rem;
   margin: 5px;
   border-radius: 9px;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
+  color: ${FONT_COLOR};
   border-color: none;
+  cursor: pointer;
   &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
-    background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
+    background-color: ${WHITE};
+    border-color: ${BORDER_COLOR};
+    color: ${FONT_COLOR};
     font-weight: bolder;
   }
   &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
-        background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
+    background-color: ${WHITE};
+    border-color: ${BORDER_COLOR};
+    color: ${FONT_COLOR};
     font-weight: bolder;
   }
 `
+const AddImageButtonStyle = styled(BsImage)`
+  position: right;
+  font-size: 1.8rem;
+  margin: 5px;
+  border-radius: 9px;
+  color: ${FONT_COLOR};
+  border-color: none;
+  cursor: pointer;
+
+`
+
 
 const PostFormHeader = styled.div`
   margin-top: 1rem;
@@ -113,12 +124,14 @@ const PostFormHeader = styled.div`
 const HideButton = styled(Button)`
   cursor: pointer;
   position: absolute;
-  right: 1rem;
+  top: 4rem;
+  right: 32rem;
   width: 100px;
   font-size: 12px;
   border-radius: 9px;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
+  background-color: ${WHITE};
+  border-color: ${BORDER_COLOR};
+  color: ${FONT_COLOR};
   border-color: none;
   &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
     background-color: ${BUTTON_COLOR};
@@ -132,11 +145,6 @@ const HideButton = styled(Button)`
     color: ${WHITE};
     font-weight: bolder;
   }
-`
-
-const SearchFormDiv = styled.div`
-  position: absolute;
-  right: 8rem;
 `
 
 const ButtonsDiv = styled.div`
@@ -153,6 +161,22 @@ const DateStyle = styled.span`
 const ImgsDiv = styled.div`
   width: 100%;
   z-index: 100;
+`
+
+const BiHideStyle = styled(BiHide)`
+  font-size: 2rem;
+  cursor: pointer;
+  position: absolute;
+  top: 4rem;
+  right: 32rem;
+`
+
+const BiShowStyle = styled(BiShow)`
+  font-size: 2rem;
+  cursor: pointer;
+  position: absolute;
+  top: 4rem;
+  right: 32rem;
 `
 
 export const _PostForm = () => {
@@ -232,22 +256,17 @@ export const _PostForm = () => {
     <>
       {
         showForm === true
-        ? <HideFormContainer>
-            <PostFormHeader>
-              <SearchFormDiv>
-                <SearchForm/>
-              </SearchFormDiv>
-              <HideButton onClick={hideForm}>글 작성하기</HideButton>
-            </PostFormHeader>
-          </HideFormContainer>
+        ? 
+          <>
+          <Tooltip title="작성하기">
+            <BiShowStyle onClick={hideForm}/>
+          </Tooltip>
+          </>
         :
         <>
-            <PostFormHeader>
-              <SearchFormDiv>
-                <SearchForm/>
-              </SearchFormDiv>
-            <HideButton onClick={hideForm}>숨기기</HideButton>
-          </PostFormHeader>
+          <Tooltip title="숨기기">
+            <BiHideStyle onClick={hideForm}></BiHideStyle>
+          </Tooltip>
           <PostFormContainer name="image" encType="multipart/form-data" onFinish={onSubmit}>
           <ImgsDiv>
               {
@@ -271,8 +290,12 @@ export const _PostForm = () => {
                 placeholder="무엇이든 기록해봐요"/>
             <ButtonsDiv>
               <input type='file' name='image'multiple hidden ref={imageInput} onChange={onChangeImages}/>
-              <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
-              <ButtonStyle htmlType='submit'>추가</ButtonStyle>
+              <Tooltip title="이미지 추가">
+                <AddImageButtonStyle onClick={onClickImageUploads}/>
+              </Tooltip>
+              <Tooltip title="게시물 업로드">
+                <AddButtonStyle onClick={onSubmit}></AddButtonStyle>
+              </Tooltip>
             </ButtonsDiv>
           </InnerPostFormDiv>
           </PostFormContainer>

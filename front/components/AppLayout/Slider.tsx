@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useCallback } from 'react'
 import styled from 'styled-components'
 import { Menu } from 'antd'
 import type { MenuProps } from 'antd'
@@ -6,20 +6,25 @@ import {
   UserOutlined,
   BarChartOutlined,
   HomeOutlined,
+  LogoutOutlined,
 } from '@ant-design/icons'
 import { useRouter } from 'next/router'
-import { FONT_WHITE, COLOR_MAIN, WHITE } from '../../libs/css/color'
+import {  COLOR_MAIN, FONT_COLOR, GRAY } from '../../libs/css/color'
 import UserInfoMini from 'components/Profile/UserInfoMini'
 import { ToggleProps } from 'libs/type'
+import { POST_REQUEST_FASLE } from 'reducers/post'
+import { LOG_OUT_REQUEST } from 'reducers/user'
+import { useDispatch } from 'react-redux'
 
 const SidebarContainer = styled.aside<{ isOpened: boolean }>`
+  margin-top: 3rem;
   background: ${COLOR_MAIN};
   width: ${(props) => (props.isOpened ? "10rem" : "0")};
   transition: width 0.5s;
   overflow: hidden;
-  position: absolute;
+  position: fixed;
   z-index: 10;
-  border: 1px solid ${COLOR_MAIN};
+  border: 1px solid ${GRAY};
   & .ant-menu-item::after {
     border-right: ${COLOR_MAIN};
   }
@@ -32,14 +37,20 @@ const SidebarContainer = styled.aside<{ isOpened: boolean }>`
 `;
 
 const MenuStyle = styled(Menu)`
-  background: ${COLOR_MAIN};
-  color: ${FONT_WHITE};
+  color: ${FONT_COLOR};
   width: 10rem;
-  border-color: ${COLOR_MAIN};
+  border-color: ${GRAY};
 `
 
 const UserInfoContainer = styled.div`
 
+`
+
+const LogoutContainer = styled.div`
+  width: 100%;
+`
+const LogoutOutlinedStyled = styled(LogoutOutlined)`
+  margin-right: 0.5rem;
 `
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -61,11 +72,24 @@ function getItem(
 const _Slider = (props: ToggleProps) => {
   const { isOpened, toggleDrawer } = props
   const router = useRouter()
+  const dispatch = useDispatch()
+
+  const onLogout = useCallback((e) => {
+    dispatch({
+      type: LOG_OUT_REQUEST
+    })
+    router.push('/')
+    dispatch({
+      type: POST_REQUEST_FASLE
+    })
+    toggleDrawer(false);
+  }, [])
+
   const items: MenuItem[] = [
     getItem('','0', <UserInfoContainer><UserInfoMini/></UserInfoContainer>),
     getItem('메인화면', '1', <HomeOutlined />),
     getItem('내 정보', '2', <UserOutlined />),
-    getItem('기록 보기', '3', <BarChartOutlined />)]
+    getItem('', '3', <LogoutContainer onClick={onLogout}><LogoutOutlinedStyled />로그아웃</LogoutContainer> )]
     
   const onMoveRecord = (e) => {
     if (e.keyPath[0] === '1') {
@@ -73,9 +97,6 @@ const _Slider = (props: ToggleProps) => {
       toggleDrawer(false)
     } else if (e.keyPath[0] === '2') {
       router.push('/profile')
-      toggleDrawer(false)
-    } else if (e.keyPath[0] === '3') {
-      router.push('/record')
       toggleDrawer(false)
     }
   } 

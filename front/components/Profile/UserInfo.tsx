@@ -1,4 +1,4 @@
-import { Button, Input, Typography } from 'antd'
+import { Button, Input, message, Popconfirm, Tooltip } from 'antd'
 import { size } from 'libs/css/layout'
 import { Divider } from 'antd'
 import React, { memo, useCallback, useEffect, useState } from 'react'
@@ -6,10 +6,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
 import { HIDE_MODIFY_FORM, USER_INFO_MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
-import { BUTTON_COLOR, WHITE } from 'libs/css/color'
+import { BORDER_COLOR, FONT_COLOR, GRAY, WHITE } from 'libs/css/color'
 import router from 'next/router'
 import RemoveUser from './RemoveUser'
 import { useLengthCheck } from 'libs/hook/useLengthCheck'
+import { TiCancel } from 'react-icons/ti'
+import { FiEdit } from 'react-icons/fi'
+import { IoPersonRemove } from 'react-icons/io5'
+import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 
 const UserInfoContainer = styled.div`
   display: block;
@@ -28,19 +32,6 @@ const ParagraphStyle = styled.p`
 
 const UserInfoDiv = styled.div`
   width: 100%;
-  /* & div {
-    @media screen and (max-width: ${size.tablet}) { 
-    display: block;
-    width: 175px;
-  } */
-  /* @media screen and (min-width: ${size.tablet}) {
-    width: 45%;
-  }
-
-  @media screen and (min-width: ${size.laptopL}) {
-    width: 300px;
-  } */
-}
 `
 
 const UserInfoInnerDiv = styled.div`
@@ -91,19 +82,21 @@ const ButtonDiv = styled.div`
   bottom: 1rem;
 `
 
-const ButtonStyle = styled(Button)`
-  width: 100px;
-  font-size: 12px;
-  margin: 5px;
-  border-radius: 9px;
-  -webkit-box-shadow: 0px 3px 10px 2px #ABABAB; 
-  box-shadow: 0px 3px 10px 2px #ABABAB;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
-  border-color: none;
-  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
-    font-weight: bolder;
-  }
+const TiCancelStyle = styled(TiCancel)`
+  font-size: 2rem;
+  cursor: pointer;
+`
+
+const ModifyIconStyle = styled(FiEdit)`
+  font-size: 2rem;
+  cursor: pointer;
+`
+
+const ModifyIconDisabledStyle = styled(FiEdit)`
+  font-size: 2rem;
+  cursor: none;
+  pointer-events: none;
+  color: ${GRAY};
 `
 
 const ModalContainer = styled.div`
@@ -121,6 +114,18 @@ const ModifyButtonDiv = styled.div`
   right: 1rem;
   bottom: 1rem;
   display: flex;
+`
+
+const RemoveUserDiv = styled.div`
+  position: absolute;
+  right: 6.2rem;
+  bottom: 2rem;
+  display: flex;
+`
+
+const IoPersonRemoveStyle = styled(IoPersonRemove)`
+  font-size: 2rem;
+  cursor: pointer;
 `
 
 
@@ -186,6 +191,19 @@ const _UserInfo = () => {
       setPasswordAlert(false)
     }
   }, [checkPassword, userPassword])
+
+  const confirm = () => {
+    dispatch({
+      type: USER_REMOVE_REQUEST,
+    })
+    router.push('/')
+  };
+  
+  const cancel = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(e);
+    message.error('탈퇴가 취소되었습니다.');
+  };
+
 
   return (
   <>
@@ -265,22 +283,47 @@ const _UserInfo = () => {
           showModifyForm === true
           ?
           <ModifyButtonDiv>
-            <ButtonStyle disabled={buttonDisabled} onClick={onModify}>수정하기</ButtonStyle>
-            <ButtonStyle onClick={onCancel}>취소</ButtonStyle>
+            {
+              buttonDisabled 
+              ?
+                  <ModifyIconDisabledStyle/>
+              :
+              <>
+                <Tooltip title="수정하기">
+                  <ModifyIconStyle onClick={onModify}/>
+                </Tooltip>
+              </>
+            }
+
+            <Tooltip title="취소">
+              <TiCancelStyle onClick={onCancel}/>
+            </Tooltip>
           </ModifyButtonDiv>
           :
           <ModifyButtonDiv>
-            <ButtonStyle onClick={showModal}>탈퇴하기</ButtonStyle>
+
           </ModifyButtonDiv>
         }
       </ButtonDiv>
       {
-        isModalOpen === true ?
-          <ModalContainer>
-            <RemoveUser closeModal={closeModal} isModalOpen={isModalOpen}/>
-          </ModalContainer>
-          : null
-      }
+          showModifyForm === true
+          ?
+        <RemoveUserDiv>
+          <Popconfirm
+            title="탈퇴할 경우 게시물은 복구할 수 없습니다."
+            onCancel={cancel}
+            onConfirm={() => confirm()}
+            okText="삭제"
+            cancelText="취소"
+            icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
+            >
+              <Tooltip title="탈퇴하기">
+                <IoPersonRemoveStyle onClick={showModal}/>
+              </Tooltip>
+          </Popconfirm>
+        </RemoveUserDiv>
+        : null
+        }
   </UserInfoContainer>
   </>
   )

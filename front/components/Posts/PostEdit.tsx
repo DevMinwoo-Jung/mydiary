@@ -1,5 +1,5 @@
-import { Button, DatePicker, DatePickerProps, Form, Input } from 'antd'
-import { BUTTON_COLOR, COLOR_DBE2EF, WHITE } from 'libs/css/color'
+import { DatePicker, DatePickerProps, Form, Input, Tooltip } from 'antd'
+import { BORDER_COLOR, COLOR_DBE2EF, FONT_COLOR } from 'libs/css/color'
 import { size } from 'libs/css/layout'
 import useInput from 'libs/hook/useInput'
 import { PostProps } from 'libs/type'
@@ -8,16 +8,14 @@ import React, { FC, memo, useCallback, useEffect, useRef, useState } from 'react
 import { useDispatch, useSelector } from 'react-redux'
 import { MODIFY_POST_REQUEST, REMOVE_EXIST_IMAGE_ID_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST } from 'reducers/post'
 import styled from 'styled-components'
-import { CheckOutlined } from '@ant-design/icons'
+import { BsImage } from 'react-icons/bs'
+import { FiEdit } from 'react-icons/fi'
+
 
 const PostFormHeader = styled.div`
-  width: 100%;
-  display: flex;
-  text-align: left;
-  font-size: 1rem;
-  position: relative;
-  vertical-align: middle;
-  justify-content: space-between;
+  position: absolute;
+  top: 0.2rem;
+  right: 7rem;
   & Input {
     width: 120px;
     text-align: center;
@@ -48,36 +46,19 @@ const DateStyle = styled.span`
   height: 32px;
   line-height: 32px;
 `
-const ButtonStyle = styled(Button)`
-  width: 140px;
-  height: 32px;
+const AddImageButtonStyle = styled(BsImage)`
   position: right;
-  font-size: 12px;
-  margin-left: 1rem;
-  border-radius: 0.6rem;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
-  
-  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
-    background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
-    font-weight: bolder;
-  }
-  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
-    background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
-    font-weight: bolder;
-  }
+  font-size: 1.6rem;
+  margin: 5px;
+  color: ${FONT_COLOR};
+  cursor: pointer;
 `
+
 
 const TextContainer = styled(Input.TextArea)`
   justify-content: center;
   width: 100%;
   margin: auto;
-  border: 1px solid ${COLOR_DBE2EF};
-  border-radius: 1rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   position: relative;
@@ -85,8 +66,8 @@ const TextContainer = styled(Input.TextArea)`
     text-align: center;
     font-weight: bolder;
   }
-  & .textarea.ant-input {
-    height: 300px;
+  &.ant-input {
+    height: 280px;
   }
   @media screen and (max-width: ${size.tablet}) { 
     width: 100%;
@@ -94,8 +75,8 @@ const TextContainer = styled(Input.TextArea)`
   }
 `
 
-const CheckOutlinedStyle = styled(CheckOutlined)`
-  right: 3rem;
+const ModifyIconStyle = styled(FiEdit)`
+  right: 5rem;
   top: 0.5rem;
   font-size: 1.5rem;
   bottom: 1.7rem;
@@ -183,17 +164,21 @@ const _PostEdit:FC<PostProps> = (props) => {
           ? ''
           : <DateStyle>{moment(`${date}`).format('dddd')}</DateStyle>
         }
-      <CheckOutlinedStyle onClick={onModify}/>
-      <PostFormHeader>
-        <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>
-        <ButtonStyle onClick={onClickImageUploads}>이미지 업로드</ButtonStyle>
-      </PostFormHeader>
+      <Tooltip title="게시물 수정">
+        <ModifyIconStyle onClick={onModify}/>
+      </Tooltip>
         <TextContainer
           rows={5}
           value={text}
           onChange={onChangeText}
           maxLength={400}
           />
+        <PostFormHeader>
+          <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>
+          <Tooltip title="이미지 추가">
+            <AddImageButtonStyle onClick={onClickImageUploads}/>
+          </Tooltip>  
+      </PostFormHeader>
     </Form>
   ) 
 }

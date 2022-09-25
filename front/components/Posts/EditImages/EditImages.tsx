@@ -2,11 +2,11 @@ import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button } from 'antd'
-import { BUTTON_COLOR, WHITE } from 'libs/css/color'
+import { BACKGROUND_COLOR, BUTTON_COLOR } from 'libs/css/color'
 import { LOAD_EDIT_IMAGE, REMOVE_EDIT_IMAGE } from 'reducers/post'
 import DeleteDiv from '../DeleteDiv'
 import useToggle from 'libs/hook/useToggle'
+import { IoTrashBinOutline } from 'react-icons/io5'
 
 
 type image = {
@@ -62,28 +62,27 @@ const CaretRightOutlinedStyle = styled(CaretRightOutlined)`
 const ImgStyle = styled.img`
 `
 
-const RemoveButtonStyle = styled(Button)`
+const RemoveButtonStyle = styled(IoTrashBinOutline)`
   position: absolute;
-  top: 2rem;
-  right: 2rem;
-  width: 20%;
+  top: 1rem;
+  right: 1rem;
   margin: auto;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 1.5rem;
   border-radius: 9px;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
+  color: ${BACKGROUND_COLOR};
   border-color: none;
+  font-weight: bolder;
   &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
     background-color: ${BUTTON_COLOR};
     border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
+    color: ${BACKGROUND_COLOR};
     font-weight: bolder;
   }
   &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
     background-color: ${BUTTON_COLOR};
     border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
+    color: ${BACKGROUND_COLOR};
     font-weight: bolder;
   }
 `

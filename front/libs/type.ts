@@ -12,5 +12,5 @@ export type PostProps = {
 
 export type ToggleProps = {
   isOpened: boolean,
-  toggleDrawer: (closed:boolean) => boolean,
+  toggleDrawer: (closed:boolean) => void,
 }

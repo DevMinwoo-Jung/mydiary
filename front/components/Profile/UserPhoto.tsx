@@ -1,13 +1,14 @@
 import { EditOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Button, Form } from 'antd'
+import { Avatar, Button, Form, Tooltip } from 'antd'
 import { size } from 'libs/css/layout'
 import React, { memo, useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Typography } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { ISPOST_IMAGE_FALSE, ISPOST_IMAGE_TRUE, SHOW_MODIFY_FORM } from 'reducers/user'
-import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
+import { BORDER_COLOR, BUTTON_COLOR, COLOR_MAIN, FONT_COLOR, WHITE } from 'libs/css/color'
 import { LOAD_PROFILE_REQUEST, MODIFY_PROFILE_IMAGE_REQUEST, UPLOAD_PROFILE_IMAGES_REQUEST } from 'reducers/post'
+import { BsImage } from 'react-icons/bs'
 
 const { Paragraph } = Typography
 
@@ -40,7 +41,8 @@ const ParagraphStyle = styled(Paragraph)`
   font-size: 1.5rem;
   font-weight: bolder;
   margin-top: 1.5rem;
-  color: ${WHITE};
+  margin-bottom: 0;
+  color: ${FONT_COLOR};
 `
 
 const ParagraphDivStyle = styled.div`
@@ -62,20 +64,20 @@ const ButtonStyle = styled(Button)`
   right: 25%;
   font-size: 12px;
   border-radius: 9px;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
-  border: none;
-  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active, .ant-btn {
-    background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
+  background-color: ${WHITE};
+  border-color: ${BORDER_COLOR};
+  color: ${FONT_COLOR};
+  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
+    background-color: ${WHITE};
+    border-color: ${BORDER_COLOR};
+    color: ${FONT_COLOR};
     font-weight: bolder;
   }
-  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active, .ant-btn {
-        background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
-    font-weight: bolder;
+  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
+    background-color: ${WHITE};
+  border-color: ${BORDER_COLOR};
+  color: ${FONT_COLOR};
+  font-weight: bolder;
   }
   @media screen and (max-width: ${size.mobileL}) { 
     position: absolute;
@@ -110,6 +112,17 @@ const RemoveButtonStyle = styled(Button)`
     color: ${WHITE};
     font-weight: bolder;
   }
+`
+
+const AddImageButtonStyle = styled(BsImage)`
+  position: right;
+  font-size: 1.8rem;
+  margin: 5px;
+  border-radius: 9px;
+  color: ${FONT_COLOR};
+  border-color: none;
+  cursor: pointer;
+
 `
 
 const _UserPhoto = () => {
@@ -190,7 +203,12 @@ const _UserPhoto = () => {
             {nickname} 님 <EditOutlinedStyle onClick={onUserModify}/>
           </ParagraphStyle>
           {
-            showModifyForm && <ButtonStyle onClick={onClickImageUploads}>프로필 이미지 추가</ButtonStyle>
+            showModifyForm && 
+            <>
+              <Tooltip title="프로필 이미지 추가">
+                <AddImageButtonStyle onClick={onClickImageUploads}/>
+              </Tooltip>
+            </>
           }
           <input type='file' name='image'multiple hidden ref={imageInput} onChange={onChangeImages}/>
         </ParagraphDivStyle>

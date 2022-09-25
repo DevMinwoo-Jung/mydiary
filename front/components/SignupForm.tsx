@@ -3,7 +3,7 @@ import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
 import { MdOutlineClose } from 'react-icons/md'
-import { BUTTON_COLOR, WHITE } from 'libs/css/color'
+import { BORDER_COLOR, BUTTON_COLOR, FONT_COLOR, WHITE } from 'libs/css/color'
 import { useDispatch, useSelector } from 'react-redux'
 import { SIGN_UP_REQUEST } from 'reducers/user'
 import Router from 'next/router'
@@ -40,20 +40,14 @@ const ButtonStyle = styled(Button)`
   height: 50px;
   border-radius: 12px;
   margin-bottom: 2rem;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
+  background-color: ${WHITE};
+  border-color: ${BORDER_COLOR};
+  color: ${FONT_COLOR};
   border-color: none;
-  /* &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
-    background-color: red;
-    border-color: red;
-    color: ${WHITE};
-    font-weight: bolder;
-    cursor: none;
-  } */
   &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
-    background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
+  background-color: ${WHITE};
+  border-color: ${BORDER_COLOR};
+  color: ${FONT_COLOR};
     font-weight: bolder;
   }
 `

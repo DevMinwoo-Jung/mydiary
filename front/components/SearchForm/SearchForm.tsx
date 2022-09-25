@@ -3,20 +3,31 @@ import { Input, Menu } from 'antd'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput';
 import Router from 'next/router'
-import { BUTTON_COLOR, COLOR_DBE2EF } from 'libs/css/color';
+import { COLOR_DBE2EF, FONT_COLOR, WHITE } from 'libs/css/color';
 
 const SearchInput = styled(Input.Search)`
-  border: 1px solid ${COLOR_DBE2EF};
-  & .ant-btn-primary{
-    background-color: ${BUTTON_COLOR};
+  color: '#B0B0B0';
+  background-color: '#B0B0B0';
+  border: 1px solid #B0B0B0;
+  & .ant-btn-primary {
+    color: ${FONT_COLOR};
+    background-color: ${WHITE};
+    border: 1px solid #B0B0B0;
+    margin-right: -0.15rem;
+  }
+  & .ant-input-search > .ant-input-group > .ant-input-group-addon:last-child .ant-input-search-button {
+    color: '#B0B0B0';
+    background-color: '#B0B0B0';
   }
 `;
+const { Search } = Input;
 
 const _SearchForm = () => {
   const [searchInput, onChangeSearch] = useInput('');
   const onSearch = useCallback(() => {
     Router.push(`/hashtag/${searchInput}`)
   }, [searchInput])
+
 
   return (
   <div>  

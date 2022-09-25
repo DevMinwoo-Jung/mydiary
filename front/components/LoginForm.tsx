@@ -5,7 +5,7 @@ import useInput from 'libs/hook/useInput'
 import { MdOutlineClose } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { LOG_IN_REQUEST } from 'reducers/user'
-import { BUTTON_COLOR, WHITE } from 'libs/css/color'
+import { BORDER_COLOR, BUTTON_COLOR, FONT_COLOR, WHITE } from 'libs/css/color'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -37,14 +37,14 @@ const ButtonStyle = styled(Button)`
   width: 100%;
   height: 50px;
   border-radius: 12px;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
-  border-color: ${BUTTON_COLOR};
+  background-color: ${WHITE};
+  border-color: ${BORDER_COLOR};
+  color: ${FONT_COLOR};
   margin-bottom: 1rem;
   border-color: none;
   &.ant-btn:hover, .ant-btn:focus, ::after {
-    background-color: ${BUTTON_COLOR};
-    color: ${WHITE};
+    color: ${FONT_COLOR};
+    border-color: ${BORDER_COLOR};
     font-weight: bolder;
     font-size: 100rre;
   }

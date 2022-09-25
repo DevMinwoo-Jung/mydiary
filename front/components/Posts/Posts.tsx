@@ -5,12 +5,15 @@ import shortid from 'shortid'
 import Post from './Post'
 import { dummy } from 'reducers/post'
 import Arrow from 'lottie/Arrow'
+import { BACKGROUND_COLOR } from 'libs/css/color'
 
 const PostsContainer = styled.div`
   margin: auto;
   overflow-y: auto;
   width: 100%;
   overflow: hidden;
+  margin-top: 2.5rem;
+  background-color: ${BACKGROUND_COLOR};
 `
 
 const IntroContainer = styled.div`

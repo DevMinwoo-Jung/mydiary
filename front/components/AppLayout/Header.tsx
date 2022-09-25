@@ -7,28 +7,35 @@ import { BiMessageRoundedEdit } from 'react-icons/bi'
 import SignupForm from 'components/SignupForm'
 import LoginForm from 'components/LoginForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { LOG_OUT_REQUEST } from 'reducers/user'
-import { BUTTON_COLOR, COLOR_MAIN, WHITE } from 'libs/css/color'
+import { BACKGROUND_COLOR, BUTTON_COLOR, COLOR_MAIN, FONT_COLOR, GRAY, WHITE } from 'libs/css/color'
 import { ToggleProps } from 'libs/type'
-import { POST_REQUEST_FASLE } from 'reducers/post'
+import SearchForm from 'components/SearchForm/SearchForm'
 
 const ChevronLeftStyle = styled(ChevronLeft)`
-  color: ${WHITE};
+  color: ${FONT_COLOR};
 `
 const MenuStyle = styled(Menu)`
-  color: ${WHITE};
+  color: ${FONT_COLOR};
 `
 
 const HeaderContainer = styled.header`
+  border: 1px solid ${GRAY};
   display: flex;
+  margin-bottom: 5rem;
   background: ${COLOR_MAIN};
   height: 50px;
   align-items: center;
   justify-content: space-between;
   right: 0; 
   width: 100%;
-  position: relative;
+  position: fixed;
   z-index: 100;
+  & .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: none;
+  }
+  & .ant-menu-item-sel {
+    background-color: none;
+  }
 `;
 
 const IconContainer = styled.div`
@@ -48,20 +55,18 @@ const UserButtonContainer = styled.div`
 const ButtonStyle = styled(Button)`
   font-size: 12px;
   margin: 5px;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
-  border-color: ${BUTTON_COLOR};
-  border-color: none;
+  color: ${FONT_COLOR};
+  border: 1px ${BUTTON_COLOR};
   &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
-    background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
+    background-color: none;
+    border-color: none;
+    color: ${FONT_COLOR};
     font-weight: bolder;
   }
   &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
-        background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
+    background-color: none;
+    border-color: none;
+    color: ${FONT_COLOR};
     font-weight: bolder;
   }
 `
@@ -71,13 +76,14 @@ const HomeIcon = styled(BiMessageRoundedEdit)`
 `
 
 const HomeButtonContainer = styled.div`
-  margin: auto;
+  margin-left: 20%;
+  position: absolute;
   display: flex;
-  color: white;
+  color: ${FONT_COLOR};
   cursor: pointer;
 `
 const HomeHeader = styled.h2`
-  color: white;
+  color: ${FONT_COLOR};
   margin: 0 0 0 1rem; 
 `
 
@@ -90,6 +96,11 @@ const SignupLoginFormContainer = styled.div`
   bottom: 0;
   right: 0;
   z-index: 1;
+`
+
+const SearchFormDiv = styled.div`
+  right: 8rem;
+  margin: auto;
 `
 
 const _Header = (props: ToggleProps) => {
@@ -114,15 +125,7 @@ const _Header = (props: ToggleProps) => {
     setIsClicked((prev) => !prev)
   }, [showLogin])
 
-  const onLogout = useCallback(() => {
-    dispatch({
-      type: LOG_OUT_REQUEST
-    })
-    router.push('/')
-    dispatch({
-      type: POST_REQUEST_FASLE
-    })
-  }, [isLogin])
+
 
   const onHome = useCallback(() => {
     router.push('/')
@@ -151,14 +154,21 @@ const _Header = (props: ToggleProps) => {
           }
         </IconContainer>
         <HomeButtonContainer onClick={onHome}>
-          <HomeIcon/>
           <HomeHeader>My Dairy</HomeHeader>
         </HomeButtonContainer>
+        {
+          me
+          ?
+          <SearchFormDiv>
+          <SearchForm/>
+          </SearchFormDiv>
+          : null
+        }
         <UserButtonContainer>
           {
             me
             ?
-              <ButtonStyle onClick={onLogout}>로그아웃</ButtonStyle>
+              null
             :
               <ButtonStyle disabled={isClicked} onClick={onLogin}>로그인</ButtonStyle>
           }
