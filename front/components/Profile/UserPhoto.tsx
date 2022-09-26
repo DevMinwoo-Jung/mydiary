@@ -9,6 +9,7 @@ import { ISPOST_IMAGE_FALSE, ISPOST_IMAGE_TRUE, SHOW_MODIFY_FORM } from 'reducer
 import { BORDER_COLOR, BUTTON_COLOR, COLOR_MAIN, FONT_COLOR, WHITE } from 'libs/css/color'
 import { LOAD_PROFILE_REQUEST, MODIFY_PROFILE_IMAGE_REQUEST, UPLOAD_PROFILE_IMAGES_REQUEST } from 'reducers/post'
 import { BsImage } from 'react-icons/bs'
+import { PostsState, UserState } from 'libs/type'
 
 const { Paragraph } = Typography
 
@@ -128,11 +129,11 @@ const AddImageButtonStyle = styled(BsImage)`
 const _UserPhoto = () => {
   const dispatch = useDispatch()
 
-  const userId = useSelector((state) => state.user?.me?.userId)
-  const nickname = useSelector((state) => state.user?.me?.nickname)
-  const { imagePath } = useSelector((state) => state.post)
-  const me = useSelector((state) => state.user?.me)
-  const { userInfomodifyLoading, showModifyForm, isPosted } = useSelector((state) => state.user)
+  const userId = useSelector((state:UserState) => state.user?.me?.userId)
+  const nickname = useSelector((state:UserState) => state.user?.me?.nickname)
+  const imagePath = useSelector((state:PostsState) => state.post?.imagePath)
+  const me = useSelector((state:UserState) => state.user?.me)
+  const { userInfomodifyLoading, showModifyForm, isPosted } = useSelector((state:UserState) => state.user)
   const imageInput = useRef<any>()
 
   const onClickImageUploads = useCallback(() => {

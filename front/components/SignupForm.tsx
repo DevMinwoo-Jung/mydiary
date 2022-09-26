@@ -9,6 +9,7 @@ import { SIGN_UP_REQUEST } from 'reducers/user'
 import Router from 'next/router'
 import { useLengthCheck } from 'libs/hook/useLengthCheck'
 import useEngInput from 'libs/hook/useEngInput'
+import { UserState } from 'libs/type'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -86,7 +87,7 @@ export type SignupFormProps = {
 const _SignupForm: FC<SignupFormProps> = (props) => {
   const { onSignup } = props
 
-  const { signUpLoading, signUpDone, signUpError, me } = useSelector((state) => state.user)
+  const { signUpLoading, signUpDone, signUpError, me } = useSelector((state:UserState) => state.user)
 
   const goSignup = () => {
     onSignup()

@@ -1,9 +1,9 @@
 import React, { memo, useCallback } from 'react'
-import { Input, Menu } from 'antd'
+import { Input } from 'antd'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput';
 import Router from 'next/router'
-import { COLOR_DBE2EF, FONT_COLOR, WHITE } from 'libs/css/color';
+import { FONT_COLOR, WHITE } from 'libs/css/color';
 
 const SearchInput = styled(Input.Search)`
   color: '#B0B0B0';

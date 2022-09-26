@@ -1,8 +1,8 @@
 export type PostObject = {
   content: string;
-  id: string;
+  id: any;
   date: string;
-  Images: []
+  Images?: any
 }
 
 export type PostProps = {
@@ -15,16 +15,45 @@ export type ToggleProps = {
   toggleDrawer: (closed:boolean) => void,
 }
 
-export type PostsState = {
-  post: PostsState,
-  mainPosts: [],
-  hashTagPosts: [],
+type ImagePathRype = {
+  filename: string | null,
+  src: string | null,
+}
+
+type HashTagPostsType = {
+  id: string,
+  date: string,
+  content: string,
+  createAt: string,
+  updatedAt: string,
+  UserId: string,
+
+}
+
+type UserType = {
+  userId: string,
+  nickname: string
+}
+
+type MainPostsType = {
+  id: string,
+  date: string,
+  content: string,
+  createAt: string,
+  updatedAt: string,
+  Images?: any
+  User: UserType
+}
+
+type PostStateType = {
+  mainPosts: MainPostsType[],
+  hashTagPosts: HashTagPostsType[],
   hasMorePosts: boolean,
   hashTagStatus: boolean,
   postRequest: boolean,
   imagePaths: [],
   modifyImagePaths: [],
-  imagePath: null,
+  imagePath: ImagePathRype,
   deleteLoading: boolean,
   deleteDone: boolean,
   deleteError: null,
@@ -61,6 +90,10 @@ export type PostsState = {
   loadHashTagPostsLoading: boolean,
   loadHashTagPostsDone: boolean,
   loadHashTagPostsError: null,
+}
+
+export type PostsState = {
+  post: PostStateType,
 };
 
 export type Me = {
@@ -71,7 +104,7 @@ export type Me = {
   updatedAt: string;
 }
 
-export type UserState = {
+type UserStateType = {
   logInLoading: boolean, // 로그인 시도중
   logInDone: boolean,
   logInError: null,
@@ -95,4 +128,8 @@ export type UserState = {
   showModifyForm: boolean,
   isPosted: boolean,
   postRequest: boolean,
+}
+
+export type UserState = {
+  user:UserStateType;
 };

@@ -10,7 +10,7 @@ import { message, Popconfirm, Tooltip } from 'antd'
 import PostTags from './PostTags'
 import moment from 'moment'
 import 'moment/locale/ko'
-import { PostProps } from 'libs/type'
+import { PostProps, UserState } from 'libs/type'
 import PostNormal from './PostNormal'
 import PostEdit from './PostEdit'
 import EditImages from './EditImages/EditImages'
@@ -85,8 +85,8 @@ const _Post:FC<PostProps> = (props) => {
   const { post } = props 
   const dispatch = useDispatch()
   const [modify, setModify] = useState(false)
-  const me = useSelector((state) => state.user.me)
-  const id = useSelector((state) => state.user.me?.id);
+  const me = useSelector((state:UserState) => state.user.me)
+  const id = useSelector((state:UserState) => state.user.me?.id);
 
   const onChangeModify = useCallback(() => {
     setModify((prev) => !prev)
@@ -100,7 +100,7 @@ const _Post:FC<PostProps> = (props) => {
     setModify(false)
   }, [id, modify])
 
-  const confirm = (e: React.MouseEvent<HTMLElement> | string) => {
+  const confirm = (e: string) => {
     console.log(e);
     onRemovePost(e)
     message.success('삭제되었습니다.');

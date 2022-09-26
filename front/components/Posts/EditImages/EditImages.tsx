@@ -7,6 +7,7 @@ import { LOAD_EDIT_IMAGE, REMOVE_EDIT_IMAGE } from 'reducers/post'
 import DeleteDiv from '../DeleteDiv'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
+import { PostObject, PostProps, PostsState } from 'libs/type'
 
 
 type image = {
@@ -16,6 +17,7 @@ type image = {
 
 export type EditImagesProps = {
   image: image[];
+  post: PostObject
 }
 
 const ImageContainer = styled.div`
@@ -107,7 +109,7 @@ const Slide = styled.div`
 
 const _EditImages:FC<EditImagesProps>  = (props) => {
   const dispatch = useDispatch()
-  const { modifyImagePaths } = useSelector((state) => state.post)
+  const { modifyImagePaths } = useSelector((state:PostsState) => state.post)
   const { image } = props
   const [currentSlide, setCurrentSlide] = useState(0);
   const [hideDelete, toggle] = useToggle()

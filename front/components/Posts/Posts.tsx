@@ -9,6 +9,7 @@ import { END } from "redux-saga";
 import axios from "axios";
 import wrapper from 'store/configureStore'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
+import { PostsState, UserState } from 'libs/type'
 
 const PostsContainer = styled.div`
   margin: auto;
@@ -20,10 +21,9 @@ const PostsContainer = styled.div`
 
 
 const _Posts = () => {
-  const mainPosts = useSelector((state) => state.post.mainPosts, shallowEqual)
-  const me = useSelector((state) => state.user.me)
-  const UserId = useSelector((state) => state.user?.me?.id)
-  const postRequest = useSelector((state) => state.post?.postRequest)
+  const mainPosts = useSelector((state:PostsState) => state.post.mainPosts, shallowEqual)
+  const me = useSelector((state:UserState) => state.user.me)
+  const postRequest = useSelector((state:PostsState) => state.post?.postRequest)
   const dispatch = useDispatch() 
 
   useEffect(() => {

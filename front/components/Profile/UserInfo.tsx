@@ -13,6 +13,7 @@ import { TiCancel } from 'react-icons/ti'
 import { FiEdit } from 'react-icons/fi'
 import { IoPersonRemove } from 'react-icons/io5'
 import { QuestionCircleOutlined } from '@ant-design/icons'
+import { UserState } from 'libs/type'
 
 const UserInfoContainer = styled.div`
   display: block;
@@ -133,9 +134,9 @@ const IoPersonRemoveStyle = styled(IoPersonRemove)`
 const _UserInfo = () => {
   const dispatch = useDispatch()
 
-  const { showModifyForm } = useSelector((state) => state.user)
-  const nickname = useSelector((state) => state.user?.me?.nickname)
-  const userId = useSelector((state) => state.user?.me?.userId)
+  const { showModifyForm } = useSelector((state:UserState) => state.user)
+  const nickname = useSelector((state:UserState) => state.user?.me?.nickname)
+  const userId = useSelector((state:UserState) => state.user?.me?.userId)
 
   const [userNickname, onChangeUserNickname ] = useInput('')
   const [userPassword, onChangeUserPassword] = useInput('')

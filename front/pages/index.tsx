@@ -15,6 +15,7 @@ import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 import axios from 'axios'
 import wrapper from 'store/configureStore'
 import { END } from "redux-saga";
+import { PostsState, UserState } from 'libs/type'
 
 const ContentsContainer = styled.div`
   margin: auto;
@@ -45,8 +46,8 @@ const IntroPara = styled.p`
 `
 
 const _index: NextPage = () => {
-  const me = useSelector((state) => state.user?.me?.id)
-  const { hasMorePosts, loadPostsLoading, mainPosts } = useSelector((state) => state.post, shallowEqual)
+  const me = useSelector((state:UserState) => state.user?.me?.id)
+  const { hasMorePosts, loadPostsLoading, mainPosts } = useSelector((state:PostsState) => state.post, shallowEqual)
   const dispatch = useDispatch()   
   const [ref, inView] = useInView()
 
@@ -128,9 +129,9 @@ const _index: NextPage = () => {
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   console.log(context);
   const cookie = context.req ? context.req.headers.cookie : null;
-  axios.defaults.headers.Cookie = null; // 쿠키 공유 방지
+  axios.defaults.headers.common.Cookies = null; // 쿠키 공유 방지
   if (context.req && cookie) {
-      axios.defaults.headers.Cookie = cookie; /// 서버에 쿠키 전달! 
+    axios.defaults.headers.common.Cookies = cookie; /// 서버에 쿠키 전달! 
   }
   context.store.dispatch({
     type: LOAD_MY_INFO_REQUEST

@@ -9,6 +9,7 @@ import useToggle from 'libs/hook/useToggle'
 import DeleteDiv from './DeleteDiv'
 import { IoTrashBinOutline } from 'react-icons/io5'
 import Image from 'next/image'
+import { UserState } from 'libs/type'
 
 
 type image = {
@@ -113,7 +114,7 @@ const _Images:FC<ImagesProps>  = (props) => {
   const { image, type } = props
   const dispatch = useDispatch()
   const [hideDelete, toggle] = useToggle()
-  const { me } = useSelector((state) => state.user)
+  const { me } = useSelector((state:UserState) => state.user)
 
   const onShowPrevImg = (e) => {
     if (currentSlide === 0) {

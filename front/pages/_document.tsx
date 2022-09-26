@@ -32,8 +32,8 @@ export default class MyDocument extends Document {
       <Html>
         <Head />
         <body>
-          <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2Ces2016%2Ces2017%2Ces2018%2Ces2019%2Ces2020"></script>
           {/* internet expoler에서도 돌아가게 */}
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2Ces2016%2Ces2017%2Ces2018%2Ces2019%2Ces2020"></script>
           <Main />
           <NextScript />
         </body>

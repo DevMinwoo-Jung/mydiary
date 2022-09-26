@@ -4,6 +4,7 @@ import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { LOAD_PROFILE_REQUEST } from 'reducers/post'
 import { useDispatch, useSelector } from 'react-redux'
+import { PostsState, UserState } from 'libs/type'
 
 const UserInfoMiniContainer = styled.div`
   
@@ -23,8 +24,8 @@ const ImgStyle = styled.img`
 
 const UserInfoMini = () => {
   const dispatch = useDispatch()
-  const { imagePath } = useSelector((state) => state.post)
-  const me = useSelector((state) => state.user?.me)
+  const { imagePath } = useSelector((state:PostsState) => state.post)
+  const me = useSelector((state:UserState) => state.user?.me)
 
   useEffect(() => {
     if(me !== null){

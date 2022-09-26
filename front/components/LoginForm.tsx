@@ -6,6 +6,7 @@ import { MdOutlineClose } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { LOG_IN_REQUEST } from 'reducers/user'
 import { BORDER_COLOR, BUTTON_COLOR, FONT_COLOR, WHITE } from 'libs/css/color'
+import { UserState } from 'libs/type'
 
 const LoginFormContainer = styled.div`
   position: absolute;
@@ -74,7 +75,7 @@ export type LoginFormProps = {
 
 const _LoginForm: FC<LoginFormProps> = (props) => {
   const { onLogin } = props
-  const { logInError, logInDone } = useSelector((state) => state.user)
+  const { logInError, logInDone } = useSelector((state:UserState) => state.user)
   const dispatch = useDispatch();
   const [userId, onChangeUserId] = useInput('')
   const [password, onChangePassword] = useInput('')

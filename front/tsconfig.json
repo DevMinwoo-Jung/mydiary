@@ -11,6 +11,7 @@
       "esnext"
     ],
     "allowJs": true,
+    "strictNullChecks": false,
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
@@ -24,7 +25,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "reducers/user.js"  ],
+, "reducers/user.js", "components/Tags/Tags.js", "components/Tags/Tag.js"  ],
   "exclude": [
     "node_modules"
   ]
