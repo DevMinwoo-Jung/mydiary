@@ -6,9 +6,9 @@ import { Button } from 'antd'
 import { BiMessageRoundedEdit } from 'react-icons/bi'
 import SignupForm from 'components/SignupForm'
 import LoginForm from 'components/LoginForm'
-import { useDispatch, useSelector } from 'react-redux'
-import { BACKGROUND_COLOR, BUTTON_COLOR, COLOR_MAIN, FONT_COLOR, GRAY, WHITE } from 'libs/css/color'
-import { ToggleProps } from 'libs/type'
+import { useSelector } from 'react-redux'
+import { BUTTON_COLOR, COLOR_MAIN, FONT_COLOR, GRAY } from 'libs/css/color'
+import {  ToggleProps, UserState } from 'libs/type'
 import SearchForm from 'components/SearchForm/SearchForm'
 
 const ChevronLeftStyle = styled(ChevronLeft)`
@@ -111,9 +111,10 @@ const _Header = (props: ToggleProps) => {
   const { isOpened, toggleDrawer } = props
 
   const router = useRouter()
-  const dispatch = useDispatch()
 
-  const { me, logInDone, signUpDone } = useSelector((state) => state.user)
+  const me = useSelector((state:UserState) => state.user?.me)
+  const logInDone = useSelector((state:UserState) => state.user?.logInDone)
+  const signUpDone = useSelector((state:UserState) => state.user?.signUpDone)
 
   const onSignup = useCallback(() => {
     setShowSignUp((prev) => !prev)

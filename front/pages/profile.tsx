@@ -1,11 +1,12 @@
 import UserInfo from 'components/Profile/UserInfo'
 import UserPhoto from 'components/Profile/UserPhoto'
-import { BACKGROUND_COLOR, COLOR_BACKGROUND_DEFAULT, WHITE } from 'libs/css/color'
+import { WHITE } from 'libs/css/color'
 import Head from 'next/head'
 import React, { memo, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 import styled from 'styled-components'
+
 
 const ProfileContainer = styled.div`
   width: 100%;

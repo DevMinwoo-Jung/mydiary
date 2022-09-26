@@ -27,6 +27,9 @@ const PostsInnerContainer = styled.div`
   position: relative;
   margin: 1.5rem;
   background-color: ${WHITE};
+  & :first-child {
+    margin-top: 4rem;
+  }
 `
 
 const ContentContainer = styled.div`

@@ -1,4 +1,4 @@
-import { Button, Input, message, Popconfirm, Tooltip } from 'antd'
+import { Input, message, Popconfirm, Tooltip } from 'antd'
 import { size } from 'libs/css/layout'
 import { Divider } from 'antd'
 import React, { memo, useCallback, useEffect, useState } from 'react'
@@ -6,14 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
 import { HIDE_MODIFY_FORM, USER_INFO_MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
-import { BORDER_COLOR, FONT_COLOR, GRAY, WHITE } from 'libs/css/color'
+import { GRAY } from 'libs/css/color'
 import router from 'next/router'
-import RemoveUser from './RemoveUser'
 import { useLengthCheck } from 'libs/hook/useLengthCheck'
 import { TiCancel } from 'react-icons/ti'
 import { FiEdit } from 'react-icons/fi'
 import { IoPersonRemove } from 'react-icons/io5'
-import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
+import { QuestionCircleOutlined } from '@ant-design/icons'
 
 const UserInfoContainer = styled.div`
   display: block;
@@ -169,10 +168,6 @@ const _UserInfo = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-
-  const closeModal = useCallback(() => {
-    setIsModalOpen(false)
-  }, [isModalOpen])
 
   useEffect(() => {
     if (checkNickNameLength

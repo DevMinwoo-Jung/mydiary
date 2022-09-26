@@ -1,4 +1,4 @@
-import { Button, DatePicker, DatePickerProps, Form, Input, Tooltip } from 'antd'
+import { DatePicker, DatePickerProps, Form, Input, Tooltip } from 'antd'
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react' 
 import styled from 'styled-components'
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
@@ -6,17 +6,18 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import { size } from 'libs/css/layout'
-import { BORDER_COLOR, BUTTON_COLOR, COLOR_DBE2EF, FONT_COLOR, WHITE } from 'libs/css/color'
+import { BORDER_COLOR, COLOR_DBE2EF, FONT_COLOR, WHITE } from 'libs/css/color'
 import useInput from 'libs/hook/useInput'
 import Images from 'components/Posts/Images'
 import { BiMessageAltAdd, BiHide, BiShow } from 'react-icons/bi'
 import { BsImage } from 'react-icons/bs'
+import { PostsState, UserState } from 'libs/type'
 
 moment.locale('ko');
 
 const PostFormContainer = styled(Form)`
   display: block;
-  margin: 4rem 1rem 1rem 1rem;
+  margin: 4rem 1rem 0 1rem;
   max-height: 60rem;
   min-height: 20rem;
   border: 1px solid ${COLOR_DBE2EF};
@@ -28,11 +29,6 @@ const InnerPostFormDiv = styled.div`
   border-radius: 1rem;
   width: 100%;
   margin-top: 3rem;
-`
-
-const HideFormContainer = styled(Form)`
-  width: 100%;
-  margin-bottom: 2rem;
 `
 
 const TextContainer = styled(Input.TextArea)`
@@ -97,54 +93,6 @@ const AddImageButtonStyle = styled(BsImage)`
   color: ${FONT_COLOR};
   border-color: none;
   cursor: pointer;
-
-`
-
-
-const PostFormHeader = styled.div`
-  margin-top: 1rem;
-  display: flex;
-  text-align: left;
-  margin-left: 1rem;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  position: relative;
-  vertical-align: middle;
-  & Input {
-    width: 120px;
-    text-align: center;
-    font-style: italic;
-    border: none;
-    margin-right: 1rem;
-  }
-  & h1 {
-    margin: 0 1rem 0 0;
-  }
-`
-const HideButton = styled(Button)`
-  cursor: pointer;
-  position: absolute;
-  top: 4rem;
-  right: 32rem;
-  width: 100px;
-  font-size: 12px;
-  border-radius: 9px;
-  background-color: ${WHITE};
-  border-color: ${BORDER_COLOR};
-  color: ${FONT_COLOR};
-  border-color: none;
-  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
-    background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
-    font-weight: bolder;
-  }
-  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
-        background-color: ${BUTTON_COLOR};
-    border-color: ${BUTTON_COLOR};
-    color: ${WHITE};
-    font-weight: bolder;
-  }
 `
 
 const ButtonsDiv = styled.div`
@@ -186,12 +134,13 @@ export const _PostForm = () => {
   const [userId, setUserId] = useState<string>(undefined)
   const [text, onChangeText, setText] = useInput('')
   const [showForm, setShowForm] = useState(false)
-  const { imagePaths, addPostDone } = useSelector((state) => state.post, shallowEqual);
-  const { me } = useSelector((state) => state.user, shallowEqual);
+  const imagePaths = useSelector((state:PostsState) => state.post.imagePaths, shallowEqual);
+  const addPostDone = useSelector((state:PostsState) => state.post.addPostDone, shallowEqual);
+  const me = useSelector((state:UserState) => state.user.me, shallowEqual);
 
   useEffect(() => {
     setUserId(me.userId)
-  }, [])
+  }, [me])
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setDate(dateString)
@@ -258,14 +207,18 @@ export const _PostForm = () => {
         showForm === true
         ? 
           <>
-          <Tooltip title="작성하기">
-            <BiShowStyle onClick={hideForm}/>
+          <Tooltip title="게시글 작성하기">
+            <div onClick={hideForm}>
+              <BiShowStyle/>
+            </div>
           </Tooltip>
           </>
         :
         <>
           <Tooltip title="숨기기">
-            <BiHideStyle onClick={hideForm}></BiHideStyle>
+            <div onClick={hideForm}>
+              <BiHideStyle ></BiHideStyle>
+            </div>
           </Tooltip>
           <PostFormContainer name="image" encType="multipart/form-data" onFinish={onSubmit}>
           <ImgsDiv>
@@ -291,10 +244,14 @@ export const _PostForm = () => {
             <ButtonsDiv>
               <input type='file' name='image'multiple hidden ref={imageInput} onChange={onChangeImages}/>
               <Tooltip title="이미지 추가">
-                <AddImageButtonStyle onClick={onClickImageUploads}/>
+                <div onClick={onClickImageUploads}>
+                  <AddImageButtonStyle/>
+                </div>
               </Tooltip>
               <Tooltip title="게시물 업로드">
-                <AddButtonStyle onClick={onSubmit}></AddButtonStyle>
+                <div onClick={onSubmit}>
+                  <AddButtonStyle></AddButtonStyle>
+                </div>
               </Tooltip>
             </ButtonsDiv>
           </InnerPostFormDiv>

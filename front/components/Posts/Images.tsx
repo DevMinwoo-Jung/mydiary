@@ -8,6 +8,7 @@ import { REMOVE_IMAGE } from 'reducers/post'
 import useToggle from 'libs/hook/useToggle'
 import DeleteDiv from './DeleteDiv'
 import { IoTrashBinOutline } from 'react-icons/io5'
+import Image from 'next/image'
 
 
 type image = {
@@ -112,9 +113,6 @@ const _Images:FC<ImagesProps>  = (props) => {
   const { image, type } = props
   const dispatch = useDispatch()
   const [hideDelete, toggle] = useToggle()
-
-  console.log(image)
-
   const { me } = useSelector((state) => state.user)
 
   const onShowPrevImg = (e) => {
@@ -154,11 +152,11 @@ const _Images:FC<ImagesProps>  = (props) => {
           ? 
           <>
             {
-              type === 'postForm' ? <ImgStyle src={`http://localhost:3065/${image[currentSlide]}`} alt="" />
-              : <ImgStyle src={`http://localhost:3065/${image[currentSlide].src}`} alt="" />
+              type === 'postForm' ? <ImgStyle src={`http://localhost:3065/${image[currentSlide]}`} alt=""/>
+              : <ImgStyle src={`http://localhost:3065/${image[currentSlide].src}`} alt=""/>
             }
           </>
-          : <ImgStyle src={`${image[currentSlide].src}`} alt="" /> 
+          : <ImgStyle src={`${image[currentSlide].src}`} alt=""/> 
         }
           {
             hideDelete === false ? <DeleteDiv/> : null

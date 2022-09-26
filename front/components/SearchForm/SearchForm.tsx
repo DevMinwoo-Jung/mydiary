@@ -20,7 +20,6 @@ const SearchInput = styled(Input.Search)`
     background-color: '#B0B0B0';
   }
 `;
-const { Search } = Input;
 
 const _SearchForm = () => {
   const [searchInput, onChangeSearch] = useInput('');

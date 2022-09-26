@@ -12,18 +12,19 @@ router.get('/', async (req, res, next) => { // GET /posts
     } // 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
     console.log('--------')
     console.log(req.query.lastId)
-    console.log(req.user.id)
+    console.log(req.user.id) 
+    console.log(req.body.userId)
     const posts = await Post.findAll({
-      where: { userId: req.user.id },   
       where,
       limit: 10,
       order: [
         ['createdAt', 'DESC'], 
-      ],
+      ], 
       include: [
       { 
         model: User,
         attributes: ['userId', 'nickname'],
+        where: { id: req.user.id }, 
       }, 
       {
         model: Image,
