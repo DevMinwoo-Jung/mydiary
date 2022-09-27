@@ -7,7 +7,7 @@ module.exports = (sequelize, DataType) => {
             allowNull: false,
         },
         userId: {
-            type: DataType.STRING(30),
+            type: DataType.STRING(50),
             allowNull: true, // 필수
         },
         PostId: {
