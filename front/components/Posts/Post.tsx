@@ -12,7 +12,7 @@ import moment from 'moment'
 import 'moment/locale/ko'
 import { PostProps, UserState } from 'libs/type'
 import PostNormal from './PostNormal'
-import PostEdit from './PostEdit'
+import PostEdit from './PostEdit' 
 import EditImages from './EditImages/EditImages'
 import { BsThreeDots } from 'react-icons/bs'
 
