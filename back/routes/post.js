@@ -8,14 +8,14 @@ const { User, Post, Image, Hashtag } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
 try {
-  fs.accessSync('uploads');
-} catch (error) {
-  console.log('upload 없어서 생성');
+  fs.accessSync('uploads');   
+} catch (error) {  
+  console.log('upload 없어서 생성');  
   fs.mkdirSync('uploads');
-}
-
+} 
+ 
 // form 마다 다를 수 있어서 따로 해줘야한다
-const uploads = multer({
+const uploads = multer({ 
   storage: multer.diskStorage({
       destination(req, file, done) {
           done(null, 'uploads');
@@ -106,7 +106,7 @@ router.post('/profilephoto', isLoggedIn, uploads.single('image'), async (req, re
   } catch (error) {
     console.error(error)
   }
-})
+}) 
 
 router.get('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res, next) => { 
   try {
@@ -116,7 +116,7 @@ router.get('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res
       ['createdAt', 'DESC'],
     ]
   });
-    res.status(201).json(image); 
+    res.status(201).json(image);  
   } catch (error) {
     console.error(error)
   }
@@ -137,7 +137,7 @@ router.patch('/', isLoggedIn, uploads.array(), async (req, res, next) => {
         where: { name: tag.slice(1).toLowerCase() },
       }))); // [[노드, true], [리액트, true]]
       await post.setHashtags(result.map((v) => v[0]));
-    }
+    } 
     if (req.body.image) {
       console.log('여기 오지??')
       if (Array.isArray(req.body.image)) { // 이미지 여러 개 올리면 image: [1.png, 2.png....]
@@ -172,10 +172,10 @@ router.patch('/images/:postId', isLoggedIn, async (req, res, next) => {
       where: { PostId: req.body.PostId },
     });
     res.status(201).json(updateImageId);
-  } catch(error) {
+  } catch(error) { 
     console.error(error)
     next(error)
   }
 })
 
-module.exports = router;
+module.exports = router; 

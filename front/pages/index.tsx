@@ -55,6 +55,12 @@ const _index: NextPage = () => {
   const arrowRef: any = useRef()  
 
   useEffect(() => {
+    dispatch({
+          type: LOAD_MY_INFO_REQUEST
+        })
+  }, [])
+
+  useEffect(() => {
         if (inView && hasMorePosts && !loadPostsLoading) {
           const lastId = mainPosts[mainPosts.length - 1]?.id;
           dispatch({
@@ -65,7 +71,7 @@ const _index: NextPage = () => {
     },[inView, hasMorePosts, loadPostsLoading, mainPosts]);
 
     useEffect(() => {
-      if (me === undefined) {
+      if (me == null) {
         const onScroll = () => { 
           console.log(document.documentElement.scrollHeight, document.documentElement.clientHeight, window.screenY)
           if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 2500) {
@@ -93,10 +99,10 @@ const _index: NextPage = () => {
       </Head>
       <ContentsContainer>
         {
-          me === undefined ? null : <PostForm key={shortid.generate()}/>
+          me == null ? null : <PostForm key={shortid.generate()}/>
         }
         {
-          me === undefined ?
+          me == null ?
           <>
         <IntroContainer>
           <IntroParaContainer>
@@ -129,9 +135,9 @@ const _index: NextPage = () => {
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   console.log(context);
   const cookie = context.req ? context.req.headers.cookie : null;
-  axios.defaults.headers.common.Cookies = null; // 쿠키 공유 방지
+  axios.defaults.headers.common.Cookie = null; // 쿠키 공유 방지
   if (context.req && cookie) {
-    axios.defaults.headers.common.Cookies = cookie; /// 서버에 쿠키 전달! 
+    axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달! 
   }
   context.store.dispatch({
     type: LOAD_MY_INFO_REQUEST

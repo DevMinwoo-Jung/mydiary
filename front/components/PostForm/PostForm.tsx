@@ -64,40 +64,25 @@ const DatePickerStyle = styled(DatePicker)`
   font-style: normal;
 `
 
-const AddButtonStyle = styled(BiMessageAltAdd)`
-  position: right;
+const AddButtonDivStyle = styled(BiMessageAltAdd)`
+  position: absolute;
   font-size: 2rem;
-  margin: 5px;
-  border-radius: 9px;
-  color: ${FONT_COLOR};
-  border-color: none;
   cursor: pointer;
-  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
-    background-color: ${WHITE};
-    border-color: ${BORDER_COLOR};
-    color: ${FONT_COLOR};
-    font-weight: bolder;
-  }
-  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
-    background-color: ${WHITE};
-    border-color: ${BORDER_COLOR};
-    color: ${FONT_COLOR};
-    font-weight: bolder;
-  }
+  width: 2rem;
+  height: 2rem;
+  right: 2rem;
 `
-const AddImageButtonStyle = styled(BsImage)`
-  position: right;
-  font-size: 1.8rem;
-  margin: 5px;
-  border-radius: 9px;
-  color: ${FONT_COLOR};
-  border-color: none;
+const AddImageButtonDivStyle = styled(BsImage)`
+  position: absolute;
+  font-size: 2rem;
   cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  right: 4rem;
 `
 
 const ButtonsDiv = styled.div`
   position: relative;
-  text-align:  end;
 `
 
 const DateStyle = styled.span`
@@ -111,7 +96,9 @@ const ImgsDiv = styled.div`
   z-index: 100;
 `
 
-const BiHideStyle = styled(BiHide)`
+const HideStyle = styled.div`
+  width: 2rem;
+  height: 2rem;
   font-size: 2rem;
   cursor: pointer;
   position: absolute;
@@ -119,7 +106,10 @@ const BiHideStyle = styled(BiHide)`
   right: 32rem;
 `
 
-const BiShowStyle = styled(BiShow)`
+const BiShowStyle = styled.div`
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
   font-size: 2rem;
   cursor: pointer;
   position: absolute;
@@ -138,9 +128,7 @@ export const _PostForm = () => {
   const addPostDone = useSelector((state:PostsState) => state.post.addPostDone, shallowEqual);
   const me = useSelector((state:UserState) => state.user.me, shallowEqual);
 
-  useEffect(() => {
-    setUserId(me.userId)
-  }, [me])
+
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setDate(dateString)
@@ -207,19 +195,19 @@ export const _PostForm = () => {
         showForm === true
         ? 
           <>
-          <Tooltip title="게시글 작성하기">
-            <div onClick={hideForm}>
-              <BiShowStyle/>
-            </div>
-          </Tooltip>
+            <Tooltip title="게시글 작성하기">
+              <BiShowStyle onClick={hideForm}>
+                  <BiShow/>
+              </BiShowStyle>
+            </Tooltip>
           </>
         :
         <>
-          <Tooltip title="숨기기">
-            <div onClick={hideForm}>
-              <BiHideStyle ></BiHideStyle>
-            </div>
-          </Tooltip>
+            <Tooltip title="숨기기">
+              <HideStyle onClick={hideForm}>
+                  <BiHide/>
+              </HideStyle>
+            </Tooltip>
           <PostFormContainer name="image" encType="multipart/form-data" onFinish={onSubmit}>
           <ImgsDiv>
               {
@@ -243,16 +231,16 @@ export const _PostForm = () => {
                 placeholder="무엇이든 기록해봐요"/>
             <ButtonsDiv>
               <input type='file' name='image'multiple hidden ref={imageInput} onChange={onChangeImages}/>
-              <Tooltip title="이미지 추가">
-                <div onClick={onClickImageUploads}>
-                  <AddImageButtonStyle/>
-                </div>
-              </Tooltip>
-              <Tooltip title="게시물 업로드">
-                <div onClick={onSubmit}>
-                  <AddButtonStyle></AddButtonStyle>
-                </div>
-              </Tooltip>
+                <Tooltip title="이미지 추가">
+                  <AddImageButtonDivStyle onClick={onClickImageUploads}>
+                    <BsImage />
+                  </AddImageButtonDivStyle>
+                </Tooltip>
+                <Tooltip title="게시물 업로드">
+                  <AddButtonDivStyle onClick={onSubmit}>
+                    <BiMessageAltAdd />
+                  </AddButtonDivStyle>
+                </Tooltip>
             </ButtonsDiv>
           </InnerPostFormDiv>
           </PostFormContainer>
@@ -261,6 +249,7 @@ export const _PostForm = () => {
     </>
   )
 }
+
 
 const PostForm = memo(_PostForm)
 

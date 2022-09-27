@@ -111,7 +111,7 @@ type UserStateType = {
   logOutLoading: boolean, // 로그아웃 시도중
   logOutDone: boolean,
   logOutError: null,
-  user: UserState,
+  user: {},
   userInfomodifyLoading: boolean, // 유저 정보 수정 시도중
   userInfomodifyDone: boolean,
   userInfomodifyError: null,

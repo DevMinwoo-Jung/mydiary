@@ -3,22 +3,17 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 module.exports = withBundleAnalyzer({
-  distDir: '.next',
-  images: {
-    domains: ['localhost3065'],
-    formats: ['image/avif', 'image/webp'],
-  },
+  compress: true,
   webpack(config, { webpack }) {
-      const prod = process.env.NODE_ENV === 'production';
-      const plugins = [
-      ...config.plugins,
-      new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^\.\/ko$/),
-  ];
-  return {
+    const prod = process.env.NODE_ENV === 'production';
+    return {
       ...config,
       mode: prod ? 'production' : 'development',
       devtool: prod ? 'hidden-source-map' : 'eval',
-      plugins,
-      };
+      plugins: [
+        ...config.plugins,
+        new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^\.\/ko$/),
+      ],
+    };
   },
 });

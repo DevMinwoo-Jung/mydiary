@@ -134,7 +134,6 @@ const _Post:FC<PostProps> = (props) => {
                           okText="삭제"
                           cancelText="취소"
                           icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
-              
                         >
                         <TooltipStyle title="게시물 삭제">
                           <Atag href="#"><DeleteOutlined/></Atag>

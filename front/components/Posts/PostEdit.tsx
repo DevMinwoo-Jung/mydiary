@@ -46,7 +46,7 @@ const DateStyle = styled.span`
   height: 32px;
   line-height: 32px;
 `
-const AddImageButtonStyle = styled(BsImage)`
+const AddImageButtonDivStyle = styled(BsImage)`
   position: right;
   font-size: 1.6rem;
   margin: 5px;
@@ -67,7 +67,7 @@ const TextContainer = styled(Input.TextArea)`
     font-weight: bolder;
   }
   &.ant-input {
-    height: 280px;
+    height: 200px;
   }
   @media screen and (max-width: ${size.tablet}) { 
     width: 100%;
@@ -75,7 +75,7 @@ const TextContainer = styled(Input.TextArea)`
   }
 `
 
-const ModifyIconStyle = styled(FiEdit)`
+const ModifyIconDivStyle = styled(FiEdit)`
   right: 5rem;
   top: 0.5rem;
   font-size: 1.5rem;
@@ -165,7 +165,9 @@ const _PostEdit:FC<PostProps> = (props) => {
           : <DateStyle>{moment(`${date}`).format('dddd')}</DateStyle>
         }
       <Tooltip title="게시물 수정">
-        <ModifyIconStyle onClick={onModify}/>
+        <ModifyIconDivStyle onClick={onModify}>
+          <FiEdit/>
+        </ModifyIconDivStyle>
       </Tooltip>
         <TextContainer
           rows={5}
@@ -176,7 +178,9 @@ const _PostEdit:FC<PostProps> = (props) => {
         <PostFormHeader>
           <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>
           <Tooltip title="이미지 추가">
-            <AddImageButtonStyle onClick={onClickImageUploads}/>
+            <AddImageButtonDivStyle onClick={onClickImageUploads}>
+              <BsImage/>
+            </AddImageButtonDivStyle>
           </Tooltip>  
       </PostFormHeader>
     </Form>

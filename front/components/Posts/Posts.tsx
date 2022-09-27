@@ -5,11 +5,11 @@ import shortid from 'shortid'
 import Post from './Post'
 import { LOAD_POSTS_REQUEST, POST_REQUEST_FASLE } from 'reducers/post'
 import { BACKGROUND_COLOR } from 'libs/css/color'
-import { END } from "redux-saga";
-import axios from "axios";
-import wrapper from 'store/configureStore'
-import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 import { PostsState, UserState } from 'libs/type'
+import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
+import axios from 'axios'
+import wrapper from 'store/configureStore'
+import { END } from "redux-saga";
 
 const PostsContainer = styled.div`
   margin: auto;
@@ -40,7 +40,7 @@ const _Posts = () => {
   return (
     <PostsContainer key={shortid()}>
       {
-        me !== null ?
+        me != null ?
           <>
             {
               mainPosts
@@ -55,6 +55,20 @@ const _Posts = () => {
     </PostsContainer>
   );
 };
+
+// export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+//   console.log(context);
+//   const cookie = context.req ? context.req.headers.cookie : null;
+//   axios.defaults.headers.common.Cookies = null; // 쿠키 공유 방지
+//   if (context.req && cookie) {
+//     axios.defaults.headers.common.Cookies = cookie; /// 서버에 쿠키 전달! 
+//   }
+//   context.store.dispatch({
+//     type: LOAD_MY_INFO_REQUEST
+//   })
+//   context.store.dispatch(END);
+//   await context.store.sagaTask.toPromise();
+// });
 
 const Posts = memo(_Posts);
 

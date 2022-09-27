@@ -53,11 +53,11 @@ const Hashtag = () => {
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookie = context.req ? context.req.headers.cookie : '';
     console.log(context);
-    axios.defaults.headers.common.Cookies = '';
+    axios.defaults.headers.common.Cookie = '';
     if (context.req && cookie) {
-        axios.defaults.headers.common.Cookies = cookie;
+        axios.defaults.headers.common.Cookie = cookie;
     }
-    context.store.dispatch({
+    context.store.dispatch({ 
         type: LOAD_MY_INFO_REQUEST,
     });
     context.store.dispatch({

@@ -66,8 +66,8 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
   passport.authenticate('local', (error, user, info) => {
       if (error) { // server error
           console.error(error);
-          return next(error);
-      }
+          return next(error);   
+      } 
       if (info) { // client error
           return res.status(401).send(info.reason);
       }
@@ -76,7 +76,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
               console.error(loginErr);
               return next(loginErr); // next에 error가 있으면 다음 미들웨어로 가는게 아니라 바로 에러 처리로 간다
           }
-          try {
+          try { 
               if (req.user) {
                   const fullUserWithoutPassword = await User.findOne({
                       where: { id: user.id },
