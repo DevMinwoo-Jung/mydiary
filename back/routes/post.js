@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path'); // 요건 node에서 제공해 주는 것
 const fs = require('fs'); // 파일 시스템
+const { Op } = require("sequelize");
 
 const { User, Post, Image, Hashtag } = require('../models');
 const { isLoggedIn } = require('./middlewares');
@@ -30,7 +31,6 @@ const uploads = multer({
 })// array인 이유가 여러 장 일수도 있어서, text는 none, 한장이면 single
 
 router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
-  console.log(req.body.image)
   try {
     const hashtags = req.body.content.match(/(#[^\s#]+)/g);
     const post = await Post.create({
@@ -46,10 +46,10 @@ router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
     } // 있으면 가져오고 없으면 등록 
     if (req.body.image) {
       if (Array.isArray(req.body.image)) { // 이미지 여러 개 올리면 image: [1.png, 2.png....]
-          const images = await Promise.all(req.body.image.map((image) => Image.create({ src: image })));// db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
+          const images = await Promise.all(req.body.image.map((image) => Image.create({ src: image, postImgId: req.body.postImgId })));// db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
           await post.addImages(images);
         } else { // 하나면 1.png 이런식으로 
-          const image = await Image.create({ src: req.body.image })
+          const image = await Image.create({ src: req.body.image, postImgId: req.body.postImgId })
           await post.addImages(image);
       }
     }
@@ -91,7 +91,6 @@ router.post('/images', isLoggedIn, uploads.array('image'), async (req, res, next
 })
 
 router.post('/image', isLoggedIn, uploads.single('image'), async (req, res, next) => { // post /image
-  console.log('오기는 하지?')
   console.log(req.file);
   res.json(req.file);
 })
@@ -122,6 +121,21 @@ router.get('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res
   }
 })
 
+router.patch('/images/:postId', isLoggedIn, async (req, res, next) => {
+  try {
+    const updateImageId = await Image.update({
+      postImgId: req.body.toNull,
+    }, {
+      where: { postImgId: req.body.postImgId }, 
+    });
+    res.status(201).json(updateImageId);
+  } catch(error) { 
+    console.error(error)
+    next(error)
+  }
+})
+
+
 router.patch('/', isLoggedIn, uploads.array(), async (req, res, next) => { 
   try {
     const hashtags = req.body.content.match(/(#[^\s#]+)/g);
@@ -129,9 +143,9 @@ router.patch('/', isLoggedIn, uploads.array(), async (req, res, next) => {
       date: req.body.date,
       content: req.body.content
     }, {
-      where: { id: req.body.postId, userId: req.user.id }
+      where: { id: req.body.PostId, userId: req.user.id }
     });
-    const post = await Post.findOne({ where: { id: req.body.postId }});
+    const post = await Post.findOne({ where: { id: req.body.PostId }});
     if (hashtags) {
       const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({
         where: { name: tag.slice(1).toLowerCase() },
@@ -139,42 +153,26 @@ router.patch('/', isLoggedIn, uploads.array(), async (req, res, next) => {
       await post.setHashtags(result.map((v) => v[0]));
     } 
     if (req.body.image) {
-      console.log('여기 오지??')
       if (Array.isArray(req.body.image)) { // 이미지 여러 개 올리면 image: [1.png, 2.png....]
-          await Promise.all(req.body.image.map((image) => Image.create({ src: image, PostId: req.body.postId })));// db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
+          await Promise.all(req.body.image.map((image) => Image.create({ src: image, PostId: req.body.PostId, postImgId: req.body.postImgId })));// db에는 파일 주소만 올리지 파일 자체를 올리는게 아니다!
           //await post.addImages(images);
         } else { // 하나면 1.png 이런식으로 
-          await Image.create({ src: req.body.image, PostId: req.body.postId })
+          await Image.create({ src: req.body.image, PostId: req.body.PostId, postImgId: req.body.postImgId })
           //await post.addImages(image);
       }
-    }
+    } 
     const fullPost = await Post.findOne({
-      where: { id: req.body.postId, userId: req.user.id },
+      where: { id: req.body.PostId, userId: req.user.id },
       include: [{
-        model: Image
+        model: Image,
+        where: { postImgId: {[Op.not]: null } }
       }
       ]
     })
     console.log(fullPost);
-  res.status(200).json({ PostId: parseInt(req.body.postId, 10), date: req.body.date, content: req.body.content, Image: fullPost });
+  res.status(200).json({ PostId: parseInt(req.body.PostId, 10), date: req.body.date, content: req.body.content, Images: fullPost });
   } catch (error) {
     console.error(error)
-  }
-})
-
-router.patch('/images/:postId', isLoggedIn, async (req, res, next) => {
-  console.log('--------')
-  console.log(req.body.PostId)
-  try {
-    const updateImageId = await Image.update({
-      PostId: 0,
-    }, {
-      where: { PostId: req.body.PostId },
-    });
-    res.status(201).json(updateImageId);
-  } catch(error) { 
-    console.error(error)
-    next(error)
   }
 })
 

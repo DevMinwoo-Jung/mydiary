@@ -8,7 +8,7 @@ module.exports = (sequelize, DataType) => {
             unique: true, // 고유한 값
         },
         email: {
-            type: DataType.STRING(30),
+            type: DataType.STRING(30),  
             allowNull: false, // 필수
             unique: true, // 고유한 값
         },

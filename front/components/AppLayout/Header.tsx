@@ -71,10 +71,6 @@ const ButtonStyle = styled(Button)`
   }
 `
 
-const HomeIcon = styled(BiMessageRoundedEdit)`
-  font-size: 2rem;
-`
-
 const HomeButtonContainer = styled.div`
   margin-left: 20%;
   position: absolute;

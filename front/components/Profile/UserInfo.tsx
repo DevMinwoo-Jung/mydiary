@@ -99,14 +99,13 @@ const ModifyIconDisabledStyle = styled(FiEdit)`
   color: ${GRAY};
 `
 
-const ModalContainer = styled.div`
-  position: absolute;
-  margin: auto;
-`
 const AlertMessageStyle = styled.div`
   color: #ff4d4f;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   text-align: center;
+  margin: auto;
+  width: 150px;
+  text-align: left;
 `
 
 const ModifyButtonDiv = styled.div`

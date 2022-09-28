@@ -3,6 +3,7 @@ import moment from 'moment'
 import React, { FC } from 'react'
 import styled from 'styled-components'
 
+
 const DateDiv = styled.div`
   display: flex;
   font-size: 0.8rem;
@@ -42,7 +43,7 @@ const PostNormal:FC<PostProps> = (props) => {
           : null
           }
         </DateDiv>
-        <ContentPara>{post.content}</ContentPara>
+          <ContentPara>{post.content}</ContentPara>
     </>
   )
 }

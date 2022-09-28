@@ -15,6 +15,7 @@ import PostNormal from './PostNormal'
 import PostEdit from './PostEdit' 
 import EditImages from './EditImages/EditImages'
 import { BsThreeDots } from 'react-icons/bs'
+import { size } from 'libs/css/layout'
 
 moment.locale('ko');
 
@@ -28,7 +29,10 @@ const PostsInnerContainer = styled.div`
   margin: 1.5rem;
   background-color: ${WHITE};
   & :first-child {
-    margin-top: 4rem;
+    margin-top: 5rem;
+  }
+  @media screen and (max-width: ${size.tablet}) { 
+    margin-bottom: 2.5rem;
   }
 `
 
@@ -46,9 +50,16 @@ const TagAndDelete = styled.div`
 `
 
 const TagDiv = styled.div`
-  width: 65%;
+  width: 100%;
+  height: 100%;
   text-align: left;
   margin: 1rem 0;
+  max-height: 2rem;
+  overflow:   scroll;
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+  }
 `
 
 const DeleteDiv = styled.div`
@@ -64,6 +75,10 @@ const TooltipStyle = styled(Tooltip)`
   right: 2.5rem;
   font-size: 1.5rem;
   top: -0.4rem;
+  @media screen and (max-width: ${size.mobileL}) { 
+    top: -3rem;
+    right: 2.5rem;
+  }
 `
 
 

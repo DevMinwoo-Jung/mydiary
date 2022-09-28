@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import useInput from 'libs/hook/useInput';
 import Router from 'next/router'
 import { FONT_COLOR, WHITE } from 'libs/css/color';
+import { size } from 'libs/css/layout';
 
 const SearchInput = styled(Input.Search)`
   color: '#B0B0B0';
@@ -18,6 +19,10 @@ const SearchInput = styled(Input.Search)`
   & .ant-input-search > .ant-input-group > .ant-input-group-addon:last-child .ant-input-search-button {
     color: '#B0B0B0';
     background-color: '#B0B0B0';
+  }
+  @media screen and (max-width: ${size.mobileL}) { 
+    width: 120px;
+    margin-right: -5rem;
   }
 `;
 

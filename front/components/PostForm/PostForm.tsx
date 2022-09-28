@@ -17,9 +17,9 @@ moment.locale('ko');
 
 const PostFormContainer = styled(Form)`
   display: block;
-  margin: 4rem 1rem 0 1rem;
+  margin: 6rem 1rem 0 1rem;
   max-height: 60rem;
-  min-height: 20rem;
+  min-height: 15rem;
   border: 1px solid ${COLOR_DBE2EF};
   border-radius: 0.5rem;
   position: relative;
@@ -71,6 +71,12 @@ const AddButtonDivStyle = styled(BiMessageAltAdd)`
   width: 2rem;
   height: 2rem;
   right: 2rem;
+  bottom: 12rem;
+  @media screen and (max-width: ${size.tablet}) { 
+    margin-bottom: 1rem;
+    width: 1.5rem;  
+    height: 1.5rem;
+  }
 `
 const AddImageButtonDivStyle = styled(BsImage)`
   position: absolute;
@@ -79,6 +85,12 @@ const AddImageButtonDivStyle = styled(BsImage)`
   width: 2rem;
   height: 2rem;
   right: 4rem;
+  bottom: 12rem;
+  @media screen and (max-width: ${size.tablet}) { 
+    margin-bottom: 1rem;
+    width: 1.5rem;  
+    height: 1.5rem;
+  }
 `
 
 const ButtonsDiv = styled.div`
@@ -102,8 +114,8 @@ const HideStyle = styled.div`
   font-size: 2rem;
   cursor: pointer;
   position: absolute;
-  top: 4rem;
-  right: 32rem;
+  top: 3rem;
+  text-align: center;
 `
 
 const BiShowStyle = styled.div`
@@ -113,8 +125,8 @@ const BiShowStyle = styled.div`
   font-size: 2rem;
   cursor: pointer;
   position: absolute;
-  top: 4rem;
-  right: 32rem;
+  top: 3rem;
+  text-align: center;
 `
 
 export const _PostForm = () => {
@@ -126,7 +138,6 @@ export const _PostForm = () => {
   const [showForm, setShowForm] = useState(false)
   const imagePaths = useSelector((state:PostsState) => state.post.imagePaths, shallowEqual);
   const addPostDone = useSelector((state:PostsState) => state.post.addPostDone, shallowEqual);
-  const me = useSelector((state:UserState) => state.user.me, shallowEqual);
 
 
 
@@ -166,15 +177,19 @@ export const _PostForm = () => {
     })
   },[])
 
-
-
   const hideForm = () => {
     setShowForm((prev) => !prev)
   }
 
   const onSubmit = useCallback(() => {
+    
+    const postImgId = moment().format('YYYY-MM-DD-h:mm:ss')
+
     if (!text || !text.trim()) {
       return alert('게시글을 작성하세요.');
+    }
+    if (imagePaths.length < 1) {
+      return alert('사진은 필수입니다.');
     }
     const formData = new FormData();
     imagePaths.forEach((p) => {
@@ -183,6 +198,7 @@ export const _PostForm = () => {
     formData.append('date', date);
     formData.append('content', text);
     formData.append('userId', userId);
+    formData.append('postImgId', postImgId);
     dispatch({
         type: ADD_POST_REQUEST,
         data: formData,
@@ -227,7 +243,7 @@ export const _PostForm = () => {
                 rows={5}
                 value={text}
                 onChange={onChangeText}
-                maxLength={400}
+                maxLength={200}
                 placeholder="무엇이든 기록해봐요"/>
             <ButtonsDiv>
               <input type='file' name='image'multiple hidden ref={imageInput} onChange={onChangeImages}/>

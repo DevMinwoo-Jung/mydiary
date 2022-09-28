@@ -4,12 +4,11 @@ import { Menu } from 'antd'
 import type { MenuProps } from 'antd'
 import {
   UserOutlined,
-  BarChartOutlined,
   HomeOutlined,
   LogoutOutlined,
 } from '@ant-design/icons'
 import { useRouter } from 'next/router'
-import {  COLOR_MAIN, FONT_COLOR, GRAY } from '../../libs/css/color'
+import {  COLOR_MAIN, FONT_COLOR, GRAY, WHITE } from '../../libs/css/color'
 import UserInfoMini from 'components/Profile/UserInfoMini'
 import { ToggleProps } from 'libs/type'
 import { POST_REQUEST_FASLE } from 'reducers/post'
@@ -33,6 +32,10 @@ const SidebarContainer = styled.aside<{ isOpened: boolean }>`
     cursor: default;
     background: ${COLOR_MAIN};
     pointer-events: none;
+  }
+  & .ant-menu-item-selected {
+    background-color: ${WHITE} !important;
+    color: black;
   }
 `;
 

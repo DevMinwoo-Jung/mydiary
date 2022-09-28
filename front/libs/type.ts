@@ -3,6 +3,7 @@ export type PostObject = {
   id: any;
   date: string;
   Images?: any
+  postImgId?: string,
 }
 
 export type PostProps = {
@@ -90,6 +91,7 @@ type PostStateType = {
   loadHashTagPostsLoading: boolean,
   loadHashTagPostsDone: boolean,
   loadHashTagPostsError: null,
+  postImgId: string,
 }
 
 export type PostsState = {

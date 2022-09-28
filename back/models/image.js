@@ -4,15 +4,14 @@ module.exports = (sequelize, DataType) => {
         //id는 기본적으로 1,2,3,4 ... 순서대로 올라간다
         src: {
             type: DataType.STRING(100),
-            allowNull: false,
+            allowNull: false, // 필수
         },
-        userId: {
-            type: DataType.STRING(50),
+        userId: { 
+            type: DataType.STRING(30),
             allowNull: true, // 필수
         },
-        PostId: {
-            type: DataType.STRING(100),
-            allowNull: false,
+        postImgId: {
+            type: DataType.STRING(30),
         }
     }, {
         modelName: 'Image',

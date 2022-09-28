@@ -32,7 +32,6 @@ const DatePickerStyle = styled(DatePicker)`
   font-style: normal;
   height: 32px;
   width: 140px;
-
 `
 
 const DateStyle = styled.span`
@@ -52,6 +51,11 @@ const AddImageButtonDivStyle = styled(BsImage)`
   margin: 5px;
   color: ${FONT_COLOR};
   cursor: pointer;
+  @media screen and (max-width: ${size.mobileL}) { 
+    top: -2.5rem;
+    position: absolute;
+    right: 0px;
+  }
 `
 
 
@@ -67,7 +71,7 @@ const TextContainer = styled(Input.TextArea)`
     font-weight: bolder;
   }
   &.ant-input {
-    height: 200px;
+    height: 170px;
   }
   @media screen and (max-width: ${size.tablet}) { 
     width: 100%;
@@ -82,6 +86,11 @@ const ModifyIconDivStyle = styled(FiEdit)`
   bottom: 1.7rem;
   position: absolute;
   cursor: pointer;
+  @media screen and (max-width: ${size.mobileL}) { 
+    top: -2rem;
+    position: absolute;
+    right: 5rem;
+  }
 `
 
 const _PostEdit:FC<PostProps> = (props) => {
@@ -94,13 +103,13 @@ const _PostEdit:FC<PostProps> = (props) => {
   };
 
   
-  useEffect(() => {
-    console.log(post.Images) 
-  }, [])
+  // useEffect(() => {
+  //   console.log(post)
+  //   console.log(post.Images[0].postImgId) 
+  // }, [])
 
   const { modifyImagePaths } = useSelector((state:PostsState) => state.post)
 
-  const [userId, setUserId] = useState<string>(undefined)
   const [date, setDate] = useState<string>(post.date)
   const imageInput = useRef<any>()
   const [text, onChangeText] = useInput(post.content)
@@ -110,6 +119,7 @@ const _PostEdit:FC<PostProps> = (props) => {
   }, [imageInput.current])
 
   const onChangeImages = useCallback((e) => {
+
     const fileType = e.target.files[0].type.replace(/(.*)\//g, '')
     if(e.target.files.length > 10 || (post.Images.length + e.target.files.length) > 10) {
       return alert('파일은 한 게시물당 10개까지만 올릴 수 있습니다.')
@@ -124,6 +134,8 @@ const _PostEdit:FC<PostProps> = (props) => {
     [].forEach.call(e.target.files, (f) => {
       modifyImagePaths.append('image', f)
     })
+    console.log('asdasd')
+    console.log(modifyImagePaths)
     dispatch({
         type: UPLOAD_EDIT_IMAGES_REQUEST,
         data: modifyImagePaths
@@ -131,12 +143,18 @@ const _PostEdit:FC<PostProps> = (props) => {
   },[])
 
   const onModify = useCallback(() => {
+    const postImgId = post.Images[0]?.postImgId === undefined ? 0 : post.Images[0].postImgId
+    
     dispatch({
       type: REMOVE_EXIST_IMAGE_ID_REQUEST,
       data: {
-        PostId: post.id
+        PostId: post.id,
+        postImgId: postImgId,
+        toNull: null,
       }
-    })
+    });
+
+    const editPostImgId = moment().format('YYYY-MM-DD-h:mm:ss')
 
     if (!text || !text.trim()) {
       return alert('게시글을 작성하세요.');
@@ -145,16 +163,17 @@ const _PostEdit:FC<PostProps> = (props) => {
     modifyImagePaths.forEach((p) => {
         formData.append('image', p);
     });
+    console.log('ddddd')
+    console.log(modifyImagePaths)
     formData.append('date', date);
     formData.append('content', text);
     formData.append('PostId', post.id);
-    formData.append('postId', post.id);
-    formData.append('userId', userId);
+    formData.append('postImgId', editPostImgId);
     dispatch({
       type: MODIFY_POST_REQUEST,
-      data: formData, postId: post.id
+      data: formData, postId: post.id, postImgId: editPostImgId
     })
-  }, [modifyImagePaths, date, text, userId, post.id])
+  }, [modifyImagePaths, date, text, post.id, post.Images.postImgId])
 
   return (
     <Form name="image" encType="multipart/form-data" onFinish={onModify}>
@@ -173,7 +192,7 @@ const _PostEdit:FC<PostProps> = (props) => {
           rows={5}
           value={text}
           onChange={onChangeText}
-          maxLength={400}
+          maxLength={200}
           />
         <PostFormHeader>
           <input type='file' multiple hidden ref={imageInput} onChange={onChangeImages}/>

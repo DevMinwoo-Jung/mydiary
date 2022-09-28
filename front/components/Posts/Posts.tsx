@@ -6,10 +6,6 @@ import Post from './Post'
 import { LOAD_POSTS_REQUEST, POST_REQUEST_FASLE } from 'reducers/post'
 import { BACKGROUND_COLOR } from 'libs/css/color'
 import { PostsState, UserState } from 'libs/type'
-import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
-import axios from 'axios'
-import wrapper from 'store/configureStore'
-import { END } from "redux-saga";
 
 const PostsContainer = styled.div`
   margin: auto;

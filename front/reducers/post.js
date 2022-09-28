@@ -330,12 +330,13 @@ export default (state = initialState, action) => {
         draft.modifyPostError = null;
         break;
       case MODIFY_POST_SUCCESS: 
+        console.log(action.data)
         draft.modifyPostLoading = false;
         draft.modifyPostDone = true;
         draft.modifyImagePaths = [];
         draft.mainPosts.find((v) => v.id === action.data.PostId).content = action.data.content;
         draft.mainPosts.find((v) => v.id === action.data.PostId).date = action.data.date;
-        draft.mainPosts.find((v) => v.id === action.data.PostId).Images = action.data.Image.Images.map(element => element);
+        draft.mainPosts.find((v) => v.id === action.data.PostId).Images = action.data.Images.Images.map(element => element);
         break;
       case MODIFY_POST_LOADING_BACK: 
         draft.modifyPostLoading = true;

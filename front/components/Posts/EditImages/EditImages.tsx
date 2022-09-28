@@ -122,6 +122,9 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
     }
   }
 
+
+
+
   useEffect(() => {
     dispatch({
       type: LOAD_EDIT_IMAGE,
@@ -159,12 +162,22 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
           }
           <ImgStyle src={`http://localhost:3065/${modifyImagePaths[currentSlide]}`}/>
             {
-              hideDelete === false ? <DeleteDiv/> : null
+              hideDelete === false ? 
+              <>
+                {
+                  modifyImagePaths.length === 1  ? null : <DeleteDiv/> 
+                }
+              </>
+              : null
             }
           <Slide>
             <p>{currentSlide+1} / {modifyImagePaths.length}</p>
           </Slide>
-            <RemoveButtonStyle onMouseEnter={toggle} onMouseLeave={toggle} onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
+          {
+            modifyImagePaths.length === 1
+            ? null
+            : <RemoveButtonStyle onMouseEnter={toggle} onMouseLeave={toggle} onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
+          }
           {
             modifyImagePaths.length === 1
             ? null

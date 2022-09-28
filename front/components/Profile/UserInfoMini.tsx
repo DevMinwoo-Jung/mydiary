@@ -28,7 +28,7 @@ const UserInfoMini = () => {
   const me = useSelector((state:UserState) => state.user?.me)
 
   useEffect(() => {
-    if(me !== null){
+    if(me != null){
       dispatch({
         type: LOAD_PROFILE_REQUEST
       })
