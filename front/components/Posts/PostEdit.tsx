@@ -1,10 +1,10 @@
 import { DatePicker, DatePickerProps, Form, Input, Tooltip } from 'antd'
-import { BORDER_COLOR, COLOR_DBE2EF, FONT_COLOR } from 'libs/css/color'
+import { FONT_COLOR } from 'libs/css/color'
 import { size } from 'libs/css/layout'
 import useInput from 'libs/hook/useInput'
 import { PostProps, PostsState } from 'libs/type'
 import moment from 'moment'
-import React, { FC, memo, useCallback, useEffect, useRef, useState } from 'react'
+import React, { FC, memo, useCallback, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { MODIFY_POST_REQUEST, REMOVE_EXIST_IMAGE_ID_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST } from 'reducers/post'
 import styled from 'styled-components'
@@ -101,12 +101,6 @@ const _PostEdit:FC<PostProps> = (props) => {
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setDate(dateString)
   };
-
-  
-  // useEffect(() => {
-  //   console.log(post)
-  //   console.log(post.Images[0].postImgId) 
-  // }, [])
 
   const { modifyImagePaths } = useSelector((state:PostsState) => state.post)
 

@@ -2,7 +2,6 @@ import React, { FC } from 'react'
 import Link from 'next/link'
 import shortid from 'shortid'
 import { useRouter } from 'next/router'
-import styled from 'styled-components'
 
 type PostTagsProps = {
     postData: string

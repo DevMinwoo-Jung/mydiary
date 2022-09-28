@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Header from './Header'
 import { size } from 'libs/css/layout'
 import Slider from './Slider'
-import { BACKGROUND_COLOR, WHITE } from 'libs/css/color'
+import { BACKGROUND_COLOR } from 'libs/css/color'
 
 export type AppLayoutProps = {
   children: React.ReactNode,

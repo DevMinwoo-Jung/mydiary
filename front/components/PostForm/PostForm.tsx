@@ -6,12 +6,12 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import 'moment/locale/ko'
 import { size } from 'libs/css/layout'
-import { BORDER_COLOR, COLOR_DBE2EF, FONT_COLOR, WHITE } from 'libs/css/color'
+import { COLOR_DBE2EF, WHITE } from 'libs/css/color'
 import useInput from 'libs/hook/useInput'
 import Images from 'components/Posts/Images'
 import { BiMessageAltAdd, BiHide, BiShow } from 'react-icons/bi'
 import { BsImage } from 'react-icons/bs'
-import { PostsState, UserState } from 'libs/type'
+import { PostsState } from 'libs/type'
 
 moment.locale('ko');
 

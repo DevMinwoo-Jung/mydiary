@@ -52,20 +52,6 @@ const _Posts = () => {
   );
 };
 
-// export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-//   console.log(context);
-//   const cookie = context.req ? context.req.headers.cookie : null;
-//   axios.defaults.headers.common.Cookies = null; // 쿠키 공유 방지
-//   if (context.req && cookie) {
-//     axios.defaults.headers.common.Cookies = cookie; /// 서버에 쿠키 전달! 
-//   }
-//   context.store.dispatch({
-//     type: LOAD_MY_INFO_REQUEST
-//   })
-//   context.store.dispatch(END);
-//   await context.store.sagaTask.toPromise();
-// });
-
 const Posts = memo(_Posts);
 
 export default Posts;

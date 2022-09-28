@@ -7,7 +7,6 @@ import { REMOVE_IMAGE } from 'reducers/post'
 import useToggle from 'libs/hook/useToggle'
 import DeleteDiv from './DeleteDiv'
 import { IoTrashBinOutline } from 'react-icons/io5'
-import Image from 'next/image'
 import { UserState } from 'libs/type'
 
 

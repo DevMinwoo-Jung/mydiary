@@ -7,7 +7,7 @@ import { LOAD_EDIT_IMAGE, REMOVE_EDIT_IMAGE } from 'reducers/post'
 import DeleteDiv from '../DeleteDiv'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
-import { PostObject, PostProps, PostsState } from 'libs/type'
+import { PostObject, PostsState } from 'libs/type'
 
 
 type image = {
