@@ -8,6 +8,7 @@ import DeleteDiv from '../DeleteDiv'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
 import { PostObject, PostsState } from 'libs/type'
+import { backUrl } from 'libs/config'
 
 
 type image = {
@@ -160,7 +161,7 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
             ? null
             : <CaretLeftOutlinedStyle onClick={onShowPrevImg}/> 
           }
-          <ImgStyle src={`http://localhost:3065/${modifyImagePaths[currentSlide]}`}/>
+          <ImgStyle src={`http://${backUrl}/${modifyImagePaths[currentSlide]}`}/>
             {
               hideDelete === false ? 
               <>
