@@ -69,7 +69,7 @@ function getItem(
     icon,
     children,
     label,
-  } as MenuItem;
+  };
 }
 
 const _Slider = (props: ToggleProps) => {

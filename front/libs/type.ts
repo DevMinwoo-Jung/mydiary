@@ -2,12 +2,12 @@ export type PostObject = {
   content: string;
   id: any;
   date: string;
-  Images?: any
+  Images?: any;
   postImgId?: string,
 }
 
 export type PostProps = {
-  post: PostObject
+  post: PostObject;
   modify?: boolean
 }
 
@@ -42,7 +42,7 @@ type MainPostsType = {
   content: string,
   createAt: string,
   updatedAt: string,
-  Images?: any
+  Images?: any,
   User: UserType
 }
 

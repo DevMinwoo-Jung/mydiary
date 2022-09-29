@@ -12,10 +12,13 @@
     "node": true,
     "es6": true
   },
-  "extends": ["next/babel","next/core-web-vitals"],
+  "extends": [
+    ""
+  ],
   "plugins": [
     "import",
-    "react-hooks"
+    "react-hooks",
+    "jsx-a11y"
   ],
   "rules": {
     "jsx-a11y/label-has-associated-control": "off",
@@ -28,5 +31,6 @@
     "object-curly-newline": "off",
     "linebreak-style": "off",
     "no-param-reassign": "off",
+    "semi": "off"
   }
 }

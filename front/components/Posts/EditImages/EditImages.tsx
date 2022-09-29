@@ -12,7 +12,7 @@ import { backUrl } from 'libs/config'
 
 
 type image = {
-  src: string
+  src: string;
   id: string
 }
 
