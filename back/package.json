@@ -10,6 +10,7 @@
   "author": "minwoo",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1225.0",
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
     "cookie-parser": "^1.4.5",
@@ -23,6 +24,7 @@
     "install": "^0.13.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.4",
+    "multer-s3": "^3.0.1",
     "mysql2": "^2.1.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",

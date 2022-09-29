@@ -4,6 +4,8 @@ const multer = require('multer');
 const path = require('path'); // 요건 node에서 제공해 주는 것
 const fs = require('fs'); // 파일 시스템
 const { Op } = require("sequelize");
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk')
 
 const { User, Post, Image, Hashtag } = require('../models');
 const { isLoggedIn } = require('./middlewares');
@@ -14,21 +16,22 @@ try {
   console.log('upload 없어서 생성');  
   fs.mkdirSync('uploads');
 } 
- 
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: 'ap-northeast-2',
+});
 // form 마다 다를 수 있어서 따로 해줘야한다
-const uploads = multer({ 
-  storage: multer.diskStorage({
-      destination(req, file, done) {
-          done(null, 'uploads');
-      },
-      filename(req, file, done) { // 중복 방지
-          const ext = path.extname(file.originalname); // 확장자 추줄
-          const basename = path.basename(file.originalname, ext)  // 이름 주출
-          done(null, basename + '_' + new Date().getTime() + ext); // 민우 213213.png
-      }
+const uploads = multer({
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: 'mydiary93',
+    key(req, file, cb) {
+      cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`)
+    }
   }),
-  limits: { fileSize: 20 * 1024 * 1024 } // 20mb
-})// array인 이유가 여러 장 일수도 있어서, text는 none, 한장이면 single
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+});
 
 router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
   try {
@@ -87,7 +90,7 @@ router.delete('/:postId', isLoggedIn, async (req, res, next) => { // DELETE /pos
 
 router.post('/images', isLoggedIn, uploads.array('image'), async (req, res, next) => { // post /images
   console.log(req.files);
-  res.json(req.files.map((v) => v.filename));
+  res.json(req.files.map((v) => v.location));
 })
 
 router.post('/image', isLoggedIn, uploads.single('image'), async (req, res, next) => { // post /image
