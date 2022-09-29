@@ -12,6 +12,8 @@ const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const path = require('path')
+const hpp = reuqier('hpp')
+const helmet = require('helmet')
 
 dotenv.config();
 const app = express(); 
@@ -26,8 +28,16 @@ db.sequelize.sync()
 
 passportConfig()  
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined'));
+  app.use(hpp());
+  app.use(helmet());
+} else {
+  app.use(morgan('dev'))
+}
+
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'mydiary.com'],
   credentials: true
 }))
 app.use(express.static(path.join(__dirname, 'uploads')))
@@ -47,6 +57,6 @@ app.use('/posts', postsRouter)
 app.use('/user', userRouter)
 app.use('/hashtag', hashtagRouter) 
 
-app.listen(3065, () => {
+app.listen(80, () => {
   console.log('server running...')
 });
