@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(hpp());
   app.use(helmet({ contentSecurityPolicy: false }));
   app.use(cors({
-    origin: ['http://mydiary.com', 'http://15.164.237.155'],
+    origin: ['http://mydiary93.com'],
     credentials: true,
   }));
 } else {
@@ -52,6 +52,11 @@ app.use(session({
     saveUninitialized: false,
     resave: false, 
     secret: process.env.COOKIE_SECRET,  
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      domain: process.env.NODE_ENV === 'production' && '.mydiary93.com'
+    }
 }));
 app.use(passport.initialize());
 app.use(passport.session()); 
