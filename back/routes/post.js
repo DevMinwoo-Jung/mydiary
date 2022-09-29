@@ -19,7 +19,7 @@ try {
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  region: 'ap-northeast-2a',
+  region: 'ap-northeast-2',
 });
 // form 마다 다를 수 있어서 따로 해줘야한다
 const uploads = multer({
@@ -30,7 +30,7 @@ const uploads = multer({
       cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`)
     }
   }),
-  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+  limits: { fileSize: 20 * 1024 * 1024 }, // 5mb
 });
 
 router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
@@ -95,7 +95,8 @@ router.post('/images', isLoggedIn, uploads.array('image'), async (req, res, next
 
 router.post('/image', isLoggedIn, uploads.single('image'), async (req, res, next) => { // post /image
   console.log(req.file);
-  res.json(req.file);
+  console.log(req.file.location);
+  res.json(req.file.location);
 })
 
 router.post('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res, next) => { 
