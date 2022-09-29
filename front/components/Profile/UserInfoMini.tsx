@@ -29,9 +29,9 @@ const UserInfoMini = () => {
   const me = useSelector((state:UserState) => state.user?.me)
 
   useEffect(() => {
-    if(me != null){
+    if (me != null) {
       dispatch({
-        type: LOAD_PROFILE_REQUEST
+        type: LOAD_PROFILE_REQUEST,
       })
     }
   }, [me])
@@ -40,8 +40,8 @@ const UserInfoMini = () => {
     <UserInfoMiniContainer>
       {
         imagePath === null
-        ?  <AvatarStyle size={100} icon={<UserOutlined />}/>
-        :  <AvatarStyle size={100} icon={<ImgStyle src={`http://${backUrl}/${imagePath.src}`} alt={String(imagePath.filename)}/>}/>
+          ? <AvatarStyle size={100} icon={<UserOutlined />} />
+          : <AvatarStyle size={100} icon={<ImgStyle src={`http://${backUrl}/${imagePath.src}`} alt={String(imagePath.filename)} />} />
       }
     </UserInfoMiniContainer>
   )

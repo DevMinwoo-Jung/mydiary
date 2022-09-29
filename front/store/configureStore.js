@@ -6,6 +6,7 @@ import createSagaMiddleware from 'redux-saga';
 import reducer from '../reducers';
 import rootSaga from '../saga';
 
+// eslint-disable-next-line no-unused-vars
 const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) => {
   console.log(action);
   return next(action);
@@ -26,4 +27,4 @@ const wrapper = createWrapper(configureStore, {
   debug: process.env.NODE_ENV === 'development',
 });
 
-export default wrapper;
+export default wrapper

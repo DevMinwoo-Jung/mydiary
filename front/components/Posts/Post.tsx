@@ -1,21 +1,22 @@
-import React, { FC, memo, useCallback, useEffect, useState } from 'react'
+/* eslint-disable no-unused-vars */
+import React, { FC, memo, useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { COLOR_DBE2EF, WHITE } from 'libs/css/color'
 import shortid from 'shortid'
-import Images from './Images'
 import { POST_DELETE_REQUEST } from 'reducers/post'
 import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import { message, Popconfirm, Tooltip } from 'antd'
-import PostTags from './PostTags'
 import moment from 'moment'
-import 'moment/locale/ko'
-import { PostProps, UserState } from 'libs/type'
-import PostNormal from './PostNormal'
-import PostEdit from './PostEdit' 
-import EditImages from './EditImages/EditImages'
-import { BsThreeDots } from 'react-icons/bs'
 import { size } from 'libs/css/layout'
+import { BsThreeDots } from 'react-icons/bs'
+import { PostProps, UserState } from 'libs/type'
+import PostTags from './PostTags'
+import 'moment/locale/ko'
+import PostNormal from './PostNormal'
+import PostEdit from './PostEdit'
+import EditImages from './EditImages/EditImages'
+import Images from './Images'
 
 moment.locale('ko');
 
@@ -81,7 +82,6 @@ const TooltipStyle = styled(Tooltip)`
   }
 `
 
-
 const BsThreeDotsStyle = styled(BsThreeDots)`
   right: 1rem;
   top: 0.5rem;
@@ -96,8 +96,7 @@ const Atag = styled.a`
   color: inherit;
 `
 const _Post:FC<PostProps> = (props) => {
-
-  const { post } = props 
+  const { post } = props
   const dispatch = useDispatch()
   const [modify, setModify] = useState(false)
   const me = useSelector((state:UserState) => state.user.me)
@@ -110,7 +109,7 @@ const _Post:FC<PostProps> = (props) => {
   const onRemovePost = useCallback((targetId:string) => {
     dispatch({
       type: POST_DELETE_REQUEST,
-      data: post.id
+      data: post.id,
     })
     setModify(false)
   }, [id, modify])
@@ -120,7 +119,7 @@ const _Post:FC<PostProps> = (props) => {
     onRemovePost(e)
     message.success('삭제되었습니다.');
   };
-  
+
   const cancel = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
     message.error('삭제가 취소되었습니다.');
@@ -129,49 +128,52 @@ const _Post:FC<PostProps> = (props) => {
     <PostsInnerContainer key={shortid()}>
       {
         modify === true
-        ? <EditImages post={post} image={post.Images}/>
-        : post.Images[0] && <Images image={post.Images}/>
+          ? <EditImages post={post} image={post.Images} />
+          : post.Images[0] && <Images image={post.Images} />
       }
-        <ContentContainer>
-          {
+      <ContentContainer>
+        {
             me !== null
-            ?
-            <>
-              <BsThreeDotsStyle onClick={onChangeModify}/>
-              <DeleteDiv>
-                {
-                  modify === true ?
-                  <>
-                    <Popconfirm
+              ? (
+                <>
+                  <BsThreeDotsStyle onClick={onChangeModify} />
+                  <DeleteDiv>
+                    {
+                  modify === true
+                    ? (
+                      <>
+                        <Popconfirm
                           title="메모 삭제하기"
                           onCancel={cancel}
                           onConfirm={() => confirm(post.id)}
                           okText="삭제"
                           cancelText="취소"
-                          icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
+                          icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                         >
-                        <TooltipStyle title="게시물 삭제">
-                          <Atag href="#"><DeleteOutlined/></Atag>
-                        </TooltipStyle>
-                    </Popconfirm>
-                  </>
-                  : null
+                          <TooltipStyle title="게시물 삭제">
+                            <Atag href="#"><DeleteOutlined /></Atag>
+                          </TooltipStyle>
+                        </Popconfirm>
+                      </>
+                    )
+                    : null
                 }
-              </DeleteDiv>
-              </>
-            : null
+                  </DeleteDiv>
+                </>
+              )
+              : null
             }
-          <TagAndDelete>
-            <TagDiv>
-              <PostTags postData={post.content} />
-            </TagDiv>
-          </TagAndDelete>
+        <TagAndDelete>
+          <TagDiv>
+            <PostTags postData={post.content} />
+          </TagDiv>
+        </TagAndDelete>
         {
             modify === true
-            ? <PostEdit post={post}/>      
-            : <PostNormal post={post} />
+              ? <PostEdit post={post} />
+              : <PostNormal post={post} />
         }
-        </ContentContainer>
+      </ContentContainer>
     </PostsInnerContainer>
   )
 }

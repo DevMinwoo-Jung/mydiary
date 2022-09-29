@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import styled from 'styled-components'
 import type { NextPage } from 'next'
 import { memo, useEffect, useRef } from 'react'
@@ -9,13 +10,13 @@ import shortid from 'shortid'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { dummy, LOAD_POSTS_REQUEST } from 'reducers/post'
 import { useInView } from 'react-intersection-observer'
-import Post from '../components/Posts/Post'
 import Arrow from 'lottie/Arrow'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 import axios from 'axios'
 import wrapper from 'store/configureStore'
-import { END } from "redux-saga";
+import { END } from 'redux-saga';
 import { PostsState, UserState } from 'libs/type'
+import Post from '../components/Posts/Post'
 
 const ContentsContainer = styled.div`
   margin: auto;
@@ -47,49 +48,52 @@ const IntroPara = styled.p`
 
 const _index: NextPage = () => {
   const me = useSelector((state:UserState) => state.user?.me?.id)
-  const { hasMorePosts, loadPostsLoading, mainPosts } = useSelector((state:PostsState) => state.post, shallowEqual)
-  const dispatch = useDispatch()   
+  const { hasMorePosts,
+    loadPostsLoading,
+    mainPosts } = useSelector((state:PostsState) => state.post, shallowEqual)
+  const dispatch = useDispatch()
   const [ref, inView] = useInView()
 
   const postRef: any = useRef()
-  const arrowRef: any = useRef()  
+  const arrowRef: any = useRef()
 
   useEffect(() => {
     dispatch({
-          type: LOAD_MY_INFO_REQUEST
-        })
+      type: LOAD_MY_INFO_REQUEST,
+    })
   }, [])
 
   useEffect(() => {
-        if (inView && hasMorePosts && !loadPostsLoading) {
-          const lastId = mainPosts[mainPosts.length - 1]?.id;
-          dispatch({
-            type: LOAD_POSTS_REQUEST,
-            lastId,
-          });
-        }
-    },[inView, hasMorePosts, loadPostsLoading, mainPosts]);
+    if (inView && hasMorePosts && !loadPostsLoading) {
+      const lastId = mainPosts[mainPosts.length - 1]?.id;
+      dispatch({
+        type: LOAD_POSTS_REQUEST,
+        lastId,
+      });
+    }
+  }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
 
-    useEffect(() => {
-      if (me == null) {
-        const onScroll = () => { 
-          console.log(document.documentElement.scrollHeight, document.documentElement.clientHeight, window.screenY)
-          if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 2500) {
-            postRef.current.style.opacity = '1'
-            postRef.current.style.transition = '1.5s'
-            arrowRef.current.style.opacity = '0'
-            arrowRef.current.style.transition = '1.5s'
-          } else {
-            postRef.current.style.opacity = '0'
-            arrowRef.current.style.opacity = '1'
-          }
+  // eslint-disable-next-line consistent-return
+  useEffect(() => {
+    if (me == null) {
+      const onScroll = () => {
+        if (window.scrollY + document.documentElement.clientHeight
+          > document.documentElement.scrollHeight - 2500) {
+          postRef.current.style.opacity = '1'
+          postRef.current.style.transition = '1.5s'
+          arrowRef.current.style.opacity = '0'
+          arrowRef.current.style.transition = '1.5s'
+        } else {
+          postRef.current.style.opacity = '0'
+          arrowRef.current.style.opacity = '1'
         }
-        window.addEventListener('scroll', onScroll);
-            return () => {
-                window.removeEventListener('scroll', onScroll);
-            };
-        }
-      }, [me]);
+      }
+      window.addEventListener('scroll', onScroll);
+      return () => {
+        window.removeEventListener('scroll', onScroll);
+      };
+    }
+  }, [me]);
 
   return (
     <>
@@ -99,33 +103,35 @@ const _index: NextPage = () => {
       </Head>
       <ContentsContainer>
         {
-          me == null ? null : <PostForm key={shortid.generate()}/>
+          me == null ? null : <PostForm key={shortid.generate()} />
         }
         {
-          me == null ?
-          <>
-        <IntroContainer>
-          <IntroParaContainer>
-            <IntroPara>당신의 <br/> 소중한 <br/>순간들을 <br/>기록하세요.</IntroPara>
-            <div ref={arrowRef}>
-              <Arrow/>
-            </div>
-          </IntroParaContainer>
-          <IntroPostContainer ref={postRef}>
-          {
+          me == null
+            ? (
+              <>
+                <IntroContainer>
+                  <IntroParaContainer>
+                    <IntroPara>당신의 <br /> 소중한 <br />순간들을 <br />기록하세요.</IntroPara>
+                    <div ref={arrowRef}>
+                      <Arrow />
+                    </div>
+                  </IntroParaContainer>
+                  <IntroPostContainer ref={postRef}>
+                    {
             dummy.map(
-              (element) => 
-              <Post post={element} key={shortid()}/>
-              )
-          } 
-          </IntroPostContainer>
-        </IntroContainer>
-          </>
-          : 
-          <>
-            <Posts/>
-            <div ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />
-          </>
+              (element) => <Post post={element} key={shortid()} />,
+            )
+          }
+                  </IntroPostContainer>
+                </IntroContainer>
+              </>
+            )
+            : (
+              <>
+                <Posts />
+                <div ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />
+              </>
+            )
         }
       </ContentsContainer>
     </>
@@ -137,10 +143,10 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   const cookie = context.req ? context.req.headers.cookie : null;
   axios.defaults.headers.common.Cookie = null; // 쿠키 공유 방지
   if (context.req && cookie) {
-    axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달! 
+    axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
   }
   context.store.dispatch({
-    type: LOAD_MY_INFO_REQUEST
+    type: LOAD_MY_INFO_REQUEST,
   })
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();

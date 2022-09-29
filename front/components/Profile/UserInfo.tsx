@@ -1,6 +1,5 @@
-import { Input, message, Popconfirm, Tooltip } from 'antd'
+import { Input, message, Popconfirm, Tooltip, Divider } from 'antd'
 import { size } from 'libs/css/layout'
-import { Divider } from 'antd'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -8,7 +7,7 @@ import useInput from 'libs/hook/useInput'
 import { HIDE_MODIFY_FORM, USER_INFO_MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
 import { GRAY } from 'libs/css/color'
 import router from 'next/router'
-import { useLengthCheck } from 'libs/hook/useLengthCheck'
+import useLengthCheck from 'libs/hook/useLengthCheck'
 import { TiCancel } from 'react-icons/ti'
 import { FiEdit } from 'react-icons/fi'
 import { IoPersonRemove } from 'react-icons/io5'
@@ -127,9 +126,6 @@ const IoPersonRemoveStyle = styled(IoPersonRemove)`
   cursor: pointer;
 `
 
-
-
-
 const _UserInfo = () => {
   const dispatch = useDispatch()
 
@@ -137,7 +133,7 @@ const _UserInfo = () => {
   const nickname = useSelector((state:UserState) => state.user?.me?.nickname)
   const userId = useSelector((state:UserState) => state.user?.me?.userId)
 
-  const [userNickname, onChangeUserNickname ] = useInput('')
+  const [userNickname, onChangeUserNickname] = useInput('')
   const [userPassword, onChangeUserPassword] = useInput('')
   const [checkPassword, onChangeCheckPssword] = useInput('')
 
@@ -145,23 +141,23 @@ const _UserInfo = () => {
   const [checkPwLength, alertPwMessage] = useLengthCheck(20, userPassword, '비밀번호')
 
   const [passwordAlert, setPasswordAlert] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [buttonDisabled , setButtonDisabled] = useState(true)
+  const [, setIsModalOpen] = useState(false)
+  const [buttonDisabled, setButtonDisabled] = useState(true)
 
   const onModify = useCallback(() => {
     router.push('/')
     dispatch({
       type: USER_INFO_MODIFY_REQUEST,
-      data: {userNickname, userPassword},
+      data: { userNickname, userPassword },
     })
     dispatch({
-      type: HIDE_MODIFY_FORM
+      type: HIDE_MODIFY_FORM,
     })
-  },[userNickname, userPassword]) 
+  }, [userNickname, userPassword])
 
   const onCancel = () => {
     dispatch({
-      type: HIDE_MODIFY_FORM
+      type: HIDE_MODIFY_FORM,
     })
   }
 
@@ -171,7 +167,7 @@ const _UserInfo = () => {
 
   useEffect(() => {
     if (checkNickNameLength
-        || checkPwLength 
+        || checkPwLength
         || passwordAlert) {
       setButtonDisabled(true)
     } else {
@@ -180,7 +176,7 @@ const _UserInfo = () => {
   }, [checkNickNameLength, checkPwLength, passwordAlert])
 
   useEffect(() => {
-    if(checkPassword !== userPassword) {
+    if (checkPassword !== userPassword) {
       setPasswordAlert(true)
     } else {
       setPasswordAlert(false)
@@ -193,134 +189,137 @@ const _UserInfo = () => {
     })
     router.push('/')
   };
-  
+
   const cancel = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
     message.error('탈퇴가 취소되었습니다.');
   };
 
-
   return (
-  <>
-    <UserInfoContainer>
-    <UserInfoDiv>
-      <UserInfoInnerDiv>
-        <TitleDiv>
-          <ParagraphStyle>아이디</ParagraphStyle>
-        </TitleDiv>
-        <InfoDiv>
-          <ParagraphStyle>{userId}</ParagraphStyle> 
-        </InfoDiv>
-      </UserInfoInnerDiv>
-    </UserInfoDiv>
-    <DividerStyle/>
-    <UserInfoContainer>
-      <UserInfoDiv>
-        <UserInfoInnerDiv>
-          <TitleDiv>
-            <ParagraphStyle>활동명</ParagraphStyle>
-          </TitleDiv>
-          <InfoDiv>
-            <ParagraphStyle>{nickname}</ParagraphStyle> 
-          </InfoDiv>
-          {
-            showModifyForm &&
-            <ModifyDiv>
-              <InputStyle onChange={onChangeUserNickname} placeholder={nickname}/>
+    <>
+      <UserInfoContainer>
+        <UserInfoDiv>
+          <UserInfoInnerDiv>
+            <TitleDiv>
+              <ParagraphStyle>아이디</ParagraphStyle>
+            </TitleDiv>
+            <InfoDiv>
+              <ParagraphStyle>{userId}</ParagraphStyle>
+            </InfoDiv>
+          </UserInfoInnerDiv>
+        </UserInfoDiv>
+        <DividerStyle />
+        <UserInfoContainer>
+          <UserInfoDiv>
+            <UserInfoInnerDiv>
+              <TitleDiv>
+                <ParagraphStyle>활동명</ParagraphStyle>
+              </TitleDiv>
+              <InfoDiv>
+                <ParagraphStyle>{nickname}</ParagraphStyle>
+              </InfoDiv>
               {
-                checkNickNameLength === true ?
-                <AlertMessageStyle>{alertNickNameMessage}</AlertMessageStyle>
-                : null
+            showModifyForm
+            && (
+            <ModifyDiv>
+              <InputStyle onChange={onChangeUserNickname} placeholder={nickname} />
+              {
+                checkNickNameLength === true
+                  ? <AlertMessageStyle>{alertNickNameMessage}</AlertMessageStyle>
+                  : null
               }
             </ModifyDiv>
+            )
           }
-        </UserInfoInnerDiv>
-      </UserInfoDiv>
-    </UserInfoContainer>
-    <DividerStyle/>
-    <UserInfoDiv>
-      <UserInfoInnerDiv>
-        <TitleDiv>
-          <ParagraphStyle>비밀번호</ParagraphStyle>
-        </TitleDiv>
-        <>
-          <ModifyDiv>
-          {
-          showModifyForm &&
+            </UserInfoInnerDiv>
+          </UserInfoDiv>
+        </UserInfoContainer>
+        <DividerStyle />
+        <UserInfoDiv>
+          <UserInfoInnerDiv>
+            <TitleDiv>
+              <ParagraphStyle>비밀번호</ParagraphStyle>
+            </TitleDiv>
             <>
-            <InputStyle type={'password'} onChange={onChangeUserPassword} placeholder={''}/>
-            {
+              <ModifyDiv>
+                {
+          showModifyForm
+            && (
+            <>
+              <InputStyle type="password" onChange={onChangeUserPassword} placeholder="" />
+              {
               checkPwLength === false ? null
-              : <AlertMessageStyle>{alertPwMessage}</AlertMessageStyle>
+                : <AlertMessageStyle>{alertPwMessage}</AlertMessageStyle>
             }
             </>
+            )
           }
-          </ModifyDiv>
-          <ModifyDiv>
-              {
-                showModifyForm === false 
-                ? null
-                : 
-                <>
-                <InputStyle type={'password'} onChange={onChangeCheckPssword} placeholder={'변경할 비밀번호를 다시 입력하세요'}/>
-                  {
+              </ModifyDiv>
+              <ModifyDiv>
+                {
+                showModifyForm === false
+                  ? null
+                  : (
+                    <>
+                      <InputStyle type="password" onChange={onChangeCheckPssword} placeholder="변경할 비밀번호를 다시 입력하세요" />
+                      {
                     passwordAlert === false ? null
-                    : <AlertMessageStyle>비밀번호가 일치하지 않습니다.</AlertMessageStyle>
+                      : <AlertMessageStyle>비밀번호가 일치하지 않습니다.</AlertMessageStyle>
                   }
-                </>
+                    </>
+                  )
               }
-            </ModifyDiv>   
-        </>
-      </UserInfoInnerDiv>
-    </UserInfoDiv>
-    <ButtonDiv>
-        {
+              </ModifyDiv>
+            </>
+          </UserInfoInnerDiv>
+        </UserInfoDiv>
+        <ButtonDiv>
+          {
           showModifyForm === true
-          ?
-          <ModifyButtonDiv>
-            {
-              buttonDisabled 
-              ?
-                  <ModifyIconDisabledStyle/>
-              :
-              <>
-                <Tooltip title="수정하기">
-                  <ModifyIconStyle onClick={onModify}/>
-                </Tooltip>
-              </>
+            ? (
+              <ModifyButtonDiv>
+                {
+              buttonDisabled
+                ? <ModifyIconDisabledStyle />
+                : (
+                  <>
+                    <Tooltip title="수정하기">
+                      <ModifyIconStyle onClick={onModify} />
+                    </Tooltip>
+                  </>
+                )
             }
 
-            <Tooltip title="취소">
-              <TiCancelStyle onClick={onCancel}/>
-            </Tooltip>
-          </ModifyButtonDiv>
-          :
-          <ModifyButtonDiv>
-
-          </ModifyButtonDiv>
+                <Tooltip title="취소">
+                  <TiCancelStyle onClick={onCancel} />
+                </Tooltip>
+              </ModifyButtonDiv>
+            )
+            : <ModifyButtonDiv />
         }
-      </ButtonDiv>
-      {
+        </ButtonDiv>
+        {
           showModifyForm === true
-          ?
-        <RemoveUserDiv>
-          <Popconfirm
-            title="탈퇴할 경우 게시물은 복구할 수 없습니다."
-            onCancel={cancel}
-            onConfirm={() => confirm()}
-            okText="삭제"
-            cancelText="취소"
-            icon={<QuestionCircleOutlined style={{color: 'red'}}/>}
-            >
-              <Tooltip title="탈퇴하기">
-                <IoPersonRemoveStyle onClick={showModal}/>
-              </Tooltip>
-          </Popconfirm>
-        </RemoveUserDiv>
-        : null
+            ? (
+              <RemoveUserDiv>
+                <Popconfirm
+                  title="탈퇴할 경우 게시물은 복구할 수 없습니다."
+                  onCancel={cancel}
+                  onConfirm={() => confirm()}
+                  okText="삭제"
+                  cancelText="취소"
+                  icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                >
+                  <Tooltip title="탈퇴하기">
+                    <IoPersonRemoveStyle onClick={showModal} />
+                  </Tooltip>
+                </Popconfirm>
+              </RemoveUserDiv>
+            )
+            : null
         }
-  </UserInfoContainer>
-  </>
+      </UserInfoContainer>
+    </>
   )
 }
 

@@ -1,12 +1,11 @@
 import { EditOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Button, Form, Tooltip } from 'antd'
+import { Avatar, Form, Tooltip, Typography } from 'antd'
 import { size } from 'libs/css/layout'
 import React, { memo, useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { Typography } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { ISPOST_IMAGE_FALSE, ISPOST_IMAGE_TRUE, SHOW_MODIFY_FORM } from 'reducers/user'
-import { BORDER_COLOR, BUTTON_COLOR, COLOR_MAIN, FONT_COLOR, WHITE } from 'libs/css/color'
+import { COLOR_MAIN, FONT_COLOR, WHITE } from 'libs/css/color'
 import { LOAD_PROFILE_REQUEST, MODIFY_PROFILE_IMAGE_REQUEST, UPLOAD_PROFILE_IMAGES_REQUEST } from 'reducers/post'
 import { BsImage } from 'react-icons/bs'
 import { PostsState, UserState } from 'libs/type'
@@ -59,37 +58,6 @@ const EditOutlinedStyle = styled(EditOutlined)`
   cursor: pointer;
 `
 
-const ButtonStyle = styled(Button)`
-  width: 150px;
-  position: absolute;
-  bottom: -1rem;
-  right: 25%;
-  font-size: 12px;
-  border-radius: 9px;
-  background-color: ${WHITE};
-  border-color: ${BORDER_COLOR};
-  color: ${FONT_COLOR};
-  &.ant-btn[disabled], .ant-btn[disabled]:hover, .ant-btn[disabled]:focus, .ant-btn[disabled]:active {
-    background-color: ${WHITE};
-    border-color: ${BORDER_COLOR};
-    color: ${FONT_COLOR};
-    font-weight: bolder;
-  }
-  &.ant-btn:hover, .ant-btn:focus, .ant-btn:active{
-    background-color: ${WHITE};
-  border-color: ${BORDER_COLOR};
-  color: ${FONT_COLOR};
-  font-weight: bolder;
-  }
-  @media screen and (max-width: ${size.mobileL}) { 
-    position: absolute;
-    width: 120px;
-    height: 25px;
-    bottom: 0rem;
-    right: 1rem;
-  }
-`
-
 const UserOutlinedStyle = styled(UserOutlined)`
   object-fit: fill;
   width: 100%;
@@ -98,22 +66,6 @@ const UserOutlinedStyle = styled(UserOutlined)`
 const ImgStyle = styled.img`
   object-fit: fill;
   width: 100%;
-`
-
-const RemoveButtonStyle = styled(Button)`
-  width: 20%;
-  margin: auto;
-  cursor: pointer;
-  font-size: 12px;
-  border-radius: 9px;
-  background-color: ${BUTTON_COLOR};
-  color: ${WHITE};
-  border-color: none;
-  & :hover {
-    background-color: ${BUTTON_COLOR};
-    color: ${WHITE};
-    font-weight: bolder;
-  }
 `
 
 const AddImageButtonStyle = styled(BsImage)`
@@ -134,30 +86,32 @@ const _UserPhoto = () => {
   const nickname = useSelector((state:UserState) => state.user?.me?.nickname)
   const imagePath = useSelector((state:PostsState) => state.post?.imagePath)
   const me = useSelector((state:UserState) => state.user?.me)
-  const { userInfomodifyLoading, showModifyForm, isPosted } = useSelector((state:UserState) => state.user)
+  const { userInfomodifyLoading,
+    showModifyForm,
+    isPosted } = useSelector((state:UserState) => state.user)
   const imageInput = useRef<any>()
 
   const onClickImageUploads = useCallback(() => {
     imageInput.current.click()
   }, [imageInput.current])
-  
+
   const onChangeImages = useCallback((e) => {
     const imageFormData = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
     [].forEach.call(e.target.files, (f) => {
-        imageFormData.append('image', f)
+      imageFormData.append('image', f)
     })
     dispatch({
       type: UPLOAD_PROFILE_IMAGES_REQUEST,
-      data: imageFormData
+      data: imageFormData,
     })
     dispatch({
       type: ISPOST_IMAGE_TRUE,
     })
-  },[])
+  }, [])
 
   const onUserModify = () => {
     dispatch({
-      type: SHOW_MODIFY_FORM
+      type: SHOW_MODIFY_FORM,
     })
   }
 
@@ -166,59 +120,63 @@ const _UserPhoto = () => {
     formData.append('image', imagePath.filename);
     formData.append('user', userId);
     dispatch({
-        type: MODIFY_PROFILE_IMAGE_REQUEST,
-        data: formData,
+      type: MODIFY_PROFILE_IMAGE_REQUEST,
+      data: formData,
     });
-  },[imagePath])
-
+  }, [imagePath])
 
   useEffect(() => {
-    if(me !== null){
+    if (me !== null) {
       dispatch({
-        type: LOAD_PROFILE_REQUEST
+        type: LOAD_PROFILE_REQUEST,
       })
     }
   }, [me])
- 
+
   useEffect(() => {
     if ((isPosted === true) && (userInfomodifyLoading === true)) {
       onSubmit()
       dispatch({
-        type: ISPOST_IMAGE_FALSE
+        type: ISPOST_IMAGE_FALSE,
       })
     }
   }, [userInfomodifyLoading, isPosted])
 
   return (
-    <Form encType="multipart/form-data" >
-      <UserPhotoDiv >
+    <Form encType="multipart/form-data">
+      <UserPhotoDiv>
         {
-          imagePath === null 
-          ? <AvatarStyle size={150} icon={<UserOutlinedStyle />}/>
-          : <AvatarStyle size={150} 
-            icon={<ImgStyle src={`http://${backUrl}/${imagePath.filename || imagePath.src}`} alt={String(imagePath.filename)}/>}
-            />
+          imagePath === null
+            ? <AvatarStyle size={150} icon={<UserOutlinedStyle />} />
+            : (
+              <AvatarStyle
+                size={150}
+                icon={<ImgStyle src={`http://${backUrl}/${imagePath.filename || imagePath.src}`} alt={String(imagePath.filename)} />}
+              />
+            )
           }
         <ParagraphDivStyle>
           <ParagraphStyle>
-            안녕하세요<br/>
-            {nickname} 님 <EditOutlinedStyle onClick={onUserModify}/>
+            안녕하세요<br />
+            {nickname} 님 <EditOutlinedStyle onClick={onUserModify} />
           </ParagraphStyle>
           {
-            showModifyForm && 
+            showModifyForm
+            && (
             <>
               <Tooltip title="프로필 이미지 추가">
-                <AddImageButtonStyle onClick={onClickImageUploads}/>
+                <AddImageButtonStyle onClick={onClickImageUploads} />
               </Tooltip>
             </>
+            )
           }
-          <input type='file' name='image'multiple hidden ref={imageInput} onChange={onChangeImages}/>
+          <input type="file" name="image" multiple hidden ref={imageInput} onChange={onChangeImages} />
         </ParagraphDivStyle>
       </UserPhotoDiv>
-    </Form>  
+    </Form>
   )
 }
 
 const UserPhoto = memo(_UserPhoto)
 
-export default UserPhoto 
+export default UserPhoto

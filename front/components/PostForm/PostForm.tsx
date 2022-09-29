@@ -1,17 +1,19 @@
-import { DatePicker, DatePickerProps, Form, Input, Tooltip } from 'antd'
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react' 
-import styled from 'styled-components'
-import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import moment from 'moment'
-import 'moment/locale/ko'
-import { size } from 'libs/css/layout'
-import { COLOR_DBE2EF, WHITE } from 'libs/css/color'
-import useInput from 'libs/hook/useInput'
-import Images from 'components/Posts/Images'
-import { BiMessageAltAdd, BiHide, BiShow } from 'react-icons/bi'
-import { BsImage } from 'react-icons/bs'
-import { PostsState } from 'libs/type'
+/* eslint-disable no-alert */
+// eslint-disable-next-line no-unused-vars
+import { DatePicker, DatePickerProps, Form, Input, Tooltip } from 'antd';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
+import 'moment/locale/ko';
+import { size } from 'libs/css/layout';
+import { COLOR_DBE2EF, WHITE } from 'libs/css/color';
+import useInput from 'libs/hook/useInput';
+import Images from 'components/Posts/Images';
+import { BiMessageAltAdd, BiHide, BiShow } from 'react-icons/bi';
+import { BsImage } from 'react-icons/bs';
+import { PostsState } from 'libs/type';
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post';
 
 moment.locale('ko');
 
@@ -133,37 +135,35 @@ export const _PostForm = () => {
   const dispatch = useDispatch()
   const imageInput = useRef<any>()
   const [date, setDate] = useState<string>(undefined)
-  const [userId, setUserId] = useState<string>(undefined)
   const [text, onChangeText, setText] = useInput('')
   const [showForm, setShowForm] = useState(false)
   const imagePaths = useSelector((state:PostsState) => state.post.imagePaths, shallowEqual);
   const addPostDone = useSelector((state:PostsState) => state.post.addPostDone, shallowEqual);
 
-
-
-  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+  const onChange: DatePickerProps['onChange'] = (_date, dateString) => {
     setDate(dateString)
   };
-  
+
   useEffect(() => {
     if (addPostDone) {
-        setText('');
+      setText('');
     }
   }, [addPostDone]);
 
   const onClickImageUploads = useCallback(() => {
     imageInput.current.click()
   }, [imageInput.current])
-  
+
+  // eslint-disable-next-line consistent-return
   const onChangeImages = useCallback((e) => {
     const fileType = e.target.files[0].type.replace(/(.*)\//g, '')
-    if(e.target.files.length > 10) {
+    if (e.target.files.length > 10) {
       return alert('파일은 한 게시물당 10개까지만 올릴 수 있습니다.')
     }
-    if(fileType != 'png' && fileType != 'jpg' && fileType != 'jpeg') {
+    if (fileType !== 'png' && fileType !== 'jpg' && fileType !== 'jpeg') {
       return alert('파일 확장자는 png, jpg, jpeg만 지원합니다');
     }
-    if((e.target.files[0].size/1024/1024).toFixed(4) >= '5') {
+    if ((e.target.files[0].size / 1024 / 1024).toFixed(4) >= '5') {
       return alert(`${e.target.files[0].name} 이미지 크기는 5MB를 초과할 수 없습니다.`);
     }
     const imageFormData = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
@@ -172,17 +172,17 @@ export const _PostForm = () => {
       imageFormData.append('image', f)
     })
     dispatch({
-        type: UPLOAD_IMAGES_REQUEST,
-        data: imageFormData
+      type: UPLOAD_IMAGES_REQUEST,
+      data: imageFormData,
     })
-  },[])
+  }, [])
 
   const hideForm = () => {
     setShowForm((prev) => !prev)
   }
 
+  // eslint-disable-next-line consistent-return
   const onSubmit = useCallback(() => {
-    
     const postImgId = moment().format('YYYY-MM-DD-h:mm:ss')
 
     if (!text || !text.trim()) {
@@ -193,79 +193,80 @@ export const _PostForm = () => {
     }
     const formData = new FormData();
     imagePaths.forEach((p) => {
-        formData.append('image', p);
+      formData.append('image', p);
     });
     formData.append('date', date);
     formData.append('content', text);
-    formData.append('userId', userId);
     formData.append('postImgId', postImgId);
     dispatch({
-        type: ADD_POST_REQUEST,
-        data: formData,
+      type: ADD_POST_REQUEST,
+      data: formData,
     });
-  },[imagePaths, text, date, userId])
+  }, [imagePaths, text, date])
 
   return (
     <>
       {
         showForm === true
-        ? 
-          <>
-            <Tooltip title="게시글 작성하기">
-              <BiShowStyle onClick={hideForm}>
-                  <BiShow/>
-              </BiShowStyle>
-            </Tooltip>
-          </>
-        :
-        <>
-            <Tooltip title="숨기기">
-              <HideStyle onClick={hideForm}>
-                  <BiHide/>
-              </HideStyle>
-            </Tooltip>
-          <PostFormContainer name="image" encType="multipart/form-data" onFinish={onSubmit}>
-          <ImgsDiv>
-              {
-                imagePaths.length > 0 && <Images image={imagePaths} type={'postForm'}/>
+          ? (
+            <>
+              <Tooltip title="게시글 작성하기">
+                <BiShowStyle onClick={hideForm}>
+                  <BiShow />
+                </BiShowStyle>
+              </Tooltip>
+            </>
+          )
+          : (
+            <>
+              <Tooltip title="숨기기">
+                <HideStyle onClick={hideForm}>
+                  <BiHide />
+                </HideStyle>
+              </Tooltip>
+              <PostFormContainer name="image" encType="multipart/form-data" onFinish={onSubmit}>
+                <ImgsDiv>
+                  {
+                imagePaths.length > 0 && <Images image={imagePaths} type="postForm" />
               }
-            </ImgsDiv>
-          <InnerPostFormDiv>
-            <DateDiv>
-              <DatePickerStyle onChange={onChange}/>
-                {
-                  date === undefined || date === '' || date === null 
-                  ? ''
-                  : <DateStyle>{moment(`${date}`).format('dddd')}</DateStyle>
+                </ImgsDiv>
+                <InnerPostFormDiv>
+                  <DateDiv>
+                    <DatePickerStyle onChange={onChange} />
+                    {
+                  date === undefined || date === '' || date === null
+                    ? ''
+                    : <DateStyle>{moment(`${date}`).format('dddd')}</DateStyle>
                 }
-            </DateDiv>
-            <TextContainer
-                rows={5}
-                value={text}
-                onChange={onChangeText}
-                maxLength={200}
-                placeholder="무엇이든 기록해봐요"/>
-            <ButtonsDiv>
-              <input type='file' name='image'multiple hidden ref={imageInput} onChange={onChangeImages}/>
-                <Tooltip title="이미지 추가">
-                  <AddImageButtonDivStyle onClick={onClickImageUploads}>
-                    <BsImage />
-                  </AddImageButtonDivStyle>
-                </Tooltip>
-                <Tooltip title="게시물 업로드">
-                  <AddButtonDivStyle onClick={onSubmit}>
-                    <BiMessageAltAdd />
-                  </AddButtonDivStyle>
-                </Tooltip>
-            </ButtonsDiv>
-          </InnerPostFormDiv>
-          </PostFormContainer>
-          </>
+                  </DateDiv>
+                  <TextContainer
+                    rows={5}
+                    value={text}
+                    onChange={onChangeText}
+                    maxLength={200}
+                    placeholder="무엇이든 기록해봐요"
+                  />
+                  <ButtonsDiv>
+                    <input type="file" name="image" multiple hidden ref={imageInput} onChange={onChangeImages} />
+                    <Tooltip title="이미지 추가">
+                      <AddImageButtonDivStyle onClick={onClickImageUploads}>
+                        <BsImage />
+                      </AddImageButtonDivStyle>
+                    </Tooltip>
+                    <Tooltip title="게시물 업로드">
+                      <AddButtonDivStyle onClick={onSubmit}>
+                        <BiMessageAltAdd />
+                      </AddButtonDivStyle>
+                    </Tooltip>
+                  </ButtonsDiv>
+                </InnerPostFormDiv>
+              </PostFormContainer>
+            </>
+          )
       }
     </>
   )
 }
-
 
 const PostForm = memo(_PostForm)
 

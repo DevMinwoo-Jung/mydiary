@@ -2,10 +2,10 @@ import React, { memo, useEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import shortid from 'shortid'
-import Post from './Post'
 import { LOAD_POSTS_REQUEST, POST_REQUEST_FASLE } from 'reducers/post'
 import { BACKGROUND_COLOR } from 'libs/css/color'
 import { PostsState, UserState } from 'libs/type'
+import Post from './Post'
 
 const PostsContainer = styled.div`
   margin: auto;
@@ -15,20 +15,19 @@ const PostsContainer = styled.div`
   background-color: ${BACKGROUND_COLOR};
 `
 
-
 const _Posts = () => {
   const mainPosts = useSelector((state:PostsState) => state.post.mainPosts, shallowEqual)
   const me = useSelector((state:UserState) => state.user.me)
   const postRequest = useSelector((state:PostsState) => state.post?.postRequest)
-  const dispatch = useDispatch() 
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    if(postRequest) {
+    if (postRequest) {
       dispatch({
         type: LOAD_POSTS_REQUEST,
       })
       dispatch({
-        type: POST_REQUEST_FASLE
+        type: POST_REQUEST_FASLE,
       })
     }
   }, [postRequest])
@@ -36,17 +35,16 @@ const _Posts = () => {
   return (
     <PostsContainer key={shortid()}>
       {
-        me != null ?
-          <>
-            {
+        me != null
+          ? (
+            <>
+              {
               mainPosts
-              .map(post =>{
-                return <Post post={post} key={shortid()} />
-              }
-              )
+                .map((post) => <Post post={post} key={shortid()} />)
             }
-          </>
-        : null
+            </>
+          )
+          : null
       }
     </PostsContainer>
   );

@@ -12,9 +12,8 @@ const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const path = require('path')
-const hpp = reuqier('hpp')
+const hpp = require('hpp')
 const helmet = require('helmet')
-const backUrl = require('../front/libs/config')
 
 dotenv.config();
 const app = express(); 

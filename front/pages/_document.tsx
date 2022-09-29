@@ -3,12 +3,14 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 export default class MyDocument extends Document {
+  // eslint-disable-next-line consistent-return
   static async getInitialProps(ctx) {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
     try {
       ctx.renderPage = () => originalRenderPage({
-        enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
       });
       const initialProps = await Document.getInitialProps(ctx);
       return {
@@ -33,7 +35,7 @@ export default class MyDocument extends Document {
         <Head />
         <body>
           {/* internet expoler에서도 돌아가게 */}
-          <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2Ces2016%2Ces2017%2Ces2018%2Ces2019%2Ces2020"></script>
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2Ces2016%2Ces2017%2Ces2018%2Ces2019%2Ces2020" />
           <Main />
           <NextScript />
         </body>

@@ -4,12 +4,11 @@ import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { BACKGROUND_COLOR, BUTTON_COLOR } from 'libs/css/color'
 import { LOAD_EDIT_IMAGE, REMOVE_EDIT_IMAGE } from 'reducers/post'
-import DeleteDiv from '../DeleteDiv'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
 import { PostObject, PostsState } from 'libs/type'
 import { backUrl } from 'libs/config'
-
+import DeleteDiv from '../DeleteDiv'
 
 type image = {
   src: string;
@@ -107,15 +106,15 @@ const Slide = styled.div`
   color: white;
 `
 
-
-const _EditImages:FC<EditImagesProps>  = (props) => {
+const _EditImages:FC<EditImagesProps> = (props) => {
   const dispatch = useDispatch()
   const { modifyImagePaths } = useSelector((state:PostsState) => state.post)
+  // eslint-disable-next-line no-shadow
   const { image } = props
   const [currentSlide, setCurrentSlide] = useState(0);
   const [hideDelete, toggle] = useToggle()
 
-  const onShowPrevImg = (e) => {
+  const onShowPrevImg = () => {
     if (currentSlide === 0) {
       setCurrentSlide(modifyImagePaths.length - 1)
     } else {
@@ -123,16 +122,12 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
     }
   }
 
-
-
-
   useEffect(() => {
     dispatch({
       type: LOAD_EDIT_IMAGE,
-      data: image
+      data: image,
     })
   }, [])
-
 
   const onShowNextImg = () => {
     if (currentSlide === modifyImagePaths.length - 1) {
@@ -144,49 +139,59 @@ const _EditImages:FC<EditImagesProps>  = (props) => {
 
   const onRemoveImage = useCallback((index: any) => () => {
     dispatch({
-        type: REMOVE_EDIT_IMAGE,
-        data: index
+      type: REMOVE_EDIT_IMAGE,
+      data: index,
     })
   }, [])
 
   return (
     <>
       {
-        modifyImagePaths.length === 0 
-        ? null
-        : 
-        <ImageContainer>
-          {
+        modifyImagePaths.length === 0
+          ? null
+          : (
+            <ImageContainer>
+              {
             modifyImagePaths.length === 1
-            ? null
-            : <CaretLeftOutlinedStyle onClick={onShowPrevImg}/> 
+              ? null
+              : <CaretLeftOutlinedStyle onClick={onShowPrevImg} />
           }
-          <ImgStyle src={`http://${backUrl}/${modifyImagePaths[currentSlide]}`}/>
-            {
-              hideDelete === false ? 
-              <>
-                {
-                  modifyImagePaths.length === 1  ? null : <DeleteDiv/> 
+              <ImgStyle src={`http://${backUrl}/${modifyImagePaths[currentSlide]}`} />
+              {
+              hideDelete === false
+                ? (
+                  <>
+                    {
+                  modifyImagePaths.length === 1 ? null : <DeleteDiv />
                 }
-              </>
-              : null
+                  </>
+                )
+                : null
             }
-          <Slide>
-            <p>{currentSlide+1} / {modifyImagePaths.length}</p>
-          </Slide>
-          {
+              <Slide>
+                <p>{currentSlide + 1} / {modifyImagePaths.length}</p>
+              </Slide>
+              {
             modifyImagePaths.length === 1
-            ? null
-            : <RemoveButtonStyle onMouseEnter={toggle} onMouseLeave={toggle} onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
+              ? null
+              : (
+                <RemoveButtonStyle
+                  onMouseEnter={toggle}
+                  onMouseLeave={toggle}
+                  onClick={onRemoveImage(currentSlide)}
+                >제거
+                </RemoveButtonStyle>
+              )
           }
-          {
+              {
             modifyImagePaths.length === 1
-            ? null
-            : <CaretRightOutlinedStyle onClick={onShowNextImg}/> 
+              ? null
+              : <CaretRightOutlinedStyle onClick={onShowNextImg} />
           }
-        </ImageContainer>
+            </ImageContainer>
+          )
       }
-    </>  
+    </>
   )
 }
 

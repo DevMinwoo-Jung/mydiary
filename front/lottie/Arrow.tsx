@@ -11,23 +11,23 @@ const LottieStyle = styled.div`
 `
 
 const _Arrow = () => {
-    const lottie = useRef()
+  const lottie = useRef()
 
-    const options = {
-        animationData: arrow,
-        loop: true,
-        autoplay: true,
-        name: 'arrow',
-        container: lottie.current
-      };
+  const options = {
+    animationData: arrow,
+    loop: true,
+    autoplay: true,
+    name: 'arrow',
+    container: lottie.current,
+  };
 
-    const { View } = useLottie(options);
+  const { View } = useLottie(options);
 
-      return (
-        <LottieStyle ref={lottie}>
-            {View}
-        </LottieStyle>
-      )
+  return (
+    <LottieStyle ref={lottie}>
+      {View}
+    </LottieStyle>
+  )
 }
 
 const Arrow = memo(_Arrow)

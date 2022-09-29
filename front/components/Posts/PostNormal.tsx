@@ -3,7 +3,6 @@ import moment from 'moment'
 import React, { FC } from 'react'
 import styled from 'styled-components'
 
-
 const DateDiv = styled.div`
   display: flex;
   font-size: 0.8rem;
@@ -26,24 +25,23 @@ const ContentPara = styled.p`
 `
 
 const PostNormal:FC<PostProps> = (props) => {
-
-  const { post } = props 
+  const { post } = props
 
   return (
     <>
       <DateDiv>
-          {
+        {
             post.date !== 'undefined'
-            ? <DatePara>{post.date}</DatePara>
-            : ''
+              ? <DatePara>{post.date}</DatePara>
+              : ''
           }
-          {
+        {
           post.date !== 'undefined'
-          ? <DatePara>{moment(`${post.date}`).format('dddd')}</DatePara>
-          : null
+            ? <DatePara>{moment(`${post.date}`).format('dddd')}</DatePara>
+            : null
           }
-        </DateDiv>
-          <ContentPara>{post.content}</ContentPara>
+      </DateDiv>
+      <ContentPara>{post.content}</ContentPara>
     </>
   )
 }

@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 import styled from 'styled-components'
 
-
 const ProfileContainer = styled.div`
   width: 100%;
   height: 70%;
@@ -19,7 +18,7 @@ const ProfileContainer = styled.div`
 `
 
 const _profile = () => {
-  const dispatch = useDispatch()   
+  const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch({
@@ -34,8 +33,8 @@ const _profile = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ProfileContainer>
-        <UserPhoto/>
-        <UserInfo/>
+        <UserPhoto />
+        <UserInfo />
       </ProfileContainer>
     </>
   )

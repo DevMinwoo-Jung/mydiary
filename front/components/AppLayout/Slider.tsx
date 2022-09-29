@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { memo, useCallback } from 'react'
 import styled from 'styled-components'
 import { Menu } from 'antd'
@@ -8,17 +9,18 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons'
 import { useRouter } from 'next/router'
-import {  COLOR_MAIN, FONT_COLOR, GRAY, WHITE } from '../../libs/css/color'
 import UserInfoMini from 'components/Profile/UserInfoMini'
 import { ToggleProps } from 'libs/type'
 import { POST_REQUEST_FASLE } from 'reducers/post'
 import { LOG_OUT_REQUEST } from 'reducers/user'
 import { useDispatch } from 'react-redux'
+import { COLOR_MAIN, FONT_COLOR, GRAY, WHITE } from '../../libs/css/color';
 
-const SidebarContainer = styled.aside<{ isOpened: boolean }>`
+// eslint-disable-next-line no-undef
+const SidebarContainer = styled.aside < { isOpened: boolean } > `
   margin-top: 3rem;
   background: ${COLOR_MAIN};
-  width: ${(props) => (props.isOpened ? "10rem" : "0")};
+  width: ${(props) => (props.isOpened ? '10rem' : '0')};
   transition: width 0.5s;
   overflow: hidden;
   position: fixed;
@@ -77,23 +79,22 @@ const _Slider = (props: ToggleProps) => {
   const router = useRouter()
   const dispatch = useDispatch()
 
-  const onLogout = useCallback((e) => {
+  const onLogout = useCallback(() => {
     dispatch({
-      type: LOG_OUT_REQUEST
+      type: LOG_OUT_REQUEST,
     })
     router.push('/')
     dispatch({
-      type: POST_REQUEST_FASLE
+      type: POST_REQUEST_FASLE,
     })
     toggleDrawer(false);
   }, [])
 
   const items: MenuItem[] = [
-    getItem('','0', <UserInfoContainer><UserInfoMini/></UserInfoContainer>),
+    getItem('', '0', <UserInfoContainer><UserInfoMini /></UserInfoContainer>),
     getItem('메인화면', '1', <HomeOutlined />),
     getItem('내 정보', '2', <UserOutlined />),
-    getItem('', '3', <LogoutContainer onClick={onLogout}><LogoutOutlinedStyled />로그아웃</LogoutContainer> )]
-    
+    getItem('', '3', <LogoutContainer onClick={onLogout}><LogoutOutlinedStyled />로그아웃</LogoutContainer>)]
   const onMoveRecord = (e) => {
     if (e.keyPath[0] === '1') {
       router.push('/')
@@ -102,11 +103,11 @@ const _Slider = (props: ToggleProps) => {
       router.push('/profile')
       toggleDrawer(false)
     }
-  } 
+  }
   return (
-      <SidebarContainer isOpened={isOpened}>
-        <MenuStyle onClick={onMoveRecord} defaultSelectedKeys={['1']} mode="inline" items={items} />
-      </SidebarContainer>
+    <SidebarContainer isOpened={isOpened}>
+      <MenuStyle onClick={onMoveRecord} defaultSelectedKeys={['1']} mode="inline" items={items} />
+    </SidebarContainer>
   )
 }
 

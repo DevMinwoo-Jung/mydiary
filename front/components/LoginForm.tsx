@@ -5,7 +5,7 @@ import useInput from 'libs/hook/useInput'
 import { MdOutlineClose } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { LOG_IN_REQUEST } from 'reducers/user'
-import { BORDER_COLOR, BUTTON_COLOR, FONT_COLOR, WHITE } from 'libs/css/color'
+import { BORDER_COLOR, FONT_COLOR, WHITE } from 'libs/css/color'
 import { UserState } from 'libs/type'
 
 const LoginFormContainer = styled.div`
@@ -81,20 +81,21 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
   const [password, onChangePassword] = useInput('')
 
   useEffect(() => {
+    // eslint-disable-next-line no-unused-expressions
     logInDone === true ? onLogin() : ''
   }, [logInDone])
 
   const onSubmitForm = useCallback(() => {
     dispatch({
       type: LOG_IN_REQUEST,
-      data: {userId, password}
+      data: { userId, password },
     })
   }, [userId, password]);
 
   return (
     <LoginFormContainer>
       <FormHeader>로그인</FormHeader>
-      <CloseButton onClick={onLogin}/>
+      <CloseButton onClick={onLogin} />
       <FormContainer>
         <Form
           name="basic"
@@ -106,22 +107,22 @@ const _LoginForm: FC<LoginFormProps> = (props) => {
             name="userId"
             rules={[{ required: true, message: '아이디를 입력해주세요!' }]}
           >
-            <InputStyle name="userId" value={userId} onChange={onChangeUserId} placeholder='아이디' required />
+            <InputStyle name="userId" value={userId} onChange={onChangeUserId} placeholder="아이디" required />
           </Form.Item>
           <Form.Item
             name="password"
             rules={[{ required: true, message: '비밀번호를 입력해주세요!' }]}
           >
-            <InputPasswordStyle name="userPassword" value={password} onChange={onChangePassword} placeholder='비밀번호' required />
+            <InputPasswordStyle name="userPassword" value={password} onChange={onChangePassword} placeholder="비밀번호" required />
           </Form.Item>
           {
-              logInError === true 
-              ? <p>아이디 혹은 비밀번호가 잘못됐습니다.</p>
-              : null
+              logInError === true
+                ? <p>아이디 혹은 비밀번호가 잘못됐습니다.</p>
+                : null
           }
           <ButtonStyle htmlType="submit">
-              로그인하기
-            </ButtonStyle> 
+            로그인하기
+          </ButtonStyle>
         </Form>
       </FormContainer>
     </LoginFormContainer>

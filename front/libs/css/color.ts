@@ -8,5 +8,4 @@ export const COLOR_DBE2EF = '#DBE2EF';
 export const BORDER_COLOR = 'black';
 export const BACKGROUND_COLOR = '#fafafa'
 export const GRAY = '#dcdcdc';
-export const BLACK = 'black'
-
+export const BLACK = 'black';

@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { BACKGROUND_COLOR, BUTTON_COLOR } from 'libs/css/color'
 import { REMOVE_IMAGE } from 'reducers/post'
 import useToggle from 'libs/hook/useToggle'
-import DeleteDiv from './DeleteDiv'
 import { IoTrashBinOutline } from 'react-icons/io5'
 import { UserState } from 'libs/type'
 import { backUrl } from 'libs/config'
-
+import DeleteDiv from './DeleteDiv'
 
 type image = {
   src: string;
@@ -82,7 +81,6 @@ const Slide = styled.div`
   color: white;
 `
 
-
 const RemoveButtonStyle = styled(IoTrashBinOutline)`
   position: absolute;
   top: 1rem;
@@ -108,14 +106,15 @@ const RemoveButtonStyle = styled(IoTrashBinOutline)`
   }
 `
 
-const _Images:FC<ImagesProps>  = (props) => {
+const _Images:FC<ImagesProps> = (props) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  // eslint-disable-next-line no-shadow
   const { image, type } = props
   const dispatch = useDispatch()
   const [hideDelete, toggle] = useToggle()
   const { me } = useSelector((state:UserState) => state.user)
 
-  const onShowPrevImg = (e) => {
+  const onShowPrevImg = () => {
     if (currentSlide === 0) {
       setCurrentSlide(image.length - 1)
     } else {
@@ -134,48 +133,57 @@ const _Images:FC<ImagesProps>  = (props) => {
   const onRemoveImage = useCallback((index: any) => () => {
     dispatch({
       type: REMOVE_IMAGE,
-      data: index
+      data: index,
     })
   }, [])
 
   return (
     <ImageContainer>
-      {
-        <>
+      <>
         {
           image.length === 1
-          ? null
-          : <CaretLeftOutlinedStyle onClick={onShowPrevImg}/> 
+            ? null
+            : <CaretLeftOutlinedStyle onClick={onShowPrevImg} />
         }
         {
           me !== null
-          ? 
-          <>
-            {
-              type === 'postForm' ? <ImgStyle src={`http://${backUrl}/${image[currentSlide]}`} alt=""/>
-              : <ImgStyle src={`http://${backUrl}/${image[currentSlide].src}`} alt=""/>
+            ? (
+              <>
+                {
+              type === 'postForm' ? <ImgStyle src={`http://${backUrl}/${image[currentSlide]}`} alt="" />
+                : <ImgStyle src={`http://${backUrl}/${image[currentSlide].src}`} alt="" />
             }
-          </>
-          : <ImgStyle src={`${image[currentSlide].src}`} alt=""/> 
+              </>
+            )
+            : <ImgStyle src={`${image[currentSlide].src}`} alt="" />
         }
-          {
-            hideDelete === false ? <DeleteDiv/> : null
+        {
+            hideDelete === false ? <DeleteDiv /> : null
           }
-          <Slide>
-            <p>{currentSlide+1} / {image.length}</p>
-          </Slide>
-          {
-            type === 'postForm' ?
-            <RemoveButtonStyle  onMouseEnter={toggle} onMouseLeave={toggle}  onClick={onRemoveImage(currentSlide)}>제거</RemoveButtonStyle>
-            : null
+        <Slide>
+          <p>{currentSlide + 1} / {image.length}</p>
+        </Slide>
+        {
+            type === 'postForm'
+              ? (
+                <>
+                  <RemoveButtonStyle
+                    onMouseEnter={toggle}
+                    onMouseLeave={toggle}
+                    onClick={onRemoveImage(currentSlide)}
+                  >
+                    제거
+                  </RemoveButtonStyle>
+                </>
+              )
+              : null
           }
         {
           image.length === 1
-          ? null
-          : <CaretRightOutlinedStyle onClick={onShowNextImg}/>
+            ? null
+            : <CaretRightOutlinedStyle onClick={onShowNextImg} />
         }
-        </>
-      }
+      </>
     </ImageContainer>
   )
 }

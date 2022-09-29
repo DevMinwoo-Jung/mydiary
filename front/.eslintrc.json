@@ -13,7 +13,7 @@
     "es6": true
   },
   "extends": [
-    ""
+    "airbnb"
   ],
   "plugins": [
     "import",
@@ -31,6 +31,28 @@
     "object-curly-newline": "off",
     "linebreak-style": "off",
     "no-param-reassign": "off",
-    "semi": "off"
+    "import/no-unresolved": "off",
+    "semi": 0,
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "no-restricted-properties": [2, {
+      "object": "disallowedObjectName",
+      "property": "disallowedPropertyName"
+    }]
+  },
+  "settings": {
+    "import/resolver": {
+        "node": {
+            "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        }
+    }
   }
 }

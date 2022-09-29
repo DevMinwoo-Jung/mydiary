@@ -8,7 +8,7 @@ const rootReducer = (state, action) => {
   switch (action.type) {
     case HYDRATE:
       console.log('HYDRATE', action);
-      return {...state, ...action.payload};
+      return { ...state, ...action.payload };
     default: {
       const combinedReducer = combineReducers({
         user,
@@ -19,4 +19,4 @@ const rootReducer = (state, action) => {
   }
 }
 
-export default rootReducer;
+export default rootReducer

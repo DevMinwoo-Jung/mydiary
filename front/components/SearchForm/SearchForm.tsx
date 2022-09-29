@@ -32,11 +32,10 @@ const _SearchForm = () => {
     Router.push(`/hashtag/${searchInput}`)
   }, [searchInput])
 
-
   return (
-  <div>  
-      <SearchInput enterButton value={searchInput} onChange={onChangeSearch} onSearch={onSearch}/>
-  </div>
+    <div>
+      <SearchInput enterButton value={searchInput} onChange={onChangeSearch} onSearch={onSearch} />
+    </div>
   )
 }
 

@@ -7,7 +7,7 @@ import SignupForm from 'components/SignupForm'
 import LoginForm from 'components/LoginForm'
 import { useSelector } from 'react-redux'
 import { BUTTON_COLOR, COLOR_MAIN, FONT_COLOR, GRAY } from 'libs/css/color'
-import {  ToggleProps, UserState } from 'libs/type'
+import { ToggleProps, UserState } from 'libs/type'
 import SearchForm from 'components/SearchForm/SearchForm'
 
 const ChevronLeftStyle = styled(ChevronLeft)`
@@ -99,7 +99,6 @@ const SearchFormDiv = styled.div`
 `
 
 const _Header = (props: ToggleProps) => {
-  const [isLogin, setIsLogin] = useState(true)
   const [showSignUp, setShowSignUp] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
@@ -108,7 +107,6 @@ const _Header = (props: ToggleProps) => {
   const router = useRouter()
 
   const me = useSelector((state:UserState) => state.user?.me)
-  const logInDone = useSelector((state:UserState) => state.user?.logInDone)
   const signUpDone = useSelector((state:UserState) => state.user?.signUpDone)
 
   const onSignup = useCallback(() => {
@@ -120,8 +118,6 @@ const _Header = (props: ToggleProps) => {
     setShowLogin((prev) => !prev)
     setIsClicked((prev) => !prev)
   }, [showLogin])
-
-
 
   const onHome = useCallback(() => {
     router.push('/')
@@ -135,18 +131,21 @@ const _Header = (props: ToggleProps) => {
     }
   }, [signUpDone])
 
-  useEffect(() => {
-    logInDone === true ? setIsLogin(true) : setIsLogin(false)
-  }, [logInDone])
-  
   return (
     <>
-    <HeaderContainer>
+      <HeaderContainer>
         <IconContainer>
           {
-            me 
-            ? <> {isOpened ? <ChevronLeftStyle onClick={() => toggleDrawer(false)}/> : <MenuStyle onClick={() => toggleDrawer(true)}/>} </>
-            : null
+            me
+              ? (
+                <>
+                  {
+                    isOpened ? <ChevronLeftStyle onClick={() => toggleDrawer(false)} />
+                      : <MenuStyle onClick={() => toggleDrawer(true)} />
+}
+                </>
+              )
+              : null
           }
         </IconContainer>
         <HomeButtonContainer onClick={onHome}>
@@ -154,47 +153,44 @@ const _Header = (props: ToggleProps) => {
         </HomeButtonContainer>
         {
           me
-          ?
-          <SearchFormDiv>
-          <SearchForm/>
-          </SearchFormDiv>
-          : null
+            ? (
+              <SearchFormDiv>
+                <SearchForm />
+              </SearchFormDiv>
+            )
+            : null
         }
         <UserButtonContainer>
           {
             me
-            ?
-              null
-            :
-              <ButtonStyle disabled={isClicked} onClick={onLogin}>로그인</ButtonStyle>
+              ? null
+              : <ButtonStyle disabled={isClicked} onClick={onLogin}>로그인</ButtonStyle>
           }
           {
             me
-            ?
-              null
-            :
-              <ButtonStyle disabled={isClicked} onClick={onSignup}>회원가입</ButtonStyle>
+              ? null
+              : <ButtonStyle disabled={isClicked} onClick={onSignup}>회원가입</ButtonStyle>
           }
         </UserButtonContainer>
-    </HeaderContainer>
+      </HeaderContainer>
       {
-        showSignUp 
-          ?
-          <SignupLoginFormContainer>
-            <SignupForm onSignup={onSignup}/>
-          </SignupLoginFormContainer>
-          :
-          null
+        showSignUp
+          ? (
+            <SignupLoginFormContainer>
+              <SignupForm onSignup={onSignup} />
+            </SignupLoginFormContainer>
+          )
+          : null
         }
-        {
+      {
         showLogin
-          ?
-          <SignupLoginFormContainer>
-            <LoginForm onLogin={onLogin}/>
-          </SignupLoginFormContainer>
-          :
-          null
-      }  
+          ? (
+            <SignupLoginFormContainer>
+              <LoginForm onLogin={onLogin} />
+            </SignupLoginFormContainer>
+          )
+          : null
+      }
     </>
   )
 }

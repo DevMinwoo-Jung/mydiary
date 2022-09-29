@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React, { FC, useCallback } from 'react'
 import { useDispatch } from 'react-redux';
 import { USER_REMOVE_REQUEST } from 'reducers/user';
