@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(hpp());
   app.use(helmet({ contentSecurityPolicy: false }));
   app.use(cors({
-    origin: 'http://mydiary.com',
+    origin: ['http://mydiary.com', 'http://15.164.237.155'],
     credentials: true,
   }));
 } else {
