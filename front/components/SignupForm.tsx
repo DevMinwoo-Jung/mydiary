@@ -140,6 +140,7 @@ const _SignupForm: FC<SignupFormProps> = (props) => {
 
   useEffect(() => {
     if (signUpError) {
+      // eslint-disable-next-line no-alert
       alert(signUpError)
     }
   }, [signUpError])
