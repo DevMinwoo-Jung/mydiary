@@ -2,36 +2,36 @@ import shortid from 'shortid'
 import produce from 'immer'
 
 export const dummy = [
-  {
-    id: 11,
-    User: {
-      id: 12,
-      nickname: 'minwoo2',
-    },
-    date: '2021-12-12',
-    content: '육식맨 보고 따라함 #삼겹살 #육식맨',
-    Images: [{
-      id: shortid.generate(),
-      src: 'images/7.jpeg',
-    },
-    {
-      id: shortid.generate(),
-      src: 'images/8.jpeg',
-    }],
-  },
-  {
-    id: 11,
-    User: {
-      id: 12,
-      nickname: 'minwoo2',
-    },
-    date: '2022-03-12',
-    content: '치킨에는 소맥 #치킨 #또래오래',
-    Images: [{
-      id: shortid.generate(),
-      src: 'images/4.jpeg',
-    }],
-  },
+  // {
+  //   id: 11,
+  //   User: {
+  //     id: 12,
+  //     nickname: 'minwoo2',
+  //   },
+  //   date: '2021-12-12',
+  //   content: '육식맨 보고 따라함 #삼겹살 #육식맨',
+  //   Images: [{
+  //     id: shortid.generate(),
+  //     src: 'images/7.jpeg',
+  //   },
+  //   {
+  //     id: shortid.generate(),
+  //     src: 'images/8.jpeg',
+  //   }],
+  // },
+  // {
+  //   id: 11,
+  //   User: {
+  //     id: 12,
+  //     nickname: 'minwoo2',
+  //   },
+  //   date: '2022-03-12',
+  //   content: '치킨에는 소맥 #치킨 #또래오래',
+  //   Images: [{
+  //     id: shortid.generate(),
+  //     src: 'images/4.jpeg',
+  //   }],
+  // },
   {
     id: 11,
     User: {

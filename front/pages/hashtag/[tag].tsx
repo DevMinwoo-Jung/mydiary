@@ -44,8 +44,8 @@ const Hashtag = () => {
   return (
     <>
       {
-                    hashTagPosts.map((post) => <Post post={post} key={shortid()} />)
-                    }
+        hashTagPosts.map((post) => <Post post={post} key={shortid()} />)
+        }
     </>
   );
 };
