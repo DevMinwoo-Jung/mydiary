@@ -7,7 +7,6 @@ import { LOAD_EDIT_IMAGE, REMOVE_EDIT_IMAGE } from 'reducers/post'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
 import { PostObject, PostsState } from 'libs/type'
-import { backUrl } from 'libs/config'
 import DeleteDiv from '../DeleteDiv'
 
 type image = {
@@ -156,7 +155,7 @@ const _EditImages:FC<EditImagesProps> = (props) => {
               ? null
               : <CaretLeftOutlinedStyle onClick={onShowPrevImg} />
           }
-              <ImgStyle src={`http://${backUrl}/${modifyImagePaths[currentSlide]}`} />
+              <ImgStyle src={`${modifyImagePaths[currentSlide]}`} />
               {
               hideDelete === false
                 ? (

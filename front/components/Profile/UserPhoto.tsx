@@ -9,7 +9,6 @@ import { COLOR_MAIN, FONT_COLOR, WHITE } from 'libs/css/color'
 import { LOAD_PROFILE_REQUEST, MODIFY_PROFILE_IMAGE_REQUEST, UPLOAD_PROFILE_IMAGES_REQUEST } from 'reducers/post'
 import { BsImage } from 'react-icons/bs'
 import { PostsState, UserState } from 'libs/type'
-import { backUrl } from 'libs/config'
 
 const { Paragraph } = Typography
 
@@ -151,7 +150,7 @@ const _UserPhoto = () => {
             : (
               <AvatarStyle
                 size={150}
-                icon={<ImgStyle src={`http://${backUrl}/${imagePath.filename || imagePath.src}`} alt={String(imagePath.filename)} />}
+                icon={<ImgStyle src={`${imagePath.filename || imagePath.src}`} alt={String(imagePath.filename)} />}
               />
             )
           }

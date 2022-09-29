@@ -7,7 +7,6 @@ import { REMOVE_IMAGE } from 'reducers/post'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
 import { UserState } from 'libs/type'
-import { backUrl } from 'libs/config'
 import DeleteDiv from './DeleteDiv'
 
 type image = {
@@ -150,8 +149,8 @@ const _Images:FC<ImagesProps> = (props) => {
             ? (
               <>
                 {
-              type === 'postForm' ? <ImgStyle src={`http://${backUrl}/${image[currentSlide]}`} alt="" />
-                : <ImgStyle src={`http://${backUrl}/${image[currentSlide].src}`} alt="" />
+              type === 'postForm' ? <ImgStyle src={`${image[currentSlide]}`} alt="" />
+                : <ImgStyle src={`${image[currentSlide].src}`} alt="" />
             }
               </>
             )
