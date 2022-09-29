@@ -40,7 +40,7 @@ const UserInfoMini = () => {
       {
         imagePath === null
           ? <AvatarStyle size={100} icon={<UserOutlined />} />
-          : <AvatarStyle size={100} icon={<ImgStyle src={`${imagePath.location}`} alt={String(imagePath.filename)} />} />
+          : <AvatarStyle size={100} icon={<ImgStyle src={`${imagePath}`} alt={String(imagePath.filename)} />} />
       }
     </UserInfoMiniContainer>
   )
