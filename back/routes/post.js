@@ -96,7 +96,7 @@ router.post('/images', isLoggedIn, uploads.array('image'), async (req, res, next
 router.post('/image', isLoggedIn, uploads.single('image'), async (req, res, next) => { // post /image
   console.log(req.file);
   console.log(req.file.location);
-  res.json(req.file);
+  res.json(req.file.location);
 })
 
 router.post('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res, next) => { 
