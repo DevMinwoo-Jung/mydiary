@@ -19,6 +19,7 @@ export type ToggleProps = {
 type ImagePathRype = {
   filename: string | null,
   src: string | null,
+  location: string | null,
 }
 
 type HashTagPostsType = {
