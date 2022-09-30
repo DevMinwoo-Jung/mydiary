@@ -35,13 +35,15 @@ const UserInfoMini = () => {
     }
   }, [me])
 
-  console.log(imagePath)
+  useEffect(() => {
+    console.log(imagePath);
+  }, [])
   return (
     <UserInfoMiniContainer>
       {
         imagePath === null
           ? <AvatarStyle size={100} icon={<UserOutlined />} />
-          : <AvatarStyle size={100} icon={<ImgStyle src={`${imagePath || imagePath.src}`} alt={String(imagePath.filename)} />} />
+          : <AvatarStyle size={100} icon={<ImgStyle src={`${imagePath}`} alt={String(imagePath)} />} />
       }
     </UserInfoMiniContainer>
   )
