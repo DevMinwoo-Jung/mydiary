@@ -156,6 +156,7 @@ export const _PostForm = () => {
 
   // eslint-disable-next-line consistent-return
   const onChangeImages = useCallback((e) => {
+    alert(e.target.files[0].type)
     const fileType = e.target.files[0].type.slice(e.target.files[0].type.lastIndexOf('.') + 1)
     if (e.target.files.length > 10) {
       return alert('파일은 한 게시물당 10개까지만 올릴 수 있습니다.')
