@@ -132,6 +132,7 @@ const _UserInfo = () => {
   const { showModifyForm } = useSelector((state:UserState) => state.user)
   const nickname = useSelector((state:UserState) => state.user?.me?.nickname)
   const userId = useSelector((state:UserState) => state.user?.me?.userId)
+  const me = useSelector((state:UserState) => state.user.me)
 
   const [userNickname, onChangeUserNickname] = useInput('')
   const [userPassword, onChangeUserPassword] = useInput('')
@@ -152,10 +153,13 @@ const _UserInfo = () => {
     dispatch({
       type: HIDE_MODIFY_FORM,
     })
+  }, [userNickname, userPassword])
+
+  useEffect(() => {
     dispatch({
       type: LOAD_MY_INFO_REQUEST,
     })
-  }, [userNickname, userPassword])
+  }, [me])
 
   const onCancel = () => {
     dispatch({
