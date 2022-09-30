@@ -263,7 +263,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.uploadProfileImagesError = null;
       break;
     case UPLOAD_PROFILE_IMAGES_SUCCESS:
-      draft.imagePath = draft.imagePath.concat(action.data);
+      draft.imagePath = action.data;
       draft.uploadProfileImagesLoading = false;
       draft.uploadProfileImagesDone = true;
       break;
