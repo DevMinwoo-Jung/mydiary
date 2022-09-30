@@ -116,7 +116,9 @@ const _UserPhoto = () => {
 
   const onSubmit = useCallback(() => {
     const formData = new FormData();
-    formData.append('image', imagePath);
+    imagePath.forEach((p) => {
+      formData.append('image', p);
+    });
     formData.append('user', userId);
     dispatch({
       type: MODIFY_PROFILE_IMAGE_REQUEST,
@@ -154,7 +156,7 @@ const _UserPhoto = () => {
             : (
               <AvatarStyle
                 size={150}
-                icon={<ImgStyle src={`${imagePath}`} alt={String(imagePath)} />}
+                icon={<ImgStyle src={`${imagePath}}`} alt={String(imagePath)} />}
               />
             )
           }

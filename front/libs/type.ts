@@ -55,7 +55,7 @@ type PostStateType = {
   postRequest: boolean,
   imagePaths: [],
   modifyImagePaths: [],
-  imagePath: string,
+  imagePath: [],
   deleteLoading: boolean,
   deleteDone: boolean,
   deleteError: null,
