@@ -4,7 +4,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
-import { HIDE_MODIFY_FORM, USER_INFO_MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
+import { HIDE_MODIFY_FORM, LOAD_MY_INFO_REQUEST, USER_INFO_MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
 import { GRAY } from 'libs/css/color'
 import router from 'next/router'
 import useLengthCheck from 'libs/hook/useLengthCheck'
@@ -145,13 +145,15 @@ const _UserInfo = () => {
   const [buttonDisabled, setButtonDisabled] = useState(true)
 
   const onModify = useCallback(() => {
-    router.push('/')
     dispatch({
       type: USER_INFO_MODIFY_REQUEST,
       data: { userNickname, userPassword },
     })
     dispatch({
       type: HIDE_MODIFY_FORM,
+    })
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST,
     })
   }, [userNickname, userPassword])
 
