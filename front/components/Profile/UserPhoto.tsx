@@ -154,7 +154,7 @@ const _UserPhoto = () => {
             : (
               <AvatarStyle
                 size={150}
-                icon={<ImgStyle src={`${imagePath}`} alt={String(imagePath)} />}
+                icon={<ImgStyle src={`${imagePath.src}`} alt={String(imagePath.src)} />}
               />
             )
           }
