@@ -12,7 +12,7 @@ import { TiCancel } from 'react-icons/ti'
 import { FiEdit } from 'react-icons/fi'
 import { IoPersonRemove } from 'react-icons/io5'
 import { QuestionCircleOutlined } from '@ant-design/icons'
-import { PostsState, UserState } from 'libs/type'
+import { UserState } from 'libs/type'
 import { LOAD_PROFILE_REQUEST } from 'reducers/post'
 
 const UserInfoContainer = styled.div`
