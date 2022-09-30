@@ -113,7 +113,7 @@ router.post('/profilephoto', isLoggedIn, uploads.single('image'), async (req, re
 router.get('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res, next) => { 
   try {
   const image = await Image.findOne({
-    where: {userId: req.user.userId },
+    where: { userId: req.user.userId },
     order: [
       ['createdAt', 'DESC'],
     ]
