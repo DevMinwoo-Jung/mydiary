@@ -122,7 +122,7 @@ const _UserPhoto = () => {
       type: MODIFY_PROFILE_IMAGE_REQUEST,
       data: formData,
     });
-  }, [imagePath])
+  }, [imagePath, userId])
 
   useEffect(() => {
     if (me !== null) {
