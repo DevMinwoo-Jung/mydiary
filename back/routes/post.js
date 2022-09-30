@@ -100,11 +100,11 @@ router.post('/image', isLoggedIn, uploads.single('image'), async (req, res, next
 
 router.post('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res, next) => { 
   try {
-  const post = await Image.create({
+  const image = await Image.create({
     userId: req.user.userId,
     src: req.body.image
   });
-    res.status(201).json(post); 
+    res.status(201).json(image); 
   } catch (error) {
     console.error(error)
   }
