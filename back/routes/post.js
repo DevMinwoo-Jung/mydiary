@@ -93,10 +93,10 @@ router.post('/images', isLoggedIn, uploads.array('image'), async (req, res, next
   res.json(req.files.map((v) => v.location));
 })
 
-router.post('/image', isLoggedIn, uploads.single('image'), async (req, res, next) => { // post /image
+router.post('/image', isLoggedIn, uploads.array('image'), async (req, res, next) => { // post /image
   console.log(req.file);
   console.log(req.file.location);
-  res.json(req.file.location);
+  res.json(req.files.map((v) => v.location));
 })
 
 router.post('/profilephoto', isLoggedIn, uploads.single('image'), async (req, res, next) => { 
