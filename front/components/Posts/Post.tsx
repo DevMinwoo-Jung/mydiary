@@ -39,7 +39,7 @@ const PostsInnerContainer = styled.div`
 
 const ContentContainer = styled.div`
   display: block;
-  height: 20rem;
+  height: 15rem;
   width: 90%;
   margin: 1rem;
 `

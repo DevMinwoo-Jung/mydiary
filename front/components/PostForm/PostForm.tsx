@@ -156,14 +156,14 @@ export const _PostForm = () => {
 
   // eslint-disable-next-line consistent-return
   const onChangeImages = useCallback((e) => {
-    const fileType = e.target.files[0].type.replace(/(.*)\//g, '')
+    const fileType = e.target.files[0].type.slice(e.target.files[0].type.lastIndexOf('.') + 1)
     if (e.target.files.length > 10) {
       return alert('파일은 한 게시물당 10개까지만 올릴 수 있습니다.')
     }
     if (fileType !== 'png' && fileType !== 'jpg' && fileType !== 'jpeg') {
       return alert('파일 확장자는 png, jpg, jpeg만 지원합니다');
     }
-    if ((e.target.files[0].size / 1024 / 1024).toFixed(4) >= '5') {
+    if ((e.target.files[0].size / 1024 / 1024).toFixed(4) >= '20') {
       return alert(`${e.target.files[0].name} 이미지 크기는 5MB를 초과할 수 없습니다.`);
     }
     const imageFormData = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다

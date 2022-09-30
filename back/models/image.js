@@ -3,7 +3,7 @@ module.exports = (sequelize, DataType) => {
     const Image = sequelize.define('Image', { 
         //id는 기본적으로 1,2,3,4 ... 순서대로 올라간다
         src: {
-            type: DataType.STRING(100),
+            type: DataType.STRING(500),
             allowNull: false, // 필수
         },
         userId: { 
