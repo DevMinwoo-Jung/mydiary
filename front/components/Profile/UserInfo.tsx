@@ -133,7 +133,6 @@ const _UserInfo = () => {
   const { showModifyForm } = useSelector((state:UserState) => state.user)
   const nickname = useSelector((state:UserState) => state.user?.me?.nickname)
   const userId = useSelector((state:UserState) => state.user?.me?.userId)
-  const imagePath = useSelector((state:PostsState) => state.post.imagePath);
 
   const [userNickname, onChangeUserNickname] = useInput('')
   const [userPassword, onChangeUserPassword] = useInput('')
@@ -160,7 +159,7 @@ const _UserInfo = () => {
     dispatch({
       type: LOAD_PROFILE_REQUEST,
     })
-  }, [imagePath])
+  }, [])
 
   const onCancel = () => {
     dispatch({
