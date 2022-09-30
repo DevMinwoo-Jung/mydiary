@@ -78,7 +78,7 @@ export const initialState = {
   postRequest: true,
   imagePaths: [],
   modifyImagePaths: [],
-  imagePath: null,
+  imagePath: [],
   deleteLoading: false,
   deleteDone: false,
   deleteError: null,

@@ -16,11 +16,11 @@ export type ToggleProps = {
   toggleDrawer: (closed:boolean) => void,
 }
 
-type ImagePathRype = {
-  filename: string | null,
-  src: string | null,
-  location: string | null,
-}
+// type ImagePathRype = {
+//   filename: string | null,
+//   src: string | null,
+//   location: string | null,
+// }
 
 type HashTagPostsType = {
   id: string,
@@ -55,7 +55,7 @@ type PostStateType = {
   postRequest: boolean,
   imagePaths: [],
   modifyImagePaths: [],
-  imagePath: ImagePathRype,
+  imagePath: string,
   deleteLoading: boolean,
   deleteDone: boolean,
   deleteError: null,
