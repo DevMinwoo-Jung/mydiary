@@ -144,6 +144,7 @@ const _UserInfo = () => {
   const [passwordAlert, setPasswordAlert] = useState(false)
   const [, setIsModalOpen] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(true)
+
   const onModify = useCallback(() => {
     dispatch({
       type: USER_INFO_MODIFY_REQUEST,
@@ -152,6 +153,7 @@ const _UserInfo = () => {
     dispatch({
       type: HIDE_MODIFY_FORM,
     })
+    router.reload();
   }, [userNickname, userPassword])
 
   useEffect(() => {
