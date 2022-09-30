@@ -155,7 +155,7 @@ const _UserInfo = () => {
       type: HIDE_MODIFY_FORM,
     })
     setReset(true)
-  }, [userNickname, userPassword])
+  }, [userNickname, userPassword, reset])
 
   useEffect(() => {
     if (reset) {
