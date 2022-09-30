@@ -144,6 +144,7 @@ const _UserInfo = () => {
   const [passwordAlert, setPasswordAlert] = useState(false)
   const [, setIsModalOpen] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(true)
+  const [reset, setReset] = useState(false)
 
   const onModify = useCallback(() => {
     dispatch({
@@ -153,13 +154,16 @@ const _UserInfo = () => {
     dispatch({
       type: HIDE_MODIFY_FORM,
     })
+    setReset(true)
   }, [userNickname, userPassword])
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_PROFILE_REQUEST,
-    })
-  }, [])
+    if (reset) {
+      dispatch({
+        type: LOAD_PROFILE_REQUEST,
+      })
+    }
+  }, [reset])
 
   const onCancel = () => {
     dispatch({
