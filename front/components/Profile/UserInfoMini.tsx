@@ -35,6 +35,7 @@ const UserInfoMini = () => {
     }
   }, [me])
 
+  console.log(imagePath)
   return (
     <UserInfoMiniContainer>
       {

@@ -140,6 +140,7 @@ const _UserPhoto = () => {
       })
     }
   }, [userInfomodifyLoading, isPosted])
+  console.log(imagePath)
 
   return (
     <Form encType="multipart/form-data">
