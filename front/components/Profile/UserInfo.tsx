@@ -12,7 +12,7 @@ import { TiCancel } from 'react-icons/ti'
 import { FiEdit } from 'react-icons/fi'
 import { IoPersonRemove } from 'react-icons/io5'
 import { QuestionCircleOutlined } from '@ant-design/icons'
-import { UserState } from 'libs/type'
+import { PostsState, UserState } from 'libs/type'
 
 const UserInfoContainer = styled.div`
   display: block;
@@ -132,7 +132,7 @@ const _UserInfo = () => {
   const { showModifyForm } = useSelector((state:UserState) => state.user)
   const nickname = useSelector((state:UserState) => state.user?.me?.nickname)
   const userId = useSelector((state:UserState) => state.user?.me?.userId)
-  const me = useSelector((state:UserState) => state.user.me)
+  const imagePath = useSelector((state:PostsState) => state.post.imagePath);
 
   const [userNickname, onChangeUserNickname] = useInput('')
   const [userPassword, onChangeUserPassword] = useInput('')
@@ -159,7 +159,7 @@ const _UserInfo = () => {
     dispatch({
       type: LOAD_MY_INFO_REQUEST,
     })
-  }, [me])
+  }, [imagePath])
 
   const onCancel = () => {
     dispatch({
