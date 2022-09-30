@@ -116,9 +116,7 @@ const _UserPhoto = () => {
 
   const onSubmit = useCallback(() => {
     const formData = new FormData();
-    imagePath.forEach((p) => {
-      formData.append('image', p);
-    });
+    formData.append('image', imagePath);
     formData.append('user', userId);
     dispatch({
       type: MODIFY_PROFILE_IMAGE_REQUEST,
@@ -143,10 +141,6 @@ const _UserPhoto = () => {
     }
   }, [userInfomodifyLoading, isPosted])
 
-  useEffect(() => {
-    console.log(imagePath);
-  }, [])
-
   return (
     <Form encType="multipart/form-data">
       <UserPhotoDiv>
@@ -156,7 +150,7 @@ const _UserPhoto = () => {
             : (
               <AvatarStyle
                 size={150}
-                icon={<ImgStyle src={`${imagePath}}`} alt={String(imagePath)} />}
+                icon={<ImgStyle src={`${imagePath || imagePath.src}`} alt={String(imagePath.filename)} />}
               />
             )
           }
