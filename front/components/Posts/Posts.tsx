@@ -18,11 +18,11 @@ const PostsContainer = styled.div`
 const _Posts = () => {
   const mainPosts = useSelector((state:PostsState) => state.post.mainPosts, shallowEqual)
   const me = useSelector((state:UserState) => state.user.me)
-  const postRequest = useSelector((state:PostsState) => state.post?.postRequest)
+  // const postRequest = useSelector((state:PostsState) => state.post?.postRequest)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (postRequest) {
+    if (me === null) {
       dispatch({
         type: LOAD_POSTS_REQUEST,
       })
@@ -30,7 +30,7 @@ const _Posts = () => {
         type: POST_REQUEST_FASLE,
       })
     }
-  }, [postRequest])
+  }, [me])
 
   return (
     <PostsContainer key={shortid()}>
