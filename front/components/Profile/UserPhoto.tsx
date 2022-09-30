@@ -141,6 +141,10 @@ const _UserPhoto = () => {
     }
   }, [userInfomodifyLoading, isPosted])
 
+  useEffect(() => {
+    console.log(imagePath)
+  }, [imagePath])
+
   return (
     <Form encType="multipart/form-data">
       <UserPhotoDiv>
@@ -150,7 +154,7 @@ const _UserPhoto = () => {
             : (
               <AvatarStyle
                 size={150}
-                icon={<ImgStyle src={`${imagePath || imagePath.image}`} alt={String(imagePath)} />}
+                icon={<ImgStyle src={`${imagePath}`} alt={String(imagePath)} />}
               />
             )
           }

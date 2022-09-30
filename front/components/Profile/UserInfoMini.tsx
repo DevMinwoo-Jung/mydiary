@@ -37,7 +37,8 @@ const UserInfoMini = () => {
 
   useEffect(() => {
     console.log(imagePath);
-  }, [])
+  }, [imagePath])
+
   return (
     <UserInfoMiniContainer>
       {
