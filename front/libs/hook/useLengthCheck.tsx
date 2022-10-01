@@ -18,7 +18,7 @@ export default (num:number, input:string, message:string) => {
         setCheckLength(false);
       }
     } else if (message === '아이디') {
-      if (input.length >= length || input.length < 5) {
+      if (input.length >= length || input.length < 4) {
         setCheckLength(true);
       } else {
         setCheckLength(false);
