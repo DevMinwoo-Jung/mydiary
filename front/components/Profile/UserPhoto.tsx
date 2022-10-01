@@ -84,7 +84,6 @@ const _UserPhoto = () => {
   const userId = useSelector((state:UserState) => state.user?.me?.userId)
   const nickname = useSelector((state:UserState) => state.user?.me?.nickname)
   const imagePath = useSelector((state:PostsState) => state.post?.imagePath)
-  const me = useSelector((state:UserState) => state.user?.me)
   const { userInfomodifyLoading,
     showModifyForm,
     isPosted } = useSelector((state:UserState) => state.user)
@@ -125,12 +124,10 @@ const _UserPhoto = () => {
   }, [imagePath, userId])
 
   useEffect(() => {
-    if (me !== null) {
-      dispatch({
-        type: LOAD_PROFILE_REQUEST,
-      })
-    }
-  }, [me])
+    dispatch({
+      type: LOAD_PROFILE_REQUEST,
+    })
+  }, [])
 
   useEffect(() => {
     if ((isPosted === true) && (userInfomodifyLoading === true)) {

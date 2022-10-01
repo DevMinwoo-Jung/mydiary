@@ -4,7 +4,7 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
-import { HIDE_MODIFY_FORM, USER_INFO_MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
+import { HIDE_MODIFY_FORM, LOAD_MY_INFO_REQUEST, USER_INFO_MODIFY_REQUEST, USER_REMOVE_REQUEST } from 'reducers/user'
 import { GRAY } from 'libs/css/color'
 import router from 'next/router'
 import useLengthCheck from 'libs/hook/useLengthCheck'
@@ -13,7 +13,6 @@ import { FiEdit } from 'react-icons/fi'
 import { IoPersonRemove } from 'react-icons/io5'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import { UserState } from 'libs/type'
-import { LOAD_PROFILE_REQUEST } from 'reducers/post'
 
 const UserInfoContainer = styled.div`
   display: block;
@@ -158,7 +157,7 @@ const _UserInfo = () => {
 
   useEffect(() => {
     dispatch({
-      type: LOAD_PROFILE_REQUEST,
+      type: LOAD_MY_INFO_REQUEST,
     })
   }, [])
 
