@@ -9,7 +9,7 @@ import { BORDER_COLOR, FONT_COLOR, WHITE } from 'libs/css/color'
 import { UserState } from 'libs/type'
 
 const LoginFormContainer = styled.div`
-  position: absolute;
+  position: fixed;
   width: 320px;
   z-index: 10;
   left: 0;

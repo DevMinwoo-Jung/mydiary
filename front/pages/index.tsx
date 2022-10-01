@@ -16,6 +16,7 @@ import axios from 'axios'
 import wrapper from 'store/configureStore'
 import { END } from 'redux-saga';
 import { PostsState, UserState } from 'libs/type'
+import { size } from 'libs/css/layout'
 import Post from '../components/Posts/Post'
 
 const ContentsContainer = styled.div`
@@ -44,6 +45,9 @@ const IntroPara = styled.p`
   text-align: left;
   font-size: 5.5rem;
   font-weight: bolder;
+  @media screen and (max-width: ${size.mobileL}) { 
+    font-size: 4rem;
+  }
 `
 
 const _index: NextPage = () => {

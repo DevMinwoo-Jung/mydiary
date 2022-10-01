@@ -12,7 +12,7 @@ import { UserState } from 'libs/type';
 import useEngInput from '../libs/hook/useEngInput';
 
 const LoginFormContainer = styled.div`
-  position: absolute;
+  position: fixed;
   width: 320px;
   z-index: 10;
   left: 0;
