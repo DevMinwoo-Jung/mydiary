@@ -7,11 +7,6 @@ const router = express.Router();
 
 router.get('/:hashtag', async (req, res, next) => { //get/hashtag/something
 try {
-  console.log('----------------')
-  console.log('여기 안오니??') 
-  console.log(req.params.hashtag)
-  console.log(req.user) 
-  console.log(req.user.id) 
     const where = {};
     if (parseInt(req.query.lastId, 10)) { // 초기 로딩이 아닐 때
         where.id = { [Op.lt]: parseInt(req.query.lastId, 10)}
