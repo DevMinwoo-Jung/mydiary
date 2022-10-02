@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo, useLayoutEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import shortid from 'shortid'
@@ -18,10 +18,9 @@ const PostsContainer = styled.div`
 const _Posts = () => {
   const mainPosts = useSelector((state:PostsState) => state.post.mainPosts, shallowEqual)
   const me = useSelector((state:UserState) => state.user.me)
-  // const postRequest = useSelector((state:PostsState) => state.post?.postRequest)
   const dispatch = useDispatch()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (me === null) {
       dispatch({
         type: LOAD_POSTS_REQUEST,

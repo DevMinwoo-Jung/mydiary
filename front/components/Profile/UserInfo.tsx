@@ -1,6 +1,6 @@
 import { Input, message, Popconfirm, Tooltip, Divider } from 'antd'
 import { size } from 'libs/css/layout'
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import useInput from 'libs/hook/useInput'
@@ -155,7 +155,7 @@ const _UserInfo = () => {
     router.reload();
   }, [userNickname, userPassword])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch({
       type: LOAD_MY_INFO_REQUEST,
     })

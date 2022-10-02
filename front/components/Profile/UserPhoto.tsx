@@ -1,7 +1,7 @@
 import { EditOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Form, Tooltip, Typography } from 'antd'
 import { size } from 'libs/css/layout'
-import React, { memo, useCallback, useEffect, useRef } from 'react'
+import React, { memo, useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { ISPOST_IMAGE_FALSE, ISPOST_IMAGE_TRUE, SHOW_MODIFY_FORM } from 'reducers/user'
@@ -123,7 +123,7 @@ const _UserPhoto = () => {
     });
   }, [imagePath, userId])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch({
       type: LOAD_PROFILE_REQUEST,
     })
