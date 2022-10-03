@@ -108,6 +108,13 @@ const ModifyIconDisabledStyle = styled(FiEdit)`
   cursor: none;
   pointer-events: none;
   color: ${GRAY};
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  text-align: center;
+  position: absolute;
+  bottom: 0.5rem;
 `
 
 const AlertMessageStyle = styled.div`
