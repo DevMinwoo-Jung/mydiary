@@ -158,7 +158,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case HIDE_MODIFY_FORM:
       return {
         ...state,
-        showModifyForm: !false,
+        showModifyForm: false,
       }
     case ISPOST_IMAGE_TRUE:
       draft.isPosted = true;
