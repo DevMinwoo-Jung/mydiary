@@ -83,6 +83,9 @@ const Slide = styled.div`
   line-height: 1.5rem;
   opacity: 0.6;
   color: white;
+  @media screen and (max-width: ${size.mobileL}) { 
+      bottom: 15%;
+    }
 `
 
 const RemoveButtonStyle = styled(IoTrashBinOutline)`
