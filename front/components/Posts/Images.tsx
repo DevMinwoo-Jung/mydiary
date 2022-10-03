@@ -7,8 +7,8 @@ import { REMOVE_IMAGE } from 'reducers/post'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
 import { UserState } from 'libs/type'
-import DeleteDiv from './DeleteDiv'
 import { size } from 'libs/css/layout'
+import DeleteDiv from './DeleteDiv'
 
 type image = {
   src: string;
