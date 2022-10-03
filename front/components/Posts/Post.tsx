@@ -11,6 +11,7 @@ import moment from 'moment'
 import { size } from 'libs/css/layout'
 import { BsThreeDots } from 'react-icons/bs'
 import { PostProps, UserState } from 'libs/type'
+import { useRouter } from 'next/router'
 import PostTags from './PostTags'
 import 'moment/locale/ko'
 import PostNormal from './PostNormal'
@@ -106,6 +107,8 @@ const _Post:FC<PostProps> = (props) => {
   const [modify, setModify] = useState(false)
   const me = useSelector((state:UserState) => state.user.me)
   const id = useSelector((state:UserState) => state.user.me?.id);
+  const router = useRouter();
+  const { tag } = router.query;
 
   const onChangeModify = useCallback(() => {
     setModify((prev) => !prev)
@@ -141,7 +144,11 @@ const _Post:FC<PostProps> = (props) => {
             me !== null
               ? (
                 <>
-                  <BsThreeDotsStyle onClick={onChangeModify} />
+                  {
+                      tag !== undefined
+                        ? null
+                        : <BsThreeDotsStyle onClick={onChangeModify} />
+                    }
                   <DeleteDiv>
                     {
                   modify === true
