@@ -100,10 +100,10 @@ const ModifyIconStyle = styled.div`
   text-align: center;
   position: absolute;
   bottom: 0.5rem;
-
+  right: 0;
 `
 
-const ModifyIconDisabledStyle = styled(FiEdit)`
+const ModifyIconDisabledStyle = styled.div`
   font-size: 2rem;
   cursor: none;
   pointer-events: none;
@@ -115,6 +115,7 @@ const ModifyIconDisabledStyle = styled(FiEdit)`
   text-align: center;
   position: absolute;
   bottom: 0.5rem;
+  right: 0;
 `
 
 const AlertMessageStyle = styled.div`
@@ -305,7 +306,13 @@ const _UserInfo = () => {
               <ModifyButtonDiv>
                 {
               buttonDisabled
-                ? <ModifyIconDisabledStyle />
+                ? (
+                  <>
+                    <ModifyIconDisabledStyle>
+                      <FiEdit />
+                    </ModifyIconDisabledStyle>
+                  </>
+                )
                 : (
                   <>
                     <Tooltip title="수정하기">
