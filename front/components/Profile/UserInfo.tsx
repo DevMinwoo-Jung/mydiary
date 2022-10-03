@@ -81,14 +81,22 @@ const ButtonDiv = styled.div`
   bottom: 1rem;
 `
 
-const TiCancelStyle = styled(TiCancel)`
+const TiCancelStyle = styled.div`
   font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
+  position: absolute;
+  text-align: center;
 `
 
-const ModifyIconStyle = styled(FiEdit)`
+const ModifyIconStyle = styled.div`
   font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
+  position: absolute;
+  text-align: center;
 `
 
 const ModifyIconDisabledStyle = styled(FiEdit)`
@@ -290,14 +298,18 @@ const _UserInfo = () => {
                 : (
                   <>
                     <Tooltip title="수정하기">
-                      <ModifyIconStyle onClick={onModify} />
+                      <ModifyIconStyle onClick={onModify}>
+                        <FiEdit />
+                      </ModifyIconStyle>
                     </Tooltip>
                   </>
                 )
             }
 
                 <Tooltip title="취소">
-                  <TiCancelStyle onClick={onCancel} />
+                  <TiCancelStyle onClick={onCancel}>
+                    <TiCancel />
+                  </TiCancelStyle>
                 </Tooltip>
               </ModifyButtonDiv>
             )
