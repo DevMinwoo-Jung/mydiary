@@ -5,6 +5,9 @@ import shortid from 'shortid'
 import { LOAD_POSTS_REQUEST, POST_REQUEST_FASLE } from 'reducers/post'
 import { BACKGROUND_COLOR } from 'libs/css/color'
 import { PostsState, UserState } from 'libs/type'
+import axios from 'axios'
+import wrapper from 'store/configureStore'
+import { END } from 'redux-saga';
 import Post from './Post'
 
 const PostsContainer = styled.div`
@@ -22,9 +25,6 @@ const _Posts = () => {
 
   useLayoutEffect(() => {
     if (me === null) {
-      dispatch({
-        type: LOAD_POSTS_REQUEST,
-      })
       dispatch({
         type: POST_REQUEST_FASLE,
       })
@@ -48,6 +48,20 @@ const _Posts = () => {
     </PostsContainer>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  console.log(context);
+  const cookie = context.req ? context.req.headers.cookie : null;
+  axios.defaults.headers.common.Cookie = null; // 쿠키 공유 방지
+  if (context.req && cookie) {
+    axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
+  }
+  context.store.dispatch({
+    type: LOAD_POSTS_REQUEST,
+  })
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
 
 const Posts = memo(_Posts);
 
