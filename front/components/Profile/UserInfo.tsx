@@ -88,7 +88,6 @@ const TiCancelStyle = styled.div`
   cursor: pointer;
   text-align: center;
   position: absolute;
-  margin-right: 2rem;
   bottom: 0.5rem;
 `
 
@@ -100,6 +99,7 @@ const ModifyIconStyle = styled.div`
   text-align: center;
   position: absolute;
   bottom: 0.5rem;
+  right: 2rem;
 `
 
 const ModifyIconDisabledStyle = styled(FiEdit)`
