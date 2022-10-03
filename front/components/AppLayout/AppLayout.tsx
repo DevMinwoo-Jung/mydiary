@@ -31,7 +31,7 @@ const ContentContainer = styled.div`
   height: 100%;
   width: 30rem;
   @media screen and (max-width: ${size.mobileL}) { 
-    width: ${size.mobileS}
+    width: 100%;
   }
 `;
 

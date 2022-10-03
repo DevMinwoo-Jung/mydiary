@@ -8,6 +8,7 @@ import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
 import { PostObject, PostsState } from 'libs/type'
 import DeleteDiv from '../DeleteDiv'
+import { size } from 'libs/css/layout'
 
 type image = {
   src: string;
@@ -28,6 +29,10 @@ const ImageContainer = styled.div`
     object-fit: fill;
     height: 100%;
     width: 100%;
+    @media screen and (max-width: ${size.mobileL}) { 
+      margin-top: 3rem;
+      height: 20rem;
+    }
   }
 `
 

@@ -33,7 +33,9 @@ const PostsInnerContainer = styled.div`
     margin-top: 5rem;
   }
   @media screen and (max-width: ${size.tablet}) { 
+    margin: 0;
     margin-bottom: 2.5rem;
+    border: none;
   }
 `
 
@@ -42,6 +44,9 @@ const ContentContainer = styled.div`
   height: 15rem;
   width: 90%;
   margin: 1rem;
+  @media screen and (max-width: ${size.tablet}) { 
+    height: 10rem;
+  }
 `
 
 const TagAndDelete = styled.div`
