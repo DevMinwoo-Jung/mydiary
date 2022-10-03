@@ -155,7 +155,7 @@ const _UserInfo = () => {
     router.reload();
   }, [userNickname, userPassword])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch({
       type: LOAD_MY_INFO_REQUEST,
     })
