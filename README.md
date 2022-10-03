@@ -1,7 +1,7 @@
 # 프로젝트명 my_diary
-Front - React(Hooks).js, Typescript
-Back - Node.js, express.js, sequelize
-Server - aws
+Front - React(Hooks).js, Typescript<br/>
+Back - Node.js, express.js, sequelize<br/>
+Server - aws<br/>
 
 테스트아이디: test
 비밀번호: 123123123
@@ -40,16 +40,9 @@ intersection-observer을 사용했습니다.
 
 ###### 10. 그 외 프로젝트를 하며 느낀 점
 - redux를 사용하며 수정을 할 때 이미지를 업로드하면 리렌더링이 되는 현상을 겪어 어려움을 겪었습니다. 문제를 해결하고자 stack overflow, redux 공식 페이지를 찾던 중 객체의 가장 바깥 부분은 비교하는 shallow equal를 활용하여 해결했습니다.
-<br/>
 - 프로젝트에 Typescript를 처음 적용해 보았습니다. 정확한 type을 사용하고 컴포넌트의 props에 요구하는 형식에 맞춰 코딩을 해야 했기 떄문에 잔실수를 줄일 수 있게 되었고 이를 통해 생산성을 높일 수 있었습니다.
-<br/>
 - Next.js를 이용한 첫 프로젝트였습니다. CSR과 SSR의 장점을 활용하고자 노력했으며 이를 위해 getServerSideProps를 이용한 SSR과 리액트의 CSR을 적절히 활용한 경험을 갖게 되었습니다. 이외에도 router를 react-router가 아닌 next.js의 router를 사용하였고 dynamic router를 적용해 봤습니다.
-<br/>
 - 쿠키를 사용하여 로그인을 했을 경우 로그인이 유지되도록 하였습니다.
-<br/>
 - 프론트서버와 백엔드 서버를 구분하여 프로젝트를 진행하여 CORS 문제를 해결해 봤습니다.
-<br/>
 - 프론트와 백엔드 둘 다를 다루며 데이터의 흐름에 대해 이해하게 되었고 나아가 백엔드 엔지니어와 일을 하게 될 때 좋은 경험을 쌓았습니다.
-<br/>
 - aws를 이용하여 배포를 하여 aws를 이용할 경우 어떤 식으로 배포를 하는지 배우게 되었습니다. ec2, ec3, s3, pm2 등을 사용하여 aws의 생태계를 배우는 좋은 경험이었습니다.
-<br/>
