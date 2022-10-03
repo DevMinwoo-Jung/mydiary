@@ -168,7 +168,7 @@ const _UserInfo = () => {
   }
 
   const showModal = () => {
-    setIsModalOpen(true);
+    setIsModalOpen((prev) => !prev);
   };
 
   useEffect(() => {
