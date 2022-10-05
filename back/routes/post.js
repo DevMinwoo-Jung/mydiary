@@ -21,16 +21,15 @@ AWS.config.update({
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
   region: 'ap-northeast-2',
 });
-// form 마다 다를 수 있어서 따로 해줘야한다
 const uploads = multer({
   storage: multerS3({
     s3: new AWS.S3(),
-    bucket: 'mydiary93',
+    bucket: '93mydiary',
     key(req, file, cb) {
       cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`)
     }
   }),
-  limits: { fileSize: 20 * 1024 * 1024 }, // 5mb
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20mb
 });
 
 router.post('/', isLoggedIn, uploads.none(), async (req, res, next) => {
