@@ -2,6 +2,7 @@
 Front - React(Hooks).js, Typescript<br/>
 Back - Node.js, express.js, sequelize<br/>
 Server - aws<br/>
+** 2022/10/05 2:36 aws서버에 문제가 발생하여 해결 중에 있습니다. 빠른 시일내에 해결하겠습니다. **
 
 테스트아이디: test
 비밀번호: 123123123
