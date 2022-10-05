@@ -55,7 +55,7 @@ app.use(session({
     cookie: {
       httpOnly: true,
       secure: false,
-      domain: process.env.NODE_ENV === 'production' && '.mydiary93.com'
+      domain: process.env.NODE_ENV === 'production' && 'http://mydiary93.com'
     }
 }));
 app.use(passport.initialize());
