@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cross-env": "^7.0.3",
     "helmet": "^6.0.0",
     "hpp": "^0.2.3",
