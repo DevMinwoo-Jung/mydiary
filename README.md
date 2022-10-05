@@ -16,7 +16,7 @@ intersection-observer을 사용했습니다.
 
 ###### 2. 로그인화면
 - 다른 사람이 올린 게시물을 보는 것이 아닌 유저 개인의 게시물만 보게 하기 위해서 로그인 성공 시에 포스트 화면으로 전환 하게 하였습니다. redux를 사용하여 상태값에 따라서 메인 화면과 포스트로 구분하였습니다.
-<img width="100%" src="https://user-images.githubusercontent.com/54659435/193571100-5459bd29-7e7c-480d-959e-a06b55d4bfb8.gif"/>
+<img width="50%" justifyContent="center" src="https://user-images.githubusercontent.com/54659435/193571100-5459bd29-7e7c-480d-959e-a06b55d4bfb8.gif"/>
 
 ###### 3. 회원가입
 - 회원가입 양식은 custom hooks를 사용하여 코드량을 줄였습니다.
