@@ -62,9 +62,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   if (context.req && cookie) {
     axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
   }
-  context.store.dispatch({
-    type: LOAD_POSTS_REQUEST,
-  })
+  // context.store.dispatch({
+  //   type: LOAD_POSTS_REQUEST,
+  // })
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
