@@ -19,6 +19,16 @@ const Hashtag = () => {
     loadHashTagPostsLoading } = useSelector((state:PostsState) => state.post);
 
   useEffect(() => {
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
+    dispatch({
+      type: LOAD_HASHTAG_POSTS_REQUEST,
+      data: tag,
+    });
+  }, [])
+
+  useEffect(() => {
     const onScroll = () => {
       if (window.pageYOffset + document.documentElement.clientHeight
         > document.documentElement.scrollHeight - 300) {
@@ -57,13 +67,13 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   if (context.req && cookie) {
     axios.defaults.headers.common.Cookie = cookie;
   }
-  context.store.dispatch({
-    type: LOAD_MY_INFO_REQUEST,
-  });
-  context.store.dispatch({
-    type: LOAD_HASHTAG_POSTS_REQUEST,
-    data: context.params.tag,
-  });
+  // context.store.dispatch({
+  //   type: LOAD_MY_INFO_REQUEST,
+  // });
+  // context.store.dispatch({
+  //   type: LOAD_HASHTAG_POSTS_REQUEST,
+  //   data: context.params.tag,
+  // });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
