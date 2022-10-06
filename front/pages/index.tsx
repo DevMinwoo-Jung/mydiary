@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import styled from 'styled-components'
 import type { NextPage } from 'next'
-import { memo, useEffect, useRef } from 'react'
+import { memo, useEffect, useLayoutEffect, useRef } from 'react'
 import Head from 'next/head'
 import PostForm from 'components/PostForm/PostForm'
 import Posts from 'components/Posts/Posts'
@@ -61,7 +61,7 @@ const _index: NextPage = () => {
   const postRef: any = useRef()
   const arrowRef: any = useRef()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch({
       type: LOAD_MY_INFO_REQUEST,
     })
@@ -149,9 +149,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   if (context.req && cookie) {
     axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
   }
-  context.store.dispatch({
-    type: LOAD_MY_INFO_REQUEST,
-  })
+  // context.store.dispatch({
+  //   type: LOAD_MY_INFO_REQUEST,
+  // })
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
