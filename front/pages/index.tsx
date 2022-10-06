@@ -61,11 +61,11 @@ const _index: NextPage = () => {
   const postRef: any = useRef()
   const arrowRef: any = useRef()
 
-  useLayoutEffect(() => {
-    dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    })
-  }, [])
+  // useLayoutEffect(() => {
+  //   dispatch({
+  //     type: LOAD_MY_INFO_REQUEST,
+  //   })
+  // }, [])
 
   useEffect(() => {
     if (inView && hasMorePosts && !loadPostsLoading) {
@@ -149,9 +149,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   if (context.req && cookie) {
     axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
   }
-  // context.store.dispatch({
-  //   type: LOAD_MY_INFO_REQUEST,
-  // })
+  context.store.dispatch({
+    type: LOAD_MY_INFO_REQUEST,
+  })
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
