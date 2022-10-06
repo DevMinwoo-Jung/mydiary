@@ -139,7 +139,8 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.logOutDone = true;
       draft.logInDone = false;
       draft.loadMyInfoDone = false;
-      draft.me = null
+      draft.me = null;
+      draft.mainPosts = [];
       break;
     case LOG_OUT_FAILURE:
       draft.logOutLoading = false;
