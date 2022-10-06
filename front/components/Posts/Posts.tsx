@@ -31,6 +31,12 @@ const _Posts = () => {
     }
   }, [me])
 
+  useLayoutEffect(() => {
+    dispatch({
+      type: LOAD_POSTS_REQUEST,
+    })
+  }, [])
+
   return (
     <PostsContainer key={shortid()}>
       {
