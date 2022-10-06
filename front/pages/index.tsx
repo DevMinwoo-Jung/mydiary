@@ -11,7 +11,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { dummy, LOAD_POSTS_REQUEST } from 'reducers/post'
 import { useInView } from 'react-intersection-observer'
 import Arrow from 'lottie/Arrow'
-import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
+// import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 import axios from 'axios'
 import wrapper from 'store/configureStore'
 import { END } from 'redux-saga';
@@ -148,9 +148,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   if (context.req && cookie) {
     axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
   }
-  context.store.dispatch({
-    type: LOAD_MY_INFO_REQUEST,
-  });
+  // context.store.dispatch({
+  //   type: LOAD_MY_INFO_REQUEST,
+  // });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });

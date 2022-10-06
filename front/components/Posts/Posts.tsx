@@ -8,6 +8,7 @@ import { PostsState, UserState } from 'libs/type'
 import axios from 'axios'
 import wrapper from 'store/configureStore'
 import { END } from 'redux-saga';
+import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 import Post from './Post'
 
 const PostsContainer = styled.div`
@@ -56,6 +57,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   if (context.req && cookie) {
     axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
   }
+  context.store.dispatch({
+    type: LOAD_MY_INFO_REQUEST,
+  });
   context.store.dispatch({
     type: LOAD_POSTS_REQUEST,
   })
