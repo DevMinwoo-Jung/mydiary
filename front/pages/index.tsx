@@ -142,18 +142,18 @@ const _index: NextPage = () => {
   )
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-  const cookie = context.req ? context.req.headers.cookie : '';
-  axios.defaults.headers.common.Cookie = null; // 쿠키 공유 방지
-  if (context.req && cookie) {
-    axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
-  }
-  context.store.dispatch({
-    type: LOAD_MY_INFO_REQUEST,
-  });
-  context.store.dispatch(END);
-  await context.store.sagaTask.toPromise();
-});
+// export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+//   const cookie = context.req ? context.req.headers.cookie : '';
+//   axios.defaults.headers.common.Cookie = null; // 쿠키 공유 방지
+//   if (context.req && cookie) {
+//     axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
+//   }
+//   context.store.dispatch({
+//     type: LOAD_MY_INFO_REQUEST,
+//   });
+//   context.store.dispatch(END);
+//   await context.store.sagaTask.toPromise();
+// });
 
 const index = memo(_index)
 
