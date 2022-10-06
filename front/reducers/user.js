@@ -110,6 +110,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.signUpLoading = false;
       draft.me = action.data;
       draft.signUpDone = true;
+      draft.me = null;
       break;
     case SIGN_UP_FAILURE:
       draft.signUpLoading = false;
