@@ -12,9 +12,9 @@ import { dummy, LOAD_POSTS_REQUEST } from 'reducers/post'
 import { useInView } from 'react-intersection-observer'
 import Arrow from 'lottie/Arrow'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
-import axios from 'axios'
-import wrapper from 'store/configureStore'
-import { END } from 'redux-saga';
+// import axios from 'axios'
+// import wrapper from 'store/configureStore'
+// import { END } from 'redux-saga';
 import { PostsState, UserState } from 'libs/type'
 import { size } from 'libs/css/layout'
 import Post from '../components/Posts/Post'
