@@ -11,7 +11,7 @@ import {
 import { useRouter } from 'next/router'
 import UserInfoMini from 'components/Profile/UserInfoMini'
 import { ToggleProps } from 'libs/type'
-import { POST_REQUEST_FASLE } from 'reducers/post'
+import { POST_REQUEST_FASLE, REMOVE_POSTS } from 'reducers/post'
 import { LOG_OUT_REQUEST } from 'reducers/user'
 import { useDispatch } from 'react-redux'
 import { COLOR_MAIN, FONT_COLOR, GRAY, WHITE } from '../../libs/css/color';
@@ -82,6 +82,9 @@ const _Slider = (props: ToggleProps) => {
   const onLogout = useCallback(() => {
     dispatch({
       type: LOG_OUT_REQUEST,
+    })
+    dispatch({
+      type: REMOVE_POSTS,
     })
     router.push('/')
     dispatch({

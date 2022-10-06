@@ -5,7 +5,6 @@ import Head from 'next/head'
 import React, { memo, useLayoutEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
-import { REMOVE_POSTS } from 'reducers/post'
 import styled from 'styled-components'
 
 const ProfileContainer = styled.div`
@@ -24,9 +23,6 @@ const _profile = () => {
   useLayoutEffect(() => {
     dispatch({
       type: LOAD_MY_INFO_REQUEST,
-    })
-    dispatch({
-      type: REMOVE_POSTS,
     })
   }, [])
 
