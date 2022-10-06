@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import styled from 'styled-components'
 import type { NextPage } from 'next'
-import { memo, useEffect, useRef } from 'react'
+import { memo, useEffect, useLayoutEffect, useRef } from 'react'
 import Head from 'next/head'
 import PostForm from 'components/PostForm/PostForm'
 import Posts from 'components/Posts/Posts'
@@ -11,7 +11,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { dummy, LOAD_POSTS_REQUEST } from 'reducers/post'
 import { useInView } from 'react-intersection-observer'
 import Arrow from 'lottie/Arrow'
-// import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
+import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 import axios from 'axios'
 import wrapper from 'store/configureStore'
 import { END } from 'redux-saga';
@@ -61,11 +61,11 @@ const _index: NextPage = () => {
   const postRef: any = useRef()
   const arrowRef: any = useRef()
 
-  // useLayoutEffect(() => {
-  //   dispatch({
-  //     type: LOAD_MY_INFO_REQUEST,
-  //   })
-  // }, [])
+  useLayoutEffect(() => {
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    })
+  }, [])
 
   useEffect(() => {
     if (inView && hasMorePosts && !loadPostsLoading) {
@@ -148,9 +148,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   if (context.req && cookie) {
     axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
   }
-  // context.store.dispatch({
-  //   type: LOAD_MY_INFO_REQUEST,
-  // });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
