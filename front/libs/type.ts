@@ -16,6 +16,16 @@ export type ToggleProps = {
   toggleDrawer: (closed:boolean) => void,
 }
 
+type imageType = {
+  src: string;
+  id: string
+}
+
+export type ImagesProps = {
+  image: imageType[];
+  type?: string;
+}
+
 // type ImagePathRype = {
 //   filename: string | null,
 //   src: string | null,
