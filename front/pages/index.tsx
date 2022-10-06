@@ -61,11 +61,11 @@ const _index: NextPage = () => {
   const postRef: any = useRef()
   const arrowRef: any = useRef()
 
-  useEffect(() => {
-    dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({
+  //     type: LOAD_MY_INFO_REQUEST,
+  //   })
+  // }, [])
 
   useEffect(() => {
     if (inView && hasMorePosts && !loadPostsLoading) {
