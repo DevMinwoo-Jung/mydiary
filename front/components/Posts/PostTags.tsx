@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { FC } from 'react'
 import Link from 'next/link'
 import shortid from 'shortid'

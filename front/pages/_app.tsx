@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/react-in-jsx-scope */
+import React from 'react';
 import AppLayout from 'components/AppLayout/AppLayout'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'

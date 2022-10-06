@@ -39,6 +39,9 @@ const IntroPostContainer = styled.div`
 const IntroParaContainer = styled.div`
   width: 100%;
   margin: 5rem 1rem 1rem 1rem;
+  @media screen and (max-width: ${size.mobileL}) { 
+    margin: 5rem 0 0 0;
+  }
 `
 
 const IntroPara = styled.p`

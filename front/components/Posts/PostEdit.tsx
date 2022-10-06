@@ -1,5 +1,3 @@
-/* eslint-disable no-alert */
-/* eslint-disable no-shadow */
 /* eslint-disable consistent-return */
 // eslint-disable-next-line no-unused-vars
 import { DatePicker, DatePickerProps, Form, Input, Tooltip } from 'antd'
@@ -102,7 +100,7 @@ const _PostEdit:FC<PostProps> = (props) => {
   const imageInput = useRef<any>()
   const [text, onChangeText] = useInput(post.content)
 
-  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+  const onChange: DatePickerProps['onChange'] = (newDate, dateString) => {
     setDate(dateString)
   };
 
@@ -123,15 +121,13 @@ const _PostEdit:FC<PostProps> = (props) => {
     if ((e.target.files[0].size / 1024 / 1024).toFixed(4) >= '5') {
       return alert(`${e.target.files[0].name} 이미지 크기는 5MB를 초과할 수 없습니다.`);
     }
-    const modifyImagePaths = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
+    const newModifyImagePaths = new FormData(); // mutilpart 형식으로 서버에 보낼 수 있다
     [].forEach.call(e.target.files, (f) => {
-      modifyImagePaths.append('image', f)
+      newModifyImagePaths.append('image', f)
     })
-    console.log('asdasd')
-    console.log(modifyImagePaths)
     dispatch({
       type: UPLOAD_EDIT_IMAGES_REQUEST,
-      data: modifyImagePaths,
+      data: newModifyImagePaths,
     })
   }, [])
 

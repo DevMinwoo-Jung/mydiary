@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { FC, memo, useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -114,7 +113,7 @@ const _Post:FC<PostProps> = (props) => {
     setModify((prev) => !prev)
   }, [modify])
 
-  const onRemovePost = useCallback((targetId:string) => {
+  const onRemovePost = useCallback(() => {
     dispatch({
       type: POST_DELETE_REQUEST,
       data: post.id,
@@ -122,9 +121,8 @@ const _Post:FC<PostProps> = (props) => {
     setModify(false)
   }, [id, modify])
 
-  const confirm = (e: string) => {
-    console.log(e);
-    onRemovePost(e)
+  const confirm = () => {
+    onRemovePost()
     message.success('삭제되었습니다.');
   };
 
@@ -157,7 +155,7 @@ const _Post:FC<PostProps> = (props) => {
                         <Popconfirm
                           title="메모 삭제하기"
                           onCancel={cancel}
-                          onConfirm={() => confirm(post.id)}
+                          onConfirm={() => confirm()}
                           okText="삭제"
                           cancelText="취소"
                           icon={<QuestionCircleOutlined style={{ color: 'red' }} />}

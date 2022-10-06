@@ -6,19 +6,9 @@ import { BACKGROUND_COLOR, BUTTON_COLOR } from 'libs/css/color'
 import { REMOVE_IMAGE } from 'reducers/post'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
-import { UserState } from 'libs/type'
+import { ImagesProps, UserState } from 'libs/type'
 import { size } from 'libs/css/layout'
 import DeleteDiv from './DeleteDiv'
-
-type image = {
-  src: string;
-  id: string
-}
-
-export type ImagesProps = {
-  image: image[];
-  type?: string;
-}
 
 const ImageContainer = styled.div`
   width: 100%;
@@ -115,7 +105,6 @@ const RemoveButtonStyle = styled(IoTrashBinOutline)`
 
 const _Images:FC<ImagesProps> = (props) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  // eslint-disable-next-line no-shadow
   const { image, type } = props
   const dispatch = useDispatch()
   const [hideDelete, toggle] = useToggle()

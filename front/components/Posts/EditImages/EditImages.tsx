@@ -10,13 +10,13 @@ import { PostObject, PostsState } from 'libs/type'
 import { size } from 'libs/css/layout'
 import DeleteDiv from '../DeleteDiv'
 
-type image = {
+type imageType = {
   src: string;
   id: string
 }
 
 export type EditImagesProps = {
-  image: image[];
+  image: imageType[];
   post: PostObject
 }
 
@@ -116,7 +116,6 @@ const Slide = styled.div`
 const _EditImages:FC<EditImagesProps> = (props) => {
   const dispatch = useDispatch()
   const { modifyImagePaths } = useSelector((state:PostsState) => state.post)
-  // eslint-disable-next-line no-shadow
   const { image } = props
   const [currentSlide, setCurrentSlide] = useState(0);
   const [hideDelete, toggle] = useToggle()
