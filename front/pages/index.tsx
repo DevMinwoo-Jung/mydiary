@@ -12,9 +12,9 @@ import { dummy, LOAD_POSTS_REQUEST } from 'reducers/post'
 import { useInView } from 'react-intersection-observer'
 import Arrow from 'lottie/Arrow'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
-// import axios from 'axios'
-// import wrapper from 'store/configureStore'
-// import { END } from 'redux-saga';
+import axios from 'axios'
+import wrapper from 'store/configureStore'
+import { END } from 'redux-saga';
 import { PostsState, UserState } from 'libs/type'
 import { size } from 'libs/css/layout'
 import Post from '../components/Posts/Post'
@@ -145,18 +145,18 @@ const _index: NextPage = () => {
   )
 };
 
-// export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-//   const cookie = context.req ? context.req.headers.cookie : '';
-//   axios.defaults.headers.common.Cookie = null; // 쿠키 공유 방지
-//   if (context.req && cookie) {
-//     axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
-//   }
-//   context.store.dispatch({
-//     type: LOAD_MY_INFO_REQUEST,
-//   });
-//   context.store.dispatch(END);
-//   await context.store.sagaTask.toPromise();
-// });
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.common.Cookie = null; // 쿠키 공유 방지
+  if (context.req && cookie) {
+    axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
+  }
+  context.store.dispatch({
+    type: LOAD_MY_INFO_REQUEST,
+  });
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
 
 const index = memo(_index)
 
