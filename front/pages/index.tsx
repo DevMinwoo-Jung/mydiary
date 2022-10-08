@@ -65,7 +65,7 @@ const _index: NextPage = () => {
   const arrowRef: any = useRef()
 
   useLayoutEffect(() => {
-    if (me === null) {
+    if (me !== null) {
       dispatch({
         type: LOAD_MY_INFO_REQUEST,
       })
