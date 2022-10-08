@@ -152,8 +152,6 @@ const _PostEdit:FC<PostProps> = (props) => {
     modifyImagePaths.forEach((p) => {
       formData.append('image', p);
     });
-    console.log('ddddd')
-    console.log(modifyImagePaths)
     formData.append('date', date);
     formData.append('content', text);
     formData.append('PostId', post.id);

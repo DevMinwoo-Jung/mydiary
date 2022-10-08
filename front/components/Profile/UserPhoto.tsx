@@ -138,10 +138,6 @@ const _UserPhoto = () => {
     }
   }, [userInfomodifyLoading, isPosted])
 
-  useEffect(() => {
-    console.log(imagePath)
-  }, [imagePath])
-
   return (
     <Form encType="multipart/form-data">
       <UserPhotoDiv>

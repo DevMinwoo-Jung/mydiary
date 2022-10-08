@@ -56,7 +56,6 @@ const _Posts = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-  console.log(context);
   const cookie = context.req ? context.req.headers.cookie : null;
   axios.defaults.headers.common.Cookie = null; // 쿠키 공유 방지
   if (context.req && cookie) {

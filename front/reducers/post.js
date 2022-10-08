@@ -291,7 +291,6 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.modifyPostError = null;
       break;
     case MODIFY_POST_SUCCESS:
-      console.log(action.data)
       draft.modifyPostLoading = false;
       draft.modifyPostDone = true;
       draft.modifyImagePaths = [];
