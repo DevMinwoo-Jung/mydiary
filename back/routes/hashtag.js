@@ -27,6 +27,7 @@ try {
         where: { id: req.user.id },   
       }, {
         model: Image,
+        where: { postImgId: {[Op.not]: null } }
       }],
     });
     // console.log(posts)
