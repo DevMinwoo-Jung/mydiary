@@ -84,7 +84,7 @@ const _index: NextPage = () => {
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (me === null) {
+    if (me == null) {
       const onScroll = () => {
         if (window.scrollY + document.documentElement.clientHeight
           > document.documentElement.scrollHeight - 2500) {
