@@ -8,7 +8,7 @@ import Posts from 'components/Posts/Posts'
 import { BACKGROUND_COLOR } from 'libs/css/color'
 import shortid from 'shortid'
 import { shallowEqual, useSelector } from 'react-redux'
-import { dummy, LOAD_POSTS_REQUEST } from 'reducers/post'
+import { dummy } from 'reducers/post'
 import { useInView } from 'react-intersection-observer'
 import Arrow from 'lottie/Arrow'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
@@ -143,7 +143,6 @@ const _index: NextPage = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   const cookie = context.req ? context.req.headers.cookie : '';
-  const me = useSelector((state:UserState) => state.user?.me?.id)
   axios.defaults.headers.common.Cookie = null; // 쿠키 공유 방지
   if (context.req && cookie) {
     axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
@@ -151,11 +150,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   context.store.dispatch({
     type: LOAD_MY_INFO_REQUEST,
   });
-  if (me != null) {
-    context.store.dispatch({
-      type: LOAD_POSTS_REQUEST,
-    });
-  } 
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
