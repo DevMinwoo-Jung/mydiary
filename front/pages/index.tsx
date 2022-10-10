@@ -1,14 +1,14 @@
 /* eslint-disable react/react-in-jsx-scope */
 import styled from 'styled-components'
 import type { NextPage } from 'next'
-import { memo, useRef } from 'react'
+import { memo, useEffect, useRef } from 'react'
 import Head from 'next/head'
 import PostForm from 'components/PostForm/PostForm'
 import Posts from 'components/Posts/Posts'
 import { BACKGROUND_COLOR } from 'libs/css/color'
 import shortid from 'shortid'
-import { shallowEqual, useSelector } from 'react-redux'
-import { dummy } from 'reducers/post'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { dummy, LOAD_POSTS_REQUEST } from 'reducers/post'
 import { useInView } from 'react-intersection-observer'
 import Arrow from 'lottie/Arrow'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
@@ -57,46 +57,46 @@ const _index: NextPage = () => {
   const me = useSelector((state:UserState) => state.user?.me?.id)
   const { hasMorePosts,
     loadPostsLoading,
-    //mainPosts 
+    mainPosts 
   } = useSelector((state:PostsState) => state.post, shallowEqual)
-  // const dispatch = useDispatch()
-  // const [ref, inView] = useInView()
-  const [ref] = useInView()
+  const dispatch = useDispatch()
+  const [ref, inView] = useInView()
+//  const [ref] = useInView()
 
   const postRef: any = useRef()
   const arrowRef: any = useRef()
 
-  // useEffect(() => {
-  //   if (inView && hasMorePosts && !loadPostsLoading) {
-  //     const lastId = mainPosts[mainPosts.length - 1]?.id;
-  //     dispatch({
-  //       type: LOAD_POSTS_REQUEST,
-  //       lastId,
-  //     });
-  //   }
-  // }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
+  useEffect(() => {
+    if (inView && hasMorePosts && !loadPostsLoading) {
+      const lastId = mainPosts[mainPosts.length - 1]?.id;
+      dispatch({
+        type: LOAD_POSTS_REQUEST,
+        lastId,
+      });
+    }
+  }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
 
-  // eslint-disable-next-line consistent-return
-  // useEffect(() => {
-  //   if (me == null) {
-  //     const onScroll = () => {
-  //       if (window.scrollY + document.documentElement.clientHeight
-  //         > document.documentElement.scrollHeight - 2500) {
-  //         postRef.current.style.opacity = '1'
-  //         postRef.current.style.transition = '1.5s'
-  //         arrowRef.current.style.opacity = '0'
-  //         arrowRef.current.style.transition = '1.5s'
-  //       } else {
-  //         postRef.current.style.opacity = '0'
-  //         arrowRef.current.style.opacity = '1'
-  //       }
-  //     }
-  //     window.addEventListener('scroll', onScroll);
-  //     return () => {
-  //       window.removeEventListener('scroll', onScroll);
-  //     };
-  //   }
-  // }, [me]);
+  //eslint-disable-next-line consistent-return
+  useEffect(() => {
+    if (me == null) {
+      const onScroll = () => {
+        if (window.scrollY + document.documentElement.clientHeight
+          > document.documentElement.scrollHeight - 2500) {
+          postRef.current.style.opacity = '1'
+          postRef.current.style.transition = '1.5s'
+          arrowRef.current.style.opacity = '0'
+          arrowRef.current.style.transition = '1.5s'
+        } else {
+          postRef.current.style.opacity = '0'
+          arrowRef.current.style.opacity = '1'
+        }
+      }
+      window.addEventListener('scroll', onScroll);
+      return () => {
+        window.removeEventListener('scroll', onScroll);
+      };
+    }
+  }, [me]);
 
   return (
     <>
