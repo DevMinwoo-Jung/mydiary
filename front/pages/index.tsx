@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import styled from 'styled-components'
 import type { NextPage } from 'next'
-import { memo, useEffect, useRef } from 'react'
+import { memo, useRef } from 'react'
 import Head from 'next/head'
 import PostForm from 'components/PostForm/PostForm'
 import Posts from 'components/Posts/Posts'
