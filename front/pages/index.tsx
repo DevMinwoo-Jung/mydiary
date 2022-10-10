@@ -7,7 +7,7 @@ import PostForm from 'components/PostForm/PostForm'
 import Posts from 'components/Posts/Posts'
 import { BACKGROUND_COLOR } from 'libs/css/color'
 import shortid from 'shortid'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
 import { dummy, LOAD_POSTS_REQUEST } from 'reducers/post'
 import { useInView } from 'react-intersection-observer'
 import Arrow from 'lottie/Arrow'
@@ -57,31 +57,24 @@ const _index: NextPage = () => {
   const me = useSelector((state:UserState) => state.user?.me?.id)
   const { hasMorePosts,
     loadPostsLoading,
-    mainPosts 
+    //mainPosts 
   } = useSelector((state:PostsState) => state.post, shallowEqual)
-  const dispatch = useDispatch()
-  const [ref, inView] = useInView()
+  // const dispatch = useDispatch()
+  // const [ref, inView] = useInView()
+  const [ref] = useInView()
 
   const postRef: any = useRef()
   const arrowRef: any = useRef()
 
-  // useLayoutEffect(() => {
-  //   if (me !== null) {
-  //    dispatch({
-  //       type: LOAD_MY_INFO_REQUEST,
-  //     })
-  //   } 
-  // }, [me])
-
-  useEffect(() => {
-    if (inView && hasMorePosts && !loadPostsLoading) {
-      const lastId = mainPosts[mainPosts.length - 1]?.id;
-      dispatch({
-        type: LOAD_POSTS_REQUEST,
-        lastId,
-      });
-    }
-  }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
+  // useEffect(() => {
+  //   if (inView && hasMorePosts && !loadPostsLoading) {
+  //     const lastId = mainPosts[mainPosts.length - 1]?.id;
+  //     dispatch({
+  //       type: LOAD_POSTS_REQUEST,
+  //       lastId,
+  //     });
+  //   }
+  // }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
@@ -158,7 +151,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   context.store.dispatch({
     type: LOAD_MY_INFO_REQUEST,
   });
-  if (me !== null) {
+  if (me != null) {
     context.store.dispatch({
       type: LOAD_POSTS_REQUEST,
     });
