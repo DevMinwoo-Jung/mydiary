@@ -77,26 +77,26 @@ const _index: NextPage = () => {
   // }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
 
   // eslint-disable-next-line consistent-return
-  useEffect(() => {
-    if (me == null) {
-      const onScroll = () => {
-        if (window.scrollY + document.documentElement.clientHeight
-          > document.documentElement.scrollHeight - 2500) {
-          postRef.current.style.opacity = '1'
-          postRef.current.style.transition = '1.5s'
-          arrowRef.current.style.opacity = '0'
-          arrowRef.current.style.transition = '1.5s'
-        } else {
-          postRef.current.style.opacity = '0'
-          arrowRef.current.style.opacity = '1'
-        }
-      }
-      window.addEventListener('scroll', onScroll);
-      return () => {
-        window.removeEventListener('scroll', onScroll);
-      };
-    }
-  }, [me]);
+  // useEffect(() => {
+  //   if (me == null) {
+  //     const onScroll = () => {
+  //       if (window.scrollY + document.documentElement.clientHeight
+  //         > document.documentElement.scrollHeight - 2500) {
+  //         postRef.current.style.opacity = '1'
+  //         postRef.current.style.transition = '1.5s'
+  //         arrowRef.current.style.opacity = '0'
+  //         arrowRef.current.style.transition = '1.5s'
+  //       } else {
+  //         postRef.current.style.opacity = '0'
+  //         arrowRef.current.style.opacity = '1'
+  //       }
+  //     }
+  //     window.addEventListener('scroll', onScroll);
+  //     return () => {
+  //       window.removeEventListener('scroll', onScroll);
+  //     };
+  //   }
+  // }, [me]);
 
   return (
     <>
