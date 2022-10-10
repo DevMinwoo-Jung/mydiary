@@ -2,7 +2,7 @@ import React, { memo, useLayoutEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import shortid from 'shortid'
-import { LOAD_POSTS_REQUEST, POST_REQUEST_FASLE } from 'reducers/post'
+import { POST_REQUEST_FASLE } from 'reducers/post'
 import { BACKGROUND_COLOR } from 'libs/css/color'
 import { PostsState, UserState } from 'libs/type'
 import Post from './Post'
@@ -28,11 +28,11 @@ const _Posts = () => {
     }
   }, [me])
 
-  useLayoutEffect(() => {
-    dispatch({
-      type: LOAD_POSTS_REQUEST,
-    })
-  }, [])
+  // useLayoutEffect(() => {
+  //   dispatch({
+  //     type: LOAD_POSTS_REQUEST,
+  //   })
+  // }, [])
 
   return (
     <PostsContainer key={shortid()}>
