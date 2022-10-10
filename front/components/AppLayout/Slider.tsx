@@ -102,6 +102,9 @@ const _Slider = (props: ToggleProps) => {
     if (e.keyPath[0] === '1') {
       router.push('/')
       toggleDrawer(false)
+      dispatch({
+        type: REMOVE_POSTS
+      })
     } else if (e.keyPath[0] === '2') {
       router.push('/profile')
       toggleDrawer(false)

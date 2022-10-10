@@ -5,10 +5,11 @@ import { Menu, ChevronLeft } from '@styled-icons/material'
 import { Button } from 'antd'
 import SignupForm from 'components/SignupForm'
 import LoginForm from 'components/LoginForm'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { BUTTON_COLOR, COLOR_MAIN, FONT_COLOR, GRAY } from 'libs/css/color'
 import { ToggleProps, UserState } from 'libs/type'
 import SearchForm from 'components/SearchForm/SearchForm'
+import { REMOVE_POSTS } from 'reducers/post'
 
 const ChevronLeftStyle = styled(ChevronLeft)`
   color: ${FONT_COLOR};
@@ -105,6 +106,7 @@ const _Header = (props: ToggleProps) => {
   const { isOpened, toggleDrawer } = props
 
   const router = useRouter()
+  const dispatch = useDispatch()
 
   const me = useSelector((state:UserState) => state.user?.me)
   const signUpDone = useSelector((state:UserState) => state.user?.signUpDone)
@@ -121,6 +123,9 @@ const _Header = (props: ToggleProps) => {
 
   const onHome = useCallback(() => {
     router.push('/')
+    dispatch({
+      type: REMOVE_POSTS
+    })
     toggleDrawer(false)
   }, [])
 
