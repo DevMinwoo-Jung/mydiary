@@ -117,11 +117,10 @@ const _Header = (props: ToggleProps) => {
   const onLogin = useCallback(() => {
     setShowLogin((prev) => !prev)
     setIsClicked((prev) => !prev)
-    router.push('/posts')
   }, [showLogin])
 
   const onHome = useCallback(() => {
-    router.push('/posts')
+    router.push('/')
     toggleDrawer(false)
   }, [])
 
