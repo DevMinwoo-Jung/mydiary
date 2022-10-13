@@ -7,11 +7,13 @@ import useInput from 'libs/hook/useInput'
 import { PostProps, PostsState } from 'libs/type'
 import moment from 'moment'
 import React, { FC, memo, useCallback, useRef, useState } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { MODIFY_POST_REQUEST, REMOVE_EXIST_IMAGE_ID_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST } from 'reducers/post'
 import styled from 'styled-components'
 import { BsImage } from 'react-icons/bs'
 import { FiEdit } from 'react-icons/fi'
+import { deepEqual } from 'assert'
+import { shallowCopy } from 'immer/dist/internal'
 
 const PostFormHeader = styled.div`
   position: absolute;
@@ -104,7 +106,7 @@ const _PostEdit:FC<PostProps> = (props) => {
     setDate(dateString)
   };
 
-  const { modifyImagePaths } = useSelector((state:PostsState) => state.post, shallowEqual)
+  const { modifyImagePaths } = useSelector((state:PostsState) => state.post, shallowCopy)
 
   const onClickImageUploads = useCallback(() => {
     imageInput.current.click()
