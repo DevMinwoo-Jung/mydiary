@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import axios from 'axios'
 import wrapper from 'store/configureStore'
 import { END } from 'redux-saga'
