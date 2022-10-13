@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import axios from 'axios'
 import wrapper from 'store/configureStore'
 import { END } from 'redux-saga'
@@ -36,15 +36,6 @@ const posts = () => {
   const me = useSelector((state:UserState) => state.user.me)
   const dispatch = useDispatch()
   const [ref, inView] = useInView()
-  const [modify, setModify] = useState(false)
-
-  const onChangeModify = useCallback(() => {
-    if(modify) {
-      setModify(false)
-    } else {
-      setModify(true)
-    }
-  }, [modify])
 
   useLayoutEffect(() => {
     if (me === null) {
@@ -68,16 +59,8 @@ const posts = () => {
       <PostForm key={shortid.generate()} />
       <PostsContainer key={shortid()}>
         {
-          me != null
-            ? (
-              <>
-                {
-                mainPosts
-                  .map((post) => <Post onChangeModify={onChangeModify} modify={modify} post={post} key={shortid()} />)
-              }
-              </>
-            )
-            : null
+          mainPosts
+          .map((post) => <Post post={post} key={shortid()} />)
         }
       </PostsContainer>
         <div ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />

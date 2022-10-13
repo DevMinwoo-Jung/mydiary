@@ -1,4 +1,4 @@
-import React, { FC, memo, useCallback } from 'react'
+import React, { FC, memo, useCallback, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { COLOR_DBE2EF, WHITE } from 'libs/css/color'
@@ -101,24 +101,29 @@ const Atag = styled.a`
   color: inherit;
 `
 const _Post:FC<PostProps> = (props) => {
-  const { post, modify, onChangeModify } = props
+  const { post } = props
   const dispatch = useDispatch()
-  // const [modify, setModify] = useState(false)
+  const [modify, setModify] = useState(false)
   const me = useSelector((state:UserState) => state.user.me, shallowEqual)
   const id = useSelector((state:UserState) => state.user.me?.id, shallowEqual);
   const router = useRouter();
   const { tag } = router.query;
 
-  const goChangeModify = useCallback(() => {
-    onChangeModify()
-  }, [])
+  const onChangeModify = useCallback(() => {
+    if(modify) {
+      setModify(false)
+    } else {
+      setModify(true)
+    }
+    alert(modify)
+  }, [modify])
 
   const onRemovePost = useCallback(() => {
     dispatch({
       type: POST_DELETE_REQUEST,
       data: post.id,
     })
-    onChangeModify()
+    setModify(false)
   }, [id, modify])
 
   const confirm = () => {
@@ -145,7 +150,7 @@ const _Post:FC<PostProps> = (props) => {
                   {
                       tag !== undefined
                         ? null
-                        : <BsThreeDotsStyle onClick={goChangeModify} />
+                        : <BsThreeDotsStyle onClick={onChangeModify} />
                     }
                   <DeleteDiv>
                     {
@@ -179,7 +184,7 @@ const _Post:FC<PostProps> = (props) => {
           </TagDiv>
         </TagAndDelete>
         {
-            modify == true
+            modify === true
               ? <PostEdit post={post} />
               : <PostNormal post={post} />
         }
