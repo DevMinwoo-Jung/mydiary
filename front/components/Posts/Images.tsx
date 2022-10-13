@@ -6,7 +6,7 @@ import { BACKGROUND_COLOR, BUTTON_COLOR } from 'libs/css/color'
 import { REMOVE_IMAGE } from 'reducers/post'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
-import { ImagesProps, PostsState, UserState } from 'libs/type'
+import { ImagesProps, UserState } from 'libs/type'
 import { size } from 'libs/css/layout'
 import DeleteDiv from './DeleteDiv'
 
