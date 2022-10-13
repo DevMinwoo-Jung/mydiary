@@ -1,9 +1,9 @@
-import React, { FC, memo, useCallback, useEffect, useState } from 'react'
+import React, { FC, memo, useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { BACKGROUND_COLOR, BUTTON_COLOR } from 'libs/css/color'
-import { LOAD_EDIT_IMAGE, REMOVE_IMAGE } from 'reducers/post'
+import { REMOVE_IMAGE } from 'reducers/post'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
 import { ImagesProps, PostsState, UserState } from 'libs/type'
@@ -111,14 +111,6 @@ const _Images:FC<ImagesProps> = (props) => {
   const { me } = useSelector((state:UserState) => state.user)
   const { modifyImagePaths } = useSelector((state:PostsState) => state.post)
 
-  useEffect(() => {
-    dispatch({
-      type: LOAD_EDIT_IMAGE,
-      data: image,
-    })
-  }, [])
-
-
   const onShowPrevImg = () => {
     if (currentSlide === 0) {
       setCurrentSlide(image.length - 1)
@@ -148,22 +140,22 @@ const _Images:FC<ImagesProps> = (props) => {
         modify === true ?
         <>
         {
-          modifyImagePaths.length === 0
+          image.length === 0
             ? null
             : (
               <ImageContainer>
                 {
-              modifyImagePaths.length === 1
+              image.length === 1
                 ? null
                 : <CaretLeftOutlinedStyle onClick={onShowPrevImg} />
             }
-                <ImgStyle src={`${modifyImagePaths[currentSlide]}`} />
+                <ImgStyle src={`${image[currentSlide]}`} />
                 {
                 hideDelete === false
                   ? (
                     <>
                       {
-                    modifyImagePaths.length === 1 ? null : <DeleteDiv />
+                    image.length === 1 ? null : <DeleteDiv />
                   }
                     </>
                   )
@@ -173,7 +165,7 @@ const _Images:FC<ImagesProps> = (props) => {
                   <p>{currentSlide + 1} / {modifyImagePaths.length}</p>
                 </Slide>
                 {
-              modifyImagePaths.length === 1
+              image.length === 1
                 ? null
                 : (
                   <RemoveButtonStyle
@@ -185,7 +177,7 @@ const _Images:FC<ImagesProps> = (props) => {
                 )
             }
                 {
-              modifyImagePaths.length === 1
+              image.length === 1
                 ? null
                 : <CaretRightOutlinedStyle onClick={onShowNextImg} />
             }
