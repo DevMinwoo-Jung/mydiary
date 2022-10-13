@@ -12,7 +12,6 @@ import { MODIFY_POST_REQUEST, REMOVE_EXIST_IMAGE_ID_REQUEST, UPLOAD_EDIT_IMAGES_
 import styled from 'styled-components'
 import { BsImage } from 'react-icons/bs'
 import { FiEdit } from 'react-icons/fi'
-import { deepEqual } from 'assert'
 import { shallowCopy } from 'immer/dist/internal'
 
 const PostFormHeader = styled.div`
