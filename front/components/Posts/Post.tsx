@@ -1,5 +1,5 @@
 import React, { FC, memo, useCallback, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { COLOR_DBE2EF, WHITE } from 'libs/css/color'
 import shortid from 'shortid'
@@ -104,8 +104,8 @@ const _Post:FC<PostProps> = (props) => {
   const { post } = props
   const dispatch = useDispatch()
   const [modify, setModify] = useState(false)
-  const me = useSelector((state:UserState) => state.user.me)
-  const id = useSelector((state:UserState) => state.user.me?.id);
+  const me = useSelector((state:UserState) => state.user.me, shallowEqual)
+  const id = useSelector((state:UserState) => state.user.me?.id, shallowEqual);
   const router = useRouter();
   const { tag } = router.query;
 
