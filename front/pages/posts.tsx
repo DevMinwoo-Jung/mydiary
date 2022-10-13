@@ -10,6 +10,7 @@ import Post from '../components/Posts/Post'
 import styled from 'styled-components'
 import { BACKGROUND_COLOR } from 'libs/css/color'
 import shortid from 'shortid'
+import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
 
 const PostsContainer = styled.div`
   margin: auto;
@@ -72,6 +73,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   if (context.req && cookie) {
     axios.defaults.headers.common.Cookie = cookie; /// 서버에 쿠키 전달!
   }
+  context.store.dispatch({
+    type: LOAD_MY_INFO_REQUEST,
+  });
   context.store.dispatch({
     type: LOAD_POSTS_REQUEST,
   });
