@@ -15,7 +15,7 @@ import PostTags from './PostTags'
 import 'moment/locale/ko'
 import PostNormal from './PostNormal'
 import PostEdit from './PostEdit'
-import EditImages from './EditImages/EditImages'
+// import EditImages from './EditImages/EditImages'
 import Images from './Images'
 
 moment.locale('ko');
@@ -133,11 +133,14 @@ const _Post:FC<PostProps> = (props) => {
   return (
     <PostsInnerContainer key={shortid()}>
       {
+        post.Images[0] && <Images modify={modify} image={post.Images} /> 
+      }
+      {/* {
         modify == true ? <EditImages post={post} image={post.Images} /> : null
       }
       {
-        modify == false ? post.Images[0] && <Images image={post.Images} /> : null
-      }
+        modify == false ? post.Images[0] && <Images modify={modify} image={post.Images} /> : null
+      } */}
       <ContentContainer>
         {
             me !== null

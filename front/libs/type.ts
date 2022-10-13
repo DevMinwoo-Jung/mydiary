@@ -9,8 +9,6 @@ export type PostObject = {
 export type PostProps = {
   post: PostObject;
   modify?: boolean;
-  onChangeModify?: () => void;
-  modify2?: boolean;
 }
 
 export type ToggleProps = {
@@ -26,6 +24,7 @@ type imageType = {
 export type ImagesProps = {
   image: imageType[];
   type?: string;
+  modify?: boolean;
 }
 
 // type ImagePathRype = {
