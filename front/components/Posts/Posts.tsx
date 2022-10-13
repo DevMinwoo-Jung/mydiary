@@ -6,6 +6,14 @@ import { POST_REQUEST_FASLE } from 'reducers/post'
 import { BACKGROUND_COLOR } from 'libs/css/color'
 import { PostsState, UserState } from 'libs/type'
 import Post from './Post'
+import PostForm from 'components/PostForm/PostForm'
+
+const ContentsContainer = styled.div`
+  margin: auto;
+  display: block;
+  width: 100%;
+  background-color: ${BACKGROUND_COLOR};
+`
 
 const PostsContainer = styled.div`
   margin: auto;
@@ -28,27 +36,24 @@ const _Posts = () => {
     }
   }, [me])
 
-  // useLayoutEffect(() => {
-  //   dispatch({
-  //     type: LOAD_POSTS_REQUEST,
-  //   })
-  // }, [])
-
   return (
-    <PostsContainer key={shortid()}>
-      {
-        me != null
-          ? (
-            <>
-              {
-              mainPosts
-                .map((post) => <Post post={post} key={shortid()} />)
-            }
-            </>
-          )
-          : null
-      }
-    </PostsContainer>
+    <ContentsContainer>
+      <PostForm key={shortid.generate()} />
+      <PostsContainer key={shortid()}>
+        {
+          me != null
+            ? (
+              <>
+                {
+                mainPosts
+                  .map((post) => <Post post={post} key={shortid()} />)
+              }
+              </>
+            )
+            : null
+        }
+      </PostsContainer>
+    </ContentsContainer>
   );
 };
 
