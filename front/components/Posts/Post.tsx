@@ -1,5 +1,5 @@
 import React, { FC, memo, useCallback, useState } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { COLOR_DBE2EF, WHITE } from 'libs/css/color'
 import shortid from 'shortid'
@@ -104,18 +104,13 @@ const _Post:FC<PostProps> = (props) => {
   const { post } = props
   const dispatch = useDispatch()
   const [modify, setModify] = useState(false)
-  const me = useSelector((state:UserState) => state.user.me, shallowEqual)
-  const id = useSelector((state:UserState) => state.user.me?.id, shallowEqual);
+  const me = useSelector((state:UserState) => state.user.me)
+  const id = useSelector((state:UserState) => state.user.me?.id);
   const router = useRouter();
   const { tag } = router.query;
 
   const onChangeModify = () => {
-    if(modify) {
-      setModify(false)
-    } else {
-      setModify(true)
-    }
-
+    setModify(!modify)
   }
 
   const onRemovePost = useCallback(() => {
@@ -138,9 +133,10 @@ const _Post:FC<PostProps> = (props) => {
   return (
     <PostsInnerContainer key={shortid()}>
       {
-        modify == true
-          ? <EditImages post={post} image={post.Images} />
-          : post.Images[0] && <Images image={post.Images} />
+        modify == true ? <EditImages post={post} image={post.Images} /> : null
+      }
+      {
+        modify == false ? post.Images[0] && <Images image={post.Images} /> : null
       }
       <ContentContainer>
         {
