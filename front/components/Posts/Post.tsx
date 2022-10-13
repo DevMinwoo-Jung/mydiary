@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { COLOR_DBE2EF, WHITE } from 'libs/css/color'
 import shortid from 'shortid'
-import { LOAD_EDIT_IMAGE, POST_DELETE_REQUEST } from 'reducers/post'
+import { POST_DELETE_REQUEST } from 'reducers/post'
 import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import { message, Popconfirm, Tooltip } from 'antd'
 import moment from 'moment'
@@ -111,10 +111,6 @@ const _Post:FC<PostProps> = (props) => {
 
   const onChangeModify = () => {
     setModify(!modify)
-    dispatch({
-      type: LOAD_EDIT_IMAGE,
-      data: post.Images,
-    })
   }
 
   const onRemovePost = useCallback(() => {

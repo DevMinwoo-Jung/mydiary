@@ -149,7 +149,7 @@ const _Images:FC<ImagesProps> = (props) => {
                 ? null
                 : <CaretLeftOutlinedStyle onClick={onShowPrevImg} />
             }
-                <ImgStyle src={`${modifyImagePaths[currentSlide]}`} />
+                <ImgStyle src={`${image[currentSlide].src}`} />
                 {
                 hideDelete === false
                   ? (

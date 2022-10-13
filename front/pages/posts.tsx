@@ -4,7 +4,7 @@ import wrapper from 'store/configureStore'
 import { END } from 'redux-saga'
 import { LOAD_POSTS_REQUEST, POST_REQUEST_FASLE } from 'reducers/post'
 import { PostsState } from 'libs/type'
-import { useSelector, useDispatch, shallowEqual } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useInView } from 'react-intersection-observer'
 import Post from '../components/Posts/Post'
 import styled from 'styled-components'
@@ -32,7 +32,7 @@ const posts = () => {
   const { hasMorePosts,
     loadPostsLoading,
     mainPosts   
-  } = useSelector((state:PostsState) => state.post, shallowEqual)
+  } = useSelector((state:PostsState) => state.post)
   // const me = useSelector((state:UserState) => state.user.me)
   const dispatch = useDispatch()
   const [ref, inView] = useInView()
