@@ -109,14 +109,14 @@ const _Post:FC<PostProps> = (props) => {
   const router = useRouter();
   const { tag } = router.query;
 
-  const onChangeModify = useCallback(() => {
+  const onChangeModify = () => {
     if(modify) {
       setModify(false)
     } else {
       setModify(true)
     }
-    alert(modify)
-  }, [modify])
+
+  }
 
   const onRemovePost = useCallback(() => {
     dispatch({
