@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import axios from 'axios'
 import wrapper from 'store/configureStore'
 import { END } from 'redux-saga'
@@ -36,15 +36,15 @@ const posts = () => {
   const me = useSelector((state:UserState) => state.user.me)
   const dispatch = useDispatch()
   const [ref, inView] = useInView()
-  // const [modify2, setModify2] = useState(false)
+  const [modify, setModify] = useState(false)
 
-  // const onChangeModify = useCallback(() => {
-  //   if(modify2) {
-  //     setModify2(false)
-  //   } else {
-  //     setModify2(true)
-  //   }
-  // }, [modify2])
+  const onChangeModify = useCallback(() => {
+    if(modify) {
+      setModify(false)
+    } else {
+      setModify(true)
+    }
+  }, [modify])
 
   useLayoutEffect(() => {
     if (me === null) {
@@ -73,7 +73,7 @@ const posts = () => {
               <>
                 {
                 mainPosts
-                  .map((post) => <Post post={post} key={shortid()} />)
+                  .map((post) => <Post onChangeModify={onChangeModify} modify={modify} post={post} key={shortid()} />)
               }
               </>
             )
