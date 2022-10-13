@@ -15,7 +15,7 @@ import PostTags from './PostTags'
 import 'moment/locale/ko'
 import PostNormal from './PostNormal'
 import PostEdit from './PostEdit'
-// import EditImages from './EditImages/EditImages'
+import EditImages from './EditImages/EditImages'
 import Images from './Images'
 
 moment.locale('ko');
@@ -109,9 +109,9 @@ const _Post:FC<PostProps> = (props) => {
   const router = useRouter();
   const { tag } = router.query;
 
-  const onChangeModify = () => {
-    setModify(!modify)
-  }
+  const onChangeModify = useCallback(() => {
+    setModify((prev) => !prev)
+  }, [modify])
 
   const onRemovePost = useCallback(() => {
     dispatch({
@@ -133,14 +133,10 @@ const _Post:FC<PostProps> = (props) => {
   return (
     <PostsInnerContainer key={shortid()}>
       {
-        post.Images[0] && <Images modify={modify} image={post.Images} /> 
+        modify === true
+          ? <EditImages post={post} image={post.Images} />
+          : post.Images[0] && <Images image={post.Images} />
       }
-      {/* {
-        modify == true ? <EditImages post={post} image={post.Images} /> : null
-      }
-      {
-        modify == false ? post.Images[0] && <Images modify={modify} image={post.Images} /> : null
-      } */}
       <ContentContainer>
         {
             me !== null
@@ -153,7 +149,7 @@ const _Post:FC<PostProps> = (props) => {
                     }
                   <DeleteDiv>
                     {
-                  modify == true
+                  modify === true
                     ? (
                       <>
                         <Popconfirm

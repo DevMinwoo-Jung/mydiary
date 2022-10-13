@@ -1,12 +1,12 @@
-import React, { FC, memo, useCallback, useEffect, useState } from 'react'
+import React, { FC, memo, useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { BACKGROUND_COLOR, BUTTON_COLOR } from 'libs/css/color'
-import { LOAD_EDIT_IMAGE, REMOVE_IMAGE } from 'reducers/post'
+import { REMOVE_IMAGE } from 'reducers/post'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
-import { ImagesProps, PostsState, UserState } from 'libs/type'
+import { ImagesProps, UserState } from 'libs/type'
 import { size } from 'libs/css/layout'
 import DeleteDiv from './DeleteDiv'
 
@@ -105,19 +105,10 @@ const RemoveButtonStyle = styled(IoTrashBinOutline)`
 
 const _Images:FC<ImagesProps> = (props) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { image, type, modify } = props
+  const { image, type } = props
   const dispatch = useDispatch()
   const [hideDelete, toggle] = useToggle()
   const { me } = useSelector((state:UserState) => state.user)
-  
-  useEffect(() => {
-    dispatch({
-      type: LOAD_EDIT_IMAGE,
-      data: image,
-    })
-  }, [])
-  
-  const { modifyImagePaths } = useSelector((state:PostsState) => state.post)
 
   const onShowPrevImg = () => {
     if (currentSlide === 0) {
@@ -144,102 +135,51 @@ const _Images:FC<ImagesProps> = (props) => {
 
   return (
     <ImageContainer>
-      {
-        modify === true ?
-        <>
+      <>
         {
-          modifyImagePaths.length === 0
+          image.length === 1
             ? null
-            : (
-              <ImageContainer>
+            : <CaretLeftOutlinedStyle onClick={onShowPrevImg} />
+        }
+        {
+          me !== null
+            ? (
+              <>
                 {
-              modifyImagePaths.length === 1
-                ? null
-                : <CaretLeftOutlinedStyle onClick={onShowPrevImg} />
+              type === 'postForm' ? <ImgStyle src={`${image[currentSlide]}`} alt="" />
+                : <ImgStyle src={`${image[currentSlide].src}`} alt="" />
             }
-                <ImgStyle src={`${modifyImagePaths[currentSlide]}`} />
-                {
-                hideDelete === false
-                  ? (
-                    <>
-                      {
-                    modifyImagePaths.length === 1 ? null : <DeleteDiv />
-                  }
-                    </>
-                  )
-                  : null
-              }
-                <Slide>
-                  <p>{currentSlide + 1} / {modifyImagePaths.length}</p>
-                </Slide>
-                {
-              modifyImagePaths.length === 1
-                ? null
-                : (
+              </>
+            )
+            : <ImgStyle src={`${image[currentSlide].src}`} alt="" />
+        }
+        {
+            hideDelete === false ? <DeleteDiv /> : null
+          }
+        <Slide>
+          <p>{currentSlide + 1} / {image.length}</p>
+        </Slide>
+        {
+            type === 'postForm'
+              ? (
+                <>
                   <RemoveButtonStyle
                     onMouseEnter={toggle}
                     onMouseLeave={toggle}
                     onClick={onRemoveImage(currentSlide)}
-                  >제거
+                  >
+                    제거
                   </RemoveButtonStyle>
-                )
-            }
-                {
-              modifyImagePaths.length === 1
-                ? null
-                : <CaretRightOutlinedStyle onClick={onShowNextImg} />
-            }
-              </ImageContainer>
-            )
-        }
-      </>
-      :
-      <>
-      {
-        image.length === 1
-          ? null
-          : <CaretLeftOutlinedStyle onClick={onShowPrevImg} />
-      }
-      {
-        me !== null
-          ? (
-            <>
-              {
-            type === 'postForm' ? <ImgStyle src={`${image[currentSlide]}`} alt="" />
-              : <ImgStyle src={`${image[currentSlide].src}`} alt="" />
+                </>
+              )
+              : null
           }
-            </>
-          )
-          : <ImgStyle src={`${image[currentSlide].src}`} alt="" />
-      }
-      {
-          hideDelete === false ? <DeleteDiv /> : null
+        {
+          image.length === 1
+            ? null
+            : <CaretRightOutlinedStyle onClick={onShowNextImg} />
         }
-      <Slide>
-        <p>{currentSlide + 1} / {image.length}</p>
-      </Slide>
-      {
-          type === 'postForm'
-            ? (
-              <>
-                <RemoveButtonStyle
-                  onMouseEnter={toggle}
-                  onMouseLeave={toggle}
-                  onClick={onRemoveImage(currentSlide)}
-                >
-                  제거
-                </RemoveButtonStyle>
-              </>
-            )
-            : null
-        }
-      {
-        image.length === 1
-          ? null
-          : <CaretRightOutlinedStyle onClick={onShowNextImg} />
-      }
       </>
-      }
     </ImageContainer>
   )
 }

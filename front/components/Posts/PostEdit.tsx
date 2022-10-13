@@ -7,7 +7,7 @@ import useInput from 'libs/hook/useInput'
 import { PostProps, PostsState } from 'libs/type'
 import moment from 'moment'
 import React, { FC, memo, useCallback, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { MODIFY_POST_REQUEST, REMOVE_EXIST_IMAGE_ID_REQUEST, UPLOAD_EDIT_IMAGES_REQUEST } from 'reducers/post'
 import styled from 'styled-components'
 import { BsImage } from 'react-icons/bs'
@@ -104,7 +104,7 @@ const _PostEdit:FC<PostProps> = (props) => {
     setDate(dateString)
   };
 
-  const { modifyImagePaths } = useSelector((state:PostsState) => state.post)
+  const { modifyImagePaths } = useSelector((state:PostsState) => state.post, shallowEqual)
 
   const onClickImageUploads = useCallback(() => {
     imageInput.current.click()
