@@ -103,7 +103,6 @@ type PostStateType = {
   loadHashTagPostsDone: boolean,
   loadHashTagPostsError: null,
   postImgId: string,
-  modifyStatus: boolean,
 }
 
 export type PostsState = {

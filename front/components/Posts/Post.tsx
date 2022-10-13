@@ -1,15 +1,15 @@
-import React, { FC, memo, useCallback } from 'react'
+import React, { FC, memo, useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { COLOR_DBE2EF, WHITE } from 'libs/css/color'
 import shortid from 'shortid'
-import { POST_DELETE_REQUEST, POST_MODIFY_FALSE, POST_MODIFY_TRUE } from 'reducers/post'
+import { POST_DELETE_REQUEST } from 'reducers/post'
 import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import { message, Popconfirm, Tooltip } from 'antd'
 import moment from 'moment'
 import { size } from 'libs/css/layout'
 import { BsThreeDots } from 'react-icons/bs'
-import { PostProps, PostsState, UserState } from 'libs/type'
+import { PostProps, UserState } from 'libs/type'
 import { useRouter } from 'next/router'
 import PostTags from './PostTags'
 import 'moment/locale/ko'
@@ -103,33 +103,27 @@ const Atag = styled.a`
 const _Post:FC<PostProps> = (props) => {
   const { post } = props
   const dispatch = useDispatch()
-  const modifyStatus = useSelector((state:PostsState) => state.post.modifyStatus)
+  const [modify, setModify] = useState(false)
   const me = useSelector((state:UserState) => state.user.me)
   const id = useSelector((state:UserState) => state.user.me?.id);
   const router = useRouter();
   const { tag } = router.query;
 
   const onChangeModify = useCallback(() => {
-    if(modifyStatus) {
-      dispatch({
-        type: POST_MODIFY_FALSE
-      })
+    if(modify) {
+      setModify(false)
     } else {
-      dispatch({
-        type: POST_MODIFY_TRUE
-      })
+      setModify(true)
     }
-  }, [modifyStatus])
+  }, [modify])
 
   const onRemovePost = useCallback(() => {
     dispatch({
       type: POST_DELETE_REQUEST,
       data: post.id,
     })
-    dispatch({
-      type: POST_MODIFY_FALSE
-    })
-  }, [id, modifyStatus])
+    setModify(false)
+  }, [id, modify])
 
   const confirm = () => {
     onRemovePost()
@@ -143,7 +137,7 @@ const _Post:FC<PostProps> = (props) => {
   return (
     <PostsInnerContainer key={shortid()}>
       {
-        modifyStatus === true
+        modify === true
           ? <EditImages post={post} image={post.Images} />
           : post.Images[0] && <Images image={post.Images} />
       }
@@ -159,7 +153,7 @@ const _Post:FC<PostProps> = (props) => {
                     }
                   <DeleteDiv>
                     {
-                  modifyStatus === true
+                  modify === true
                     ? (
                       <>
                         <Popconfirm
@@ -189,7 +183,7 @@ const _Post:FC<PostProps> = (props) => {
           </TagDiv>
         </TagAndDelete>
         {
-            modifyStatus === true
+            modify === true
               ? <PostEdit post={post} />
               : <PostNormal post={post} />
         }

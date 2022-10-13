@@ -76,7 +76,6 @@ export const initialState = {
   hasMorePosts: true,
   hashTagStatus: false,
   postRequest: true,
-  modifyStatus: false,
   imagePaths: [],
   modifyImagePaths: [],
   imagePath: [],
@@ -126,8 +125,6 @@ export const FALSE_TO_TRUE_HASHTAG = 'FALSE_TO_TRUE_HASHTAG'
 export const TRUE_TO_FALSE_HASHTAG = 'TRUE_TO_FALSE_HASHTAG'
 export const POST_REQUEST_FASLE = 'POST_REQUEST_FASLE'
 export const POST_REQUEST_TRUE = 'POST_REQUEST_TRUE'
-export const POST_MODIFY_TRUE = 'POST_MODIFY_TRUE'
-export const POST_MODIFY_FALSE = 'POST_MODIFY_FALSE'
 
 export const POST_MODIFY_REQUEST = 'POST_MODIFY_REQUEST'
 export const POST_DELETE_REQUEST = 'POST_DELETE_REQUEST'
@@ -394,12 +391,6 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.postRequest = true;
       draft.mainPosts = [];
       break;
-    case POST_MODIFY_TRUE:
-      draft.modifyStatus = true;
-      break;
-    case POST_MODIFY_FALSE:
-      draft.modifyStatus = false;
-      break;    
     default: {
       break;
     }
