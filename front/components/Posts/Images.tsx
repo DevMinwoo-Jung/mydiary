@@ -140,22 +140,22 @@ const _Images:FC<ImagesProps> = (props) => {
         modify === true ?
         <>
         {
-          image.length === 0
+          modifyImagePaths.length === 0
             ? null
             : (
               <ImageContainer>
                 {
-              image.length === 1
+              modifyImagePaths.length === 1
                 ? null
                 : <CaretLeftOutlinedStyle onClick={onShowPrevImg} />
             }
-                <ImgStyle src={`${image[currentSlide]}`} />
+                <ImgStyle src={`${modifyImagePaths[currentSlide]}`} />
                 {
                 hideDelete === false
                   ? (
                     <>
                       {
-                    image.length === 1 ? null : <DeleteDiv />
+                    modifyImagePaths.length === 1 ? null : <DeleteDiv />
                   }
                     </>
                   )
@@ -165,7 +165,7 @@ const _Images:FC<ImagesProps> = (props) => {
                   <p>{currentSlide + 1} / {modifyImagePaths.length}</p>
                 </Slide>
                 {
-              image.length === 1
+              modifyImagePaths.length === 1
                 ? null
                 : (
                   <RemoveButtonStyle
@@ -177,7 +177,7 @@ const _Images:FC<ImagesProps> = (props) => {
                 )
             }
                 {
-              image.length === 1
+              modifyImagePaths.length === 1
                 ? null
                 : <CaretRightOutlinedStyle onClick={onShowNextImg} />
             }
