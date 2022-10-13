@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import wrapper from 'store/configureStore'
 import { END } from 'redux-saga'
-import { LOAD_POSTS_REQUEST, POST_REQUEST_FASLE } from 'reducers/post'
+import { LOAD_POSTS_REQUEST } from 'reducers/post'
 import { PostsState, UserState } from 'libs/type'
 import { useSelector, useDispatch } from 'react-redux'
 import { useInView } from 'react-intersection-observer'
@@ -46,13 +46,13 @@ const posts = () => {
     }
   }, [modify2])
 
-  useLayoutEffect(() => {
-    if (me === null) {
-      dispatch({
-        type: POST_REQUEST_FASLE,
-      })
-    }
-  }, [me])
+  // useLayoutEffect(() => {
+  //   if (me === null) {
+  //     dispatch({
+  //       type: POST_REQUEST_FASLE,
+  //     })
+  //   }
+  // }, [me])
 
   useEffect(() => {
     if (inView && hasMorePosts && !loadPostsLoading) {
