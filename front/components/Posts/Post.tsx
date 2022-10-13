@@ -101,7 +101,7 @@ const Atag = styled.a`
   color: inherit;
 `
 const _Post:FC<PostProps> = (props) => {
-  const { post } = props
+  const { post, modify2, onChangeModify } = props
   const dispatch = useDispatch()
   const [modify, setModify] = useState(false)
   const me = useSelector((state:UserState) => state.user.me, shallowEqual)
@@ -109,13 +109,9 @@ const _Post:FC<PostProps> = (props) => {
   const router = useRouter();
   const { tag } = router.query;
 
-  const onChangeModify = useCallback(() => {
-    if(modify) {
-      setModify(false)
-    } else {
-      setModify(true)
-    }
-  }, [modify])
+  const goChangeModify = useCallback(() => {
+    onChangeModify()
+  }, [])
 
   const onRemovePost = useCallback(() => {
     dispatch({
@@ -137,7 +133,7 @@ const _Post:FC<PostProps> = (props) => {
   return (
     <PostsInnerContainer key={shortid()}>
       {
-        modify == true
+        modify2 == true
           ? <EditImages post={post} image={post.Images} />
           : post.Images[0] && <Images image={post.Images} />
       }
@@ -149,11 +145,11 @@ const _Post:FC<PostProps> = (props) => {
                   {
                       tag !== undefined
                         ? null
-                        : <BsThreeDotsStyle onClick={onChangeModify} />
+                        : <BsThreeDotsStyle onClick={goChangeModify} />
                     }
                   <DeleteDiv>
                     {
-                  modify == true
+                  modify2 == true
                     ? (
                       <>
                         <Popconfirm
@@ -183,7 +179,7 @@ const _Post:FC<PostProps> = (props) => {
           </TagDiv>
         </TagAndDelete>
         {
-            modify == true
+            modify2 == true
               ? <PostEdit post={post} />
               : <PostNormal post={post} />
         }
