@@ -1,9 +1,9 @@
-import React, { FC, memo, useCallback, useState } from 'react'
+import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { BACKGROUND_COLOR, BUTTON_COLOR } from 'libs/css/color'
-import { REMOVE_IMAGE } from 'reducers/post'
+import { LOAD_EDIT_IMAGE, REMOVE_IMAGE } from 'reducers/post'
 import useToggle from 'libs/hook/useToggle'
 import { IoTrashBinOutline } from 'react-icons/io5'
 import { ImagesProps, PostsState, UserState } from 'libs/type'
@@ -110,6 +110,14 @@ const _Images:FC<ImagesProps> = (props) => {
   const [hideDelete, toggle] = useToggle()
   const { me } = useSelector((state:UserState) => state.user)
   const { modifyImagePaths } = useSelector((state:PostsState) => state.post)
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_EDIT_IMAGE,
+      data: image,
+    })
+  }, [modify])
+
 
   const onShowPrevImg = () => {
     if (currentSlide === 0) {
