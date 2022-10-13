@@ -116,7 +116,7 @@ const _Images:FC<ImagesProps> = (props) => {
       type: LOAD_EDIT_IMAGE,
       data: image,
     })
-  }, [modify])
+  }, [])
 
 
   const onShowPrevImg = () => {
