@@ -109,7 +109,7 @@ const _Images:FC<ImagesProps> = (props) => {
   const dispatch = useDispatch()
   const [hideDelete, toggle] = useToggle()
   const { me } = useSelector((state:UserState) => state.user)
-  const { modifyImagePaths } = useSelector((state:PostsState) => state.post)
+  // const { modifyImagePaths } = useSelector((state:PostsState) => state.post)
 
   const onShowPrevImg = () => {
     if (currentSlide === 0) {
@@ -140,32 +140,32 @@ const _Images:FC<ImagesProps> = (props) => {
         modify === true ?
         <>
         {
-          modifyImagePaths.length === 0
+          image.length === 0
             ? null
             : (
               <ImageContainer>
                 {
-              modifyImagePaths.length === 1
+              image.length === 1
                 ? null
                 : <CaretLeftOutlinedStyle onClick={onShowPrevImg} />
             }
-                <ImgStyle src={`${image[currentSlide].src}`} />
+                <ImgStyle src={`${image[currentSlide].src}`} alt="" />
                 {
                 hideDelete === false
                   ? (
                     <>
                       {
-                    modifyImagePaths.length === 1 ? null : <DeleteDiv />
+                    image.length === 1 ? null : <DeleteDiv />
                   }
                     </>
                   )
                   : null
               }
                 <Slide>
-                  <p>{currentSlide + 1} / {modifyImagePaths.length}</p>
+                  <p>{currentSlide + 1} / {image.length}</p>
                 </Slide>
                 {
-              modifyImagePaths.length === 1
+              image.length === 1
                 ? null
                 : (
                   <RemoveButtonStyle
@@ -177,7 +177,7 @@ const _Images:FC<ImagesProps> = (props) => {
                 )
             }
                 {
-              modifyImagePaths.length === 1
+              image.length === 1
                 ? null
                 : <CaretRightOutlinedStyle onClick={onShowNextImg} />
             }
