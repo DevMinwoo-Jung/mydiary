@@ -11,6 +11,14 @@ import styled from 'styled-components'
 import { BACKGROUND_COLOR } from 'libs/css/color'
 import shortid from 'shortid'
 import { LOAD_MY_INFO_REQUEST } from 'reducers/user'
+import PostForm from 'components/PostForm/PostForm'
+
+const ContentsContainer = styled.div`
+  margin: auto;
+  display: block;
+  width: 100%;
+  background-color: ${BACKGROUND_COLOR};
+`
 
 const PostsContainer = styled.div`
   margin: auto;
@@ -47,23 +55,24 @@ const posts = () => {
     }
   }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
   return (
-    <>
-    <PostsContainer key={shortid()}>
-      {
-        me != null
-          ? (
-            <>
-              {
-              mainPosts
-                .map((post) => <Post post={post} key={shortid()} />)
-            }
-            </>
-          )
-          : null
-      }
-    </PostsContainer>
-      <div ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />
-    </>
+    <ContentsContainer>
+      <PostForm key={shortid.generate()} />
+      <PostsContainer key={shortid()}>
+        {
+          me != null
+            ? (
+              <>
+                {
+                mainPosts
+                  .map((post) => <Post post={post} key={shortid()} />)
+              }
+              </>
+            )
+            : null
+        }
+      </PostsContainer>
+        <div ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />
+    </ContentsContainer>
   )
 }
 
