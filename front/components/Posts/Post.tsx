@@ -137,7 +137,7 @@ const _Post:FC<PostProps> = (props) => {
   return (
     <PostsInnerContainer key={shortid()}>
       {
-        modify === true
+        modify == true
           ? <EditImages post={post} image={post.Images} />
           : post.Images[0] && <Images image={post.Images} />
       }
@@ -153,7 +153,7 @@ const _Post:FC<PostProps> = (props) => {
                     }
                   <DeleteDiv>
                     {
-                  modify === true
+                  modify == true
                     ? (
                       <>
                         <Popconfirm
@@ -183,7 +183,7 @@ const _Post:FC<PostProps> = (props) => {
           </TagDiv>
         </TagAndDelete>
         {
-            modify === true
+            modify == true
               ? <PostEdit post={post} />
               : <PostNormal post={post} />
         }
