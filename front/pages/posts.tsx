@@ -94,7 +94,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   context.store.dispatch({
     type: LOAD_MY_INFO_REQUEST,
   });
-  alert('asdasd')
   context.store.dispatch({
     type: LOAD_POSTS_REQUEST,
   });
