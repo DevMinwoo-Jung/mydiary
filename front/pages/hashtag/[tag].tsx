@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import shortid from 'shortid'
 import Post from 'components/Posts/Post'
@@ -16,17 +16,7 @@ const Hashtag = () => {
   const { tag } = router.query;
   const { hashTagPosts,
     hasMorePosts,
-    loadHashTagPostsLoading } = useSelector((state:PostsState) => state.post);
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: LOAD_MY_INFO_REQUEST,
-  //   });
-  //   dispatch({
-  //     type: LOAD_HASHTAG_POSTS_REQUEST,
-  //     data: tag,
-  //   });
-  // }, [])
+    loadHashTagPostsLoading } = useSelector((state:PostsState) => state.post, shallowEqual);
 
   useEffect(() => {
     const onScroll = () => {
