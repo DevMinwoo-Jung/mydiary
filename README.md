@@ -23,7 +23,7 @@ intersection-observer을 사용했습니다.
 <img width="100%" src="https://user-images.githubusercontent.com/54659435/193569659-e1a4a5b0-2ec0-4bf5-8875-76c818a211d4.gif"/>
 
 ###### 4. 게시물 업로드
-- 게시물 업로드의 경우 jpg, png, jpeg가 아니거나 20mb가 넘을 경우 사진을 업로드하지 못하게 하였스며, #를 쓸 경우 해쉬태그 등록을 하게 하였습니다.
+- 게시물 업로드의 경우 jpg, png, jpeg가 아니거나 20mb가 넘을 경우 사진을 업로드하지 못하게 하였으며, #를 쓸 경우 해쉬태그 등록을 하게 하였습니다.
 <img width="100%" src="https://user-images.githubusercontent.com/54659435/193571177-ad74d737-350b-4c60-9360-39236b0593d6.gif"/>
 
 ###### 5. 유저정보 변경
