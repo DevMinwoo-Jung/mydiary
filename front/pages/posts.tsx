@@ -3,8 +3,8 @@ import axios from 'axios'
 import wrapper from 'store/configureStore'
 import { END } from 'redux-saga'
 import { LOAD_POSTS_REQUEST, POST_REQUEST_FASLE } from 'reducers/post'
-import { PostsState, UserState } from 'libs/type'
-import { useSelector, useDispatch } from 'react-redux'
+import { PostsState } from 'libs/type'
+import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { useInView } from 'react-intersection-observer'
 import Post from '../components/Posts/Post'
 import styled from 'styled-components'
@@ -32,18 +32,18 @@ const posts = () => {
   const { hasMorePosts,
     loadPostsLoading,
     mainPosts   
-  } = useSelector((state:PostsState) => state.post)
-  const me = useSelector((state:UserState) => state.user.me)
+  } = useSelector((state:PostsState) => state.post, shallowEqual)
+  // const me = useSelector((state:UserState) => state.user.me)
   const dispatch = useDispatch()
   const [ref, inView] = useInView()
 
   useLayoutEffect(() => {
-    if (me === null) {
-      dispatch({
-        type: POST_REQUEST_FASLE,
-      })
-    }
-  }, [me])
+    dispatch({
+      type: POST_REQUEST_FASLE,
+    })
+    // if (me === null) {
+    // }
+  }, [])
 
   useEffect(() => {
     if (inView && hasMorePosts && !loadPostsLoading) {
