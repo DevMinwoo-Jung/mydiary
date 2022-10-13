@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import axios from 'axios'
 import wrapper from 'store/configureStore'
 import { END } from 'redux-saga'
-import { LOAD_POSTS_REQUEST } from 'reducers/post'
+import { LOAD_POSTS_REQUEST, POST_REQUEST_FASLE } from 'reducers/post'
 import { PostsState, UserState } from 'libs/type'
 import { useSelector, useDispatch } from 'react-redux'
 import { useInView } from 'react-intersection-observer'
@@ -36,23 +36,23 @@ const posts = () => {
   const me = useSelector((state:UserState) => state.user.me)
   const dispatch = useDispatch()
   const [ref, inView] = useInView()
-  const [modify2, setModify2] = useState(false)
+  // const [modify2, setModify2] = useState(false)
 
-  const onChangeModify = useCallback(() => {
-    if(modify2) {
-      setModify2(false)
-    } else {
-      setModify2(true)
-    }
-  }, [modify2])
-
-  // useLayoutEffect(() => {
-  //   if (me === null) {
-  //     dispatch({
-  //       type: POST_REQUEST_FASLE,
-  //     })
+  // const onChangeModify = useCallback(() => {
+  //   if(modify2) {
+  //     setModify2(false)
+  //   } else {
+  //     setModify2(true)
   //   }
-  // }, [me])
+  // }, [modify2])
+
+  useLayoutEffect(() => {
+    if (me === null) {
+      dispatch({
+        type: POST_REQUEST_FASLE,
+      })
+    }
+  }, [me])
 
   useEffect(() => {
     if (inView && hasMorePosts && !loadPostsLoading) {
@@ -73,7 +73,7 @@ const posts = () => {
               <>
                 {
                 mainPosts
-                  .map((post) => <Post onChangeModify={onChangeModify} modify={modify2} post={post} key={shortid()} />)
+                  .map((post) => <Post post={post} key={shortid()} />)
               }
               </>
             )
