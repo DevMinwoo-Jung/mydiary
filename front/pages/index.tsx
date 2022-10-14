@@ -61,7 +61,6 @@ const _index: NextPage = () => {
   } = useSelector((state:PostsState) => state.post, shallowEqual)
   const dispatch = useDispatch()
   const [ref, inView] = useInView()
-//  const [ref] = useInView()
 
   const postRef: any = useRef()
   const arrowRef: any = useRef()
